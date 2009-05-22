@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Raxan Test</title>
+    <style>
+        .p { color:green }
+        .f { color:red }
+    </style>
+    <script src="../raxan/startup.js" type="text/javascript">
+        html.include('file1.js',true);
+        html.include(['file2.js','file3.js'],true);
+
+        html.ready(function() {
+            // test single file include
+            assert(window.file1=='file1.js','Test for single file include');
+
+            // test multi-file include
+            assert(window.file2=='file2.js' && window.file3=='file3.js', 'Test for multiple file include');
+
+            // test existing include file callback function
+            html.include('file4.js',true,function (){
+                assert(window.file4=='file4.js','Test for newly included file (after load) with callback function');
+            });
+
+            // test existing include file callback function
+            html.include('file1.js',true,function (){
+                assert(window.file1=='file1.js','Test for existing include file with callback function');
+            });
+
+
+        })
+
+        function assert(cond,desc) {
+            var c = document.getElementById('container');
+            assert.cnt++;
+            desc+= (cond==true) ?  ': <spa class="p">PASS</span>' : ': <spa class="f">FAIL</span>';
+            c.innerHTML += '<div>' + assert.cnt + '. '+ desc +'</div>'
+        }
+        assert.cnt = 0;
+    </script>
+</head>
+
+<body>
+    <h3>Test script #1</h3>
+    <hr />
+    <div id="container"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>The Raxan Framework</title>
+	<link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+	<!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css" media="screen, projection"><![endif]-->
+</head>
+
+<body>
+
+	<div class="container c39">
+
+		<p>&nbsp</p>
+		<h1>The Raxan Framework</h1>
+		<hr />
+
+		<div class="column panel c8">
+			<div class="pb1"></div><div class="pb2"></div><div class="pm1">
+				<h5 class="pnl-header">Table of Content</h5>
+				<ul class="hlf-pad">
+					<li><a href="index.html">Overview</a></li>
+					<li class="lightgray"><a href="getting-started.html">Getting Started</a></li>
+					<li><a href="your-first-page.html">Your First Page</a></li>
+					<li><a href="code-behind.html">Code-Behind Page</a></li>
+					<li><a href="quick-reference-css.html">CSS Framework</a></li>
+					<li><a href="quick-reference-htmlobject.html">Quick Reference</a></li>
+					<li><a href="../css-examples/index.html">Examples</a></li>
+					<li><a href="plugins.html">Rich Plugins</a></li>
+					<li><a href="vision.html">The Vision</a></li>
+					<li><a href="roadmap.html">The Roadmap</a></li>
+					<li><a href="credits.html">Credits/Ackns.</a></li>
+				</ul>
+			</div><div class="pb2 pb3"></div><div class="pb1 pb4"></div>
+		</div>
+
+		<div class="column c29 prepend1">
+			<h2>Getting Started</h2>
+
+			<p>Welcome to the wonderful world of the Rich Ajax/HTML and Application (Raxan) development framework. The aim of this framework is to make it easier for web developers to create unobtrusive, beautiful, accessible web pages with fewer lines of code and with fewer efforts when supporting multiple browsers.</p>
+
+            <p>Before we go any further, let me quickly point out that Raxan is not for everyone. Some developers prefer the Do-It-From-Scratch method or the Build-It-Yourself approach and might not find Raxan to be a suitable fit for their environment. If you're willing to open your mind to new ideas and development then read on.</p>
+
+            <p><strong>Understanding the framework</strong><br />
+                Raxan was designed to be as flexible as possible, giving developers the power to chose the Javascript libraries and/or frameworks they would like to use. Raxan in its simplest form can be used as a dynamic Javascript/CSS loader, however, the framework is bundled with a CSS style sheets and jQuery libraries and APIs that are readily available to developers, as an option to provide a base for developing Rich Ajax/HTML Applications.
+            </p>
+
+            <p>The CSS framework basically provides a set of style sheet classes, typographic text and a grid layout system that can be used to create complex designs and multi-column web pages. Each cell within the grid is 20px wide and 20px long. The width and/or height of a combination of cells, can be assigned to any html element by using the CSS classes c1, c2,...,c50, c60, c70, c80, c80,c100 and r1, r2,...,r50 respectively, where the numbers represents the number of columns or the number of rows. The default grid contains 100 columns and 50 rows (2000px X 1000px) </p>
+
+            <p>The bundled jQuery libraries include, the latest stable jQuery Core (jquery), UI Effects (jquery-ui-effects) and UI Interactions (jquery-ui-interactions). Developers can however use their own version of jQuery by adding it to the plugins folder. (See Directory Structure below)</p>
+
+            <p><strong>Installation</strong><br />
+                Before we begin, you will need to download the latest version of the Raxan framework located at <a href="http://raxanpdi.com/downloads.html">http://raxanpdi.com/downloads.html</a>. After downloading, unzip the content of the file (e.g. raxan-b20081020.zip) into a folder on your local PC (e.g. c:\development\raxanfiles) or your web server.
+            </p>
+
+            <p>Note: If you would like to try the examples via your web server, then make sure that the files are placed in a location on your web server that can be accessed via a browser.</p>
+
+            <p><strong>Directory Structure</strong><br />
+                Now that you have downloaded and unzipped the framework files in the folder of your choice, let us look at the Raxan folder structure.<br />
+                <img src="images/folder-struct.png" width="149" height="105" alt="Folder structure" />
+            </p>
+
+            <p>Inside the main Raxan folder you will find the file startup.js. This is the framework's main startup script file.<br />
+                The plugins folder is used for storing Raxan plugins or other Javascript library files. For example, you can add files to the plugins folder such as jQuery, mootools, etc and dynamically include them when needed. Later on, we will look at how to include Javascript libraries when needed.
+            </p>
+
+            <p>The styles folder is used for storing cascading style sheets and images. Inside this folder you will find the master.css file that contains the CSS classes for building complex layouts. In addition, you will also find a default folder that contains the default theme for the framework. Additional themes can be added and optionally loaded when necessary.</p>
+
+            <p>The templates folder is basic a storage area for html templates that can be used to help simplify or speed up development.</p>
+
+            <p><strong>Up Next</strong>: <a href="your-first-page.html">Create your first Raxan web page</a> &gt;</p>
+
+            <hr />
+            <p class="medium">The Rich Ajax Application Framework. Visit <a href="http://raxanpdi.com">http://raxanpdi.com</a></p>
+
+
+		</div>
+
+	</div>
+
+</body>
+
+</html>
