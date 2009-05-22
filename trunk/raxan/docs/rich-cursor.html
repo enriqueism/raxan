@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Raxan Rich Plugins</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css" media="screen, projection"><![endif]-->
+</head>
+
+<body>
+
+    <div class="container c39">
+
+        <p>&nbsp</p>
+        <h1>The Raxan Framework</h1>
+        <hr />
+
+        <div class="column panel c8">
+            <div class="pb1"></div><div class="pb2"></div><div class="pm1">
+                <h5 class="pnl-header">Table of Content</h5>
+                <ul class="hlf-pad">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="getting-started.html">Getting Started</a></li>
+                    <li><a href="your-first-page.html">Your First Page</a></li>
+                    <li><a href="code-behind.html">Code-Behind Page</a></li>
+                    <li><a href="quick-reference-css.html">CSS Framework</a></li>
+                    <li><a href="quick-reference-htmlobject.html">Quick Reference</a></li>
+                    <li><a href="../css-examples/index.html">Examples</a></li>
+					<li class="lightgray"><a href="plugins.html">Rich Plugins</a></li>
+                    <li><a href="vision.html">The Vision</a></li>
+                    <li><a href="roadmap.html">The Roadmap</a></li>
+                    <li><a href="credits.html">Credits/Ackns.</a></li>
+                </ul>
+            </div><div class="pb2 pb3"></div><div class="pb1 pb4"></div>
+        </div>
+
+        <div class="column c29 prepend1">
+            <h2>Cursor Plugin</h2>
+
+            <p>The Cursor plugin is used to display a small icon beside the system mouse cursor to indicate the status or activity of an element when the mouse is moved over it.</p>
+
+            <p>
+                <strong>Syntax:</strong><br />
+                $(&quot;…&quot;).cursor(&quot;busy&quot;)<br />
+                $(&quot;…&quot;).cursor(&quot;hide&quot;)<br />
+                $(&quot;…&quot;).cursor(&quot;custom-cursor&quot;)<br />
+            </p>
+
+            <p>To include the Cusror Plugin inside a web page use: <strong>html.include(&quot;rich/cusror&quot;)</strong></p>
+
+            <p>
+                <strong>cursor(&quot;hide&quot;) or cursor(&quot;default&quot;)</strong><br />
+                This removes the cursor from view when the mouse is moved over the selected element.
+            </p>
+
+            <p>
+                <strong>cursor(&quot;busy&quot;)</strong><br />
+                Display the busy cursor for the element. If the html.rich.cursor.hourglass property is not set, then the plugin use the busy_cursor class to determine the type of image to display. This makes it possible to apply a theme to the busy cursor. If this class is not available, then the default hourglass will be displayed.
+            </p>
+
+            <p>
+                <strong>cursor(&quot;custom&quot;)</strong><br />
+                This displays a gif image from the rich/cursors folder.
+            </p>
+
+            <p>To use a custom cursor, copy the gif image into the rich/cursors folder and then pass the name of the image (without the .gif extension) to the Cursor plugin:</p>
+
+<pre class="lightgray"><code>
+    html.ready(function(){
+        // displays an animated search cursor icon
+        $("#webform").cursor("search");
+    });
+
+</code></pre>
+
+            <p>If the image file you would like to display is not within the rich/cursors folder, you can pass the url and name of the image to the plugin as shown below:</p>
+
+<pre class="lightgray"><code>
+    html.ready(function(){
+        // displays cursor icon
+        $("#webform").cursor("/images/hourglass.png");
+    });
+</code></pre>
+
+
+        </div>
+
+        <hr />
+        <p class="medium">The Rich Ajax Application Framework. Visit <a href="http://raxanpdi.com">http://raxanpdi.com</a></p>
+
+    </div>
+
+</body>
+
+</html>

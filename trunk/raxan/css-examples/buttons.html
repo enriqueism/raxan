@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Buttons</title>
+    <script src="../raxan/startup.js" type="text/javascript">
+		/**
+		 * Button example with embedded javascript
+		 */
+
+    	// include css and jquery scripts
+        html.css('master');
+        html.css('default/theme');	// load the default theme
+
+        html.include("jquery");
+        html.include("jquery-ui-effects");
+
+		// bind to button click event
+        html.bind('.button','click',function(){
+            var elm = $(this);
+            if (!elm.hasClass('disabled')) {
+            	elm.hide("explode");
+            }
+            elm.blur();
+            return false;
+        })
+
+    </script>
+</head>
+
+<body >
+<div class="container c30 hlf-pad lightgray">&nbsp;<a href="index.html" title="Back to the Examples Web Page"><img src="images/arrow_left.png" width="16" alt="Menu"/> Examples</a> | Raxan Framework&nbsp;</div>
+<form class="container c30 pad">
+
+	<h1>Buttons</h1>
+	<hr />
+
+	<p>Click on the buttons below to see play start animation.</p>
+
+    <div class="alert c20 ">
+        <h4 class="box-title">About Buttons</h4>
+        <p>Buttons can be created by adding the button class to a &lt;button&gt; &lt;input type=&quot;button&quot;&gt; or &lt;a&gt; element.</p>
+        <hr />
+        <div align="right" class="pad">
+            <input class="button ok" type="button" value="Save" />&nbsp;
+            <button class="button cancel">Cancel</button>&nbsp;
+            <a href="#" class="button">Continue</a>
+        </div>
+    </div>
+    <br />
+        <button class="button ok">Ok</button>&nbsp;
+        <button class="button process">Process</button>&nbsp;
+        <button class="button cancel">Cancel</button>&nbsp;
+        <button class="button continue">Continue</button>&nbsp;
+        <button class="button">Button</button>&nbsp;
+        <button class="button disabled">Disabled</button>&nbsp;
+
+</form>
+
+</body>
+
+</html>

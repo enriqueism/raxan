@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>The Raxan Framework</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css" media="screen, projection"><![endif]-->
+</head>
+
+<body>
+
+    <div class="container c39">
+
+        <p>&nbsp;</p>
+        <h1>The Raxan Framework</h1>
+        <hr />
+
+        <div class="column panel c8">
+            <div class="pb1"></div><div class="pb2"></div><div class="pm1">
+                <h5 class="pnl-header">Table of Content</h5>
+                <ul class="hlf-pad">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="getting-started.html">Getting Started</a></li>
+                    <li><a href="your-first-page.html">Your First Page</a></li>
+                    <li class="lightgray"><a href="code-behind.html">Code-Behind Page</a></li>
+                    <li><a href="quick-reference-css.html">CSS Framework</a></li>
+                    <li><a href="quick-reference-htmlobject.html">Quick Reference</a></li>
+                    <li><a href="../css-examples/index.html">Examples</a></li>
+					<li><a href="plugins.html">Rich Plugins</a></li>
+                    <li><a href="vision.html">The Vision</a></li>
+                    <li><a href="roadmap.html">The Roadmap</a></li>
+                    <li><a href="credits.html">Credits/Ackns.</a></li>
+                </ul>
+            </div><div class="pb2 pb3"></div><div class="pb1 pb4"></div>
+        </div>
+
+        <div class="column c29 prepend1">
+            <h2>Creating a Code-Behind Javascript file</h2>
+
+            <p>Raxan includes a very nice feature that lets you automatically include a Javascript inside your web page without having to add an extra &lt;script&gt; tag. This makes it much easier and cleaner when working with a lot of script files inside your web page.</p>
+
+            <p>To create a code-behind script, you simply create a Javascript file with the same name as the html page you're loading but without the html extension. For example, mywebpage.js will become the code-behind file for the web page mywebpage.html.</p>
+
+            <p>To include your code-behind Javascript file inside your web page, you only need to add one script tag and that is the tag that will be used to load the Raxan startup.js file:</p>
+
+            <pre><code>
+    &lt;script src=&quot;raxan/startup.js&quot; type=&quot;text/javascript&quot;&gt;/-/&lt;/script&gt;
+            </code></pre>
+
+            <p>Note the /-/ characters between the &lt;scrip&gt; tags. These characters will instruct Raxan to automatically load the code-behind file relative to the path of the web page. If your code-behind file is located inside a sub folder (e.g. scripts/), then you can add the folder path as follows:</p>
+
+            <pre><code>
+    &lt;script src=&quot;raxan/startup.js&quot; type=&quot;text/javascript&quot;&gt;/scripts/-/&lt;/script&gt;
+            </code></pre>
+
+            <p>From within your Javascript file you can include just about any other script or CSS file. More on this later.</p>
+
+            <p><strong>Embedding Javascript inside a web page</strong><br />
+                Another cool feature for the framework is the ability to embed your Javascript code inside your web page without having to use a second script block:
+            </p>
+
+            <pre><code>
+    &lt;script src="raxan/startup.js" type="text/javascript"&gt;
+        html.include('jquery');
+
+        html.ready(function(){
+            alert('The page is now ready for DOM manipulation');
+        });
+    &lt;/script&gt;
+            </code></pre>
+
+            <p>In the above code both the raxan/startup.js and the embedded Javascript codes are executed using only one &lt;script&gt; block.</p>
+
+            <p><strong>Dynamic loading of Style Sheets and Javascript Libraries</strong><br />
+                At times, you only want to load a portion of your scripts and/or style sheets when the user completes a specific task. This makes it easier on the loading time required at startup and gives you the option of breaking up your very large scripts into smaller and more manageable script files.
+            </p>
+
+            <p>Raxan provides two API functions to dynamic load of Javascript and CSS files from the within &quot;plugins&quot; and &quot;styles&quot; folders or from any other folder location.</p>
+
+            <p>To use the include() function, simply pass the name and path to the script file without the .js extension if the file is located inside the plugins folder. For example:</p>
+
+            <pre><code>
+    html.include('myplugin');
+    html.include('namespace/myplugin');
+    // where namespace is a sub-folder within the plugins folder
+            </code></pre>
+
+            <p>For script files that are not located inside the plugins folder, use the following syntax:</p>
+
+            <pre><code>
+    html.include('path/to/folder/myscript.js', true);
+            </code></pre>
+
+            <p>Note here that the extension of the file must be included and the second parameter set to true.</p>
+
+            <p>To receive notification after the file has been loaded you can pass a callback function as the third parameter:</p>
+
+            <pre><code>
+    html.include('path/to/folder/myscript.js', true, function(){
+    	alert('File loaded successfully');
+    });
+            </code></pre>
+
+            <p>When you want to dynamically load a stylesheet, the css() function must be used. The concept is similar to that of the include() function with the exception that style sheets are loaded from the &quot;styles&quot; folder and there is no support for a callback function:</p>
+
+            <pre><code>
+    html.include('master');
+    html.include('name-of-theme/theme');
+
+    // for other stylesheets
+    html.include('path/to/folder/stylesheet.css', true);
+            </code></pre>
+
+            <p>For more examples of how to use the Raxan Framework visit the <a href="../css-examples/index.html">Example</a> web page and view the source code of the example pages. (See also the <a href="quick-reference-htmlobject.html">Quick Reference Guide</a>)</p>
+
+        </div>
+
+        <hr />
+        <p class="medium">The Rich Ajax Application Framework. Visit <a href="http://raxanpdi.com">http://raxanpdi.com</a></p>
+
+    </div>
+
+</body>
+
+</html>
