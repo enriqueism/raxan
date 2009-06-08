@@ -1,0 +1,37 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Employee Listing</title>
+	<link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+	<!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+	<link href="../raxan/styles/default/theme.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <div class="container c30">
+        <p>&nbsp;</p>
+        <div class="panel">
+            <div class="pb1"></div><div class="pb2"></div><div class="pm1">
+                <h2 class="pnl-header" ><img src="views/images/people.png" width="36" height="36" class="right"  />Employees</h2>
+                <table id="emplist" class="mouse-cursor white" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr class="tbl-header"><td class="c1">&nbsp;</td><td class="c3">Emp #</td><td class="c10">Name</td><td>Gender</td><td>Birth Date</td></tr>
+                    </thead>
+                    <tbody>
+                        <tr  class="v:{emp_no}"><td>{ROWCOUNT}</td><td>{emp_no}</td><td>{name}</td><td>{gender}</td><td>{birth_date}</td></tr>
+                    </tbody>
+                </table>
+                <div id="pager" align="right" class="pnl-footer"><a class="hlf-pad" href="#{VALUE}">{VALUE}</a></div>
+            </div><div class="pb2 pb3"></div><div class="pb1 pb4"></div>
+            <hr class="space" />
+            <p>Click to selected a record. Press the Ctrl (PC) or Meta (MAC) key to select multiple rows.</p>
+        </div>
+    </div>
+
+</body>
+
+</html>
