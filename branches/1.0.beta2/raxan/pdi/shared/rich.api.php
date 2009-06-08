@@ -13,6 +13,12 @@ function richAPI_error_handler($errno, $errstr, $errfile, $errline ) {
     }
 }
 
+// PHP Version ID
+if(!defined('PHP_VERSION_ID')) {
+    $version = PHP_VERSION;
+    define('PHP_VERSION_ID', ($version{0} * 10000 + $version{2} * 100 + $version{4}));
+}
+
 /**
  * Raxan Core Classes - Includes RichAPI & RichAPIEvent Classes
  */

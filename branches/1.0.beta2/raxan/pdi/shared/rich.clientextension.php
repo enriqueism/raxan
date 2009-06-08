@@ -46,9 +46,9 @@ class RichClientExtension {
     private $chain;
 
     // $ss - css selector
-    function __construct($ss,$context = null){
+    public function __construct($ss,$context = null){
         RichWebPage::$actions[] = $this;
-        if ($ss===null) $ss = '';
+        if ($ss===''||$ss===null) $ss = '';
         else if ($ss=='this') $ss='_ctarget_';
         else if ($ss=='target') $ss='_target_';
         else $ss = ($ss=='document'||$ss=='window') ? $ss :
@@ -63,13 +63,13 @@ class RichClientExtension {
         $this->chain = '$('.$ss.$context.')';
     }
 
-    function __toString() {
+    public function __toString() {
         $str = $this->chain;
         $this->chain = '';  // reset chain
         return $str;
     }
 
-    function __call($name,$args) {
+    public function __call($name,$args) {
         $l = count($args);
         for($i=0;$i<$l;$i++) {
             $args[$i] = self::encodeVar($args[$i]);

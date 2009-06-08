@@ -2,6 +2,15 @@ Raxan Changelog
 -------------------------
 
 
+
+1.0 Beta 2
+--------------
+* Add PHP_VERSION_ID for php version < 5.2.7
+* Fix issue #4:  When calling C() in php versions < 5.2.0 nothing happens. This is because the __toString() method was not called when combining actions
+* Fix Dynamic element creation when page controller no initialized
+* Rename google-extractor to web-oage-extractor
+
+
 1.0 Beta 1
 --------------
 * Update documentation

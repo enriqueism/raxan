@@ -66,6 +66,7 @@ class RichElement extends RichAPIBase {
             if (!$this->isHTML($css)) $dl = $this->doc->cssQuery($css,$this->context);
             else {
                  // append html to body tag
+                 if (!$this->doc->isInit()) $this->doc->initDOMDocument();
                  $n = $this->doc->getElementsByTagName('body');
                  if ($n->length) {
                      $n = $n->item(0);

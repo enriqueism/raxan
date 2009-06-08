@@ -881,6 +881,10 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
         $varsGlobal = implode(',',RichWebPage::$varsGlobal);
         if ($vars) $vars = 'var '.$vars.';';
         if ($varsGlobal) $vars.= $varsGlobal.';';
+        if (PHP_VERSION_ID < 50200) {   // fix for issue #4
+            foreach(RichWebPage::$actions as $i=>$act)
+                if ($act) RichWebPage::$actions[$i] = $act->__toString();
+        }
         $actions.= $vars.implode(';',RichWebPage::$actions);
         if (!$includeEvents) return $actions;
         else if ($actions){
