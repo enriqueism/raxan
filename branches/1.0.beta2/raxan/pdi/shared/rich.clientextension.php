@@ -43,7 +43,7 @@ class RichClientExtension {
 
     protected static $scripts = array();
 
-    private $chain;
+    protected $chain;
 
     // $ss - css selector
     public function __construct($ss,$context = null){
@@ -86,6 +86,7 @@ class RichClientExtension {
     public function alert($msg) {
         $this->chain  = (($this->chain=='$()') ? '':$this->chain.';').
             'alert("'.$this->escapeString($msg).'")';
+        return $this;
     }
 
     /**
@@ -120,6 +121,7 @@ class RichClientExtension {
             ($cancelFn instanceof RichClientVariable ? ' else '.$cancelFn.'();' : '');
         }
         $this->chain  = (($this->chain=='$()') ? '':$this->chain.';').$confirm;
+        return $this;
     }
 
     /**
@@ -149,6 +151,7 @@ class RichClientExtension {
         $ext = $ext===true ? 'true' : 'false';
         if ($this->chain=='$()') $this->chain = '';
         $this->chain.= ';h.css("'.$this->escapeString($src).'",'.$ext.')';
+        return $this;
     }
     
     /**
@@ -160,6 +163,7 @@ class RichClientExtension {
         if ($this->chain=='$()') $this->chain = '';
         $fn = $fn!==null ? ','.self::encodeVar($fn) : '';
         $this->chain.= ';h.include("'.$this->escapeString($src).'",'.$ext.$fn.');';
+        return $this;
     }
 
     /**
@@ -189,6 +193,7 @@ class RichClientExtension {
             ($fn instanceof RichClientVariable ? ' '.$fn.'(_p)':'').';';
         }
         $this->chain  = (($this->chain=='$()') ? '':$this->chain.';').$prompt;
+        return $this;
     }
 
     /**
@@ -198,6 +203,18 @@ class RichClientExtension {
     public function redirectTo($url) {
         $redirect = 'window.location = "'.$this->escapeString($url).'"';
         $this->chain  = (($this->chain=='$()') ? '':$this->chain.';').$redirect;
+        return $this;
+    }
+
+    /**
+     * Change switchboard action and reloads the current page
+     * @return null
+     */
+    public function switchTo($action) {
+        $url = RichAPI::currentURL();
+        if (strpos($url,'sba=')!==false) $url = trim(preg_replace('#sba=[^&]*#','',$url),"&?\n\r ");
+        $url.= (strpos($url,'?') ? '&' : '?').'sba='.$action;
+        return $this->redirectTo($url);
     }
 
      // Protected methods

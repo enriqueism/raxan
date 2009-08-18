@@ -24,9 +24,8 @@ if(!defined('PHP_VERSION_ID')) {
  */
 class RichAPI {
 
-
     public static $version = '1.0'; // @todo: Update API version/revision
-    public static $revision = '1.0.0.291';
+    public static $revision = '1.0.0.b2';
 
     public static $isInit = false;
     public static $isSessionLoaded = false;
@@ -42,6 +41,7 @@ class RichAPI {
 
     private static $debug, $logFile = 'PHP';
     private static $configFile;
+    private static $sysEvents;
     private static $_timer;
     private static $jsStrng1= array('\\','"',"\r","\n","\x00","\x1a");
     private static $jsStrng2= array('\\\\','\\"','','\n','\x00','\x1a');
@@ -59,10 +59,11 @@ class RichAPI {
         'raxan.url'     => '',
         'raxan.path'    => '',
         'views.path'    => '',
+        'plugins.path'  => '',
         'cache.path'    => '',
         'locale.path'   => '',
         'session.name'  => 'XPDI1000SE',
-        'session.timeout'=> '30',
+        'session.timeout'=> '30',   // in minutes
         'session.handler'=> 'default',
         'db.default'    => '',
         'debug'         => false,
@@ -72,6 +73,11 @@ class RichAPI {
         'log.file'      => 'PHP',
         'error.400' => '', 'error.401' => '',
         'error.403' => '', 'error.404' => '',
+        'page.localizeOnResponse' => false,         // default page settings
+        'page.initStartupScript' => false,
+        'page.resetDataOnFirstLoad' => false,      
+        'page.preserveFormContent' => false,
+        'page.showRenderTime' => false
     );
 
     /**
@@ -82,7 +88,9 @@ class RichAPI {
         $config = &self::$config;
         $file  = self::$configFile ? self::$configFile :
                  $config['base.path'].'gateway.config.php';
-        $rt = @include_once($file); // load config file if available. dont use file_exists as it adds overhead
+                 
+	// load config file if available. 
+        $rt = file_exists($file) ? include_once($file) : false;  // @todo: To be optimized. Maybe @include_once is faster?
 
         // setup defaults
         $base = $config['base.path'];
@@ -104,6 +112,7 @@ class RichAPI {
         if (empty($config['cache.path'])) $config['cache.path'] = $base.'cache/';
         if (empty($config['locale.path'])) $config['locale.path'] = $base.'shared/locale/';
         if (empty($config['views.path'])) $config['views.path'] = $config['site.path'].'views/';
+        if (empty($config['plugins.path'])) $config['plugins.path'] = $config['raxan.path'].'plugins/';
 
         self::$isDebug = $config['debug'];
         self::$isLogging = $config['log.enable'];
@@ -118,11 +127,12 @@ class RichAPI {
         // set timezone
         if ($config['site.timezone']) date_default_timezone_set($config['site.timezone']);
 
-        self::$isInit = true;
-
         // set error handler
         set_error_handler("richAPI_error_handler",error_reporting());
-        
+
+        self::$isInit = true;
+        self::triggerSysEvent('system_init');
+
         return $rt;
     }
 
@@ -137,8 +147,11 @@ class RichAPI {
             include_once(self::$config['base.path'].'shared/session.database.php');
         }
         session_name(self::$config['session.name']);
+        $timeout = (int)self::$config['session.timeout'];
+        if ($timeout) session_set_cookie_params(60 * $timeout); //set timeout
         session_start();
         self::$isSessionLoaded = true;
+        self::triggerSysEvent('session_init');
     }
     
     /**
@@ -152,6 +165,15 @@ class RichAPI {
             self::$jsonLose     = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
         }        
         self::$isJSONLoaded = true;
+    }
+
+    /**
+     * Binds a callback functio to a System Event
+     */
+    public static function bindSysEvent($name,$callback) {
+        if (!isset(self::$sysEvents)) self::$sysEvents = array();
+        if (!isset(self::$sysEvents[$name])) self::$sysEvents[$name] = array();
+        if (is_callable($callback)) self::$sysEvents[$name][] = $callback;
     }
 
     /**
@@ -173,7 +195,7 @@ class RichAPI {
         $removeTags = false;
         $opt = $tplAlt = $tpl = $options; $truncStr = '...';
         $page = $size = $trunc = $tr1 = $tr2 = 0;
-        $tplF = $tplL = $tplS = $key = $selected = '';
+        $tplF = $tplL = $tplS = $tplE = $key = $edited = $selected = '';
         $fn = $delimiter = $callByVariable = $rtArr = $fmt = '';
         if (is_array($opt)) {
             if (isset($opt[0])) {
@@ -188,7 +210,9 @@ class RichAPI {
                 $tplF = isset($opt['tplFirst']) ? $opt['tplFirst'] : '';
                 $tplL = isset($opt['tplLast']) ? $opt['tplLast'] : '';
                 $tplS = isset($opt['tplSelected']) ? $opt['tplSelected'] : '';
+                $tplE = isset($opt['tplEdit']) ? $opt['tplEdit'] : '';
                 $key = isset($opt['key']) ? $opt['key'] : '';
+                $edited = isset($opt['edited']) ? $opt['edited'] : '';
                 $selected = isset($opt['selected']) ? $opt['selected'] : '';
                 $page = isset($opt['page']) ? (int)$opt['page'] : 0;
                 $size = isset($opt['pageSize']) ? (int)$opt['pageSize'] : 0;
@@ -255,6 +279,12 @@ class RichAPI {
             if ($tplS && ($key || $isIndex) && $selected) {
                 $v = isset($row[$key]) ? $row[$key] : $row;
                 $t = in_array($v,$selected) ? $tplS : $t;
+            }
+
+            // check if row should be edited
+            if ($tplE && ($key || $isIndex) && $edited) {
+                $v = isset($row[$key]) ? $row[$key] : $row;
+                $t = ($v==$edited) ? $tplE : $t;
             }
 
             // setup index row
@@ -328,9 +358,10 @@ class RichAPI {
      * Returns or sets configuration values
      * @return Mixed
      */
-    public static function config($key,$value = null) {
+    public static function config($key = null,$value = null) {
         if ($key!=='base.path' &&  !self::$isInit) self::init();
-        if($value===null) return isset(self::$config[$key]) ? self::$config[$key] : '';
+        if ($key===null) return self::$config;
+        else if($value===null) return isset(self::$config[$key]) ? self::$config[$key] : '';
         else {
             $c = & self::$config;
             $c[$key] = $value;
@@ -374,6 +405,27 @@ class RichAPI {
     }
 
     /**
+     * Returns current web page URL
+     * @return String
+     */
+    public static function currentURL() {
+        // @todo: optimize currentURL ?
+        $qs = isset($_SERVER['QUERY_STRING']) && !empty($_SERVER['QUERY_STRING']) ? 
+           '?'.str_replace(array('"','<','>'), array('%22','%3C','%3E'),$_SERVER['QUERY_STRING'])  : ''; // sanitize: encode speical chars
+        return isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'].$qs : '';
+    }
+
+    /**
+     * Converts a CSV file into an 2D array. The first row of the CSV file must contain the column names
+     * @return Array
+     */
+    public static function importCSV($file, $delimiter = ',', $enclosure = '"', $escape = '\\', $terminator = "\n") {
+        $csv = file_get_contents($file);
+        if (!function_exists('csv_to_array')) include_once self::$config['base.path'].'shared/csvtoarray.php';
+        return csv_to_array($csv);
+    }
+
+    /**
      * Returns or sets named data value based on the specified id and/or key
      * @return Mixed
      */
@@ -384,7 +436,7 @@ class RichAPI {
         else if ($name===null) return $_SESSION[$id];    // return data array
         return $_SESSION[$id][$name];
     }
-    
+
     /**
      * Sends debugging information to client
      * @return Boolean
@@ -413,7 +465,7 @@ class RichAPI {
     }
 
     /**
-     * Converts a multi-line text to a single-line js string
+     * Converts multi-line text into a single-line JS string
      * @return String
      */
     public static function escapeText($txt) {
@@ -444,9 +496,9 @@ class RichAPI {
                 }
                 break;
             case 'decode':
-                if (self::$nativeJSON) $rt = json_decode($json,$assoc);
+                if (self::$nativeJSON) $rt = json_decode($value,$assoc);
                 else {
-                    $rt = ($assoc) ? self::$jsonLose->decode($json) : self::$jsonStrict->decode($json) ;
+                    $rt = ($assoc) ? self::$jsonLose->decode($value) : self::$jsonStrict->decode($value) ;
                     if (self::$jsonLose->isError($rt)||self::$jsonStrict->isError($rt)) $rt = null;
                 }
                 break;
@@ -460,7 +512,7 @@ class RichAPI {
      */
     public static function locale($key = null,$param1=null,$param2=null) {
         if (!self::$isLocaleLoaded) self::setLocale(self::$config['site.locale']); // init on first use
-        if ($key===null) return $config['site.locale'];
+        if ($key===null) return self::$config['site.locale'];
         $v = isset(self::$locale[$key]) ? self::$locale[$key] : '';
         return ($param1!==null) ? sprintf($v,$param1,$param2) : $v;
     }
@@ -494,6 +546,15 @@ class RichAPI {
             
         }
         return $rt;
+    }
+
+    /**
+     * Load PDI plugin file.
+     * @param $extrn Boolean Set to true if file will be loaded from path that's external to plugins.path
+     */
+    public static function loadPlugin($file,$extrn = false) {
+        if (!$extrn) $file = self::$config['plugins.path'].$file.'.php';
+        return include_once($file);
     }
 
     /**
@@ -559,6 +620,64 @@ class RichAPI {
     }
 
     /**
+     * Resamples (convert/resize) an image file. You can specify a new width, height and type
+     * @return Boolean
+     */
+     public static function imageResample($file,$w,$h, $type = null) {
+        if (!function_exists('imagecreatefromstring')) {
+            RichAPI::log('Function imagecreatefromstring does not exists - The GD image processing library is required.','warn','RichDataSanitizer::fileImageResample');
+            return false;
+        }
+        $info = @getImageSize($file);
+        if ($info) {
+            // maintain aspect ratio
+            if ($h==0) $h = $info[1] * ($w/$info[0]);
+            if ($w==0) $w = $info[0] * ($h/$info[1]);
+            if ($w==0 && $h==0) {$w = $info[0]; $h = $info[1];}
+            // resize/resample image
+            $img = @imageCreateFromString(file_get_contents($file));
+            if (!$img) return false;
+            $newImg = function_exists('imagecreatetruecolor') ? imageCreateTrueColor($w,$h) : imageCreate($w,$h);
+            if(function_exists('imagecopyresampled'))
+                imageCopyResampled($newImg, $img, 0, 0, 0, 0, $w, $h, $info[0], $info[1]);
+            else
+                imageCopyResized($newImg, $img, 0, 0, 0, 0, $w, $h, $info[0], $info[1]);
+            imagedestroy($img);
+            $type = !$type ? $info[2] : strtolower(trim($type));
+            if ($type==1||$type=='gif') $f = 'imagegif';
+            else if ($type==3 || $type=='png') $f = 'imagepng';
+            else if ($type==6 || $type==16 || $type=='bmp' || $type=='xbmp') $f = 'imagexbm';
+            else if ($type==15 || $type=='wbmp') $f = 'image2wbmp';
+            else $f = 'imagejpeg';
+            if (function_exists($f)) $f($newImg,$file);
+            imagedestroy($newImg);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns an array containing the width, height and type for the image file
+     * @return Array or NULL if error
+     */
+    public static function imageSize($file) {
+        if (!function_exists('getImageSize')) {
+            RichAPI::log('Function getImageSize does not exists - The GD image processing library is required.','warn','RichDataSanitizer::fileImageSize');
+            return null;
+        }
+
+        $info = @getImageSize($file);
+        if (!$info) return null;
+        else {
+            return array(
+                'width' => $info[0],
+                'height'=> $info[1],
+                'type'  => $info[2]
+            );
+        }
+    }
+
+    /**
      * Sends an error page to the web browser
      */
     public static function sendError($msg,$code = null) {
@@ -573,7 +692,15 @@ class RichAPI {
             case 403: header("HTTP/1.0 403 Forbidden"); break;
             case 404: header("HTTP/1.0 404 Not Found"); break;
         }
-        if ($msg!=$code) echo $html;
+        if ($msg!=$code) {
+            if (!isset($_REQUEST['_ajax_call_'])) echo $html;
+            else {
+                $html = strip_tags($html);
+                echo self::JSON('encode', array(
+                    '_actions' => 'alert("'.self::escapeText($msg).'");'
+                ));
+            }
+        }
         exit();
     }
 
@@ -615,10 +742,21 @@ class RichAPI {
             $locale = array_merge($locale, array_combine($locale['dt._eng_names'],$locale['dt._locale_names'])); // combine names
             return self::$isLocaleLoaded = true;
         }
-
         return false;
     }
 
+    /**
+     * Triggers a System Event
+     */
+    public static function triggerSysEvent($name,$args = null) {
+        if (isset(self::$sysEvents[$name])) {
+            foreach (self::$sysEvents[$name] as $fn) {
+                if (is_array($fn)) $fn[0]->{$fn[1]}($args);
+                else $fn($args);
+            }
+        }
+    }
+    
 }
 
 // RichAPI Base Class
@@ -773,7 +911,7 @@ class RichDataSanitizer {
      * @return String
      */
     public function email($key) {
-        return str_replace(self::$badCharacters,'',$this->value($key));
+        return str_replace(self::$badCharacters,'',$this->text($key));
     }
 
     /**
@@ -850,62 +988,22 @@ class RichDataSanitizer {
 
     /**
      * Returns an array containing the width, height and type for the uploaded image file
-     * @return Array
+     * @return Array or NULL if error
      */
     public function fileImageSize($key) {
-        if (!function_exists('getImageSize')) {
-            RichAPI::log('Function getImageSize does not exists - The GD image processing library is required.','warn','RichDataSanitizer::fileImageSize');
-            return null;
-        }
-
         $fl = isset($_FILES[$key]) ? $_FILES[$key] : null;
-        $info = $fl ? @getImageSize($fl['tmp_name']) : null;
-        if (!$info) return null;
-        else {
-            return array(
-                'width' => $info[0],
-                'height'=> $info[1],
-                'type'  => $info[2]
-            );
-        }
+        $fl = $fl ? $fl['tmp_name'] : null;
+        return RichAPI::imageSize($fl);
     }
 
     /**
-     * Resamples (convert/resize) the selected image. You can specify a new width, height and type
+     * Resamples (convert/resize) the uploaded image. You can specify a new width, height and type
      * @return Boolean
      */
     public function fileImageResample($key,$w,$h,$type=null) {
         $fl = isset($_FILES[$key]) ? $_FILES[$key] : null;
-        if (!function_exists('imagecreatefromstring')) {
-            RichAPI::log('Function imagecreatefromstring does not exists - The GD image processing library is required.','warn','RichDataSanitizer::fileImageResample');
-            return false;
-        }
-        $info = $fl ? @getImageSize($fl['tmp_name']) : null;
-        if ($info) {
-            // maintain aspect ratio
-            if ($h==0) $h = $info[1] * ($w/$info[0]);
-            if ($w==0) $w = $info[0] * ($h/$info[1]);
-            if ($w==0 && $h==0) {$w = $info[0]; $h = $info[1];}
-            // resize/resample image
-            $img = @imageCreateFromString(file_get_contents($fl['tmp_name']));
-            if (!$img) return false;
-            $newImg = function_exists('imagecreatetruecolor') ? imageCreateTrueColor($w,$h) : imageCreate($w,$h);
-            if(function_exists('imagecopyresampled'))
-                imageCopyResampled($newImg, $img, 0, 0, 0, 0, $w, $h, $info[0], $info[1]);
-            else 
-                imageCopyResized($newImg, $img, 0, 0, 0, 0, $w, $h, $info[0], $info[1]);
-            imagedestroy($img);
-            $type = !$type ? $info[2] : strtolower(trim($type));
-            if ($type==1||$type=='gif') $f = 'imagegif';
-            else if ($type==3 || $type=='png') $f = 'imagepng';
-            else if ($type==6 || $type==16 || $type=='bmp' || $type=='xbmp') $f = 'imagexbm';
-            else if ($type==15 || $type=='wbmp') $f = 'image2wbmp';
-            else $f = 'imagejpeg';
-            if (function_exists($f)) $f($newImg,$fl['tmp_name']);
-            imagedestroy($newImg);
-            return true;
-        }
-        return false;
+        $fl  = $fl ? $fl['tmp_name'] : null;
+        return RichAPI::imageResample($fl, $w, $h,$type);
     }
 
     /**

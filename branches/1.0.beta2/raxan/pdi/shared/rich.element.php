@@ -12,6 +12,7 @@ class RichElement extends RichAPIBase {
      */
 
     protected static $autoid; // auto id for elements. used by matchSelector
+    protected static $callMethods; // stores extended methods
 
     protected $elms;
     protected $stack; // used to store previous match list
@@ -65,20 +66,21 @@ class RichElement extends RichAPIBase {
             $this->selector = $css;
             if (!$this->isHTML($css)) $dl = $this->doc->cssQuery($css,$this->context);
             else {
-                 // append html to body tag
-                 if (!$this->doc->isInit()) $this->doc->initDOMDocument();
-                 $n = $this->doc->getElementsByTagName('body');
-                 if ($n->length) {
-                     $n = $n->item(0);
-                     $f = $this->createFragment('<div>'.$css.'</div>');
-                     if ($f) {
-                        $f = $n->appendChild($f);
+                // handle html
+                $this->modified = true;                
+                if (!$this->doc->isInit()) $this->doc->initDOMDocument();
+                $n = $this->doc->getElementsByTagName('body');
+                if ($n->length) {
+                    $n = $n->item(0);
+                    $f = $this->createFragment('<div>'.$css.'</div>');
+                    if ($f) {
+                        $f = $n->appendChild($f); // append html to body tag
                         $dl = array();
                         foreach($f->childNodes as $n1)
                             if ($n1->nodeType==1) $dl[] = $n1->cloneNode(true);
                         $n->removeChild($f); // remove element
-                     }
-                 }
+                    }
+                }
             }
         }
         else if ($css instanceof DOMNode) $this->elms[] = $css;
@@ -96,6 +98,11 @@ class RichElement extends RichAPIBase {
     public function __call($name,$args){
         if ($name=='empty') return $this->removeChildren();
         elseif ($name=='clone') return $this->cloneNodes();
+        elseif (isset(self::$callMethods[$name])) {
+            $fn = self::$callMethods[$name];
+            if (is_array($fn)) return $fn->{$name}($this,$args);
+            else return $fn($this,$args);
+        }
         else throw new Exception('Undefined Method \''.$name.'\'');
     }
 
@@ -169,6 +176,14 @@ class RichElement extends RichAPIBase {
     }
 
     /**
+     * Appends the html of the matched elements to the selected client element. See <sendToClient>
+     * @return RichElement
+     */
+    public function appendToClient($selector) {
+        return $this->sendToClient($selector, 'append');
+    }
+
+    /**
      * Appends an html view file to the matched elements
      * @return RichWebPage
      */
@@ -229,6 +244,17 @@ class RichElement extends RichAPIBase {
      */
     public function children($selector = null){
         return $this->traverse($selector,'firstChild','nextSibling');
+    }
+
+    /**
+     * An ajax event helper that's used to binds a function to the click event for the matched selection.
+     */
+    public function click($fn,$serialize = null){
+        return $this->bind('#click',array(
+            'callback' =>$fn,
+            'serialize'=> $serialize,
+            'autoDisable'=> true
+        ));
     }
 
     /**
@@ -424,7 +450,7 @@ class RichElement extends RichAPIBase {
     }
 
     /**
-     * Localize matched elements that have a valid locale key/value pair assigned to the langid attribbte
+     * Localize matched elements that have a valid locale key/value pair assigned to the langid attribute
      * @return RichElement
      */
     public function localize(){
@@ -541,6 +567,33 @@ class RichElement extends RichAPIBase {
     }
 
     /**
+     * Prepends the html of the matched elements to the selected client element. See <sendToClient>
+     * @return RichElement
+     */
+    public function prependToClient($selector) {
+        return $this->sendToClient($selector, 'append');
+    }
+
+    /**
+     * Preserves the postback state of the matched form elements
+     * @return RichElement
+     */
+    public function preserveState() {
+        $kv = array();
+        if (!$this->page->isPostback) return $this;
+        foreach($this->elms as $n) {
+            if ($n->nodeName=='form') {
+                $f = new RichElement('[name]',$n);
+                $f->preserveState();
+            } else {
+                $name = $n->getAttribute('name');
+                if ($name && isset($_POST[$name])) $kv[$name] = $_POST[$name];
+            }
+        }
+        return $this->val($kv); // set value;
+    }
+
+    /**
      * Remove matched elements from document
      * @return RichElement
      */
@@ -591,14 +644,6 @@ class RichElement extends RichAPIBase {
     }
 
     /**
-     * Replace matched elements with content
-     * @return RichElement
-     */
-    public function replaceWith($content){
-        return $this->after($content)->remove();
-    }
-
-    /**
      * Replace all selected with matched elements
      * @return RichElement
      */
@@ -609,6 +654,22 @@ class RichElement extends RichAPIBase {
         return $this->stack($elms);
     }
 
+    /**
+     * Replaces the selected client-side element with the html of the matched elements. See <sendToClient>
+     * @return RichElement
+     */
+    public function replaceClient($selector) {
+        return $this->sendToClient($selector, 'replace');
+    }
+
+    /**
+     * Replace matched elements with content
+     * @return RichElement
+     */
+    public function replaceWith($content){
+        return $this->after($content)->remove();
+    }
+    
     /**
      * Selects inner child of match elements - used by wrap functions
      * @return RichElement
@@ -622,6 +683,24 @@ class RichElement extends RichAPIBase {
         return $this;
     }
 
+    /**
+     * Sends the html of the matched elements to the selected client element
+     * @param $selector String client-side css selector
+     * @param $mode String Used internally. possible values 'insert (default), replace, append, prepend, before, after'
+     * @return RichElement
+     */
+    public function sendToClient($selector,$mode=null){
+        $h = '';
+        foreach($this->elms as $elm) $h.= $this->nodeContent($elm, true);
+        if ($mode=='append') C($selector)->append($h);
+        else if ($mode=='prepend') C($selector)->prepend($h);
+        else if ($mode=='before') C($selector)->before($h);
+        else if ($mode=='after') C($selector)->after($h);
+        else if ($mode=='replace')C($selector)->replaceWith($h);
+        else C($selector)->html($h);
+        return $this;
+    }
+   
     /**
      * Show matched elements (display:block)
      * @return RichElement
@@ -661,6 +740,17 @@ class RichElement extends RichAPIBase {
             return $this->name;
         }
         return $this;
+    }
+
+    /**
+     * An ajax event helper that's used to binds a function to the submit event for the matched selection.
+     */
+    public function submit($fn,$serialize = null){
+        return $this->bind('#submit',array(
+            'callback' =>$fn,
+            'serialize'=> $serialize,
+            'autoDisable'=> true
+        ));
     }
 
     /**
@@ -751,7 +841,7 @@ class RichElement extends RichAPIBase {
                 $nn = $elm->nodeName;
                 // handle select tags
                 if ($nn=='textarea') return $this->nodeContent($elm);    // texbareas
-                elseif ($nn!='select') return $elm->getAttribute('value');   // inputs
+                elseif ($nn!='select') return $elm->getAttribute('value');   // inputs and buttons
                 else {
                     $multi = $elm->getAttribute('multiple') ? true : false;
                     $values = ($multi) ? array() : '';
@@ -772,17 +862,17 @@ class RichElement extends RichAPIBase {
             $isa = is_array($v);
             foreach($this->elms as $n) {
                 $nn = $n->nodeName;
-                $fldName = $n->getAttribute('name'); // atribute name
+                $fldName = $n->getAttribute('name'); // attribute name
                 if (($st = strpos($fldName,'['))!==false) $fldName = substr($fldName,0,$st); // remove [] from name
                 $value = ($isa && isset($v[$fldName])) ? $v[$fldName] : $v;
-                if ($nn=='textarea') {      // textareas
+                if ($nn=='textarea') {     // textareas
                     $n->nodeValue='';
                     if ($value && !is_array($value)) {
                         $f = $this->createFragment(htmlspecialchars($value.''));
                         if ($f) $n->appendChild($f);
                     }
                 }
-                elseif ($nn!='select') {    // inputs
+                elseif ($nn!='select') {        // inputs
                     $at = $n->getAttribute('type');
                     $av = $n->getAttribute('value');
                     if (($at=='radio'||$at=='checkbox') && is_array($value)) {  // index arrays
@@ -793,7 +883,7 @@ class RichElement extends RichAPIBase {
                         if ($av==$value) $n->setAttribute('checked','checked');
                         else $n->removeAttribute('checked');
                     }
-                    elseif (!is_array($value)){
+                    elseif (!is_array($value)){ // button, textbox, etc
                         $n->setAttribute('value',$value.'');
                     }
                 }
@@ -846,7 +936,7 @@ class RichElement extends RichAPIBase {
 
     // returns the html content of an elment
     protected function nodeContent($n, $outer=false) {
-        $d = $this->page->flyDOM(); // dom with xhtml doctype
+        $d = $this->page->flyDOM(); // DOM with xhtml doctype
         //$n = $d->importNode($n->cloneNode(true),true);
         $n = $d->importNode($n,true);   // @todo: test to see if clone is faster 
         $h = str_replace('&#13;','',$d->saveXML($n)); // save and cleanup xhtml code
@@ -913,7 +1003,7 @@ class RichElement extends RichAPIBase {
 
     // Insert content into DOM
     protected function insert($content,$pos,$retNodes = false){
-        if ($content && is_string($content))
+        if ($content && ($isFragment = is_string($content)))
             $content = array($this->createFragment($content));
         elseif ($content instanceof DOMNode ) $content =  array($content);
         elseif ($content instanceof DOMNodeList ) ;//$content =  $content;
@@ -921,10 +1011,10 @@ class RichElement extends RichAPIBase {
         else return $this;
         if ($retNodes) $newNodes = array();
         foreach($this->elms as $i=>$n){
-            foreach($content as $node) {
+            foreach($content as $c => $node) {
                 $same = $n->ownerDocument->isSameNode($node->ownerDocument);
                 if (!$same) $node = $n->ownerDocument->importNode($node,true);
-                else if ($i > 0) $node = $node->cloneNode(true); // clone objects
+                else if ($i > 0 || $isFragment) $node = $node->cloneNode(true); // clone objects
                 switch ($pos) {
                     case 'after':
                         $p = $n->parentNode;
@@ -989,7 +1079,41 @@ class RichElement extends RichAPIBase {
         return $this;
     }
 
+    // static Methods
+    // -------------------------------------------
+
+    /**
+     * Adds a custom method to the RichElement Class
+     */
+    public static function addMethod($name,$callback) {
+        if (!is_callable($callback)) {
+            throw new Exception('Unable to execute callback function or method: '.print_r($callback,true));
+        }
+        if(!self::$callMethods) self::$callMethods = array();
+        self::$callMethods[$name] = $callback;
+    }
+
 }
 
+/**
+ *  RichPlugin
+ */
+class RichPlugin extends RichElement {
+
+    protected $implementPrerender = false;
+
+    public function __construct($css,$context = null) {
+        parent::__construct($css,$context);
+        if ($this->implementPrerender)
+            $this->page->registerPlugin($this);
+    }
+
+    public function render() {}
+    public function dataSource($data) {}
+
+    protected function getUniqueId($prefix = 'plug-x') {
+        return $prefix.self::$autoid++;
+    }
+}
 
 ?>

@@ -44,11 +44,18 @@ $config['locale.path']  = '';
 $config['cache.path']   = '';
 
 // Path to error pages. eg. views/404.html
-// To display a custom message, add the {message} placeholder to the html file
+// To display a custom message, add the {message} placeholder inside the html file
 $config['error.400'] = '';
 $config['error.401'] = '';
 $config['error.403'] = '';
 $config['error.404'] = '';
+
+// Rich Web Page default settings
+$config['page.localizeOnResponse'] = false;         // loacalize  web page content based on the langid attribute
+$config['page.initStartupScript'] = false;          // loads the raxan startup.js script
+$config['page.resetDataOnFirstLoad'] = false;       // reset page data on first load
+$config['page.preserveFormContent'] = false;       // preserve form content during post back
+$config['page.showRenderTime'] = false;
 
 // Session settings
 $config['session.name']    = 'XPDI1000SE';
