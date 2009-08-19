@@ -1,5 +1,5 @@
 /*
- * jQuery UI 1.7.1
+ * jQuery UI 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -14,7 +14,7 @@ var _remove = $.fn.remove,
 
 //Helper functions and ui object
 $.ui = {
-	version: "1.7.1",
+	version: "1.7.2",
 
 	// $.ui.plugin is deprecated.  Use the proxy pattern instead.
 	plugin: {
@@ -518,7 +518,7 @@ $.ui.mouse.defaults = {
 
 })(jQuery);
 /*
- * jQuery UI Draggable 1.7.1
+ * jQuery UI Draggable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -919,7 +919,7 @@ $.widget("ui.draggable", $.extend({}, $.ui.mouse, {
 }));
 
 $.extend($.ui.draggable, {
-	version: "1.7.1",
+	version: "1.7.2",
 	eventPrefix: "drag",
 	defaults: {
 		addClasses: true,
@@ -1284,7 +1284,7 @@ $.ui.plugin.add("draggable", "zIndex", {
 
 })(jQuery);
 /*
- * jQuery UI Droppable 1.7.1
+ * jQuery UI Droppable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -1418,7 +1418,7 @@ $.widget("ui.droppable", {
 });
 
 $.extend($.ui.droppable, {
-	version: "1.7.1",
+	version: "1.7.2",
 	eventPrefix: 'drop',
 	defaults: {
 		accept: '*',
@@ -1566,7 +1566,7 @@ $.ui.ddmanager = {
 
 })(jQuery);
 /*
- * jQuery UI Resizable 1.7.1
+ * jQuery UI Resizable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -2065,7 +2065,7 @@ $.widget("ui.resizable", $.extend({}, $.ui.mouse, {
 }));
 
 $.extend($.ui.resizable, {
-	version: "1.7.1",
+	version: "1.7.2",
 	eventPrefix: "resize",
 	defaults: {
 		alsoResize: false,
@@ -2366,7 +2366,7 @@ var isNumber = function(value) {
 
 })(jQuery);
 /*
- * jQuery UI Selectable 1.7.1
+ * jQuery UI Selectable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -2609,7 +2609,7 @@ $.widget("ui.selectable", $.extend({}, $.ui.mouse, {
 }));
 
 $.extend($.ui.selectable, {
-	version: "1.7.1",
+	version: "1.7.2",
 	defaults: {
 		appendTo: 'body',
 		autoRefresh: true,
@@ -2623,7 +2623,7 @@ $.extend($.ui.selectable, {
 
 })(jQuery);
 /*
- * jQuery UI Sortable 1.7.1
+ * jQuery UI Sortable 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -3609,7 +3609,7 @@ $.widget("ui.sortable", $.extend({}, $.ui.mouse, {
 
 $.extend($.ui.sortable, {
 	getter: "serialize toArray",
-	version: "1.7.1",
+	version: "1.7.2",
 	eventPrefix: "sort",
 	defaults: {
 		appendTo: "parent",
@@ -3642,7 +3642,7 @@ $.extend($.ui.sortable, {
 
 })(jQuery);
 /*
- * jQuery UI Effects 1.7.1
+ * jQuery UI Effects 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -3653,7 +3653,7 @@ $.extend($.ui.sortable, {
 ;jQuery.effects || (function($) {
 
 $.effects = {
-	version: "1.7.1",
+	version: "1.7.2",
 
 	// Saves a set of properties in a data storage
 	save: function(element, set) {
@@ -3818,9 +3818,11 @@ $.fn.extend({
 	},
 
 	toggle: function(){
-		if(!arguments[0] || (arguments[0].constructor == Number || (/(slow|normal|fast)/).test(arguments[0])) || (arguments[0].constructor == Function))
+		if(!arguments[0] ||
+			(arguments[0].constructor == Number || (/(slow|normal|fast)/).test(arguments[0])) ||
+			($.isFunction(arguments[0]) || typeof arguments[0] == 'boolean')) {
 			return this.__toggle.apply(this, arguments);
-		else {
+		} else {
 			return this.effect.apply(this, _normalizeArguments(arguments, 'toggle'));
 		}
 	},
@@ -4185,7 +4187,7 @@ $.extend($.easing,
 
 })(jQuery);
 /*
- * jQuery UI Effects Blind 1.7.1
+ * jQuery UI Effects Blind 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4234,7 +4236,7 @@ $.effects.blind = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Bounce 1.7.1
+ * jQuery UI Effects Bounce 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4312,7 +4314,7 @@ $.effects.bounce = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Clip 1.7.1
+ * jQuery UI Effects Clip 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4366,7 +4368,7 @@ $.effects.clip = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Drop 1.7.1
+ * jQuery UI Effects Drop 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4416,7 +4418,7 @@ $.effects.drop = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Explode 1.7.1
+ * jQuery UI Effects Explode 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4495,7 +4497,7 @@ $.effects.explode = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Fold 1.7.1
+ * jQuery UI Effects Fold 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4551,7 +4553,7 @@ $.effects.fold = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Highlight 1.7.1
+ * jQuery UI Effects Highlight 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4599,7 +4601,7 @@ $.effects.highlight = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Pulsate 1.7.1
+ * jQuery UI Effects Pulsate 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4655,7 +4657,7 @@ $.effects.pulsate = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Scale 1.7.1
+ * jQuery UI Effects Scale 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4835,7 +4837,7 @@ $.effects.size = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Shake 1.7.1
+ * jQuery UI Effects Shake 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4892,7 +4894,7 @@ $.effects.shake = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Slide 1.7.1
+ * jQuery UI Effects Slide 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)
@@ -4942,7 +4944,7 @@ $.effects.slide = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Transfer 1.7.1
+ * jQuery UI Effects Transfer 1.7.2
  *
  * Copyright (c) 2009 AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT (MIT-LICENSE.txt)

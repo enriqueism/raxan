@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Using The Clx | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><h3>Using the Client Extension Class</h3>
+
+<p>The RichClientExtension (CLX) class makes it very easy to manipulate client-side DOM elements on-the-fly. It does this by generating action scripts that are sent to the client's web browser for processing. Action scripts can be defined as a sequence of jQuery or native javascript function calls.</p>
+
+<p>The C() function is available to developers as a wrapper to the RichClientExtension class.</p>
+
+<p>In this example, we are going to use the CLX to set the html value the &lt;div&gt; tag and then fade in the result:</p>
+
+<pre><code>&lt;?php
+
+require_once("raxan/pdi/gateway.php");
+
+class MyPage extends RichWebPage {
+
+    protected function _load() {
+        // set the content of the page
+        $this-&gt;content('&lt;input id="mybutton" type="button" value="Click Me"  /&gt;&lt;div id="msg" /&gt;');
+
+
+        $elm = $this['#mybutton']; // select the mybutton input element 
+        $elm-&gt;bind('#click','.button_click'); // bind to the mybutton click event using an ajax callback
+    }
+
+    protected function button_click($e) {
+        // select the #msg element on the client
+        C('#msg')-&gt;html('Hello World')  // use the C() function
+            -&gt;hide()        // hide the element
+            -&gt;fadeIn(); // fade in the element.
+    }
+}
+
+RichWebPage::Init('MyPage');
+?&gt; 
+</code></pre>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+

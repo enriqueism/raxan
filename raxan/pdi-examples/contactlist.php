@@ -41,7 +41,7 @@ class ContactPage extends RichWebPage {
     
     protected function _load() {
         // bind events
-        // bind to form subbmit and disbable the save button when clicked
+        // bind to form submit and disbable the save button when clicked
         $this['#contact']->bind('#submit',array('callback'=>'.save_contact','autoDisable'=>'#cmdsave'));
         $this['#cmdcancel']->bind('#click','.cancel_edit');
         $this['#list a.edit']->delegate('#click','.edit_contact'); // bind to hyperlinks

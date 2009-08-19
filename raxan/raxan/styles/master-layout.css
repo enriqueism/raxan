@@ -149,7 +149,11 @@ tr.hover td  { background: #cfcfcf !important;} /*should always be last*/
 .white { background:#fff; }
 .silver { background:#c0c0c0; }
 .lightgray { background:#e0e0e0; }
-
+.softgreen { background-color: #C6D880 }    /* soft colors */
+.softblue { background-color: #C3D9FF }
+.softred { background-color: #FBC2C4 }
+.softyellow{ background-color: #FDEE89 }
+.pastelgreen { background-color: #E6EFC2 }
 
 /* position */
 .above {position:absolute;}

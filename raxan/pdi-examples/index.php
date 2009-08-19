@@ -6,8 +6,9 @@ $page = new RichwebPage('views/pdi-examples.html');
 
 // list beta files
 $d = dir('./'); $files = array();
+$exclude = array('index.php','gateway.config.php');
 while (false !== ($entry = $d->read())) {
-    if ($entry!='index.php' && strpos($entry,'.php')!==false) {
+    if (!in_array($entry,$exclude)  && strpos($entry,'.php')!==false) {
         $files[$entry] = '<div class="info column c10 tpm"><a href="'.$entry.'">'.$entry.'</a></div>';
     }
 }

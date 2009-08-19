@@ -47,5 +47,7 @@ $locale['click']                = 'Haga clic en';
 $locale['sort']                 = 'Ordenar';
 $locale['drag']                 = 'Arrastre';
 $locale['help']                 = 'Ayuda';
+$locale['first']                = 'Primero';
+$locale['last']                 = 'Último';
 
 ?>

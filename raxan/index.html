@@ -4,98 +4,131 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Raxan - The Rich Ajax Application Framework</title>
-	<link href="raxan/styles/master.css" rel="stylesheet" type="text/css" />
-	<!--[if IE]><link rel="stylesheet" href="raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="docs/style.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .version {color:maroon }
         h2 img {vertical-align:middle}
         img.header {display:block}
-        .noteworthy h3 {color:#0B8FE3}
+        .color-header, .noteworthy h3 {color:#0B8FE3}
+        li { list-style:url(docs/images/listbullet.png) disc; }
     </style>
+    <link href="docs/highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="docs/highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
 
 </head>
 
 <body>
-    <div class="container c38 dn2">
-        <img class="header" src="docs/images/pdi-bubble-chain.gif" width="344" alt="Raxan Framework" />
-        <h1 class="bottom bmm">Welcome to the Raxan Framework</h1>
-        <div class="version">Version: 1.0 Beta 1</div>
-        <hr />
+   <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan Framework</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="docs/index.html" title="User Guide" >User Guide</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1">
+            <h2 class="right prepend-top">Out of Many...<br /> One Framework</h2>
+            <img class="header" src="docs/images/pdi-bubble-chain.gif" width="344" alt="Raxan Framework" />
+            <div class="version">Version: 1.0 Beta 2</div>
+            <hr />
 
-        <div class="column c13 colborder">
-            <h2><img src="docs/images/bag.gif" /> What's included:</h2>
-            <ul>
-                <li>CSS and PDI Framework</li>
-                <li>jQuery Interactive Libraries</li>
-                <li><a href="css-examples/index.html">CSS</a> and <a href="pdi-examples/index.php" title=" A web server running PHP 5.1 or higher is required">PDI</a><sup>1</sup> Examples</li>
-                <li>CSS Documentation</li>
-                <li>HTML Templates</li>
-            </ul>
+            <div class="column c15 colborder">
+                <h2><img src="docs/images/bag.gif" /> What's included:</h2>
+                <ul>
+                    <li><a href="docs/index.html">Raxan User Guide</a></li>
+                    <li>The jQuery Library</li>
+                    <li>jQuery Tools & Interactive Libraries</li>
+                    <li>CSS and PDI Framework</li>
+                    <li>Examples - <a href="css-examples/index.html"><strong>CSS</strong></a> and <a href="pdi-examples/index.php" title=" A web server running PHP 5.1 or higher is required"><strong>PDI</strong></a><sup>1</sup></li>
+                    <li>HTML Templates</li>
+                </ul>
 
-			<p> <sup>1</sup> - A web server running PHP5 is required</p>
-            <p>
-                <strong>Quick Links</strong>
-                <blockquote>
-                    <a href="docs/index.html">Raxan CSS Documentation</a><br />
-                    <a href="http://raxanpdi.com/pdi-overview.html">Raxan PDI Online Documentation</a><br />
-                    <a href="http://raxanpdi.com/examples.html">Raxan PDI Online Examples</a><br />
-                    <a href="docs/credits.html">Credits/Acknowledgements</a><br />
-                    <a href="http://raxanpdi.com/forum">Community Forum</a><br />
-                </blockquote>
+                <p><sup>1</sup> - A web server running PHP5 is required. See <a href="docs/requirements.html">Software Requirements</a></p>
 
-            </p>
+                <strong>Featured Demo:</strong>
+                <div class="tpb hlf-pad" align="center">
+                    <a href="pdi-examples/embedded.html" title="Click to view this demo"><img src="docs/images/shoutbox.png" /><br />Embedded Application Demo</a>
+                </div>
 
-            <strong>Featured Demo:</strong>
-            <div class="tpb">
-                <a href="http://raxanpdi.com/searchbox-example.html" title="View this demo online"><img class="hlf-pad" src="docs/images/searchbox.png" /></a>
+                <hr />
+                <div>
+                    <strong>Quick Links</strong>
+                    <blockquote>
+                        <a href="docs/index.html">Raxan User Guide</a><br />
+                        <a href="docs/credits.html">Credits/Acknowledgements</a><br />
+                        <a href="http://raxanpdi.com/pdi-overview.html">Online Documentation</a><br />
+                        <a href="http://raxanpdi.com/examples.html">Online Examples</a><br />
+                        <a href="http://raxanpdi.com/forum">Online Community Forum</a><br />
+                    </blockquote>
+                </div>
+
+                <div class="tpb tpm" align="center"><a href="http://twitter.com/raxanpdi" title="Follow the Development of Raxan PDI on twitter" target="_blank"><img src="docs/images/twitter.gif" alt="Follow me on twitter" width="150" /></a></div>
+                <div class="pad tpb tpm" align="center"><a href="http://raxanpdi.com/subscribe.html" title="Get News and Updates" target="_blank"><img src="docs/images/rss.png" alt="Subscribe" width="33" style="vertical-align:middle" />&nbsp;Subscribe to RSS Feed</a></div>
             </div>
+            <div class="column c26 prepend1 noteworthy">
 
+                <h2 class="bmm">Before you <span class="color-header">Begin...</span></h2>
+                <p>PDI examples require a web server running PHP 5.1 or higher. Before running the examples you will need to create a gateway config file or copy the &quot;pdi-examples/gateway.config.php&quot; file to the &quot;raxan/pdi/&quot; folder. The Contact List and ShoutBox examples will require the necessary permissions to read/write to the pdi-examples in order to create/update the SQLite database.</p>
+                
+                <h2><img src="docs/images/signal.gif" /> What's New and Noteworthy:</h2>
 
-            <div class="tpb tpm" align="center"><a href="http://twitter.com/raxanpdi" title="Follow the Development of Raxan PDI on twitter" target="_blank"><img src="docs/images/twitter.gif" alt="Follow me on twitter" width="150" /></a></div>
+                <a href="pdi-examples/index.php" title="PDI Examples" ><img class="ltm" src="docs/images/try-examples.gif" align="right" alt="PDI Examples" /></a>
+                <p>In this release we have merged the documentation for the CSS and PDI frameworks into a single <a href="docs/index.html">User Guide</a>. This will help developers to gain quick access to all the documentation for both frameworks.</p>
+
+                <h3>PHP 5.3 Support</h3>
+                <p>Beginning with Beta 2 we have added support for PHP 5.3. This will enable you to take advantage of the new closure and lambda functions features of PHP 5.3</p>
+<pre><code>&lt;?php
+    $page['#button']-&gt;click(function()  {
+        C()-&gt;alert('Hello World! - PHP 5.3 Rules!');
+    });
+?&gt;
+</code></pre>
+
+                <h3>Switchboard</h3>
+                <p><img class="right margin" src="docs/images/switchboard.png" width="48" alt="Switchboard" />
+                The switchboard takes the framework a step further in helping developers to quickly develop their own MVC based solutions.</p>
+
+                <h3>Embedded Applications</h3>
+                <p>Imagine being able to create an application that you can insert into just about any web page with a single line of HTML code. The embedded feature makes it easier to re-use, share or import your PDI applications into any static or dynamically generated web page (e.g. ASP.Net, JSP, Perl, Python, Ruby, etc)</p>
+
+                <h3>Web Page Plugins</h3>
+                <p><img class="right margin" src="docs/images/puzzle.png" width="48" alt="Plugins" />
+                With the new plugin support you can create your own re-useable <strong>Datagrids</strong>, <strong>Listbox</strong>, <strong>TreeViews</strong> or <strong>Navigation Menus</strong> that can be easily added to a  web page.</p>
+
+                <h3>Rich Element Extension</h3>
+                <p>Adding new features to your rich elements could not have been easier. With a single method call you can transform your elements into something beautiful.</p>
+
+                <h3>System Events</h3>
+                <p>With system events you can now receive system-wide notifications whenever the session has started or a web page has been initialized.</p>
+
+                <h3>Template Binder Enhancements</h3>
+                <img class="right margin" src="pdi-examples/views/images/id.png" width="48" alt="Template" /></p>
+                <p>The new <strong>tplEdit</strong> option makes it easier to add editing features to your data lists, tables and repeater.
+
+                <p>For more information on what was change see the <a href="docs/changelog.html">Change Log</a></p>
+
+                <h3 class="bmm" style="color:teal">Try the Examples...</h3>
+                <p><a href="pdi-examples/index.php">Visit the PDI Examples web page</a> - A web server running PHP 5.1 or higher is required</p>
+
+            </div>
+            <hr class="clear space" />
+
         </div>
-        <div class="column c22 prepend1 noteworthy">
-            <h2><img src="docs/images/signal.gif" /> What's New and Noteworthy:</h2>
-
-            <p>With this release we have opened up the doors of new possibilities for the Raxan PDI Framework. This document seeks to outline some of the newly added features and functionalities of the framework.</p>
-
-            <h3>New XML Support</h3>
-            <p>Have you ever had the need to query and process an XML document but you don’t have the time to learn about the XML DOM or the XPath query syntax? If so, then you’re going to love the new XML support that’s now bundled with PDI. Within a single line of code you can query and manipulate the data you need just as if you were working with an HTML document.</p>
-
-            <h3>Mobile Web Application Support</h3>
-            <img class="right" src="pdi-examples/views/images/phone.png" />
-            <p>Cell phone sales are expected to exceed one billion handsets per year by 2009, making mobile phones one the most widely used devices for communicating and sharing information. With an increasing number of consumers using their cell phones to access online information, the need for mobile web sites and applications are on the increase.</p>
-            <p>Starting with Beta 1, developers can quickly build mobile enabled web pages with very little effort.</p>
-
-            <h3>Template Binder</h3>
-            <img class="right margin" src="pdi-examples/views/images/id.png" width="48"/>
-            <p>Some people say that a picture is worth more than a thousand words. But nothing could be more pleasant than for a developer to be able to picture all the creative possibilities with the new Template Binder API. In a single call, you can bind your dataset to elements within the page and use the format option to format the display for selected fields. See <a href="http://raxanpdi.com/pdi-sample-page.html#bindtoevent">Binding To An Event</a>.</p>
-
-            <h3>Easy Pagination</h3>
-            <p>Adding a pager to your newly generated grid display is just as easy as creating the grid itself. All that’s needed is a single call to the new RichAPI::paginate() function.</p>
-            <p>The possibilities are endless when you think of the wide variety of pagers that you can create with your own custom templates.</p>
-
-            <h3>New Event Binding Options</h3>
-            <p>The new Auto-Toggle, Auto-Disable, Delayed callback and Character Input Cache options will give you more power and flexibility when creating rich user interfaces. See <a href="http://raxanpdi.com/pdi-sample-page.html#bindtoarray">Binding Elements To An Array</a></p>
-
-            <h3>Improvements & Stability</h3>
-            <p>Here are a few things worth noting in this beta release:</p>
-            <img class="right margin" src="pdi-examples/views/images/lock.png" width="48"/>
-            <ul>
-                <li>New CSS Selectors</li>
-                <li>Access Remote HTML pages or XML documents</li>
-                <li>New Timeout Event with repeat option</li>
-                <li>Generate HTML5 Standard Web pages by default</li>
-            </ul>
-
-            <h3>SVN Repository</h3>
-            <p>With this and future releases you will be able to gain direct access to the source code from Raxan SVN repository. By using your favorite SVN toolkit or IDE you can quickly checkout the latest source code.</p>
-
-            <p><a href="pdi-examples/index.php">Visit the PDI Examples web page</a><br />A web server running PHP 5.1 or higher is required</p>
-
+        <div class="tpb pad">
+            <div class="right">
+                <a href="index.html" class="quiet">Home</a>  | <a href="docs/table-of-contents.html" class="quiet">User Guide</a>
+            </div>
+            <div class="medium" align="left">The Rich Ajax Application Framework. Visit <a href="http://raxanpdi.com">http://raxanpdi.com</a></div>
         </div>
-        <hr class="clear" />
-        <p class="medium">The Rich Ajax Application Framework. Visit <a href="http://raxanpdi.com">http://raxanpdi.com</a></p>
     </div>
+
 </body>
 
 </html>

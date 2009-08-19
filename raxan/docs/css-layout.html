@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>CSS Layout | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><h2>CSS Framework Class Reference</h2>
+
+<p>A list of classes that are currently available with the framework.</p>
+
+<h3>Typography Classes <a name="typography"></a></h3>
+
+<p>Use these classes to modify the look and feel of text within the page.</p>
+
+<ul>
+<li>small</li>
+<li>large</li>
+<li>quiet</li>
+<li>loud</li>
+<li>highlight</li>
+<li>added</li>
+<li>removed</li>
+<li>caps</li>
+<li>fancy</li>
+</ul>
+
+<h3>Grid Classes <a name="layout"></a></h3>
+
+<ul>
+<li>c1, c2, ..., c50, c60, c70, c80, c90, c100 - Use these classes to set the column width of an element (1 cell width = 20px).
+For Example: &lt;div class="c10"&gt;&lt;/div&gt;</li>
+<li>r1, r2, ..., r50 - Use these classes to set the row height of an element (1 cell height = 20px ).
+For Example: &lt;div class="c10 r10"&gt;&lt;/div&gt;</li>
+<li>container - Defines a container for columns and other html elements. A container must be used to define the outer limits of the page.
+For example: &lt;div class="container c40"&gt;Page Content goes here...&lt;/div&gt;</li>
+<li>column - Converts an element into a column with a 10px right margin. Used with grid cell classes such as c1, ... and r1,... For Example: &lt;div class="column c5"&gt;&lt;/div&gt;</li>
+<li>last - Used by the last column in the row to remove the column margin.</li>
+<li>clear - Clear floats</li>
+<li>elastic - Allows the browser to automatically calculate the width of a div element to fit the available space</li>
+<li>e10,e20,...,e100 - Use these elastic classes to set the percentage (%) width of an element in increments of 10.
+For Example: &lt;div class="e10"&gt;&lt;/div&gt;.
+This will stretch the width of the div element to occupy 10% of it's parent element.</li>
+<li>h10,h20,...,h100 - Use these elastic classes to set the percentage (%) height of an element in increments of 10.
+For Example: &lt;div class="e10 h10"&gt;&lt;/div&gt;.
+This will stretch the width and height of the div element to occupy 10% of it's parent element.</li>
+</ul>
+
+<h3>Margins &amp; Padding Classes</h3>
+
+<ul>
+<li>pad - Sets padding to 10px</li>
+<li>hlf-pad - Sets padding to 5px</li>
+<li>dbl-pad - Sets padding to 20px</li>
+<li>margin - Sets margin to 10px</li>
+<li>tpm, rtm, bmm, ltm - Sets top, right, bottom or left margins</li>
+</ul>
+
+<h3>Position Classes</h3>
+
+<ul>
+<li>above - Absolution position</li>
+<li>left - float elemnt left</li>
+<li>center - center element</li>
+<li>top - Sets top margin-top to 0px</li>
+<li>bottom - Sets bottom margin to 0px</li>
+<li>front - Set z-index to 1000</li>
+<li>back - Set z-index to -1000</li>
+<li>fixed - Fixed Position</li>
+</ul>
+
+<h3>Prepend &amp; Append Classes</h3>
+
+<p>Used these classes to append or prepend empty cells to an element</p>
+
+<ul>
+<li>append1, append2, ..., append10</li>
+<li>prepend1, prepend2, ..., prepend10</li>
+<li>prepend-top, append-bottom</li>
+</ul>
+
+<h3>Push / Pull &amp; Up / Down Classes</h3>
+
+<p>Use these classes to push or pull an element into a previous cell.</p>
+
+<ul>
+<li>push1, push2, push3, push4, push5</li>
+<li>pull1, pull2, pull3, pull4, pull5</li>
+<li>up1, up2, up3, up4, up5</li>
+<li>dn1, dn2, dn3, dn4, dn5</li>
+</ul>
+
+<h3>Button Classes <a name="ui"></a></h3>
+
+<ul>
+<li>button - Used to style an input button or a hyperlink</li>
+<li>ok, cancel, process, continue, disabled - Used to set button color and state.</li>
+</ul>
+
+<h3>Border Classes</h3>
+
+<ul>
+<li>border - Creates a 1px border around an element</li>
+<li>tpb, rtb, bmb, ltb - Used to add a top, right, bottom or left border to an element</li>
+<li>colborder - Add right border to a column</li>
+<li>round - Used to create 5px round courners. Requires FF or Safari.</li>
+</ul>
+
+<h3>Box Classes</h3>
+
+<ul>
+<li>box, alert, info, notice, error, success</li>
+<li>box-title - Outlines a box title</li>
+<li>shadow - Used with shadow box markup. See templates/shadowbox.html</li>
+<li>toolbar - Used with toolbar markup. See templates/toolbar.html</li>
+</ul>
+
+<h3>Color Classes</h3>
+
+<p>Use to set the background color of an element</p>
+
+<ul>
+<li>white</li>
+<li>silver</li>
+<li>lightgray</li>
+<li>pastelgreen</li>
+<li>softblue</li>
+<li>softred</li>
+<li>softgreen</li>
+<li>softyellow</li>
+</ul>
+
+<h3>Form Classes</h3>
+
+<ul>
+<li>textbox- Used to style a textboxes and textareas.</li>
+</ul>
+
+<h3>Image Classes</h3>
+
+<ul>
+<li>hvspace - Margin 1.5em;</li>
+</ul>
+
+<h3>Misc Classes</h3>
+
+<ul>
+<li>space - Creates white horizontal ruler</li>
+<li>clip - Overflow hidden</li>
+<li>clip-x - Overflow-x hidden</li>
+<li>clip-y - Overflow-y hidden</li>
+<li>scrollable - Overflow auto</li>
+<li>mouse-cursor - Displays the default mouse pointer</li>
+<li>click-cursor - Displays the hand or click pointer</li>
+<li>grid-mask - Show grid lines (for development only)</li>
+</ul>
+
+<h3>Panel Classes</h3>
+
+<ul>
+<li>panel - Used with panel markup to create a basic panel with round courners. See templates/panel.html</li>
+<li>pnl-header - Outlines the panel header</li>
+<li>pnl-footer - Outlines the panel footer</li>
+</ul>
+
+<h3>Table Classes</h3>
+
+<ul>
+<li>header (deprecated) - Use tbl-header</li>
+<li>tbl-header - Use on tr element to style table header</li>
+<li>even - Use on tr element to style alternate table rows</li>
+<li>sort - Use on td and the elements to style sorted column</li>
+<li>select - Use on tr element to style selected row</li>
+<li>hover - Use on tr element to style row when mouse over.</li>
+</ul>
+
+<h3>Visibility Classes</h3>
+
+<ul>
+<li>hide - Display none;</li>
+<li>transparent - Opacity 0.4</li>
+</ul>
+
+<h3>TabStrip Plugin Classes</h3>
+
+<ul>
+<li>tabstrip - Converts an unordered list into a horizontal TabStrip</li>
+<li>selected - Highlights the selected list item (or tab).
+For example: &lt;li class="selected"&gt;&lt;a href="#"&gt;Tab1&lt;/a&gt;&lt;/li&gt; </li>
+</ul>
+
+<h3>Cursor Plugin Clases</h3>
+
+<ul>
+<li>busy_cursor - This class is used to define the busy cursor icon for the Cursor plugin</li>
+</ul>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+

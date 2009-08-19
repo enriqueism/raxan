@@ -8,7 +8,7 @@ RichAPI::config('site.timezone','America/Jamaica');
 class DateEntry extends RichWebPage {
 
     protected function _init() {
-        $this->updateFormOnPostback = true;
+        $this->preserveFormContent = true;
         $this->appendView('date-form.html'); // append view to the body tag
     }
 
@@ -24,7 +24,7 @@ class DateEntry extends RichWebPage {
         $f = $rq->text('format');
         $dt = $rq->date('date',$f);
         if(!$dt) $dt = 'Invalid date';
-        P('#msg')->text($dt);
+        $this['#msg']->text($dt);
     }
 
 }
