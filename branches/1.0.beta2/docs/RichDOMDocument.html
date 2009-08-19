@@ -1,0 +1,653 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>RichDOMDocument | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><div class="container c45">
+    <h2 class="class-name">Class RichDOMDocument</h2>
+
+    <a name="sec-description"></a>
+    <div class="box bmm">
+        <div class="box-title">Description</div>
+        <div class="nav-bar">
+            <span class="disabled">Description</span> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+                        |                                           <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <!-- ========== Info from phpDoc block ========= -->
+            <p class="short-description">Used internally by RichWebPage</p>
+            <p class="notes">
+            Located in <a class="field" href="#">/shared/rich.webpage.php</a> (line <span class="field">1190</span>)
+            </p>
+
+
+            <pre>DOMDocument
+   |
+   --RichDOMDocument</pre>
+
+        </div>
+    </div>
+
+
+
+    <a name="sec-var-summary"></a>
+    <div class="box bmm">
+        <div class="box-title">Variable Summary</span></div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+                            |
+            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <div class="var-summary">
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$charset" title="details" class="var-name">$charset</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$css" title="details" class="var-name">$css</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$cssRegEx" title="details" class="var-name">$cssRegEx</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$init" title="details" class="var-name">$init</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$page" title="details" class="var-name">$page</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$source" title="details" class="var-name">$source</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$srcType" title="details" class="var-name">$srcType</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$xPath" title="details" class="var-name">$xPath</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a name="sec-method-summary"></a>
+    <div class="box bmm">
+        <div class="box-title">Method Summary</span></div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+
+                |
+            <span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+        </div>
+        <div class="info-box-body">
+            <div class="method-summary">
+
+                <div class="method-definition">
+                    <span class="method-result">RichDOMDocument</span>
+                    <a href="#__construct" title="details" class="method-name">__construct</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$v</span> = <span class="var-default">'1.0'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">'UTF-8'</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">DOMNodeList</span>
+                    <a href="#cssQuery" title="details" class="method-name">cssQuery</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$rule</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$includeSelf</span> = <span class="var-default">false</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#cssToXPath" title="details" class="method-name">cssToXPath</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$rule</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$inludeSelf</span> = <span class="var-default">false</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#initDOMDocument" title="details" class="method-name">initDOMDocument</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">Boolean</span>
+                    <a href="#isInit" title="details" class="method-name">isInit</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#source" title="details" class="method-name">source</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$src</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$srcType</span> = <span class="var-default">'html'</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">DOMNodeList</span>
+                    <a href="#xQuery" title="details" class="method-name">xQuery</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$pth</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>])
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a name="sec-vars"></a>
+    <div class="box bmm">
+        <div class="box-title">Variables</div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+
+
+                                        |
+            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <a name="var$charset" id="$charset"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$charset</span>
+                        (line <span class="line-number">1192</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$css" id="$css"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$css</span>
+                        (line <span class="line-number">1195</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$cssRegEx" id="$cssRegEx"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$cssRegEx</span>
+                        (line <span class="line-number">1197</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$init" id="$init"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$init</span>
+                        (line <span class="line-number">1196</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$page" id="$page"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$page</span>
+                        (line <span class="line-number">1193</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$source" id="$source"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$source</span>
+                        (line <span class="line-number">1196</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$srcType" id="$srcType"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$srcType</span>
+                        (line <span class="line-number">1196</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$xPath" id="$xPath"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$xPath</span>
+                        (line <span class="line-number">1196</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <a name="sec-methods"></a>
+    <div class="box bmm">
+        <div class="box-title">Methods</div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+            <a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+
+        </div>
+        <div class="info-box-body">
+            <A NAME='method_detail'></A>
+            <a name="method__construct" id="__construct"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">Constructor __construct</span> (line <span class="line-number">1199</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">RichDOMDocument</span>
+                    <span class="method-name">
+            __construct
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$v</span> = <span class="var-default">'1.0'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">'UTF-8'</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$v</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$charset</span>          </li>
+                </ul>
+
+                <hr class="separator" />
+                <div class="notes">Redefinition of:</div>
+                <dl>
+                    <dt>DOMDocument::constructor __construct (  )</dt>
+                </dl>
+
+            </div>
+            <a name="methodcssQuery" id="cssQuery"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">cssQuery</span> (line <span class="line-number">1246</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Return DOMNodeList query dom based on CSS Selector</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">DOMNodeList</span>
+                    <span class="method-name">
+            cssQuery
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$rule</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$includeSelf</span> = <span class="var-default">false</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$rule</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$context</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$includeSelf</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodcssToXPath" id="cssToXPath"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">cssToXPath</span> (line <span class="line-number">1303</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">CSS to Xpath - http://www.webdesignerforum.co.uk/index.php?showtopic=2325</p>
+                <p class="description"><p>Mod by rayond 10-dec-2008. fixed: last, first, added not</p></p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            cssToXPath
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$rule</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$inludeSelf</span> = <span class="var-default">false</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$rule</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$inludeSelf</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodinitDOMDocument" id="initDOMDocument"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">initDOMDocument</span> (line <span class="line-number">1286</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Initialize DOM source</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            initDOMDocument
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodisInit" id="isInit"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">isInit</span> (line <span class="line-number">1279</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns true if DOM source was loaded.</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            isInit
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodsource" id="source"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">source</span> (line <span class="line-number">1258</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Sets HTML/XML source - this is loaded only when dom is first queried</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            source
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$src</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$srcType</span> = <span class="var-default">'html'</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$src</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$srcType</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodxQuery" id="xQuery"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">xQuery</span> (line <span class="line-number">1228</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Return DOMNodeList query dom based on XPath</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">DOMNodeList</span>
+                    <span class="method-name">
+            xQuery
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$pth</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$pth</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$context</span>          </li>
+                </ul>
+
+
+            </div>
+            <h4>Inherited Methods</h4>
+            <a name='inherited_methods'><!-- --></a>
+            <!-- =========== Summary =========== -->
+            <p>Inherited From <span class="classname">DOMDocument (Internal Class)</span></p>
+            <blockquote>
+                <span class="method-name">constructor __construct (  )</span><br>
+                <span class="method-name">adoptNode (  )</span><br>
+                <span class="method-name">appendChild (  )</span><br>
+                <span class="method-name">C14N (  )</span><br>
+                <span class="method-name">C14NFile (  )</span><br>
+                <span class="method-name">cloneNode (  )</span><br>
+                <span class="method-name">compareDocumentPosition (  )</span><br>
+                <span class="method-name">createAttribute (  )</span><br>
+                <span class="method-name">createAttributeNS (  )</span><br>
+                <span class="method-name">createCDATASection (  )</span><br>
+                <span class="method-name">createComment (  )</span><br>
+                <span class="method-name">createDocumentFragment (  )</span><br>
+                <span class="method-name">createElement (  )</span><br>
+                <span class="method-name">createElementNS (  )</span><br>
+                <span class="method-name">createEntityReference (  )</span><br>
+                <span class="method-name">createProcessingInstruction (  )</span><br>
+                <span class="method-name">createTextNode (  )</span><br>
+                <span class="method-name">getElementById (  )</span><br>
+                <span class="method-name">getElementsByTagName (  )</span><br>
+                <span class="method-name">getElementsByTagNameNS (  )</span><br>
+                <span class="method-name">getFeature (  )</span><br>
+                <span class="method-name">getNodePath (  )</span><br>
+                <span class="method-name">getUserData (  )</span><br>
+                <span class="method-name">hasAttributes (  )</span><br>
+                <span class="method-name">hasChildNodes (  )</span><br>
+                <span class="method-name">importNode (  )</span><br>
+                <span class="method-name">insertBefore (  )</span><br>
+                <span class="method-name">isDefaultNamespace (  )</span><br>
+                <span class="method-name">isEqualNode (  )</span><br>
+                <span class="method-name">isSameNode (  )</span><br>
+                <span class="method-name">isSupported (  )</span><br>
+                <span class="method-name">load (  )</span><br>
+                <span class="method-name">loadHTML (  )</span><br>
+                <span class="method-name">loadHTMLFile (  )</span><br>
+                <span class="method-name">loadXML (  )</span><br>
+                <span class="method-name">lookupNamespaceUri (  )</span><br>
+                <span class="method-name">lookupPrefix (  )</span><br>
+                <span class="method-name">normalize (  )</span><br>
+                <span class="method-name">normalizeDocument (  )</span><br>
+                <span class="method-name">registerNodeClass (  )</span><br>
+                <span class="method-name">relaxNGValidate (  )</span><br>
+                <span class="method-name">relaxNGValidateSource (  )</span><br>
+                <span class="method-name">removeChild (  )</span><br>
+                <span class="method-name">renameNode (  )</span><br>
+                <span class="method-name">replaceChild (  )</span><br>
+                <span class="method-name">save (  )</span><br>
+                <span class="method-name">saveHTML (  )</span><br>
+                <span class="method-name">saveHTMLFile (  )</span><br>
+                <span class="method-name">saveXML (  )</span><br>
+                <span class="method-name">schemaValidate (  )</span><br>
+                <span class="method-name">schemaValidateSource (  )</span><br>
+                <span class="method-name">setUserData (  )</span><br>
+                <span class="method-name">validate (  )</span><br>
+                <span class="method-name">xinclude (  )</span><br>
+            </blockquote>
+
+        </div>
+    </div>
+
+
+    <p class="notes" id="credit">
+        Documentation generated on Tue, 18 Aug 2009 01:39:54 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+    </p>
+</div>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+

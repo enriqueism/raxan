@@ -4,10 +4,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Raxan PDI Examples</title>
-	<link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
-	<!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
-    <script src="../raxan/startup.js"></script>
-	<script type="text/javascript">
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <style type="text/css">
+        h3.h-title { color:#0B8FE3 }
+    </style>
+    <script src="../raxan/startup.js" type="text/javascript"></script>
+    <script type="text/javascript">
         html.include('jquery');
         html.include('jquery-ui-effects');
         html.ready(function(){
@@ -55,18 +58,25 @@
     	<h1>Raxan PDI Examples</h1>
     	<hr />
 
-		<p>Welcome to the PDI example page. Click on one of the examples listed below to see it in action.  &nbsp;
+        <p>Welcome to the PDI example page. Click on one of the examples listed below to see it in action.  &nbsp;
             <a class="button" href="../index.html">Home Page</a>&nbsp;
             <a id="menu" class="button process hide" href="#">Show Menu</a>
         </p>
+
+        <h3 class="h-title bottom">Before you begin..</h3>
+        <p>Before running the examples, you will need to create a gateway config file or copy the &quot;pdi-examples/gateway.config.php&quot; file to the &quot;raxan/pdi/&quot; folder. To view the source code for the examples use a Text or PHP IDE editor or to view the content of the files. These files are located inside the pdi-examples folder.</p>
+
+        <hr />
         
         <div id="list" class="container c36"></div>
         <iframe id="frame" class="c36 hide" frameborder="0" scrolling="no"></iframe>
 
-		<div class="box clear bmm prepend-top">
-			For more informations please visit the
-			<a href="http://raxanpdi.com">Raxan Website</a>.
-		</div>
+        <hr class="space clear" />
+        
+        <div class="box clear bmm prepend-top">
+                For more informations please visit the
+                <a href="http://raxanpdi.com">Raxan Website</a>.
+        </div>
 
     </div>
 

@@ -23,7 +23,7 @@ class WebPageExtractor extends RichWebPage {
             '</form><div id="result" class="pad"></div></div>'
         );
 
-        $this->updateFormOnPostback = true;
+        $this->preserveFormContent = true;
     }
 
     function _load() {

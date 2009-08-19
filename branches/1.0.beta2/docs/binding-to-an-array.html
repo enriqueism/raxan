@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Binding To An Array | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><h3>Binding Elements to an Array or PDO Recordset</h3>
+
+<p>The bind() method is used as a wrapper to RichAPI::bindTemplate() in order to bind a list of values from RichWebPageElements, Arrays or a PDO recordset to the matched element(s) as shown below:</p>
+
+<pre><code>    // create new array
+    $urls = array();
+    $urls = array('name'=&gt;'PHP Website', 'link'=&gt;'www.php.net');
+    $urls = array('name'=&gt;'Yahoo', 'link'=&gt;'www.yahoo.com');
+    $urls = array('name'=&gt;'Google', 'link'=&gt;'www.google.com');
+
+    // bind array to the #list element
+    $this['#list']-&gt;bind($urls);
+</code></pre>
+
+<p>The markup for #list would look something like this:</p>
+
+<pre><code>    &lt;ul id="list"&gt;
+        &lt;li&gt;&lt;a href="{link}"&gt;{name}&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+</code></pre>
+
+<p>Syntax:</p>
+
+<pre><code>$match-&gt;bind($array[,$options])
+</code></pre>
+
+<p>$options - Optional Array of templates. For example array($mainTemplate, $alternateTemplate). As of version 1.0 Beta 1 additional options can be passed as an associative array. Eg. array('tpl'=> $mainTemplate, 'tplAlt'=> $alternateTemplate)</p>
+
+<p>Option values:</p>
+
+<ul>
+<li>tpl - Main template</li>
+<li>tplAlt - Alternate template</li>
+<li>tplFirst - First template</li>
+<li>tplLast - Last template</li>
+<li>tplSelected - Selected template</li>
+<li>tplEdit - Edit template</li>
+<li>key - Name of the field to used when selected or editing rows</li>
+<li>edited - Key value of row to be edited. This will use tplEdit as the active template for the row being edited</li>
+<li>selected - Mixed - Selected key values. Multiple values can be passed in as an array</li>
+<li>page - Currently selected page</li>
+<li>pageSize - Size the current page</li>
+<li>format - Array contain field names and datatypes. Accepted data types: integer, float, money, number, date:format, escape, capitalize, replace:searchRegex,replacedValue</li>
+<li>returnArray - Return the result as an array</li>
+<li>delimiter - Delmiter used to separate each row</li>
+<li>callback - Callback function to render each row. Callback function parameters: $row, $index, $tpl</li>
+<li>truncString - String to use when truncating a records</li>
+<li>truncate - Truncate rows. Format: NumberOfRowsToTruncate.Offset. For example, 1.0 will truncate the first row. A negative value of -1.0 will truncate the last row, while a value of 2.1 will truncate the first 2 rows (row 2 to 3) after row 1.</li>
+<li>removeUnusedTags - Set to true to remove unused template tags. Defaults to false</li>
+</ul>
+
+<p>Note: If no templates where specified then the inner html for the matched elements will be used as the main template</p>
+
+<p>See also RichAPI::bindTemplate()</p>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+
