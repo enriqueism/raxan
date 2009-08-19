@@ -11,17 +11,19 @@
 
 html = Raxan = { // html class object
     version: '1.0',     //@todo: update version number
-    revision: '1.0.0.291',
+    revision: '1.0.0.b2',
     path:'',
     pluginpath:'',
     csspath:'',
     arraycol: {},
     inc: {},
     rich: {}, //rich plugin namespace
+    isReady: false, isLoad: false,
+
 
     // initialize system
     init: function() {
-        var js,st,m,src,code;
+        var i,js,st,m,src,code;
         var pth,tag,tags = document.getElementsByTagName('SCRIPT');
         this.cnt = 0; // set counter
         // get library path
@@ -56,6 +58,10 @@ html = Raxan = { // html class object
         }
         if (js) this.include(js,true);
         else if (src && code) eval(code);
+        // invoke pre init functions
+        if (self.RaxanPreInit)
+            for(i in RaxanPreInit) 
+                if (typeof RaxanPreInit[i]=='function') RaxanPreInit[i]();
     },
 
     // initialize even handling after main scrips have been loaded
@@ -73,13 +79,15 @@ html = Raxan = { // html class object
             this.inc[this.inc[id]]();
             return;
         }
-        var load = function(e){ var i,l,a=html.collection('load'); l=a.length; for(i=0; i<l; i++) a[i](e); delete a };
+        var me = this;
+        var load = function(e){ var i,l,a=html.collection('load'); l=a.length; for(i=0; i<l; i++) a[i](e); delete a; me.isLoad = true};
         var unload = function(e){ var i,l,a=html.collection('unload'); l=a.length; for(i=0; i<l; i++) a[i](e); delete a };
         var ready = function(e){
             var i,l,a = html.collection('ready');
             l=a.length; for(i=0; i<l; i++) a[i](e); delete a
             a = html.collection('binds');
             l=a.length; for(i=0; i<l; i++) html.handleEvent(a[i][0],a[i][1],a[i][2]); delete a;
+            me.isReady = true;
         }
         this.handlePageEvents(ready,load,unload);
     },
@@ -135,14 +143,16 @@ html = Raxan = { // html class object
     // register ready event. This is event normally triggered before onload
     ready: function(fn) {
         var a = this.collection('ready');
-        a[a.length] = fn;
+        if (this.isReady) setTimeout(function(){fn(jQuery)},100);
+        else a[a.length] = fn;
         return this.initEvents();
     },
 
     // register page load event
     load: function(fn){
         var a = this.collection('load');
-        a[a.length] = fn;
+        if (this.isLoad) fn(jQuery);
+        else a[a.length] = fn;
         return this.initEvents();
      },
 
@@ -158,7 +168,8 @@ html = Raxan = { // html class object
      */
     bind: function(css,evt,fn){
         var a = this.collection('binds');
-        a[a.length] = [css,evt,fn];
+        if (this.isReady && self.jQuery) jQuery(css).bind(evt,fn);
+        else a[a.length] = [css,evt,fn];
         return this.initEvents();
     },
 
@@ -192,6 +203,7 @@ html = Raxan = { // html class object
                 f.elements[i].value = data[i];
         }
         f.submit();
+        f.removeChild(div); // remove elements after submiting form
         return this;
     },
 
@@ -225,7 +237,7 @@ html = Raxan = { // html class object
                 id = this.insertScript(url,'text/javascript');
             }
         }
-
+        
         // trigger callback function
         if (typeof fn == 'function') {
             if (!id) fn();
@@ -299,13 +311,13 @@ html = Raxan = { // html class object
 $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options) {
     evt = jQuery.trim(evt);
     var type = evt.substr(0,1)=='#' ? evt.substr(1) : evt;
-    var delay,delegate,disable,toggle,icache,before,after,repeat=1,o = options;
+    var delay,delegate,disable,toggle,icache,before,after,sba,repeat=1,o = options;
     if (o===true) delegate = true; // last param can be true (for delegates) or an array of options
     else if (o) {
         delegate = (o['dt']) ? true : false;
         delay = o['dl'] ? o['dl'] : 0; disable = o['ad'] ? o['ad'] : '';
         toggle = o['at'] ? o['at'] : ''; icache = o['ic'] ? o['ic'] : '';
-        repeat = o['rpt'] ? o['rpt'] : repeat;
+        repeat = o['rpt'] ? o['rpt'] : repeat; sba = o['sba'] ? o['sba'] : ''
     }
     var cb = function(e,data){
         var preventPostback = false;
@@ -322,6 +334,7 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
         if (!preventPostback) {
             var opt = {
                 event: e, data: data,
+                sba : sba,  // switchboard action
                 callback: function(result,status){
                     if (disable) $(disable).attr('disabled','');
                     if (toggle) $(toggle).hide();
@@ -335,8 +348,14 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
                     else if (old!=nw) $(me).data('clxOldValue',nw);
                     else return;
                 }
-                if (disable) $(disable = (disable==1) ? me : disable).attr('disabled','disabled'); // auto-diable element
-                if (toggle) $(toggle = (toggle==1) ? me : toggle).show(); // auto-toggle element
+                // auto-diable element
+                if (disable) {
+                    var d = $(disable = (disable==1) ? me : disable);
+                    if (d.attr('disabled')=='disabled') return ;
+                    d.attr('disabled','disabled');
+                }
+                // auto-toggle element
+                if (toggle) $(toggle = (toggle==1) ? me : toggle).show(); 
                 preventDefault = Raxan.triggerRemote(t,evt,val,serialize,opt)===false ? true : preventDefault;
             }
             if (!delay) fn();
@@ -366,19 +385,25 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
 
 $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
     opt = opt || {};
-    var e = opt.event, callback = opt.callback;
-    var s, telm, tname, isupload, post = {}, tmp, url, isAjax=false;
+    var e = opt.event, callback = opt.callback, sba = opt.sba;
+    var i, a, s, telm, tname, isupload, post = {}, tmp, url, isAjax=false;
     if(!type) type = 'click';  // defaults to click
     if (type.substr(0,1)=='#') { isAjax  = true; type=type.substr(1) }
     tmp = target.split(/@/); // support for target@url
     target = tmp[0]; url = tmp[1] ? tmp[1] : _PDI_URL;
     if (!url) url = self.location.href;
-    // get event target element
-    if (e && e.target) {
-        telm = e.target;
+    if (sba) { // setup switchboard action
+        url = url.replace(/sba=[^&]*/,'').replace(/[\?&]$/,'');
+        url+= (url.indexOf('?')==-1 ? '?' : '&')+'sba=' + sba;
+    }
+
+    // get event current target element
+    if (e && (e.currentTarget||e.target)) {
+        telm = e.currentTarget || e.target;
         tname = (telm.nodeName+'').toLowerCase();
         isupload = (tname=='form' && (/multipart\/form-data/i).test(telm.encoding)) ? true : false;
     }
+
     // get default value from target element
     if (telm && (val===''||val===null)) {
         if ((/v:/i).test(telm.className)) {
@@ -403,7 +428,16 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
     // serialize selector values
     if (serialize) {
         s = $(serialize).serializeArray();
-        for (i in s) post[s[i].name] = s[i].value;
+        for (i in s) {
+            if (!post[s[i].name]) post[s[i].name] = s[i].value;
+            else {
+                // build array - fix for php
+                a = post[s[i].name];
+                if (typeof a != 'object') a = [a];
+                a[a.length] = s[i].value
+                post[s[i].name] = a;
+            }            
+        }
     }
 
     // get token
@@ -451,6 +485,12 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
                 var rt;
                 if (callback) rt = callback(s.responseText,false); // pass results to callback function
                 if (rt!==false) Raxan.log("Error while making callback:\n\n" + s.responseText);
+            },
+            dataFilter: function(data) {
+                // support for native JSON parser - http://ping.fm/UFKii
+                if (typeof (JSON) !== 'undefined' &&
+                    typeof (JSON.parse) === 'function') data = JSON.parse(data);
+                return data;
             },
             xhr: function(){    // XHR for postbacks and file uploads
                 var fn = function(){};

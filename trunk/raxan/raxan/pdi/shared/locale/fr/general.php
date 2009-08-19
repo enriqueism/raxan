@@ -37,7 +37,7 @@ $locale['no']                   = 'Non';
 $locale['cancel']               = 'Annuler';
 $locale['save']                 = 'Enregistrer';
 $locale['send']                 = 'Envoyer';
-$locale['subbmit']              = 'Envoyer';
+$locale['submit']              = 'Envoyer';
 $locale['delete']               = 'Supprimer';
 $locale['close']                = 'Fermer';
 $locale['next']                 = 'Suivant';
@@ -47,6 +47,8 @@ $locale['click']                = 'Cliquez sur';
 $locale['sort']                 = 'Trier';
 $locale['drag']                 = 'Faites glisser';
 $locale['help']                 = 'Aider';
+$locale['first']                = 'Premier';
+$locale['last']                 = 'Dernier';
 
 
 ?>

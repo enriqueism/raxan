@@ -9,7 +9,7 @@ class WebForm extends RichWebPage {
         $this->loadCSS('master');
 
         // update form values on postback
-        $this->updateFormOnPostback = true;
+        $this->preserveFormContent = true;
     }
     
 }

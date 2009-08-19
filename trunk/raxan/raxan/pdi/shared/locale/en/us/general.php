@@ -47,5 +47,7 @@ $locale['click']                = 'Click';
 $locale['sort']                 = 'Sort';
 $locale['drag']                 = 'Drag';
 $locale['help']                 = 'Help';
+$locale['first']                = 'First';
+$locale['last']                 = 'Last';
 
 ?>

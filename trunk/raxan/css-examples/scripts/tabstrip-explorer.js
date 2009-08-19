@@ -67,7 +67,7 @@ var ani = {
     }
 }
 
-// update tabbstrip
+// update tabstrip
 function updateTab() {
     var theme = $('#lstTheme').val();
     var animate = $('#lstAnimate').val();
