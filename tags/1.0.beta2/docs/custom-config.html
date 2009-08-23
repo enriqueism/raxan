@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Custom Config | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><h2>Loading a Custom Config File</h2>
+
+<p>There might be times when you want to load a custom config file for your application, in order to easily maintain your database login information or override default settings.</p>
+
+<p>There are two main options available to load your custom configuration into the framework. The first option is to create a file called gateway.config.php inside the raxan/pdi folder. This file will be automatically detected and loaded by the framework.</p>
+
+<p>Raxan PDI includes a sample configuration file called <strong>gateway.config.sample.php</strong>, that's also located inside the raxan/pdi folder. You can copy and rename this file to gateway.config.php, then use your favorite text editor to modify the default settings.</p>
+
+<p>The second option is to use the RichAPI::loadConfig() method as shown in the example below:</p>
+
+<pre><code>&lt;?php
+
+    require_once 'raxan/pdi/gateway.php';
+
+    RichAPI::loadConfig('include/myconfig.php');
+
+    // ...your code here...
+
+?&gt;
+</code></pre>
+
+<p>In addition to loading your a config file, you can also make on the fly configuration changes by using the RichAPI::config($key, $value) method:</p>
+
+<pre><code>&lt;?php
+
+    require_once 'raxan/pdi/gateway.php';
+
+    RichAPI::config('views.path','html/views/');
+
+?&gt;
+</code></pre>
+
+<h3>Sample Confiugration Options</h3>
+
+<p>All path and url settings must have a trailing slash (/)</p>
+
+<p><strong>Path/URL setting</strong></p>
+
+<ul>
+<li>base.path     - Absolute path to PDI folder. This path is automatically assigned by the system.</li>
+<li>site.locale   - Site locale code. Defaults to 'en-us'   </li>
+<li>site.lang     - Site language code. Defaults to 'en' (English). Must correspond with language folder</li>
+<li>site.charset  - Charset code. Defaults to 'UTF-8'</li>
+<li>site.timezone - sets the timezone to use by the framework. e.g. America/Toronto.</li>
+<li>site.email    - Site email addess</li>
+<li>site.phone    - Site phone number</li>
+<li>site.url      - URL path to website. Defaults to the url for the current page.</li>
+<li>site.path     - Absolute folder path to site root. Defaults to the path for the current page</li>
+<li><p>views.path    - Absolute folder path to the views folder. Defaults to {site path}/views/</p></li>
+<li><p>raxan.url     - URL path to raxan folder. Defaults to './raxan/'</p></li>
+<li>raxan.path    - Absolute folder path to the raxan folder. Defaults to {base path}/../</li>
+<li>cache.path    - Not Used. Absolute path to cache folder. Defaults to {raxan path}/cache/</li>
+<li>locale.path   - Absolute path to locale folder. Defaults to {base path}/shared/locale/</li>
+</ul>
+
+<p><strong>Session/DB setting</strong></p>
+
+<ul>
+<li>session.name - PHP session name.</li>
+<li>session.timeout - PHP cookie session timeout value in muntes. Defaults to 30 minutes</li>
+<li>session.handler - PHP session handler. Defaults to PHP's session handler (default)</li>
+<li>db.default     - Default database configuration. See gateway.config.sample.php</li>
+</ul>
+
+<p><strong>Logging/Debuging</strong></p>
+
+<ul>
+<li>debug          - Enable/Disable debug mode. Defaults to false.</li>
+<li>debug.log      - Enable/Disable log message to debug window. Defaults to false.</li>
+<li>debug.output   - Set debug output mode. Accepted values: embedded, alert, popup, console. Defauls to embedded.</li>
+<li>log.enable     - Enable/Disable logger. Defaults to false</li>
+<li>log.file       - Set log file mode. Defaults to PHP logger</li>
+</ul>
+
+<p><strong>Error Page settings</strong><br />
+To display a custom message, add the {message} placeholder inside the html file.</p>
+
+<ul>
+<li>error.400   - File path to 400 error page template.</li>
+<li>error.401   - File path to 401 error page template.</li>
+<li>error.403   - File path to 403 error message template.</li>
+<li>error.404  - File path to 404 error message template.</li>
+</ul>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+
