@@ -1,0 +1,3325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>RichWebPage | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><div class="container c45">
+    <h2 class="class-name">Class RichWebPage</h2>
+
+    <a name="sec-description"></a>
+    <div class="box bmm">
+        <div class="box-title">Description</div>
+        <div class="nav-bar">
+            <span class="disabled">Description</span> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+                        |                                           <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <p class="implements">
+                Implements interfaces:
+            <ul>
+                <li>ArrayAccess (internal interface)</li>            </ul>
+            </p>
+            <!-- ========== Info from phpDoc block ========= -->
+            <p class="short-description">Use for traversing and manipulating HTML DOM elements</p>
+            <p class="notes">
+            Located in <a class="field" href="#">/shared/rich.webpage.php</a> (line <span class="field">70</span>)
+            </p>
+
+
+            <pre><a href="RichAPIBase.html">RichAPIBase</a>
+   |
+   --RichWebPage</pre>
+
+        </div>
+    </div>
+
+
+
+    <a name="sec-var-summary"></a>
+    <div class="box bmm">
+        <div class="box-title">Variable Summary</span></div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+                            |
+            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <div class="var-summary">
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$actions" title="details" class="var-name">$actions</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$cliExtLoaded" title="details" class="var-name">$cliExtLoaded</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$eventId" title="details" class="var-name">$eventId</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$mPage" title="details" class="var-name">$mPage</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$vars" title="details" class="var-name">$vars</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$varsGlobal" title="details" class="var-name">$varsGlobal</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$charset" title="details" class="var-name">$charset</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$clientPostbackUrl" title="details" class="var-name">$clientPostbackUrl</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$defaultBindOptions" title="details" class="var-name">$defaultBindOptions</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type"><a href="RichDOMDocument.html">RichDOMDocument</a></span>
+                    <a href="#$doc" title="details" class="var-name">$doc</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$embedOptions" title="details" class="var-name">$embedOptions</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$flyDOM" title="details" class="var-name">$flyDOM</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$headers" title="details" class="var-name">$headers</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$initStartupScript" title="details" class="var-name">$initStartupScript</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$isAuthorized" title="details" class="var-name">$isAuthorized</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$isCache" title="details" class="var-name">$isCache</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$isCallback" title="details" class="var-name">$isCallback</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$isEmbedded" title="details" class="var-name">$isEmbedded</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$isPostback" title="details" class="var-name">$isPostback</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$localizeOnResponse" title="details" class="var-name">$localizeOnResponse</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$name" title="details" class="var-name">$name</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$output" title="details" class="var-name">$output</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$plugins" title="details" class="var-name">$plugins</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$preserveFormContent" title="details" class="var-name">$preserveFormContent</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$request" title="details" class="var-name">$request</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$resetDataOnFirstLoad" title="details" class="var-name">$resetDataOnFirstLoad</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$responseType" title="details" class="var-name">$responseType</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$scriptBehind" title="details" class="var-name">$scriptBehind</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$scripts" title="details" class="var-name">$scripts</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$showRenderTime" title="details" class="var-name">$showRenderTime</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$startTime" title="details" class="var-name">$startTime</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$_contentType" title="details" class="var-name">$_contentType</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a name="sec-method-summary"></a>
+    <div class="box bmm">
+        <div class="box-title">Method Summary</span></div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+
+                |
+            <span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+        </div>
+        <div class="info-box-body">
+            <div class="method-summary">
+
+                <div class="method-definition">
+                    static                      <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#Controller" title="details" class="method-name">Controller</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$page</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result"><a href="RichDOMDocument.html">RichDOMDocument</a></span>
+                    <a href="#CreateDOM" title="details" class="method-name">CreateDOM</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$html</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">'UTF-8'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#Init" title="details" class="method-name">Init</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$pageClass</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#LoadClientExtension" title="details" class="method-name">LoadClientExtension</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#NodeL10n" title="details" class="method-name">NodeL10n</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$nodes</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">String</span>
+                    <a href="#PageCode" title="details" class="method-name">PageCode</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'html'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">'UTF-8'</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">RichWebPage</span>
+                    <a href="#__construct" title="details" class="method-name">__construct</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$xhtml</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#__destruct" title="details" class="method-name">__destruct</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#addCSS" title="details" class="method-name">addCSS</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$style</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#addHeader" title="details" class="method-name">addHeader</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$hdr</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#addScript" title="details" class="method-name">addScript</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$script</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$startupEvent</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#appendView" title="details" class="method-name">appendView</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$view</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#bind" title="details" class="method-name">bind</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$data</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$fn</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#bindElements" title="details" class="method-name">bindElements</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">&$elms</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$fn</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$delegate</span> = <span class="var-default">false</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">String</span>
+                    <a href="#buildActionScripts" title="details" class="method-name">buildActionScripts</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$includeEvents</span> = <span class="var-default">true</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichClientExtension.html">RichClientExtension</a></span>
+                    <a href="#client" title="details" class="method-name">client</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichDataSanitizer.html">RichDataSanitizer</a></span>
+                    <a href="#clientRequest" title="details" class="method-name">clientRequest</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$incGetRequest</span> = <span class="var-default">false</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#content" title="details" class="method-name">content</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$html</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#contentDisposition" title="details" class="method-name">contentDisposition</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$fileName</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$transEncode</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$fileSize</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#contentType" title="details" class="method-name">contentType</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">DOMElement</span>
+                    <a href="#createElement" title="details" class="method-name">createElement</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$attribs</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#data" title="details" class="method-name">&amp;data</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$key</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichDOMDocument.html">RichDOMDocument</a></span>
+                    <a href="#document" title="details" class="method-name">document</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <a href="#find" title="details" class="method-name">find</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$css</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <a href="#findById" title="details" class="method-name">findById</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$id</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <a href="#findByXPath" title="details" class="method-name">findByXPath</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$pth</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">DOMDocument</span>
+                    <a href="#flyDOM" title="details" class="method-name">flyDOM</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">DOMElement</span>
+                    <a href="#getElementById" title="details" class="method-name">getElementById</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$id</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#halt" title="details" class="method-name">halt</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$msg</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#handleClientEventRequest" title="details" class="method-name">handleClientEventRequest</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">&$eventResult</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#handleDebugResponse" title="details" class="method-name">handleDebugResponse</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#handleNodeL10n" title="details" class="method-name">handleNodeL10n</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#handleScripts" title="details" class="method-name">handleScripts</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#loadCSS" title="details" class="method-name">loadCSS</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$css</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#loadScript" title="details" class="method-name">loadScript</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$js</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$_priority</span> = <span class="var-default">0</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#loadScriptBehind" title="details" class="method-name">loadScriptBehind</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$pth</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">Boolean</span>
+                    <a href="#offsetExists" title="details" class="method-name">offsetExists</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <a href="#offsetGet" title="details" class="method-name">offsetGet</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <a href="#offsetSet" title="details" class="method-name">offsetSet</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$html</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#offsetUnset" title="details" class="method-name">offsetUnset</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#redirectTo" title="details" class="method-name">redirectTo</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$url</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#registerEvent" title="details" class="method-name">registerEvent</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$fn</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#registerPlugin" title="details" class="method-name">registerPlugin</a>
+                                            (<span class="var-type"><a href="RichPlugin.html">RichPlugin</a></span>&nbsp;<span class="var-name">$plugin</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#registerScript" title="details" class="method-name">registerScript</a>
+                                            (<span class="var-type">$name</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">$url</span>&nbsp;<span class="var-name">$url</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#removeData" title="details" class="method-name">removeData</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">String</span>
+                    <a href="#render" title="details" class="method-name">render</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'html'</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#renderPlugins" title="details" class="method-name">renderPlugins</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#reply" title="details" class="method-name">reply</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$responseType</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#source" title="details" class="method-name">source</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$src</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$srcType</span> = <span class="var-default">'html'</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#storeName" title="details" class="method-name">storeName</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$n</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#switchTo" title="details" class="method-name">switchTo</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$action</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#title" title="details" class="method-name">title</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$str</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#transferTo" title="details" class="method-name">transferTo</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#triggerEvent" title="details" class="method-name">triggerEvent</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">&$elms</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$eOpt</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">Boolean</span>
+                    <a href="#triggerHandle" title="details" class="method-name">triggerHandle</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$hnd</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$e</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#unbindElements" title="details" class="method-name">unbindElements</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">&$elms</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>)
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <a href="#updateFields" title="details" class="method-name">updateFields</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_authorize" title="details" class="method-name">_authorize</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_finalize" title="details" class="method-name">_finalize</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_init" title="details" class="method-name">_init</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_load" title="details" class="method-name">_load</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_postrender" title="details" class="method-name">_postrender</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_prerender" title="details" class="method-name">_prerender</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_reply" title="details" class="method-name">_reply</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_reset" title="details" class="method-name">_reset</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_switchboard" title="details" class="method-name">_switchboard</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$action</span>)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a name="sec-vars"></a>
+    <div class="box bmm">
+        <div class="box-title">Variables</div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+
+
+                                        |
+            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <a name="var$actions" id="$actions"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$actions</span>
+             = <span class="var-default">array()</span>         (line <span class="line-number">74</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$cliExtLoaded" id="$cliExtLoaded"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$cliExtLoaded</span>
+             = <span class="var-default"> false</span>          (line <span class="line-number">84</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$eventId" id="$eventId"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$eventId</span>
+             = <span class="var-default"> 1</span>          (line <span class="line-number">83</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$mPage" id="$mPage"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$mPage</span>
+             = <span class="var-default"> null</span>           (line <span class="line-number">85</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$vars" id="$vars"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$vars</span>
+             = <span class="var-default">array()</span>         (line <span class="line-number">72</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$varsGlobal" id="$varsGlobal"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$varsGlobal</span>
+             = <span class="var-default">array()</span>         (line <span class="line-number">73</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$charset" id="$charset"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$charset</span>
+                        (line <span class="line-number">97</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$clientPostbackUrl" id="$clientPostbackUrl"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$clientPostbackUrl</span>
+                        (line <span class="line-number">76</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$defaultBindOptions" id="$defaultBindOptions"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$defaultBindOptions</span>
+             = <span class="var-default">array()</span>         (line <span class="line-number">80</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$doc" id="$doc"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type"><a href="RichDOMDocument.html">RichDOMDocument</a></span>
+                        <span class="var-name">$doc</span>
+             = <span class="var-default"> null</span>           (line <span class="line-number">96</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$embedOptions" id="$embedOptions"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$embedOptions</span>
+                        (line <span class="line-number">77</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$flyDOM" id="$flyDOM"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$flyDOM</span>
+                        (line <span class="line-number">103</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$headers" id="$headers"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$headers</span>
+                        (line <span class="line-number">97</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$initStartupScript" id="$initStartupScript"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$initStartupScript</span>
+                        (line <span class="line-number">88</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$isAuthorized" id="$isAuthorized"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$isAuthorized</span>
+                        (line <span class="line-number">78</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$isCache" id="$isCache"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$isCache</span>
+                        (line <span class="line-number">78</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$isCallback" id="$isCallback"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$isCallback</span>
+                        (line <span class="line-number">78</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$isEmbedded" id="$isEmbedded"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$isEmbedded</span>
+                        (line <span class="line-number">77</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$isPostback" id="$isPostback"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$isPostback</span>
+                        (line <span class="line-number">78</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$localizeOnResponse" id="$localizeOnResponse"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$localizeOnResponse</span>
+                        (line <span class="line-number">87</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$name" id="$name"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$name</span>
+                        (line <span class="line-number">98</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$output" id="$output"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$output</span>
+                        (line <span class="line-number">98</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$plugins" id="$plugins"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$plugins</span>
+                        (line <span class="line-number">81</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$preserveFormContent" id="$preserveFormContent"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$preserveFormContent</span>
+                        (line <span class="line-number">90</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$request" id="$request"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$request</span>
+                        (line <span class="line-number">101</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$resetDataOnFirstLoad" id="$resetDataOnFirstLoad"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$resetDataOnFirstLoad</span>
+                        (line <span class="line-number">89</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$responseType" id="$responseType"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$responseType</span>
+             = <span class="var-default"> 'html'</span>         (line <span class="line-number">79</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$scriptBehind" id="$scriptBehind"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$scriptBehind</span>
+             = <span class="var-default"> ''</span>         (line <span class="line-number">100</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$scripts" id="$scripts"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$scripts</span>
+             = <span class="var-default">array()</span>         (line <span class="line-number">99</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$showRenderTime" id="$showRenderTime"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$showRenderTime</span>
+                        (line <span class="line-number">91</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$startTime" id="$startTime"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$startTime</span>
+                        (line <span class="line-number">102</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$_contentType" id="$_contentType"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$_contentType</span>
+                        (line <span class="line-number">97</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <h4>Inherited Variables</h4>
+            <A NAME='inherited_vars'><!-- --></A>
+            <p>Inherited from <span class="classname"><a href="RichAPIBase.html">RichAPIBase</a></span></p>
+            <blockquote>
+                <span class="var-title">
+                    <span class="var-name"><a href="RichAPIBase.html#var$events">RichAPIBase::$events</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RichAPIBase.html#var$mObjId">RichAPIBase::$mObjId</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RichAPIBase.html#var$objId">RichAPIBase::$objId</a></span><br>
+                </span>
+            </blockquote>
+
+        </div>
+    </div>
+
+    <a name="sec-methods"></a>
+    <div class="box bmm">
+        <div class="box-title">Methods</div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+            <a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+
+        </div>
+        <div class="info-box-body">
+            <A NAME='method_detail'></A>
+            <a name="methodController" id="Controller"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static Controller</span> (line <span class="line-number">1065</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns the Page controller object</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            Controller
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$page</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$page</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodCreateDOM" id="CreateDOM"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static CreateDOM</span> (line <span class="line-number">1051</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Creates and return a DOMDocument</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result"><a href="RichDOMDocument.html">RichDOMDocument</a></span>
+                    <span class="method-name">
+            CreateDOM
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$html</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">'UTF-8'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$html</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$charset</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodInit" id="Init"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static Init</span> (line <span class="line-number">1076</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Creates and returns an instance of the web page class</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            Init
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$pageClass</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$pageClass</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodLoadClientExtension" id="LoadClientExtension"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static LoadClientExtension</span> (line <span class="line-number">1089</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Loads the RichClientExtension class</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            LoadClientExtension
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodNodeL10n" id="NodeL10n"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static NodeL10n</span> (line <span class="line-number">1098</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Localize nodes</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            NodeL10n
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$nodes</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$nodes</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodPageCode" id="PageCode"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static PageCode</span> (line <span class="line-number">1113</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns blank html page template</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">String</span>
+                    <span class="method-name">
+            PageCode
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'html'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">'UTF-8'</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$charset</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="method__construct" id="__construct"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">Constructor __construct</span> (line <span class="line-number">116</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">RichWebPage</span>
+                    <span class="method-name">
+            __construct
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$xhtml</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$xhtml</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$charset</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                </ul>
+
+                <hr class="separator" />
+                <div class="notes">Redefinition of:</div>
+                <dl>
+                    <dt><a href="RichAPIBase.html#method__construct">RichAPIBase::__construct()</a></dt>
+                </dl>
+
+            </div>
+            <a name="method__destruct" id="__destruct"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">Destructor __destruct</span> (line <span class="line-number">178</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            __destruct
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodaddCSS" id="addCSS"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">addCSS</span> (line <span class="line-number">197</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Adds a block of CSS to the webpage</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            addCSS
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$style</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$style</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodaddHeader" id="addHeader"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">addHeader</span> (line <span class="line-number">187</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Adds an HTTP header to the page</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            addHeader
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$hdr</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$hdr</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodaddScript" id="addScript"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">addScript</span> (line <span class="line-number">206</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Adds a block of Javascript to the webpage</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            addScript
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$script</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$startupEvent</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$script</span>           </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$startupEvent</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodappendView" id="appendView"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">appendView</span> (line <span class="line-number">219</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Appends an html view to the page body element</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            appendView
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$view</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$view</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodbind" id="bind"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">bind</span> (line <span class="line-number">231</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Binds an event to the page body element</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            bind
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$data</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$fn</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$data</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$fn</span>           </li>
+                </ul>
+
+                <hr class="separator" />
+                <div class="notes">Redefinition of:</div>
+                <dl>
+                    <dt><a href="RichAPIBase.html#methodbind">RichAPIBase::bind()</a></dt>
+                    <dd>Bind the selected event to a callback function</dd>
+                </dl>
+
+            </div>
+            <a name="methodbindElements" id="bindElements"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">bindElements</span> (line <span class="line-number">240</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Binds an array of elements to a client-side event - used by RichElement</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            bindElements
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">&$elms</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$fn</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">''</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$delegate</span> = <span class="var-default">false</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">&$elms</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$data</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$fn</span>           </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$selector</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$delegate</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodbuildActionScripts" id="buildActionScripts"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">buildActionScripts</span> (line <span class="line-number">959</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns string containing action scripts and client-side event bindings</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">String</span>
+                    <span class="method-name">
+            buildActionScripts
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$includeEvents</span> = <span class="var-default">true</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$includeEvents</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodclient" id="client"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">client</span> (line <span class="line-number">362</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns an instance of the RichClientExtension class</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichClientExtension.html">RichClientExtension</a></span>
+                    <span class="method-name">
+            client
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$selector</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$context</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodclientRequest" id="clientRequest"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">clientRequest</span> (line <span class="line-number">371</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns data sanitizer object with get and/or post values. Defaults to post values</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichDataSanitizer.html">RichDataSanitizer</a></span>
+                    <span class="method-name">
+            clientRequest
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$incGetRequest</span> = <span class="var-default">false</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$incGetRequest</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodcontent" id="content"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">content</span> (line <span class="line-number">382</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns or sets the main (body or card) content for an HTML or WML document</p>
+                <ul class="tags">
+                    <li><span class="field">return:</span> or HTML String</li>
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            content
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$html</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$html</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodcontentDisposition" id="contentDisposition"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">contentDisposition</span> (line <span class="line-number">412</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Makes the page content downloadable</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            contentDisposition
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$fileName</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$transEncode</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$fileSize</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$fileName</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$transEncode</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$fileSize</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodcontentType" id="contentType"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">contentType</span> (line <span class="line-number">402</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Set page content type. e.g. text/html</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            contentType
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$charset</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodcreateElement" id="createElement"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">createElement</span> (line <span class="line-number">392</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Creates and returns a DOMElement</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">DOMElement</span>
+                    <span class="method-name">
+            createElement
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$attribs</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$name</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$value</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$attribs</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methoddata" id="data"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">data</span> (line <span class="line-number">422</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Sets or returns names data value</p>
+                <ul class="tags">
+                    <li><span class="field">return:</span> or Mixed</li>
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+                        &amp;data
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$key</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$key</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$value</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methoddocument" id="document"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">document</span> (line <span class="line-number">431</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns RichDOMDocument instance</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichDOMDocument.html">RichDOMDocument</a></span>
+                    <span class="method-name">
+            document
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodfind" id="find"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">find</span> (line <span class="line-number">439</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Search the page for matched elements</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <span class="method-name">
+            find
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$css</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$css</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$context</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodfindById" id="findById"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">findById</span> (line <span class="line-number">448</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Find and returns a RichElement by Id</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <span class="method-name">
+            findById
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$id</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$id</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodfindByXPath" id="findByXPath"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">findByXPath</span> (line <span class="line-number">458</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Find and return matched elements based on specified xpath</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <span class="method-name">
+            findByXPath
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$pth</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$pth</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodflyDOM" id="flyDOM"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">flyDOM</span> (line <span class="line-number">482</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns a copy of a reuseable DOM</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">DOMDocument</span>
+                    <span class="method-name">
+            flyDOM
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodgetElementById" id="getElementById"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">getElementById</span> (line <span class="line-number">468</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns a DOMElement based on the Id value</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">DOMElement</span>
+                    <span class="method-name">
+            getElementById
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$id</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$id</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodhalt" id="halt"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">halt</span> (line <span class="line-number">595</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Halt and exit page processing while displaying a message</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            halt
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$msg</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$msg</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodhandleClientEventRequest" id="handleClientEventRequest"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">handleClientEventRequest</span> (line <span class="line-number">495</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Handle client Postback/Callback events</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            handleClientEventRequest
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">&$eventResult</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">&$eventResult</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodhandleDebugResponse" id="handleDebugResponse"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">handleDebugResponse</span> (line <span class="line-number">542</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Send debugging information to client</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            handleDebugResponse
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodhandleNodeL10n" id="handleNodeL10n"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">handleNodeL10n</span> (line <span class="line-number">531</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Localize nodes with the langid attribute set to a valid lcoale key/value pair</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            handleNodeL10n
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodhandleScripts" id="handleScripts"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">handleScripts</span> (line <span class="line-number">563</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Inserts JavaScript into the html document</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            handleScripts
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodloadCSS" id="loadCSS"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">loadCSS</span> (line <span class="line-number">603</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Add CSS stylesheet to document</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            loadCSS
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$css</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$css</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$extrn</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodloadScript" id="loadScript"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">loadScript</span> (line <span class="line-number">616</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Add Javascript to document</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            loadScript
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$js</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$_priority</span> = <span class="var-default">0</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$js</span>           </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$extrn</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$_priority</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodloadScriptBehind" id="loadScriptBehind"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">loadScriptBehind</span> (line <span class="line-number">637</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Loads JavaScript Code behind file</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            loadScriptBehind
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$pth</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$pth</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodoffsetExists" id="offsetExists"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">offsetExists</span> (line <span class="line-number">933</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Check is element exists for the specified selector</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            offsetExists
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$selector</span>         </li>
+                </ul>
+
+                <hr class="separator" />
+                <div class="notes">Implementation of:</div>
+                <dl>
+                    <dt>ArrayAccess::offsetExists</dt>
+                </dl>
+
+            </div>
+            <a name="methodoffsetGet" id="offsetGet"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">offsetGet</span> (line <span class="line-number">943</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Return selectd elements</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <span class="method-name">
+            offsetGet
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$selector</span>         </li>
+                </ul>
+
+                <hr class="separator" />
+                <div class="notes">Implementation of:</div>
+                <dl>
+                    <dt>ArrayAccess::offsetGet</dt>
+                </dl>
+
+            </div>
+            <a name="methodoffsetSet" id="offsetSet"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">offsetSet</span> (line <span class="line-number">938</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Sets HTML for selected elements</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichElement.html">RichElement</a></span>
+                    <span class="method-name">
+            offsetSet
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$html</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$selector</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$html</span>         </li>
+                </ul>
+
+                <hr class="separator" />
+                <div class="notes">Implementation of:</div>
+                <dl>
+                    <dt>ArrayAccess::offsetSet</dt>
+                </dl>
+
+            </div>
+            <a name="methodoffsetUnset" id="offsetUnset"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">offsetUnset</span> (line <span class="line-number">948</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Remove selectd elements</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            offsetUnset
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$selector</span>         </li>
+                </ul>
+
+                <hr class="separator" />
+                <div class="notes">Implementation of:</div>
+                <dl>
+                    <dt>ArrayAccess::offsetUnset</dt>
+                </dl>
+
+            </div>
+            <a name="methodredirectTo" id="redirectTo"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">redirectTo</span> (line <span class="line-number">647</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Redirect client to the specified url</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            redirectTo
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$url</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$url</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodregisterEvent" id="registerEvent"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">registerEvent</span> (line <span class="line-number">657</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Registers a event to be triggered from the client using page as the target id</p>
+                <p class="description"><p>Example: $trigger('page','buttonClick');</p></p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            registerEvent
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$data</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$fn</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$data</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$fn</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodregisterPlugin" id="registerPlugin"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">registerPlugin</span> (line <span class="line-number">668</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Registers a plugin with the current web page.</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            registerPlugin
+                    </span>
+                    (<span class="var-type"><a href="RichPlugin.html">RichPlugin</a></span>&nbsp;<span class="var-name">$plugin</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"><a href="RichPlugin.html">RichPlugin</a></span>
+                        <span class="var-name">$plugin</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodregisterScript" id="registerScript"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">registerScript</span> (line <span class="line-number">681</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Registers a javascript file by name  Use the loadScript() method to load the script by name.</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            registerScript
+                    </span>
+                    (<span class="var-type">$name</span>&nbsp;<span class="var-name">$name</span>, <span class="var-type">$url</span>&nbsp;<span class="var-name">$url</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type">$name</span>
+                        <span class="var-name">$name</span><span class="var-description">: - Name of script</span>          </li>
+                    <li>
+                        <span class="var-type">$url</span>
+                        <span class="var-name">$url</span><span class="var-description">: - Url for the script. Set to True to is the script was loaded manually.</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodremoveData" id="removeData"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">removeData</span> (line <span class="line-number">805</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Remove Page data</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            removeData
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$name</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodrender" id="render"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">render</span> (line <span class="line-number">690</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Render and return html content</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">String</span>
+                    <span class="method-name">
+            render
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">'html'</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodrenderPlugins" id="renderPlugins"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">renderPlugins</span> (line <span class="line-number">1018</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Render regsitered plugins</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            renderPlugins
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodreply" id="reply"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">reply</span> (line <span class="line-number">754</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Sends data to client</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            reply
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$responseType</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$responseType</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodsource" id="source"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">source</span> (line <span class="line-number">815</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Set or returns the page html/xml source. Source can be a file, url or &lt;html&gt; tags</p>
+                <ul class="tags">
+                    <li><span class="field">return:</span> or String</li>
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            source
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$src</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$srcType</span> = <span class="var-default">'html'</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$src</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$srcType</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodstoreName" id="storeName"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">storeName</span> (line <span class="line-number">835</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Set or returns the data store name for the page</p>
+                <ul class="tags">
+                    <li><span class="field">return:</span> or String</li>
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            storeName
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$n</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$n</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodswitchTo" id="switchTo"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">switchTo</span> (line <span class="line-number">844</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Change switchboard action and reloads the current page</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            switchTo
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$action</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$action</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodtitle" id="title"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">title</span> (line <span class="line-number">884</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns or sets the title for an HTML page</p>
+                <ul class="tags">
+                    <li><span class="field">return:</span> or String</li>
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            title
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$str</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$str</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodtransferTo" id="transferTo"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">transferTo</span> (line <span class="line-number">854</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Transfer page control to the specified php file</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            transferTo
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$file</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodtriggerEvent" id="triggerEvent"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">triggerEvent</span> (line <span class="line-number">863</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Trigger events on the specified elements - used by RichElement</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            triggerEvent
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">&$elms</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$eOpt</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">&$elms</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$args</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$eOpt</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodtriggerHandle" id="triggerHandle"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">triggerHandle</span> (line <span class="line-number">1028</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Triggers event callback handler</p>
+                <ul class="tags">
+                    <li><span class="field">return:</span> - Returns true if not $e-&gt;isStopPropagation</li>
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            triggerHandle
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$hnd</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$e</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$hnd</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$e</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$args</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodunbindElements" id="unbindElements"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">unbindElements</span> (line <span class="line-number">906</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Remove event handlers from elements - used by RichElement</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            unbindElements
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">&$elms</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$type</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$selector</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">&$elms</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$selector</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodupdateFields" id="updateFields"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">updateFields</span> (line <span class="line-number">896</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Update form fields with postback values</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RichWebPage.html">RichWebPage</a></span>
+                    <span class="method-name">
+            updateFields
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_authorize" id="_authorize"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">_authorize</span> (line <span class="line-number">107</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _authorize
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_finalize" id="_finalize"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">_finalize</span> (line <span class="line-number">114</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _finalize
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_init" id="_init"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">_init</span> (line <span class="line-number">106</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _init
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_load" id="_load"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">_load</span> (line <span class="line-number">109</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _load
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_postrender" id="_postrender"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">_postrender</span> (line <span class="line-number">112</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _postrender
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_prerender" id="_prerender"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">_prerender</span> (line <span class="line-number">111</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _prerender
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_reply" id="_reply"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">_reply</span> (line <span class="line-number">113</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _reply
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_reset" id="_reset"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">_reset</span> (line <span class="line-number">108</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _reset
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="method_switchboard" id="_switchboard"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">_switchboard</span> (line <span class="line-number">110</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+            _switchboard
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$action</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$action</span>           </li>
+                </ul>
+
+
+            </div>
+            <h4>Inherited Methods</h4>
+            <a name='inherited_methods'><!-- --></a>
+            <!-- =========== Summary =========== -->
+            <p>Inherited From <span class="classname"><a href="RichAPIBase.html">RichAPIBase</a></span></p>
+            <blockquote>
+                <span class="method-name"><a href="RichAPIBase.html#method__construct">RichAPIBase::__construct()</a></span><br>
+                <span class="method-name"><a href="RichAPIBase.html#methodbind">RichAPIBase::bind()</a></span><br>
+                <span class="method-name"><a href="RichAPIBase.html#methodlog">RichAPIBase::log()</a></span><br>
+                <span class="method-name"><a href="RichAPIBase.html#methodtrigger">RichAPIBase::trigger()</a></span><br>
+                <span class="method-name"><a href="RichAPIBase.html#methodunbind">RichAPIBase::unbind()</a></span><br>
+            </blockquote>
+
+        </div>
+    </div>
+
+
+    <p class="notes" id="credit">
+        Documentation generated on Tue, 18 Aug 2009 01:39:54 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+    </p>
+</div>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+

@@ -1,0 +1,35 @@
+
+/* Table Header */
+tr.tbl-header .sort,
+tr.tbl-header th, tr.tbl-header td { background: #eee url(tbl_hdr_bg.png) repeat-x top; }
+
+/* Button */
+
+/* box */
+.box { background-image: url(box_bg.png); }
+.alert { background-image: url(box_alert_bg.png); }
+.notice { background-image: url(box_note_bg.png); }
+.success { background-image: url(box_success_bg.png); }
+.info { background-image: url(box_info_bg.png); }
+.error { background-image: url(box_error_bg.png); }
+.box,.alert,.notice,.success,.info,.emphasis{ background-repeat: repeat-x; }
+
+/* buttons */
+.button { background: #ddd url(btn_silver.png) repeat-x; }
+.button.ok { background: #C6D880 url(btn_green.png) repeat-x; }
+.button.cancel { background: #FF7575 url(btn_red.png) repeat-x; }
+.button.process { background: #AECDFF url(btn_blue.png) repeat-x; }
+.button.continue { background: #FFD324 url(btn_yellow.png) repeat-x; }
+
+/* textbox */
+.textbox { background: #fff  url(txt_bg.png) repeat-x; }
+
+/* Shadow */
+.shadow { background: url(shadow.png); }
+
+/* toolbar */
+.toolbar{
+    background:  #eee url(tbl_hdr_bg.png) repeat-x top;
+}
+
+

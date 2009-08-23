@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Bouncing Ball...</title>
+    <script src="../raxan/startup.js" type="text/javascript">/scripts/-/</script>
+    <style type="text/css">
+    	#ball {position:relative}
+    	#msgbox {position:relative; top: -50px;}
+    </style>
+</head>
+
+<body>
+    <div class="container c39 hlf-pad lightgray">&nbsp;<a href="index.html" title="Back to the Examples Web Page"><img src="images/arrow_left.png" width="16" alt="Menu"/> Examples</a> | Raxan Framework&nbsp;</div>
+	<div class="container c39 pad">
+		<h1>Bouncing Ball</h1>
+		<hr />
+		<h2>Drag and throw the ball around.</h2>
+
+		<!-- Panel -->
+		<div class="panel column c10 append1">
+			<div class="pb1"></div><div class="pb2"></div><div class="pm1">
+				<h5 class="pnl-header">Settings</h5>
+				<div class="pad">
+					<form id="frmSettings" name="frmSettings" action="bounce.html">
+						<label class="c6 left">Animate Box: </label><input type="checkbox" name="anibox" value="1" checked="checked" /> <br />
+						<label class="c6 left">Gravity:</label><input class="textbox" type="text" name="gravity" size="2" value="2.5"/> <br />
+						<label class="c6 left">Restitution:</label><input class="textbox" type="text" name="restitution" size="2" value="0.7"/> <br />
+						<label class="c6 left">Friction:</label><input class="textbox" type="text" name="friction" size="2" value="0.9"/><br />
+						<hr />
+						<button id="btnSave" class="button right">Save</button><br />
+					</form>
+				</div>
+			</div><div class="pb2 pb3"></div><div class="pb1 pb4"></div>
+			<div id="msgbox" class="r1 ltm rtm back success">Settings Updated.</div>
+		</div>
+
+		<!-- Box -->
+		<div id="box" class="column c20 r15 border clip1 ">
+			<img id="ball" class="c1 r1 " src="images/ball.png" alt="Drag" />
+		</div>
+
+	</div>
+</body>
+
+</html>
