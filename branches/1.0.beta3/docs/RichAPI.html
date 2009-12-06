@@ -1,0 +1,1437 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>RichAPI | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><div class="container c45">
+    <h2 class="class-name">Class RichAPI</h2>
+
+    <a name="sec-description"></a>
+    <div class="box bmm">
+        <div class="box-title">Description</div>
+        <div class="nav-bar">
+            <span class="disabled">Description</span> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+                        |                                           <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <!-- ========== Info from phpDoc block ========= -->
+            <p class="short-description">Raxan Core Classes - Includes RichAPI &amp; RichAPIEvent Classes</p>
+            <p class="notes">
+            Located in <a class="field" href="#">/shared/rich.api.php</a> (line <span class="field">25</span>)
+            </p>
+
+
+            <pre></pre>
+
+        </div>
+    </div>
+
+
+
+    <a name="sec-var-summary"></a>
+    <div class="box bmm">
+        <div class="box-title">Variable Summary</span></div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+                            |
+            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <div class="var-summary">
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$isDebug" title="details" class="var-name">$isDebug</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$isInit" title="details" class="var-name">$isInit</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$isLogging" title="details" class="var-name">$isLogging</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$isSessionLoaded" title="details" class="var-name">$isSessionLoaded</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$postBackToken" title="details" class="var-name">$postBackToken</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$revision" title="details" class="var-name">$revision</a>
+                </div>
+                <div class="var-title">
+                    static <span class="var-type">mixed</span>
+                    <a href="#$version" title="details" class="var-name">$version</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a name="sec-method-summary"></a>
+    <div class="box bmm">
+        <div class="box-title">Method Summary</span></div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+
+                |
+            <span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+        </div>
+        <div class="info-box-body">
+            <div class="method-summary">
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#bindSysEvent" title="details" class="method-name">bindSysEvent</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$callback</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">String</span>
+                    <a href="#bindTemplate" title="details" class="method-name">bindTemplate</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$rows</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$options</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result"><a href="RichDateTime.html">RichDateTime</a></span>
+                    <a href="#CDate" title="details" class="method-name">CDate</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$dt</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Mixed</span>
+                    <a href="#config" title="details" class="method-name">config</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$key</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">PDO</span>
+                    <a href="#Connect" title="details" class="method-name">Connect</a>
+                                            (<span class="var-type">Mixed</span>&nbsp;<span class="var-name">$dsn</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$user</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$password</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$attribs</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">String</span>
+                    <a href="#currentURL" title="details" class="method-name">currentURL</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Mixed</span>
+                    <a href="#data" title="details" class="method-name">&amp;data</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Boolean</span>
+                    <a href="#debug" title="details" class="method-name">debug</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$txt</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">String</span>
+                    <a href="#debugOutut" title="details" class="method-name">debugOutut</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">String</span>
+                    <a href="#escapeText" title="details" class="method-name">escapeText</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$txt</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#getTimer" title="details" class="method-name">getTimer</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Boolean</span>
+                    <a href="#imageResample" title="details" class="method-name">imageResample</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$w</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$h</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Array</span>
+                    <a href="#imageSize" title="details" class="method-name">imageSize</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Array</span>
+                    <a href="#importCSV" title="details" class="method-name">importCSV</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$delimiter</span> = <span class="var-default">','</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$enclosure</span> = <span class="var-default">'&quot;'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$escape</span> = <span class="var-default">'\\'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$terminator</span> = <span class="var-default">&quot;\n&quot;</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Boolean</span>
+                    <a href="#init" title="details" class="method-name">init</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#initJSON" title="details" class="method-name">initJSON</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#initSession" title="details" class="method-name">initSession</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">String</span>
+                    <a href="#JSON" title="details" class="method-name">JSON</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$mode</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$assoc</span> = <span class="var-default">false</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#loadConfig" title="details" class="method-name">loadConfig</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Boolean</span>
+                    <a href="#loadLangFile" title="details" class="method-name">loadLangFile</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#loadPlugin" title="details" class="method-name">loadPlugin</a>
+                                            (<span class="var-type">$extrn</span>&nbsp;<span class="var-name">$file</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">String</span>
+                    <a href="#locale" title="details" class="method-name">locale</a>
+                                            ([<span class="var-type"></span>&nbsp;<span class="var-name">$key</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$param1</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$param2</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Boolean</span>
+                    <a href="#log" title="details" class="method-name">log</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$var</span>, [<span class="var-type">String</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">null</span>], [<span class="var-type">String</span>&nbsp;<span class="var-name">$label</span> = <span class="var-default">null</span>], <span class="var-type">String</span>&nbsp;<span class="var-name">$str</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">String</span>
+                    <a href="#paginate" title="details" class="method-name">paginate</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$maxPage</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$page</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#removeData" title="details" class="method-name">removeData</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#sendError" title="details" class="method-name">sendError</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$msg</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$code</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#setBasePath" title="details" class="method-name">setBasePath</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$pth</span>)
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">Boolean</span>
+                    <a href="#setLocale" title="details" class="method-name">setLocale</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$code</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#startTimer" title="details" class="method-name">startTimer</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#stopTimer" title="details" class="method-name">stopTimer</a>
+                                        ()
+                </div>
+
+                <div class="method-definition">
+                    static                      <span class="method-result">void</span>
+                    <a href="#triggerSysEvent" title="details" class="method-name">triggerSysEvent</a>
+                                            (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">null</span>])
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a name="sec-vars"></a>
+    <div class="box bmm">
+        <div class="box-title">Variables</div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+
+
+                                        |
+            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="info-box-body">
+            <a name="var$isDebug" id="$isDebug"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$isDebug</span>
+             = <span class="var-default"> false</span>          (line <span class="line-number">33</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$isInit" id="$isInit"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$isInit</span>
+             = <span class="var-default"> false</span>          (line <span class="line-number">30</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$isLogging" id="$isLogging"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$isLogging</span>
+             = <span class="var-default"> false</span>          (line <span class="line-number">34</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$isSessionLoaded" id="$isSessionLoaded"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$isSessionLoaded</span>
+             = <span class="var-default"> false</span>          (line <span class="line-number">31</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$postBackToken" id="$postBackToken"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$postBackToken</span>
+                        (line <span class="line-number">35</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$revision" id="$revision"><!-- --></A>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$revision</span>
+             = <span class="var-default"> '1.0.0.b2'</span>         (line <span class="line-number">28</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$version" id="$version"><!-- --></A>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+            static <span class="var-type">mixed</span>
+                        <span class="var-name">$version</span>
+             = <span class="var-default"> '1.0'</span>          (line <span class="line-number">27</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <a name="sec-methods"></a>
+    <div class="box bmm">
+        <div class="box-title">Methods</div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+            <a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+
+        </div>
+        <div class="info-box-body">
+            <A NAME='method_detail'></A>
+            <a name="methodbindSysEvent" id="bindSysEvent"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static bindSysEvent</span> (line <span class="line-number">173</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Binds a callback functio to a System Event</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            bindSysEvent
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$callback</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$name</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$callback</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodbindTemplate" id="bindTemplate"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static bindTemplate</span> (line <span class="line-number">183</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Binds an Array or a PDO result set to a template</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">String</span>
+                    <span class="method-name">
+            bindTemplate
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$rows</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$options</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$rows</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$options</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodCDate" id="CDate"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static CDate</span> (line <span class="line-number">351</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Converts the given date to a RichDateTime object</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result"><a href="RichDateTime.html">RichDateTime</a></span>
+                    <span class="method-name">
+            CDate
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$dt</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$dt</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodconfig" id="config"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static config</span> (line <span class="line-number">361</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns or sets configuration values</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Mixed</span>
+                    <span class="method-name">
+            config
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$key</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$key</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$value</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodConnect" id="Connect"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static Connect</span> (line <span class="line-number">385</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Creates and returns a PDO connection to a database.</p>
+                <p class="description"><p>If connection failed then error is logged to the log file or debug screen. Sensitive data will be removed.</p></p>
+                <ul class="tags">
+                    <li><span class="field">return:</span> False is connection failed</li>
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">PDO</span>
+                    <span class="method-name">
+            Connect
+                    </span>
+                    (<span class="var-type">Mixed</span>&nbsp;<span class="var-name">$dsn</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$user</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$password</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$attribs</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type">Mixed</span>
+                        <span class="var-name">$dsn</span><span class="var-description">: String or Array</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$user</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$password</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$attribs</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodcurrentURL" id="currentURL"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static currentURL</span> (line <span class="line-number">411</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns current web page URL</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">String</span>
+                    <span class="method-name">
+            currentURL
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methoddata" id="data"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static data</span> (line <span class="line-number">432</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns or sets named data value based on the specified id and/or key</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Mixed</span>
+                    <span class="method-name">
+                        &amp;data
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$id</span>           </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$name</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$value</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methoddebug" id="debug"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static debug</span> (line <span class="line-number">444</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Sends debugging information to client</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            debug
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$txt</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$txt</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methoddebugOutut" id="debugOutut"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static debugOutut</span> (line <span class="line-number">457</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns debug output as text</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">String</span>
+                    <span class="method-name">
+            debugOutut
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodescapeText" id="escapeText"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static escapeText</span> (line <span class="line-number">471</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Converts multi-line text into a single-line JS string</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">String</span>
+                    <span class="method-name">
+            escapeText
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$txt</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$txt</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodgetTimer" id="getTimer"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static getTimer</span> (line <span class="line-number">479</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Timer Functions</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            getTimer
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodimageResample" id="imageResample"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static imageResample</span> (line <span class="line-number">626</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Resamples (convert/resize) an image file. You can specify a new width, height and type</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            imageResample
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$w</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$h</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$type</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$file</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$w</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$h</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$type</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodimageSize" id="imageSize"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static imageSize</span> (line <span class="line-number">663</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns an array containing the width, height and type for the image file</p>
+                <ul class="tags">
+                    <li><span class="field">return:</span> or NULL if error</li>
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Array</span>
+                    <span class="method-name">
+            imageSize
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$file</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodimportCSV" id="importCSV"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static importCSV</span> (line <span class="line-number">422</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Converts a CSV file into an 2D array. The first row of the CSV file must contain the column names</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Array</span>
+                    <span class="method-name">
+            importCSV
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$delimiter</span> = <span class="var-default">','</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$enclosure</span> = <span class="var-default">'&quot;'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$escape</span> = <span class="var-default">'\\'</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$terminator</span> = <span class="var-default">&quot;\n&quot;</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$file</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$delimiter</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$enclosure</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$escape</span>           </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$terminator</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodinit" id="init"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static init</span> (line <span class="line-number">87</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Initialize the system and load config options</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            init
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodinitJSON" id="initJSON"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static initJSON</span> (line <span class="line-number">160</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Init JSON support</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            initJSON
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodinitSession" id="initSession"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static initSession</span> (line <span class="line-number">142</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Start php user session</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            initSession
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodJSON" id="JSON"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static JSON</span> (line <span class="line-number">487</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Encode/Decode JSON Strings</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">String</span>
+                    <span class="method-name">
+            JSON
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$mode</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$value</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$assoc</span> = <span class="var-default">false</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$mode</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$value</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$assoc</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodloadConfig" id="loadConfig"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static loadConfig</span> (line <span class="line-number">523</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Loads a config file</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            loadConfig
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$file</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$file</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodloadLangFile" id="loadLangFile"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static loadLangFile</span> (line <span class="line-number">534</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Loads a language file based on locale settings</p>
+                <p class="description"><p>usage: loadLangFile($fl1,$fl2,$fl3,...)</p></p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            loadLangFile
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodloadPlugin" id="loadPlugin"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static loadPlugin</span> (line <span class="line-number">555</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Load PDI plugin file.</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            loadPlugin
+                    </span>
+                    (<span class="var-type">$extrn</span>&nbsp;<span class="var-name">$file</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type">$extrn</span>
+                        <span class="var-name">$file</span><span class="var-description">: Boolean Set to true if file will be loaded from path that's external to plugins.path</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$extrn</span>            </li>
+                </ul>
+
+
+            </div>
+            <a name="methodlocale" id="locale"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static locale</span> (line <span class="line-number">513</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Returns locale settings based on the the site.locale config option</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">String</span>
+                    <span class="method-name">
+            locale
+                    </span>
+                    ([<span class="var-type"></span>&nbsp;<span class="var-name">$key</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$param1</span> = <span class="var-default">null</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$param2</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$key</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$param1</span>           </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$param2</span>           </li>
+                </ul>
+
+
+            </div>
+            <a name="methodlog" id="log"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static log</span> (line <span class="line-number">567</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Adds an entry to the log file</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            log
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$var</span>, [<span class="var-type">String</span>&nbsp;<span class="var-name">$level</span> = <span class="var-default">null</span>], [<span class="var-type">String</span>&nbsp;<span class="var-name">$label</span> = <span class="var-default">null</span>], <span class="var-type">String</span>&nbsp;<span class="var-name">$str</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type">String</span>
+                        <span class="var-name">$str</span>          </li>
+                    <li>
+                        <span class="var-type">String</span>
+                        <span class="var-name">$level</span><span class="var-description">: Optional tag to be assocciated with the log entry. E.g. ERROR, WARNING, INFO, etc</span>            </li>
+                    <li>
+                        <span class="var-type">String</span>
+                        <span class="var-name">$label</span><span class="var-description">: Optional.</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$var</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodpaginate" id="paginate"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static paginate</span> (line <span class="line-number">588</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Generate page numbers based . The $option values are similar to that of bindTemplate</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">String</span>
+                    <span class="method-name">
+            paginate
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$maxPage</span>, <span class="var-type"></span>&nbsp;<span class="var-name">$page</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$options</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$maxPage</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$page</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$options</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodremoveData" id="removeData"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static removeData</span> (line <span class="line-number">616</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Remove named data</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            removeData
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$id</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$name</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$id</span>           </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$name</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodsendError" id="sendError"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static sendError</span> (line <span class="line-number">683</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Sends an error page to the web browser</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            sendError
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$msg</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$code</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$msg</span>          </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$code</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodsetBasePath" id="setBasePath"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static setBasePath</span> (line <span class="line-number">710</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Sets the base path for the framework</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            setBasePath
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$pth</span>)
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$pth</span>          </li>
+                </ul>
+
+
+            </div>
+            <a name="methodsetLocale" id="setLocale"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static setLocale</span> (line <span class="line-number">719</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Sets the locale and/or lang code</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">Boolean</span>
+                    <span class="method-name">
+            setLocale
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$code</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$lang</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$code</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$lang</span>         </li>
+                </ul>
+
+
+            </div>
+            <a name="methodstartTimer" id="startTimer"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static startTimer</span> (line <span class="line-number">480</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            startTimer
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodstopTimer" id="stopTimer"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">static stopTimer</span> (line <span class="line-number">481</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            stopTimer
+                    </span>
+                ()
+                </div>
+
+
+
+            </div>
+            <a name="methodtriggerSysEvent" id="triggerSysEvent"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">static triggerSysEvent</span> (line <span class="line-number">751</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Triggers a System Event</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+        static <span class="method-result">void</span>
+                    <span class="method-name">
+            triggerSysEvent
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$args</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$name</span>         </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$args</span>         </li>
+                </ul>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <p class="notes" id="credit">
+        Documentation generated on Tue, 18 Aug 2009 01:39:47 -0400 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.1</a>
+    </p>
+</div>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+

@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>PDI Anatomy | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><p><img class="margin" src="images/pdi-architect.gif" align="right" /></p>
+
+<h2>The Anatomy of the PDI Framework</h2>
+
+<p>PDI is an event driven PHP/Ajax framework that is based on the MVC and Observer design patterns. It was designed to meet the needs of modern web application development while allowing clean separation of web application layers, easy re-use of business logic and parallel development by separate teams.</p>
+
+<p>It is important to note that the core of the PDI Framework was inspired by the jQuery JavaScript library. In fact, most of the client/server communications are handled by jQuery. This means that if you're already familiar with basic methodology of jQuery, then you can easily adapt to the methodology and concepts of this framework.</p>
+
+<h3>Web Design Philosophy</h3>
+
+<div class="c9 right pad border margin">
+    <img src="images/pdi-folders.png" /><br />
+    <span class="small">A typical folder structure of a PDI application</span>
+</div>
+
+<p>Building on the web design philosophy of the separation of content from logic, PDI makes it very easy for you to separate your html views (or content) from page logic by storing all your html views inside a separate file folder.</p>
+
+<p>Use the views folder to store your HTML, CSS, images and JavaScript files. Once you have created and separated your html files you can from within your page logic, load and process your views using the provided APIs.</p>
+
+<h3>The Web Page Controller</h3>
+
+<p>A typical PDI web page normally includes a reference to the PDI gateway file and an instance of the RichWebPage class. The gateway file (raxan/pdi/gateway.php) is used to load the main PDI classes that are used by the framework. These classes include RichAPI, RichWebPage, RichElement, RichPlugin and RichDataSanitizer. The RichWebPage class is responsible for collecting, processing and responding to a client's page request.</p>
+
+<pre><code>&lt;?php
+    include_once('raxan/pdi/gateway.php'); // include the PDI gateway
+
+    $page = new RichWebPage();  // create an instance of the RichWebPage class
+    $page-&gt;content('Hello World'); // set the content of the page
+    $page-&gt;reply(); // reply to the request
+?&gt;
+</code></pre>
+
+<p>Note: The first new instance of the RichWebPage class is called the Page Controller and can be accessed by calling the RichWebPage::Controller() method.</p>
+
+<h4>Global Functions</h4>
+
+<p>In addition to the RichWebPage class, there are four other globally accessible functions that are available to developers. These functions are wrappers or shortcuts to commonly used objects or methods. Calling this method will automatically create an instance of the RichWebPage class if a Page Controller was not found.</p>
+
+<p><strong>P()</strong> - This function provides a reference the default page controller, which is normally the first instance of the RichWebPage class.</p>
+
+<pre><code>&lt;?php
+    P()-&gt;append('Hi there!'); 
+?&gt;
+</code></pre>
+
+<p><strong>C()</strong> - This provides a reference to the RichClientExtension class, which is used to generate and execute client-side action scripts. These action scripts are normally jQuery commands that are executed within the client's browser. Calling this method will automatically create an instance of the RichClientExtension class and load the Raxan startup and jQuery libraries.</p>
+
+<pre><code>&lt;?php
+    C('#box')-&gt;fadeOut(); 
+?&gt;
+</code></pre>
+
+<p><strong>_fn()</strong> - Generates a client-side function and returns a reference to the function, which can then be passed to other action script commands. For Example:</p>
+
+<pre><code>&lt;?php
+    $cb = _fn('alert("Hello")'); 
+    C('body')-&gt;click($cb);
+?&gt;
+</code></pre>
+
+<p><strong>_var()</strong> - Generates a client-side JavaScript variable and returns a reference to the variable, which can then be passed to other action script commands</p>
+
+<pre><code>&lt;?php
+    $v = _var(array(1,2,3,4)); 
+    C()-&gt;alert($v);
+?&gt;
+</code></pre>
+
+<p><strong>_event()</strong> - Generates a client-side function that's used to trigger a server-side event and returns a reference the function, which can be passed to other action script commands.</p>
+
+<pre><code>&lt;?php
+
+    require_once('raxan/pdi/gateway.php');
+
+    $page = new RichWebPage();
+
+    if (!$page-&gt;isPostback)
+        C()-&gt;confirm("Are you sure you want to continue?",_event('ok'),_event('cancel'));
+
+    // register the 'ok' and 'cancel' page events
+    $page-&gt;registerEvent('ok', 'ok_show');
+    $page-&gt;registerEvent('cancel', 'cancel_show');
+
+    function ok_show($e){
+        $e-&gt;page()-&gt;content('Welcome to the Online Demo...');
+    }
+    function cancel_show($e){
+        $e-&gt;page()-&gt;content('Goodbye!');
+    }
+
+    $page-&gt;reply();
+
+?&gt;
+</code></pre>
+
+<p>Note: For more information about the above global functions see the <a href="richwebpage.html">RichWebPage</a> class reference.</p>
+
+<h3>Chainable API</h3>
+
+<p>Chainable server-side DOM Traversing and Manipulation functions make it very easy to search and modify your html views using simple CSS-selectors. Change HTML tag attributes with a single line of code:</p>
+
+<pre><code>    &lt;?php
+        $page['img#Photo']-&gt;attr('alt', 'The World')-&gt;css('width',250);
+    ?&gt;
+</code></pre>
+
+<h3>The Request Cycle</h3>
+
+<div align="center" class="pad">
+    <img src="images/pdi-request.gif" />
+</div>
+
+<p>When a client makes a request to view a PDI enabled web page, the framework will load your Page-Controller logic and allow you to load and process your html views using simple css selectors (for example #id, .classname, etc). Once processing is completed, a reply is sent back to the client that made the request. The replied text contains your html code and may include embedded javascript/css stylesheet.</p>
+
+<p>If a request was made via an ajax call, then a JSON object is returned to the client. The returned JSON object may include the action scripts (a mixed of jQuery and JavaScripts) needed to carry out a specific task within the client's web browser.</p>
+
+<h4>A typical PDI Page Request Execution Order</h4>
+
+<ul>
+<li>Init - Called after the page object is created. Used for initializing connections and loading page source</li>
+<li>Authorize - Used to secure or grant access to the page</li>
+<li>Reset - This handler is called before the page session data is reset. Invoked when $page->resetOnFirstLoad = true </li>
+<li>Load - Used for loading additional views/content into web page.</li>
+<li>Switchboard - Called whenever a switchboard action is requested. </li>
+<li>Custom Event Request Handler - Triggers the event raised by client</li>
+<li>PreRender - Used for making final modifications to page just before html is extracted from the DOM</li>
+<li>PostRender - Called after the HTML is extracted from the DOM and all external and internal processing have been completed</li>
+<li>Reply - Called just after the content is sent back to the client.</li>
+<li>Finalize - Called before the page object is destroyed; Can be used to close open connections etc</li>
+</ul>
+
+<h4>A typical PDI Ajax Page Request Execution Order</h4>
+
+<ul>
+<li>Init - Called after the page object is created. Used for initializing connections and loading page source</li>
+<li>Authorize - Used to secure or grant access to the page</li>
+<li>Reset - This handler is called before the page session data is reset. Invoked when $page->resetOnFirstLoad = true </li>
+<li>Load - Used for loading additional views/content into web page.</li>
+<li>Switchboard - Called whenever a switchboard action is requested. </li>
+<li>Custom Event Request Handler - Triggers the event raised by client</li>
+<li>Reply - Called just after the JSON content is sent back to the client.</li>
+<li>Finalize - Called before the page object is destroyed; Can be used to close open connections etc</li>
+</ul>
+
+<h3>Extending the RichWebPage class</h3>
+
+<p>In order to receive special event notifications when your page is being processed, you will have to extend the RichWebPage class and create custom web Page Controller .</p>
+
+<p>For example, the code below uses the _load() event to modify the content of the web page:</p>
+
+<pre><code>&lt;?php        
+class MyPage extends RichWebPage {
+    protected function _load() {
+        $this['body']-&gt;append('Hello World');
+    }
+}
+
+RichWebPage::Init('MyPage'); // create and initialize an instance of MyPage
+
+?&gt;
+</code></pre>
+
+<h3>Client/Server Event Binding</h3>
+
+<p>Client/Server Event Binding is what makes the Raxan PDI framework truly special. Imagine never having to write a single line of JavaScript code in order to receive an Ajax notification when a user clicked on a button. Imagine being able to bind your server-side event handler to just about any HTML tag inside your web page. The possibilities are endless when you realize that you have total control over every DOM element inside your client's web browser.</p>
+
+<h4>Binding to an Event</h4>
+
+<p>Every JavaScript developer knows that he or she will often times have to write JavaScript code to send data to the server. However, with Raxan PDI, that's a rare occurrence. In fact, getting data or receiving an event notification from the client is very straightforward. The simplest way to do this is to use the bind() method to listen to events being triggered from the client.</p>
+
+<pre><code>&lt;?php        
+class MyPage extends RichWebPage {
+
+    protected function _load() {
+
+        // add some content to the page
+        $this-&gt;content('&lt;input id="mybutton" type="button" value="Click Me"  /&gt;&lt;div id="msg" /&gt;');
+
+        // bind a callback function to the mybutton input element
+        $this['#mybutton']-&gt;bind('click','.button_click'); 
+
+        // note the dot (.) in .button_click - This tells the framework to look for 
+        // the button_click function the current page object.
+    }
+
+    // callback function
+    protected function button_click($e) {
+        // select the #msg element and set html to hello world
+        $this['#msg']-&gt;html('Hello World');
+    }
+}
+
+RichWebPage::Init('MyPage');
+
+?&gt;
+</code></pre>
+
+<p>The bind() method can accept three different types of event handler callback functions:</p>
+
+<ul>
+<li>Function name as a string. Call a user-defined function. Example: $page['#button']-&gt;bind('click', 'My_Function_Name');</li>
+<li>Page Method name. Call a method on the current page. Example: $page['#button']-&gt;bind('click', '.My_Page_Method');</li>
+<li>Object Call. Example: $page['#button']-&gt;bind('click',array($object, 'method_name'));</li>
+</ul>
+
+<p>In addition, the bind() method can also accept optional values that can be used to determine the data returned by the client or actions that should be carried out just before or after and event call:</p>
+
+<pre><code>&lt;?php
+
+    $this['#button']-&gt;bind('#click',array(
+        'callback' =&gt; '.auto_search',
+        'autoDisable' =&gt; true,   // disable the button during event call to server
+        'autoToggle' =&gt; 'img#pre', // show pre loader
+        'serialize' =&gt; 'form :input' // serialize ad post all form inputs back to the server
+    ));
+
+?&gt;
+</code></pre>
+
+<h4>Bind options for events</h4>
+
+<ul>
+<li>callback - Server side callback function</li>
+<li>value - Value to be passed to the server-side event. This can be assigned from the client-side</li>
+<li>prefTarget - Sets the preferred target element to be invoked on the server. Format: target@url - @url is optional.</li>
+<li>accessible - Modify hyperlinks and form action urls to trigger server-side events without the use of javascript</li>
+<li>serialize - Form elements (CSS selectors) that are to be serialized and posted to the server.</li>
+<li>script - (String/Array) - Javascript to be executed before event is sent to server. Use an associative array to assigned scripts that are to be executed before and after a callback. Example: array('before' => 'alert("Before Call")', 'after' => 'alert("After Call")')</li>
+<li>data - Data to be passed the to server-side event</li>
+<li>autoDisable - Disables the selected elements during event transmission. Accepted values: TRUE | CSS Selectors. If TRUE is specified then the current element will be toggled</li>
+<li>autoToggle - Show/Hide selected elements during event transmission. Accepted values: TRUE | CSS-selectors. If TRUE is specified then the current element will be toggled</li>
+<li>delay - Delays server-side callback in milliseconds. Accepted values: TRUE | Integer. If TRUE is specifed then delay will be set to 200ms (minimum value)</li>
+<li>inputCache - Specifies the minimum number of input characters to cache before sending request to server. Possible values: TRUE or Interger - Number of characters to cache. This option is only valid for &lt;input type="text"&gt; and &lt;textarea&gt; elements.</li>
+<li>repeat - Number of times to repeat an ajax timeout event. Used internally by the timeout() method. Setting the value to TRUE will repeat the timeout indefinitely. Defaults to 1 for ajax timeouts.</li>
+<li>switchTo - Set the switchboard action that should be called when the event is being invoked.</li>
+</ul>
+
+<p>Note: The delay, autoDisable and autoToggle options are were added since release 1.0 Beta 1</p>
+
+<p>When the event handler is called, an instance of the RichEvent object is passed as the first parameter with the following properties:</p>
+
+<ul>
+<li>target - Target DOMElement</li>
+<li>type - event type. Example: click</li>
+<li>value - value return from client. This can either be assigned at the time of the bind or retrieved from the target element</li>
+<li>pageX - Mouse position X</li>
+<li>pageY - Mouse position Y</li>
+<li>targetX - Target element position X on client</li>
+<li>targetY - Target element position Y on client</li>
+<li>which - Ascii Key value</li>
+<li>button - Mouse button</li>
+<li>ctrlkey - Control Key</li>
+<li>metakey - Meta Key (Mac)</li>
+<li>uiDraggable - jQuery UI Draggable DOMElement</li>
+<li>uiHelper - jQuery UI Helper DOMElement</li>
+<li>uiSender - jQuery UI Sender DOMElement</li>
+</ul>
+
+<h3>Triggering a Server-side Event</h3>
+
+<p>Server-side events can be triggered by using the framework's API, client-side scripts, form submits or hyperlinks. By sending special name/value pairs to the server via either POST or GET methods you can make a request to invoke an event within the application. Here's a list of some of the event name/value pairs used when making a request:</p>
+
+<p>_e[target] - Target element id
+_e[type] - Event Name - Defaults to click
+_e[value] - (Optional) Value to be passed to the event
+_e[tok] - Special token to be sent to server. This entry is optional if the event was registered using @global. By default the PDI framework automatically assigns this value.
+An example of how to use an hyperlink to manually invoke a server-side event:</p>
+
+<pre><code>&lt;a href="order.php?_e[target]=page&amp;_e[type]=saveorder"&gt;Submit Order&lt;/a&gt;
+</code></pre>
+
+<p>It's important to note that the framework has a built-in security feature that helps to prevent Cross-Site Request Forgery (CSRF). Each event request must be accompanied with a valid token id. This token is unique to the user's active browser session and will be destroyed once the browser is closed.
+Handling a Server-side Event</p>
+
+<p>Handling a server-side event is very simple and straight forward. All that's required is your event handler (or callback) function or object and a call to one of the three available event binding functions.</p>
+
+<p>The bind() method can be used to automatically bind a server-side event handler to the client-side click event of the selected element:</p>
+
+<pre><code>&lt;?php
+    $page['#button']-&gt;bind('click','myEventHandler');
+?&gt;    
+</code></pre>
+
+<p>The delegate() method is similar to the bind() method. The only exception is that it will delegate and redirect a client-side event to a server-side event handler:</p>
+
+<pre><code>&lt;?php
+    $page['#list td a']-&gt;delegate('click','myEventHandler');
+?&gt;
+</code></pre>
+
+<p>This will register an event for the current page and bind the event to a callback handler:</p>
+
+<pre><code>&lt;?php
+    $page-&gt;registerEvent('click','myEventHandler');
+?&gt;
+</code></pre>
+
+<h3>More PDI information &amp; Examples</h3>
+
+<p>See <a href="table-of-contents.html">General Topics</a> for more information and examples on how to use the PDI framework.</p>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+

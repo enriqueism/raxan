@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Employee Search Box</title>
+	<link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+	<link href="../raxan/styles/default/theme.css" rel="stylesheet" type="text/css" />
+	<!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <style type="text/css">
+        #pre { position:absolute; margin:4px 0 0 195px; }
+        #info label {display:block; float:left}
+        #name {padding-right:10px;}
+        #results a {color:#333}
+        .icon {vertical-align:middle; }
+    </style>
+
+</head>
+
+<body>
+    <div class="container c30 prepend-top">
+
+        <h2>Employee Search Box</h2>
+        <!-- Panel HTML Code -->
+        <div class="panel c12 left front">
+            <div class="pb1"></div><div class="pb2"></div><div class="pm1">
+                <form id="webform" class="pad r13" method="post">
+                    Enter Name: <br />
+                    <img class="above hide" id="pre" src="views/images/preloader.gif" width="15" height="15" alt="loading"/>
+                    <input class="c10 textbox" type="text" id="name" name="name" value="" autocomplete="off"  />
+                    <div id="results" class="c10">
+                        <img class="icon" src="views/images/user_gray.png" height="16" width="16">
+                        <a href="#{emp_no}">{first_name} {last_name}</a><br />
+                    </div>
+                </form>
+            </div><div class="pb2 pb3"></div><div class="pb1 pb4"></div>
+        </div>
+
+        <!-- Panel HTML Code -->
+        <div class="panel c17 left tpm r13 pull1">
+            <div class="pb1"></div><div class="pb2"></div><div class="pm1">
+                <div id="info" class="prepend1 prepend-top">
+                    <img class="column" src="views/images/{icon}.png" alt="Photo" width="64" height="64" />
+                    <div class="column">
+                        <label class="c3">Name</label>: {first_name} {last_name}<br />
+                        <label class="c3">Hire Date</label>: {hire_date}<br />
+                        <label class="c3">Gender</label>: {gender}<br />
+                        <label class="c3">Birth Date</label>: {birth_date}<br />
+                    </div>
+                </div>
+            </div><div class="pb2 pb3"></div><div class="pb1 pb4"></div>
+        </div>
+
+    </div>
+</body>
+
+</html>

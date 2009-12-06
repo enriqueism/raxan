@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Item Inventory</title>
+    <script src="../raxan/startup.js" type="text/javascript">
+    	/**
+    	 * Data entry example
+    	 */
+
+    	html.css('master');
+    	html.include('jquery');
+    	html.include('jquery-ui-interactions');
+
+    	html.bind('#btnAdd','click',function(e){
+    		var txt = $('#txtInput').focus();
+    		var v = txt.val();
+    		var t = '<div class="bmb c12"><a class="right" href="#">remove</a>' + v +'&nbsp;</div>'
+    		$('#pnlDisplay').append(t);
+    		txt.val('');
+
+			$('.column').addClass('transparent');
+
+    		// animate message
+    		var st = $(document).scrollTop();
+    		$('#msgbox').html('<br/>New item added: <strong>'+v+'</strong>')
+    			.animate({top:-40+st})
+    			.animate({color:'#000'},1000)
+    			.animate({top:-120},500,null,function(){
+    				$('.column').removeClass('transparent');
+    		})
+            e.preventDefault();
+    	});
+
+    	html.bind('#btnClear','click',function(){
+    		$('#pnlDisplay').html('');
+    		$('#txtInput').val('');
+    	});
+
+    	html.bind('#pnlDisplay','click',function(e){
+			var elm = e.target;
+			if (elm && elm.tagName=='A') $(elm).parent().remove();
+			return false;
+    	})
+
+    	html.bind('#pnlDisplay','mousedown',function(e){
+			var elm = e.target;
+			if ($(elm).hasClass('bmb')) {
+				$(elm).draggable({helper:'clone',revert:true});
+			}
+    	})
+
+    </script>
+
+    <style>
+    	#container { position:relative }
+    	#msgbox { top: -120px; left: 200px; z-index:1000 }
+    </style>
+</head>
+
+<body>
+    <div class="container c30 hlf-pad lightgray">&nbsp;<a href="index.html" title="Back to the Examples Web Page"><img src="images/arrow_left.png" width="16" alt="Menu"/> Examples</a> | Raxan Framework&nbsp;</div>
+    <form id="container" class="container c30 dbl-pad">
+    	<div id="msgbox" class="c15 r3 above success"></div>
+
+    	<h1>Item Inventory</h1>
+
+    	<div class="column c14 colborder">
+			<h4 class="bottom">Entry item name</h4>
+			<input id="txtInput" type="text" />&nbsp;
+			<input id="btnAdd" type="submit" value="Add" /> <input id="btnClear" type="button" value="Clear" />
+			<div id="pnlDisplay" class="c12 alert tpm"></div>
+		</div>
+		<div class="column c12 tpm">
+			<strong>Info</strong><br />
+			Enter an item name and click the Add button to continue. To clear the list click the Clear button.
+		</div>
+    </form>
+</body>
+
+</html>

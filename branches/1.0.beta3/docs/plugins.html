@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Plugins | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1"><h2>How To Create a Plugin</h2>
+
+<p>There are many ways a developer can create and load a PDI plugin but for now we will just highlight the basics of how it can be done.</p>
+
+<p>To create a plugin you only need to extend the RichPlugin class as shown below:</p>
+
+<pre><code>&lt;?php
+class MyPlugin extends RichPlugin {
+
+    public function doSomething() {
+        // some code here
+    }
+}
+?&gt;
+</code></pre>
+
+<p>Next, you will need to let the framework know whether or not you would like the plugin's render function to be called whenever the page is being rendered. To do this you only need to set declare and set the class variable $implementPrerender.</p>
+
+<pre><code>&lt;?php
+class MyPlugin extends RichPlugin {
+
+    protected $implementPrerender = true;
+
+    public function doSomething() {
+        // some code here
+    }
+
+    public function render() {
+        // render plugin code
+    }
+}
+?&gt;
+</code></pre>
+
+<p>When you're finished you can save your plugin to the raxan plugins folder. For example you could save the file (dosomething.php) to a folder called myplugins (raxan/plugins/myplugins).</p>
+
+<h3>Loading a plugin</h3>
+
+<p>To load a plugin you simple make a call the the RichAPI::loadPlugin() method:</p>
+
+<pre><code>&lt;?php
+    RichAPI::loadPlugin('myplugins/dosomething');
+?&gt;
+</code></pre>
+
+<p>The above will load the plugin relative to the plugins.path config setting, which defaults to the raxan/plugins folder.  Notice that we did not have to specify the .php extension for the plugin file.</p>
+
+<p>To load a plugin that's located inside an alternate folder (not relative to plugins.path):</p>
+
+<pre><code>&lt;?php
+    RichAPI::loadPlugin('/path/to/plugin/dosomething.php', true);
+?&gt;
+</code></pre>
+
+<p>The second parameter will cause the framework to load the plugin based on specified the folder path and filename. Please notice that we had to include the .php extension when loading plugins that are external to the assigned 'plugin.path'.</p>
+</div>
+        <div class="tpb pad" style="text-align:right">
+            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+        </div>
+    </div>
+</body>
+
+</html>
+
