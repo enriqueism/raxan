@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Data Sanitization | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>Data Sanitization</h2>
+
+<p>Raxan for PHP provides APIs for sanitizing user input and output values in order to help developers prevent cross-site scripting (xss) attacks.</p>
+
+<h3>Sanitizing Input Data</h3>
+
+<p>To santize post back values use the sanitizePostBack() on the page object as shown below:</p>
+
+<pre><code>&lt;?php
+
+    class NewPage extends RaxanWebPage {
+
+        protected function saveInfo($e) {
+            // get an instance of the RaxanDataSantizer class 
+            // with post back values
+            $post = $this-&gt;santizePostBack();   
+
+            $name = $post-&gt;text('full_name');   // get text value (removes all html)
+            $dob = $post-&gt;date('date_of_birth','mysql');    // get date value (in mysql format)
+            $age = $post-&gt;integer('age');       // get integer value
+            $amount = $post-&gt;float('amount');   // get float value
+
+            $value = $post-&gt;value('comment');   // get unsanitized
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<p>To santize form element post back values use the either textval(), intval() or floatval() methods on the element object:</p>
+
+<pre><code>&lt;?php
+
+    class NewPage extends RaxanWebPage {
+
+        protected $preserveFormContent = true;
+
+        protected function saveInfo($e) {
+            $name = $this-&gt;fullname-&gt;textval()  // get text value
+            $age = $this-&gt;age-&gt;intval()         // get integer value
+            $amount = $this-&gt;age-&gt;floatval()    // get float value
+
+            $value = $this-&gt;text1-&gt;val();       // get unsanitized value
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<p>To santize event value returned from the client use the textval(), intval() or floatval() methods on the event object:</p>
+
+<pre><code>&lt;?php
+
+    class NewPage extends RaxanWebPage {
+
+        protected $preserveFormContent = true;
+
+        protected function deleteUser($e) {
+            $text = $e-&gt;textval()       // get text value
+            $int= $e-&gt;intval()          // get integer value
+            $float = $e-&gt;floatval()     // get float value
+
+            $value = $e-&gt;value();       // get unsanitized value
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<h3>Sanitizing Output Data</h3>
+
+<p>To sanitize output data you can use the text(), textval(), intval() and and floatval() methods on the element object:</p>
+
+<pre><code>&lt;?php
+
+    class NewPage extends RaxanWebPage {
+
+        protected $preserveFormContent = true;
+
+        protected function showInfo($e) {
+
+            $data = getUserInfo();
+
+            $this-&gt;fullname-&gt;textval($data-&gt;name);  // set text value (removes all html)
+            $this-&gt;age-&gt;intval($data-&gt;age);         // set integer value
+            $this-&gt;amount-&gt;floatval($data-&gt;amount); // set float value
+
+            $this-&gt;descript-&gt;val($data-&gt;desc);      // set unsanitized value
+
+            $this-&gt;comment-&gt;text($data-&gt;comment);   // set text value
+            $this-&gt;summary-&gt;html($data-&gt;summary);   // sets the inner html value (unsanitized)
+
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<h3>Sanitize Array Values</h3>
+
+<p>To sanitize the values inside an associated array can use the Raxan::dataSanitizer() method:</p>
+
+<pre><code>&lt;?php
+
+    class NewPage extends RaxanWebPage {
+
+        protected $preserveFormContent = true;
+
+        protected function showInfo($e) {
+
+
+            $row = getRecord(1);
+            $row = Raxan::dataSanitizer($row);
+
+            $street = $row-&gt;text('street');
+            $country = $row-&gt;text('country');
+
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<p>See <a href="RaxanDataSanitizer.html">RaxanDataSanitizer</a></p>
+
+        </div>
+        <div class="tpb pad" style="text-align:right">
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
