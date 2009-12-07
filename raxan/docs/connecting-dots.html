@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Connecting Dots | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>Connecting The Dots</h2>
+
+<h3>Client/Server Event Binding</h3>
+
+<p>Client/Server Event Binding is what makes the Raxan for PHP framework truly special. Imagine never having to write a single line of JavaScript code in order to receive an Ajax notification when a user clicked on a button. Imagine being able to bind your server-side event handler to just about any HTML tag inside your web page. The possibilities are endless when you realize that you have total control over every DOM element inside your client's web browser.</p>
+
+<h4>Binding to an Event</h4>
+
+<p>Every JavaScript developer knows that he or she will often times have to write JavaScript code to send data to the server. However, with Raxan for PHP, that's a rare occurrence. In fact, getting data or receiving an event notification from the client is very straightforward.</p>
+
+<p>The simplest way to do this is to use the xt-bind extended attribute to listen to events being triggered from the client.</p>
+
+<p>Usage:</p>
+
+<pre><code>xt-bind="type, callback, serialize, autoDisable, autoToggle"
+</code></pre>
+
+<ul>
+<li>type - The type of event to be invoked on the server. </li>
+<li>callback - Server side callback method. The method name must be a class method within the page.</li>
+<li>serialize - CSS selector - Form elements that are to be serialized and posted to the server.</li>
+<li>autoDisable - CSS selector - Disables the selected elements during event transmission. Set to true to disable the current element</li>
+<li>autoToggle - CSS selector - Show/Hide selected elements during event transmission. Set to true to toggle the current element</li>
+</ul>
+
+<p>Note: Comma separate CSS selectors (e.g .class1, .class2, .classN) are currently not supported when using the xt-bind attribute. They can however be used with the bind() method.</p>
+
+<p>Usage Examples:</p>
+
+<pre><code>xt-bind="click, showDetails" - makes a synchronous call to the server
+
+xt-bind="#click, showDetails"  - makes an asynchronous call to the server 
+
+- The following will disables the current element, toggles the "#loader" element and serialize
+- the all "form" elements before making an asynchronous callback to the server 
+
+xt-bind="#click,editUser,form,true,#loader"  
+</code></pre>
+
+<p>Working example:</p>
+
+<pre><code>&lt;?php require_once('raxan/pdi/autostart.php'); ?&gt;
+
+&lt;form name="form1" action="" method="post"&gt;
+    &lt;input id="mybutton" type="button" value="Click Me" xt-bind="click,buttonClick" /&gt;
+    &lt;div id="msg" /&gt;
+&lt;/form&gt;
+
+&lt;?php
+    class MyPage extends RaxanWebPage {
+
+        // callback function
+        protected function buttonClick($e) {
+            // select the #msg element and set html to hello world
+            $this-&gt;msg-&gt;html('Hello World');
+        }
+    }
+
+?&gt;
+</code></pre>
+
+<h4>Event Delegates</h4>
+
+<p>Event delegates (or live events) provides a way for you to bind a dynamic set of element to an event without having to reselect the elements whenever the set changes.</p>
+
+<p>To do this you can use either the xt-delagate extended attribute or the</p>
+
+<p>Usage:</p>
+
+<pre><code>xt-delegate="selector type, callback, serialize, autoDisable, autoToggle"
+</code></pre>
+
+<ul>
+<li>selector - CSS Selector - The selected elements to bind (or delegate) the callback method</li>
+<li>type - The type of event to be invoked on the server. </li>
+</ul>
+
+<p>Note: See xt-bind for a descrition of the other parameters</p>
+
+<p>Usage Example:</p>
+
+<pre><code>xt-delegate="a.edit click, editRecord" - delegates all a.edit click events for the current element
+</code></pre>
+
+<p>Working Example:</p>
+
+<pre><code>&lt;?php require_once('raxan/pdi/autostart.php'); ?&gt;
+
+&lt;ul xt-delegate="li a click,doSomething"&gt;
+    &lt;li&gt;&lt;a href="#1"&gt;Item 1&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#2"&gt;Item 2&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#3"&gt;Item 3&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#4"&gt;Item 4&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id="panel"&gt;&lt;/div&gt;
+
+&lt;?php
+    class NewPage extends RaxanWebPage {
+
+        protected function doSomething($e) {            
+            $i = $e-&gt;intval(); // get the integer value for the event                
+            $this-&gt;panel-&gt;text('You have clicked item #'.$i);
+        }
+    }
+
+?&gt;
+</code></pre>
+
+<h4>Timeout Events<a name="timeout"></a></h4>
+
+<p>There are times when you will need to periodically update an element on a web page with content from the server without any user intervention. This task would normally require a developer write JavaScript code to periodically poll the server for updates.</p>
+
+<p>Raxan eliminates the need to have to manage your own client-side updates with the xt-autoupdate extended attribute:</p>
+
+<p>Usage:</p>
+
+<pre><code>xt-autoupdate = "true"  - Default mode. Enable automatic updates during ajax calls
+xt-autoupdate = "seconds, callback, repeat, serialize, autotoggle" - enable timeouts
+</code></pre>
+
+<ul>
+<li>seconds - The number of seconds to wait before invoking the event. </li>
+<li>callback - Server side callback method. The method name must be a class method within the page.</li>
+<li>repeat - Sets number of times to repeat an Ajax timeout event. Setting the value to "true" or "repeat" will repeat the timeout indefinitely. Defaults to 1.</li>
+<li>serialize - CSS selector - Form elements that are to be serialized and posted to the server.</li>
+<li>autoToggle - CSS selector - Show/Hide selected elements during event transmission. Set to true to toggle the current element</li>
+</ul>
+
+<p>Note: Setting xt-autoupdate="true" will automatically cause the element to be updated during ajax calls. This is similar to calling the updateClient() method.</p>
+
+<p>Usage Examples:</p>
+
+<pre><code>xt-autoupdate = "true"  - enable automatic updates during ajax calls
+xt-autoupdate = "5000,update,true" - updates every 5 seconds (repeatedly)
+
+- The following will asynchronously updates the element every 
+- 15 seconds (repeatedly) and toggles #loader during updates
+
+xt-autoupdate = "#15000,update,true,,#loader" 
+</code></pre>
+
+<p>Working Example:</p>
+
+<pre><code>&lt;?php require_once('raxan/pdi/autostart.php'); ?&gt;
+
+&lt;a href="#" xt-bind="#click,doSomething"&gt;Click Here&lt;/a&gt;
+&lt;div id="msgbox" xt-autoupdate="true"&gt;&lt;/div&gt;
+
+&lt;?php
+    class NewPage extends RaxanWebPage {
+
+        protected function doSomething($e) {
+            $this-&gt;msgbox-&gt;text('A message from your server');
+        }
+    }
+
+?&gt;
+</code></pre>
+
+<h5>Using the bind() and delegate() methods</h5>
+
+<p>The bind() method provides you with a lot more features than the xt-bind extended attribute. With the bind method you can specify three different types of event callback functions:</p>
+
+<ul>
+<li>Function name as a string. Call a user-defined function. Example: $page['#button']-&gt;bind('click', 'My_Function_Name');</li>
+<li>Page Method name. Call a method on the current page. Example: $page['#button']-&gt;bind('click', '.My_Page_Method');</li>
+<li>Object Call. Example: $page['#button']-&gt;bind('click',array($object, 'method_name'));</li>
+</ul>
+
+<p>In addition, the bind() method can also accept optional values that can be used to determine the data returned by the client or actions that should be carried out just before or after and event call:</p>
+
+<pre><code>&lt;?php
+
+    $this['#button']-&gt;bind('#click',array(
+        'callback' =&gt; '.auto_search',
+        'autoDisable' =&gt; true,   // disable the button during event call to server
+        'autoToggle' =&gt; 'img#pre', // show pre loader
+        'serialize' =&gt; 'form :input' // serialize ad post all form inputs back to the server
+    ));
+
+?&gt;
+</code></pre>
+
+<p>As stated above, the delegate() method is similar to the bind() method with the exception that you can specify an additional selector as part of the event name.</p>
+
+<pre><code>&lt;?php
+
+    $this['#button']-&gt;delegate('a.edit #click','.editRecord');
+
+?&gt;
+</code></pre>
+
+<h4>Bind options for events</h4>
+
+<ul>
+<li>callback - Server side callback function</li>
+<li>value - Value to be passed to the server-side event. This can be assigned from the client-side</li>
+<li>prefTarget - Sets the preferred target element to be invoked on the server. Format: target@url - @url is optional.</li>
+<li>accessible - Modify hyperlinks and form action urls to trigger server-side events without the use of javascript</li>
+<li>serialize - Form elements (CSS selectors) that are to be serialized and posted to the server.</li>
+<li>script - (String/Array) - Javascript to be executed before event is sent to server. Use an associative array to assigned scripts that are to be executed before and after a callback. Example: array('before' => 'alert("Before Call")', 'after' => 'alert("After Call")')</li>
+<li>data - Data to be passed the to server-side event</li>
+<li>autoDisable - Disables the selected elements during event transmission. Accepted values: TRUE | CSS Selectors. If TRUE is specified then the current element will be toggled</li>
+<li>autoToggle - Show/Hide selected elements during event transmission. Accepted values: TRUE | CSS-selectors. If TRUE is specified then the current element will be toggled</li>
+<li>delay - Delays server-side callback in milliseconds. Accepted values: TRUE | Integer. If TRUE is specifed then delay will be set to 200ms (minimum value)</li>
+<li>inputCache - Specifies the minimum number of input characters to cache before sending request to server. Possible values: TRUE or Interger - Number of characters to cache. This option is only valid for &lt;input type="text"&gt; and &lt;textarea&gt; elements.</li>
+<li>repeat - Number of times to repeat an ajax timeout event. Used internally by the timeout() method. Setting the value to TRUE will repeat the timeout indefinitely. Defaults to 1 for ajax timeouts.</li>
+<li>switchTo - Set the switchboard action that should be called when the event is being invoked.</li>
+</ul>
+
+<p>When the event handler is called, an instance of the RaxanWebPageEvent object is passed as the first parameter with the following properties:</p>
+
+<ul>
+<li>target - Target DOMElement</li>
+<li>type - event type. Example: click</li>
+<li>value - value return from client. This can either be assigned at the time of the bind or retrieved from the target element</li>
+<li>pageX - Mouse position X</li>
+<li>pageY - Mouse position Y</li>
+<li>targetX - Target element position X on client</li>
+<li>targetY - Target element position Y on client</li>
+<li>which - Ascii Key value</li>
+<li>button - Mouse button</li>
+<li>ctrlkey - Control Key</li>
+<li>metakey - Meta Key (Mac)</li>
+<li>uiDraggable - jQuery UI Draggable DOMElement</li>
+<li>uiHelper - jQuery UI Helper DOMElement</li>
+<li>uiSender - jQuery UI Sender DOMElement</li>
+</ul>
+
+<h3>Triggering a Server-side Event</h3>
+
+<p>Server-side events can be triggered by using the framework's API, client-side scripts, form submits or hyperlinks. By sending special name/value pairs to the server via either POST or GET methods you can make a request to invoke an event within the application. Here's a list of some of the event name/value pairs used when making a request:</p>
+
+<p>_e[target] - Target element id
+_e[type] - Event Name - Defaults to click
+_e[value] - (Optional) Value to be passed to the event
+_e[tok] - Special token to be sent to server. This entry is optional if the event was registered using @global. By default the framework automatically assigns this value.</p>
+
+<p>An example of how to use a hyperlink to manually invoke a server-side event:</p>
+
+<pre><code>&lt;a href="order.php?_e[target]=page&amp;_e[type]=saveorder"&gt;Submit Order&lt;/a&gt;
+</code></pre>
+
+<p>It's important to note that the framework has a built-in security feature that helps to prevent Cross-Site Request Forgery (CSRF). Each event request must be accompanied with a valid token id. This token is unique to the user's active browser session and will be destroyed once the browser is closed.
+Handling a Server-side Event</p>
+
+<p>Handling a server-side event is very simple and straight forward. All that's required is your event handler (or callback) function or object and a call to one of the three available event binding functions.</p>
+
+<p>The bind() method can be used to automatically bind a server-side event handler to the client-side click event of the selected element:</p>
+
+<pre><code>&lt;?php
+    $page['#button']-&gt;bind('click','myEventHandler');
+?&gt;    
+</code></pre>
+
+<p>The delegate() method will delegate and redirect a client-side event to a server-side event handler:</p>
+
+<pre><code>&lt;?php
+    $page['#list td a']-&gt;delegate('click','myEventHandler');
+?&gt;
+</code></pre>
+
+<p>This will register an event for the current page and bind the event to a callback handler:</p>
+
+<pre><code>&lt;?php
+    $page-&gt;registerEvent('specialevent','myEventHandler');
+?&gt;
+</code></pre>
+
+<hr />
+
+<p><a href="degradable-pages.html">Degradable Pages >></a></p>
+
+        </div>
+        <div class="tpb pad" style="text-align:right">
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

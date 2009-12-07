@@ -23,10 +23,79 @@
                 <ul>
                     <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
                     <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
                 </ul>
             </div></div></div>
         </div>
-        <div class="prepend1 append1"><h2>Raxan Changelog</h2>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>Raxan Changelog</h2>
+
+<h2>1.0 Beta3</h2>
+
+<ul>
+<li>Refactor Raxan classes and functions. Classes are now prefixed with Raxan</li>
+<li>Update examples to work with new class names</li>
+<li>New system wide events added: page_load, page_prerender, page_postrender</li>
+<li>New append() and prepend() methods added to RaxanWebPage</li>
+<li>Add static RaxanWebPage::addMethod(). Used to extend the page class</li>
+<li>Add local and global state management features to RaxanElement. Use either preserveState() method or the xt-preserveState extended attribute</li>
+<li>Add masterTemplate and masterContentBlock properties to RaxanWebPage</li>
+<li>Add convenient Raxan::dataSantizer($array = null) method. Loads the RaxanDataSanitizer class on first use.</li>
+<li>Add autostart option to the configuration file</li>
+<li>Add endResponse() to RaxanWebPage</li>
+<li>Add sendError() wrapper to RaxanWebPage</li>
+<li>Add Session and Page Data Storage classes: RaxanDataStore,  RaxanSessionStorage and RaxanWebPageStorage</li>
+<li>Add new config options page.data.storage and session.data.storage. See gateway.config.sample.php</li>
+<li>Add serializeOnPostBack option to RaxanWebPage</li>
+<li>Add $degradable property to RaxanWebPage</li>
+<li>Add uniqueId() method to RaxanElement</li>
+<li>Add dynamic properties via __get() to RaxanDataSanitizer</li>
+<li>Add suppport for Inline Events with extended attributes xt-bind, xt-delegate, xt-autoupdate</li>
+<li>Add textval(), intval(), and floatval() to RaxanElement. These will be used to sanitize form input element values</li>
+<li>Add textval(), intVal(), and floatval() to RaxanWebPageEvent. These will be used to sanitize form input event values</li>
+<li>Add val() method to RaxanWebPageEvent</li>
+<li>Add new RaxanUIElement class</li>
+<li>Add sanitizePostBack() to RaxanWebPage</li>
+<li>Add autoId() to RaxanElement</li>
+<li>Add htmlMarkup() to RaxanElement</li>
+<li>Add updateClient to RaxanElement</li>
+<li>Add throwCallbackException() static method  to Raxan class. Update code to use this method when throwing callback exceptions</li>
+<li>Add autostart.php file to pdi folder</li>
+<li>Add _prerender() and _load() event handlers to RaxanUIElement.</li>
+<li>Add feature to return RaxanElements by id based on page property name (e.g. $page->elementId->html('Cool!') )</li>
+<li>Fix event binding issue when page does not contains a head tag</li>
+<li>Fix issue when adding more than one plugin to a page</li>
+<li>Fix issue with Raxan::importCSV() which failed to handle invalid rows</li>
+<li>Fix bug when converting css to xpath for class names</li>
+<li>Fix issue when loading plugins. Make sure Raxan has been initialized</li>
+<li>Fix issue with loadCSS() and external files.</li>
+<li>Modify RaxanWebPage to insert action scripts when page does not contain a &jt;head&gt; tag</li>
+<li>Modify css() method to remove CSS property when value is  set to ''</li>
+<li>Modify Raxan::connect() to return an instance of the RaxanPDO Class</li>
+<li>Modify Rich Tabstrip to support non-ajax hyperlinks</li>
+<li>Modify Ajax timeout message to display "Error while connecting to Server" instead of "Error while making a callback"</li>
+<li>Change: The _reset() event handler is now invoked on the first attempt to set or get data when $page->resetonFirstPageLoad = true</li>
+<li>Change: The _switchboard() handler is now invoke before the _load() handler</li>
+<li>Move RaxanDataSanitizer class to a separate file (raxan.datasanitizer.php).</li>
+<li>Move RaxanPlugin to raxan.php and make it an abstract class</li>
+<li>Improve accessibility for form submit buttons, hyperlinks and image maps.</li>
+<li>Reset session cookie timeout on page bpost back or refresh. See the RaxanSessionStorage class.</li>
+<li>Automatically serialize and post back form elements if the click event of a submit button was triggered without a serialize option</li>
+<li>Deprecate session.handler config option</li>
+<li>Set the default value for $resetDataOnFirstLoad to true on RaxanWebPage</li>
+<li>Rename variable $isPostback to $isPostBack on RaxanWebPage. Depcreate $isPostback</li>
+<li>Rename protected variables on RichWebPage</li>
+<li>Deprecate $page->clientRequest(). Use sanitizePostBack()</li>
+<li>Rewrite RaxanPlugin logic. Add support for support system events</li>
+<li>Remove $page->unregisterPlugin() method</li>
+<li>Set default page header to text/javascript when page is in embedded mode</li>
+</ul>
 
 <h2>1.0 Beta 2</h2>
 
@@ -174,9 +243,14 @@
 <ul>
 <li>First release</li>
 </ul>
-</div>
+
+        </div>
         <div class="tpb pad" style="text-align:right">
-            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
         </div>
     </div>
 </body>

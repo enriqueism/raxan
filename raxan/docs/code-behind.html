@@ -23,12 +23,20 @@
                 <ul>
                     <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
                     <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
                 </ul>
             </div></div></div>
         </div>
-        <div class="prepend1 append1"><h2>Creating a Code-Behind Javascript file</h2>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>Creating a Code-Behind Javascript file</h2>
 
-<p>Raxan includes a very nice feature that lets you automatically include a Javascript inside your web page without having to add an extra &lt;script&gt;tag. This makes it much easier and cleaner when working with a lot of script files inside your web page.</p>
+<p>Raxan includes a very nice feature that lets you automatically include a JavaScript inside your web page without having to add an extra &lt;script&gt;tag. This makes it much easier and cleaner when working with a lot of script files inside your web page.</p>
 
 <p>To create a code-behind script, you simply create a Javascript file with the same name as the html page you're loading but without the html extension. For example, mywebpage.js will become the code-behind file for the web page mywebpage.html.</p>
 
@@ -58,21 +66,33 @@ Another cool feature for the framework is the ability to embed your Javascript c
 
 <p>In the above example, both the raxan/startup.js and the embedded Javascript codes are executed using only one &lt;script&gt; block.</p>
 
-<h3>Loading a Code-Behind script from PDI</h3>
+<h3>Loading a Code-Behind script from PHP</h3>
 
 <p>To load a code-behind JavaScript script from from php use the loadScriptBehind() method:</p>
 
 <pre><code>&lt;?php
 
-    $page = new RichWebPage();
-    $page-&gt;loadScriptBehind('/-/'); 
-    // ... do something ...
-    $page-&gt;reply();
+    require_once 'raxan/pdi/autostart.php';
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _init() {
+            $this-&gt;loadScriptBehind('/-/'); 
+            // ... do something ...
+        }
+
+    }
+
 ?&gt;
 </code></pre>
-</div>
+
+        </div>
         <div class="tpb pad" style="text-align:right">
-            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
         </div>
     </div>
 </body>

@@ -1,6 +1,66 @@
 Raxan Changelog
 -------------------------
 
+1.0 Beta3
+--------------
+* Refactor Raxan classes and functions. Classes are now prefixed with Raxan
+* Update examples to work with new class names
+* New system wide events added: page_load, page_prerender, page_postrender
+* New append() and prepend() methods added to RaxanWebPage
+* Add static RaxanWebPage::addMethod(). Used to extend the page class
+* Add local and global state management features to RaxanElement. Use either preserveState() method or the xt-preserveState extended attribute
+* Add masterTemplate and masterContentBlock properties to RaxanWebPage
+* Add convenient Raxan::dataSantizer($array = null) method. Loads the RaxanDataSanitizer class on first use.
+* Add autostart option to the configuration file
+* Add endResponse() to RaxanWebPage
+* Add sendError() wrapper to RaxanWebPage
+* Add Session and Page Data Storage classes: RaxanDataStore,  RaxanSessionStorage and RaxanWebPageStorage
+* Add new config options page.data.storage and session.data.storage. See gateway.config.sample.php
+* Add serializeOnPostBack option to RaxanWebPage
+* Add $degradable property to RaxanWebPage
+* Add uniqueId() method to RaxanElement
+* Add dynamic properties via __get() to RaxanDataSanitizer
+* Add suppport for Inline Events with extended attributes xt-bind, xt-delegate, xt-autoupdate
+* Add textval(), intval(), and floatval() to RaxanElement. These will be used to sanitize form input element values
+* Add textval(), intVal(), and floatval() to RaxanWebPageEvent. These will be used to sanitize form input event values
+* Add val() method to RaxanWebPageEvent
+* Add new RaxanUIElement class
+* Add sanitizePostBack() to RaxanWebPage
+* Add autoId() to RaxanElement
+* Add htmlMarkup() to RaxanElement
+* Add updateClient to RaxanElement
+* Add throwCallbackException() static method  to Raxan class. Update code to use this method when throwing callback exceptions
+* Add autostart.php file to pdi folder
+* Add _prerender() and _load() event handlers to RaxanUIElement.
+* Add feature to return RaxanElements by id based on page property name (e.g. $page->elementId->html('Cool!') )
+* Fix event binding issue when page does not contains a head tag
+* Fix issue when adding more than one plugin to a page
+* Fix issue with Raxan::importCSV() which failed to handle invalid rows
+* Fix bug when converting css to xpath for class names
+* Fix issue when loading plugins. Make sure Raxan has been initialized
+* Fix issue with loadCSS() and external files.
+* Fix typo in RaxanElement->storeName()
+* Modify RaxanWebPage to insert action scripts when page does not contain a &jt;head&gt; tag
+* Modify css() method to remove CSS property when value is  set to ''
+* Modify Raxan::connect() to return an instance of the RaxanPDO Class
+* Modify Rich Tabstrip to support non-ajax hyperlinks
+* Modify Ajax timeout message to display "Error while connecting to Server" instead of "Error while making a callback"
+* Change: The _reset() event handler is now invoked on the first attempt to set or get data when $page->resetonFirstPageLoad = true
+* Change: The _switchboard() handler is now invoke before the _load() handler
+* Move RaxanDataSanitizer class to a separate file (raxan.datasanitizer.php).
+* Move RaxanPlugin to raxan.php and make it an abstract class
+* Improve accessibility for form submit buttons, hyperlinks and image maps.
+* Reset session cookie timeout on page bpost back or refresh. See the RaxanSessionStorage class.
+* Automatically serialize and post back form elements if the click event of a submit button was triggered without a serialize option
+* Deprecate session.handler config option
+* Set the default value for $resetDataOnFirstLoad to true on RaxanWebPage
+* Rename variable $isPostback to $isPostBack on RaxanWebPage. Depcreate $isPostback
+* Rename protected variables on RichWebPage
+* Deprecate $page->clientRequest(). Use sanitizePostBack()
+* Rewrite RaxanPlugin logic. Add support for support system events
+* Remove $page->unregisterPlugin() method
+* Set default page header to text/javascript when page is in embedded mode
+
 
 1.0 Beta 2
 --------------
