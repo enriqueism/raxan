@@ -6,10 +6,10 @@
 /**
  * Creates reference to client-side variables and callback functions
  */
-class RichClientVariable {
+class RaxanClientVariable {
 
     // Used internally during json encoding
-    // See RichClientExtension::encodeVar
+    // See RaxanClientExtension::encodeVar
     public $_pointer;   
 
     protected static $vid = 0;
@@ -17,15 +17,15 @@ class RichClientVariable {
 
     public function __construct($val,$name = null, $isFunction = false, $registerGlobal = false) {
         $n = $this->name = $this->_pointer = ($name!==null) ? $name : '_v'.(self::$vid++);
-        if (!$isFunction) $this->value = RichClientExtension::encodeVar($val);
+        if (!$isFunction) $this->value = RaxanClientExtension::encodeVar($val);
         else {
             $fn  = trim($val);
             $this->value = (substr($fn,0,8)!='function')  ? 'function() {'.$val.'}' : $fn;
         }
-        if (!$registerGlobal) RichWebPage::$vars[] = $n.'='.$this->value;
+        if (!$registerGlobal) RaxanWebPage::$vars[] = $n.'='.$this->value;
         else {
             $n = $this->name = 'window.'.$n;
-            RichWebPage::$varsGlobal[] = $n.'='.$this->value;
+            RaxanWebPage::$varsGlobal[] = $n.'='.$this->value;
         }
         
     }
@@ -39,7 +39,7 @@ class RichClientVariable {
 /***
  * Create a wrapper around client-side jQuery and native JavaScript function calls
  */
-class RichClientExtension {
+class RaxanClientExtension {
 
     protected static $scripts = array();
 
@@ -47,7 +47,7 @@ class RichClientExtension {
 
     // $ss - css selector
     public function __construct($ss,$context = null){
-        RichWebPage::$actions[] = $this;
+        RaxanWebPage::$actions[] = $this;
         if ($ss===''||$ss===null) $ss = '';
         else if ($ss=='this') $ss='_ctarget_';
         else if ($ss=='target') $ss='_target_';
@@ -117,16 +117,16 @@ class RichClientExtension {
         $confirm = 'confirm("'.$this->escapeString($msg).'")';
         if ($okFn||$cancelFn) {
             $confirm = 'if ('.$confirm.')'.
-            ($okFn instanceof RichClientVariable ? ' '.$okFn.'()':'').';'.
-            ($cancelFn instanceof RichClientVariable ? ' else '.$cancelFn.'();' : '');
+            ($okFn instanceof RaxanClientVariable ? ' '.$okFn.'()':'').';'.
+            ($cancelFn instanceof RaxanClientVariable ? ' else '.$cancelFn.'();' : '');
         }
         $this->chain  = (($this->chain=='$()') ? '':$this->chain.';').$confirm;
         return $this;
     }
 
     /**
-     * Evaluates javascript code and return a new RichClientExtension object
-     * @return RichClientExtension
+     * Evaluates javascript code and return a new RaxanClientExtension object
+     * @return RaxanClientExtension
      */
     public function evaluate($s){
         $this->chain  = (($this->chain=='$()') ? '':$this->chain.';').
@@ -136,7 +136,7 @@ class RichClientExtension {
 
     /**
      * Toggle class on mouse over and out
-     * @return RichClientExtension
+     * @return RaxanClientExtension
      */
     public function hoverClass($cls){
         $this->chain.= '.hover(function(){$(this).addClass("'.$cls.'")},function(){$(this).removeClass("'.$cls.'")})';
@@ -168,7 +168,7 @@ class RichClientExtension {
 
     /**
      * Opens a popup window and returns reference to window document
-     * @return RichClientExtension
+     * @return RaxanClientExtension
      */
     public function popup($url,$name = '',$attributes = '',$errorMsg = ''){
         if ($this->chain=='$()') $this->chain = '';
@@ -190,7 +190,7 @@ class RichClientExtension {
         $prompt = 'prompt("'.$this->escapeString($msg).'"'.$val.')';
         if ($fn) {
             $prompt = 'var _p='.$prompt.'; if (_p)'.
-            ($fn instanceof RichClientVariable ? ' '.$fn.'(_p)':'').';';
+            ($fn instanceof RaxanClientVariable ? ' '.$fn.'(_p)':'').';';
         }
         $this->chain  = (($this->chain=='$()') ? '':$this->chain.';').$prompt;
         return $this;
@@ -211,7 +211,7 @@ class RichClientExtension {
      * @return null
      */
     public function switchTo($action) {
-        $url = RichAPI::currentURL();
+        $url = Raxan::currentURL();
         if (strpos($url,'sba=')!==false) $url = trim(preg_replace('#sba=[^&]*#','',$url),"&?\n\r ");
         $url.= (strpos($url,'?') ? '&' : '?').'sba='.$action;
         return $this->redirectTo($url);
@@ -224,7 +224,7 @@ class RichClientExtension {
      * Returned javascript escaped string
      */
  	protected function escapeString($txt) {
-        return RichAPI::escapeText($txt);
+        return Raxan::escapeText($txt);
  	}
 
      // Static methods
@@ -235,10 +235,10 @@ class RichClientExtension {
      */
     public static function encodeVar($v) {
         if (!is_numeric($v) && is_string($v)) {
-            $v = '"'.RichAPI::escapeText($v).'"';
+            $v = '"'.Raxan::escapeText($v).'"';
         }
-        else if ($v instanceof RichClientExtension ||
-                 $v instanceof RichClientVariable) {
+        else if ($v instanceof RaxanClientExtension ||
+                 $v instanceof RaxanClientVariable) {
             // pass chain as value
             $v = $v.'';
         }
@@ -246,9 +246,9 @@ class RichClientExtension {
         else if ($v===false) $v = 'false';
         else if (!is_scalar($v)) {
             // encode arrays and objects
-            $v = RichAPI::JSON('encode',$v);
+            $v = Raxan::JSON('encode',$v);
             // replace _pointer hash array with variable name due to json encoding.
-            // See RichClientVariable->_pointer
+            // See RaxanClientVariable->_pointer
             if (strpos($v,':{"_pointer":"_v')) {
                 $v = preg_replace('/:\{"_pointer"\:"(_v[0-9]+)"\}/', ':\1', $v);
             }

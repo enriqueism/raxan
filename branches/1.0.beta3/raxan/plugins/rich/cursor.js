@@ -6,7 +6,7 @@
 
 var c;
 // add to rich namespace
-html.rich.cursor = c = function($){
+Raxan.rich.cursor = c = function($){
     var cursor;
     return cursor = {
         id: 'rxCursor',

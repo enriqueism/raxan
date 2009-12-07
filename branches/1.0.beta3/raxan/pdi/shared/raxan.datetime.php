@@ -1,6 +1,6 @@
 <?php
 /**
- *  RichDateTime Class for handling dates beyond the 1970 and 2038
+ *  RaxanDateTime Class for handling dates beyond the 1970 and 2038
  *  Requires ADODB_Date library file to be in the same path as this library
  *  Written by Raymond Irving 2008
  *
@@ -10,7 +10,7 @@
  * @package Raxan
  *
  */
-class RichDateTime {
+class RaxanDateTime {
     
     public $_timestamp = null;
 
@@ -80,8 +80,8 @@ class RichDateTime {
             $dt = adodb_date($fmt,$ts);
             if (!$noTrans && preg_match('/[a-z]/',$dt)) {
                 // translate month and day names based on locale
-                $a = RichAPI::locale('dt._eng_names');
-                $b = RichAPI::locale('dt._locale_names');
+                $a = Raxan::locale('dt._eng_names');
+                $b = Raxan::locale('dt._locale_names');
                 if ($a && $b) $dt = str_ireplace($a,$b,$dt);
             }
             return $dt;
@@ -121,7 +121,7 @@ class RichDateTime {
         @list($d1,$d2,$d3,$time) = $date;
 
         if (!self::$months)
-            self::$months = RichAPI::locale('months.short');
+            self::$months = Raxan::locale('months.short');
         $months = self::$months;
 
         // get year

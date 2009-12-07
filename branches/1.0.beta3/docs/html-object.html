@@ -23,10 +23,18 @@
                 <ul>
                     <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
                     <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
                 </ul>
             </div></div></div>
         </div>
-        <div class="prepend1 append1"><h2>The HTML Object Quick Reference</h2>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>The HTML Object Quick Reference</h2>
 
 <p>The html object provides a reference to the main Raxan Javascript object that contains the methods and properies used by the Raxan Framework.</p>
 
@@ -75,11 +83,11 @@
 <p>When you want to dynamically load a stylesheet, the css() function must be used. The concept is similar to that of the include() function with the exception that stylesheets are loaded from the "styles" folder and there is no support for a callback function:</p>
 
 <pre><code>&lt;script type="text/javascript"&gt;
-    html.include('master');
-    html.include('name-of-theme/theme');
+    html.css('master');
+    html.css('name-of-theme/theme');
 
     // for other stylesheets
-    html.include('path/to/folder/stylesheet.css', true);
+    html.css('path/to/folder/stylesheet.css', true);
 &lt;/script&gt;
 </code></pre>
 
@@ -287,9 +295,14 @@
         </tr>
     </tbody>
 </table>
-</div>
+
+        </div>
         <div class="tpb pad" style="text-align:right">
-            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
         </div>
     </div>
 </body>

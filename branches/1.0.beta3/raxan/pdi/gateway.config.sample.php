@@ -50,19 +50,24 @@ $config['error.401'] = '';
 $config['error.403'] = '';
 $config['error.404'] = '';
 
-// Rich Web Page default settings
+// Raxan Web Page default settings
 $config['page.localizeOnResponse'] = false;         // loacalize  web page content based on the langid attribute
 $config['page.initStartupScript'] = false;          // loads the raxan startup.js script
-$config['page.resetDataOnFirstLoad'] = false;       // reset page data on first load
-$config['page.preserveFormContent'] = false;       // preserve form content during post back
+$config['page.resetDataOnFirstLoad'] = true;        // reset page data on first load
+$config['page.preserveFormContent'] = false;        // preserve form content during post back
+$config['page.disableInlineEvents'] = false;        // disables the processing of inline events
+$config['page.masterTemplate'] = '';                // page master template -  html source or file name
+$config['page.serializeOnPostBack'] = '';           // default selector value for matched elements to serialize and postback. e.g. form
+$config['page.degradable'] = false;                 // enable accessible mode for links, forms and submit buttons when binding to an event
 $config['page.showRenderTime'] = false;
+$config['page.data.storage'] = 'RaxanWebPageStorage';  // default page data storage class
+// The page class will passed the shared store name or id to the staorage class.
 
 // Session settings
 $config['session.name']    = 'XPDI1000SE';
 $config['session.timeout'] = '30';      // in minutes
-$config['session.handler'] = 'default'; // values: default, database
-// When using the database option make sure that database settings are configured
-// @todo: Add session database handler and timeout
+$config['session.data.storage'] = 'RaxanSessionStorage'; // default session data storage class
+// No id value will be to the above session storage class.  The class will have to generate unique ids for each user
 
 // logging & debugging settings
 $config['debug']        = false;
@@ -81,5 +86,8 @@ $config['db.default'] = array(
 );
 // For more PDO DSN information visit http://www.php.net/manual/en/pdo.drivers.php
 
+
+// Auto startup setting
+$config['autostart'] = '';  // name of page class to be initialize on startup
 
 ?>

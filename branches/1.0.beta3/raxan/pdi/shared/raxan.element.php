@@ -1,14 +1,16 @@
 <?php
+/**
+ * @package Raxan
+ */
 
 /**
- * The Rich Element Class is used to traverse and manipulate a set of matched DOM elements
- * @package Raxan
+ * The Raxan Element Class is used to traverse and manipulate a set of matched DOM elements
  */ 
-class RichElement extends RichAPIBase {
+class RaxanElement extends RaxanBase {
 
     /**
      * Returns and instance of the CLX for the matched selectors
-     * @var RichClientExtension $client
+     * @var RaxanClientExtension $client
      */
 
     protected static $autoid; // auto id for elements. used by matchSelector
@@ -18,24 +20,24 @@ class RichElement extends RichAPIBase {
     protected $stack; // used to store previous match list
 
     /**
-     * Reference to Rich Web Document
-     * @var RichWebPage $page
+     * Reference to Raxan Web Page
+     * @var RaxanWebPage $page
      */
     protected $page;
 
     /**
-     * @var RichDOMDocument $doc 
+     * @var RaxanDOMDocument $doc
      */
     protected $doc, $rootElm, $context, $selector;
     protected $name, 
               $modified; // true if stack was modified
 
     /**
-     * RichElement(css,context)
-     * RichElement(html,context)
-     * @param String|DOMNode|DOMNodeList|RichElement|Array $css
+     * RaxanElement(css,context)
+     * RaxanElement(html,context)
+     * @param String|DOMNode|DOMNodeList|RaxanElement|Array $css
      * @param DOMNode $context
-     * @return RichElement
+     * @return RaxanElement
      */
     function __construct($css,$context = null) {
         parent::__construct();
@@ -48,14 +50,14 @@ class RichElement extends RichAPIBase {
 
         // get document
         if ($c == null) $this->doc = null;
-        else if ($c instanceof RichDOMDocument) {
+        else if ($c instanceof RaxanDOMDocument) {
             $this->doc = $c; $c = null; // context is document so set it null
         }
-        else if ($c instanceof DOMNode && $c->ownerDocument instanceof RichDOMDocument)
+        else if ($c instanceof DOMNode && $c->ownerDocument instanceof RaxanDOMDocument)
             $this->doc = $c->ownerDocument;
         else $c = $this->doc = null;
         
-        $this->doc = ($this->doc) ? $this->doc : RichWebPage::Controller()->document();
+        $this->doc = ($this->doc) ? $this->doc : RaxanWebPage::Controller()->document();
         $this->page = $this->doc->page;
         
         $this->rootElm = $this->doc->documentElement;
@@ -85,7 +87,7 @@ class RichElement extends RichAPIBase {
         }
         else if ($css instanceof DOMNode) $this->elms[] = $css;
         else if ($css instanceof DOMNodeList) $dl = $css;
-        else if ($css instanceof RichElement) $dl = $css->get();
+        else if ($css instanceof RaxanElement) $dl = $css->get();
         else if (is_array($css)) $dl = $css;
 
         if (isset($dl) && $dl ) foreach($dl as $n)
@@ -100,7 +102,7 @@ class RichElement extends RichAPIBase {
         elseif ($name=='clone') return $this->cloneNodes();
         elseif (isset(self::$callMethods[$name])) {
             $fn = self::$callMethods[$name];
-            if (is_array($fn)) return $fn->{$name}($this,$args);
+            if (is_array($fn)) return $fn[0]->{$fn[1]}($this,$args);
             else return $fn($this,$args);
         }
         else throw new Exception('Undefined Method \''.$name.'\'');
@@ -111,20 +113,21 @@ class RichElement extends RichAPIBase {
         if ($var=='length') return count($this->elms);
         elseif ($var=='page') return $this->page;
         elseif ($var=='client') {
-            return $this->page->client($this->matchSelector(true));
+            $sel = $this->matchSelector(true);
+            return $this->page->client($sel);
         }
     }
 
     /**
      * Adds new elements to the selection based on the specified selector(s)
-     * @return RichElement
+     * @return RaxanElement
      */
     public function add($selector){
         $dl = '';
         if (is_string($selector)) $dl = $this->doc->cssQuery($selector);
         else if ($selector instanceof DOMNode) $this->elms[] = $selector;
         else if ($selector instanceof DOMNodeList) $dl = $selector;
-        else if ($selector instanceof RichElement) $dl = $css->get();
+        else if ($selector instanceof RaxanElement) $dl = $css->get();
         else if (is_array($selector)) $dl = $selector;
         if ($dl) foreach($dl as $n) $this->elms[] = $n;
         $this->modified = true;
@@ -133,7 +136,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Adds a css class name to matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function addClass($cls){
         return $this->modifyClass($cls, 'add');
@@ -141,7 +144,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Add content after matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function after($content) {
         return $this->insert($content,'after');
@@ -149,7 +152,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Add the previous matched selection to the current selection
-     * @return RichElement
+     * @return RaxanElement
      */
     public function andSelf() {
         $c = count($this->stack)-1;
@@ -159,7 +162,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Append content to matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function append($content) {
         return $this->insert($content,'append');
@@ -167,7 +170,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Append matched elements to selector
-     * @return RichElement
+     * @return RaxanElement
      */
     public function appendTo($selector) {
         $m = P($selector,$this->doc);
@@ -177,7 +180,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Appends the html of the matched elements to the selected client element. See <sendToClient>
-     * @return RichElement
+     * @return RaxanElement
      */
     public function appendToClient($selector) {
         return $this->sendToClient($selector, 'append');
@@ -185,10 +188,10 @@ class RichElement extends RichAPIBase {
 
     /**
      * Appends an html view file to the matched elements
-     * @return RichWebPage
+     * @return RaxanElement
      */
     public function appendView($view) {
-        $view = file_get_contents(RichAPI::config('views.path').$view);
+        $view = file_get_contents(Raxan::config('views.path').$view);
         if (!$view) return $this;
         else return $this->insert($view,'append');
         
@@ -196,7 +199,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Returns or set attribute on match elements
-     * @return RichElement or String
+     * @return RaxanElement or String
      */
     public function attr($name, $val = null) {
         $e = $this->elms;
@@ -209,8 +212,18 @@ class RichElement extends RichAPIBase {
     }
 
     /**
+     * Automatically assign unigue ids to matched elements that are without an id
+     * @return RaxanElement
+     */
+    public function autoId($idPrefix = null) {
+        $this->modified = true;
+        $this->matchSelector(true,$idPrefix);
+        return $this;
+    }
+
+    /**
      * Add content before matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function before($content) {
         return $this->insert($content,'before');
@@ -218,8 +231,8 @@ class RichElement extends RichAPIBase {
     
     /**
      * Binds matched element events to a callback function
-     * Can also be used to bind an array or a PDO result set to the matched elements - See RichAPI::bindTemplate()
-     * @return RichElement
+     * Can also be used to bind an array or a PDO result set to the matched elements - See Raxan::bindTemplate()
+     * @return RaxanElement
      */
     public function bind($type,$data = null, $fn = null) {        
         $sel = !$this->modified ? $this->selector : null ;
@@ -233,14 +246,14 @@ class RichElement extends RichAPIBase {
             else if (!isset($data['tpl']) && !isset($data[0])) {
                 $data['tpl'] = $this->html();
             }
-            $rt = RichAPI::bindTemplate($type, $data); // pass rows,options to bindTemplate()
+            $rt = Raxan::bindTemplate($type, $data); // pass rows,options to bindTemplate()
             return is_string($rt) ? $this->html($rt) : $rt;
         }               
     }
 
     /**
      * Selects the immediate children of the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function children($selector = null){
         return $this->traverse($selector,'firstChild','nextSibling');
@@ -259,7 +272,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Clone matched elements and return clones (alias clone)
-     * @return RichElement
+     * @return RaxanElement
      */
     public function cloneNodes($deep = null){
         $a = array();
@@ -271,7 +284,7 @@ class RichElement extends RichAPIBase {
     
     /**
      * Returns or sets CSS property values
-     * @return RichElement or String
+     * @return RaxanElement or String
      */
     public function css($name,$val = null) {
         $isA = false; $a = array(':',';'); $b = array('=','&');
@@ -280,11 +293,14 @@ class RichElement extends RichAPIBase {
             $s = $n->getAttribute('style');
             $s = str_replace($a,$b,$s);
             $c = array(); parse_str($s,$c);
-            if ($retFirst) return $c[$name] = $val; // return value for first node
+            if ($retFirst) return $c[$name]; // return value for first node
             else {
-                if ($isA) $c = array_merge($c, $name); else $c[$name] = $val;
+                if ($isA) $c = array_merge($c, $name);
+                else if ($val==='') unset($c[$name]);   // remove css value
+                else $c[$name] = $val;
                 $c = str_replace($b,$a,urldecode(http_build_query($c)));
-                $n->setAttribute('style',$c);
+                if ($c=='') $n->removeAttribute('style');
+                else $n->setAttribute('style',$c);
             }            
         }
         return $retFirst ? '' :$this;
@@ -302,38 +318,44 @@ class RichElement extends RichAPIBase {
     
     /**
      * Binds matched element events to a callback function via event delegation
-     * @return RichElement
+     * @return RaxanElement
      */
     public function delegate($type,$data = null, $fn = null) {
-        $sel = !$this->modified ? $this->selector : null ;
-        $this->page->bindElements($this->elms, $type, $data, $fn, $sel,true);
+        $t = trim($type); $elms = $this->elms;
+        $sel = $this->matchSelector(true);
+        if (($p = strrpos($t,' '))===false) $de = true;
+        else {
+            $type = substr($t,$p+1-strlen($t)); $de = trim(substr($t,0,$p));
+        }
+        $this->page->bindElements($elms, $type, $data, $fn, $sel,$de);
         return $this;
     }
 
     /**
      * Disbable matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function disable(){ $this->attr('disabled','disabled'); }
 
     /**
      * Enable matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function enable(){ $this->attr('disabled',''); }
 
     /**
      * Revert the currently modified selection to the previously matched selection
      * this works if the selection was modified using filter(), find(), eq(), etc
-     * @return RichElement 
+     * @return RaxanElement
      */
-    public function end() {
-        return $this->unstack();
+    public function end($all = false) {
+        return $this->unstack($all);
+        
     }
 
     /**
      * Reduces the set of matched elements to a single element
-     * @return RichElement
+     * @return RaxanElement
      */
     public function eq($index) {
         return $this->stack(
@@ -345,7 +367,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Remove all elements that does not match the specified selector(s)
-     * @return RichElement
+     * @return RaxanElement
      */
     public function filter($selector, $_invert = false) {
         $stack = array();
@@ -360,7 +382,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Search matched elements for the specified selector(s)
-     * @return RichElement
+     * @return RaxanElement
      */
     public function find($selector, $_returnStack = null) {
         $stack = array();
@@ -369,6 +391,15 @@ class RichElement extends RichAPIBase {
             foreach($dl as $e) $stack[] = $e;
         }
         return $_returnStack ? $stack : $this->stack($stack);
+    }
+
+    /**
+     * Returns or sets the float value for a form element
+     * @return RaxanElement or float
+     */
+    public function floatval($v = null) {
+        if ($v===null) return floatval($this->val());
+        return $this->val(floatval($v));
     }
 
     /**
@@ -381,6 +412,25 @@ class RichElement extends RichAPIBase {
         else return isset($this->elms[$index])? $this->elms[$index] : null;
     }
 
+    /**
+     * Save the state of the matched elements
+     * @return RaxanElement
+     */
+    public function handleSaveState() {
+        $pg  = & $this->page; $data = array();
+        foreach($this->elms as $n) {
+            $id = $n->getAttribute('id');
+            $mode = $n->getAttribute('xt-preservestate');
+            $n->removeAttribute('xt-preservestate');
+            if ($mode=='reset') continue; // don't save reset states
+            else $mode = ($mode!='global') ? 'local' : 'global';
+            if (!isset($data[$mode])) $data[$mode] = & $this->getStateData($mode);
+            if (!isset($data[$mode][$id])) $data[$mode][$id]  = array();
+            $this->_saveElmState($n,$data[$mode][$id]);
+        }
+        return $this;
+    }
+    
     /**
      * Returns true if one element in the matched selection contains the specified class
      * @return Boolean
@@ -397,13 +447,13 @@ class RichElement extends RichAPIBase {
 
     /**
      * Hide matched elements (display:none)
-     * @return RichElement
+     * @return RaxanElement
      */
-    public function hide(){ $this->css('display','none'); }
+    public function hide(){ return $this->css('display','none'); }
 
     /**
-     * Returns or set html on mtach elements
-     * @return RichElement or String
+     * Sets the inner html content of matach elements. Returns only the inner html of the first matched element.
+     * @return RaxanElement or String
      */
     public function html($html=null) {
         foreach($this->elms as $i=>$n) {
@@ -421,8 +471,17 @@ class RichElement extends RichAPIBase {
     }
 
     /**
+     * Returns the html (inner & outter) markup for the first match element
+     * @return String
+     */
+    public function htmlMarkup() {
+        return isset($this->elms[0]) ?
+            $this->nodeContent($this->elms[0], true) : '';
+    }
+
+    /**
      * Add matched elements after all selected elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function insertAfter($selector) {
         $elms = P($selector,$this->doc)->insert($this,'after',true);
@@ -431,10 +490,19 @@ class RichElement extends RichAPIBase {
 
     /**
      * Add matched elements before all selected elements. 
-     * @return RichElement */
+     * @return RaxanElement */
     public function insertBefore($selector) {
         $elms = P($selector,$this->doc)->insert($this,'before',true);
         return $this->stack($elms);        
+    }
+
+    /**
+     * Returns or sets the integer value for a form element
+     * @return RaxanElement or int
+     */
+    public function intval($v = null) {
+        if ($v===null) return intval($this->val());
+        return $this->val(intval($v));
     }
 
     /**
@@ -451,19 +519,19 @@ class RichElement extends RichAPIBase {
 
     /**
      * Localize matched elements that have a valid locale key/value pair assigned to the langid attribute
-     * @return RichElement
+     * @return RaxanElement
      */
     public function localize(){
         foreach($this->elms as $n) {
             $nl = $this->doc->xQuery('descendant-or-self::*[@langid]',$n);
-            RichWebPage::NodeL10n($nl);
+            RaxanWebPage::NodeL10n($nl);
         }
     }
 
     /**
      * Applies a callback to matched elements and returns a new set of elements
      * Can also be used to filter or replace the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function map($fn) {
         $stack = array();
@@ -479,13 +547,14 @@ class RichElement extends RichAPIBase {
      * Returns the selctor for the match elements
      * @return String
      */
-    public function matchSelector($autoId = false){
+    public function matchSelector($autoId = false, $idPrefix = null){
         if ($this->selector && !$this->modified) $sel = $this->selector;
         else {
             $ids = array();
+            if (!$idPrefix) $idPrefix = 'e0x';
             foreach($this->elms as $n) {
                 $id = $n->getAttribute('id');
-                if ($autoId && !$id) $n->setAttribute('id', $id = 'e0x'.self::$autoid++); // auto assign id
+                if ($autoId && !$id) $n->setAttribute('id', $id = self::uniqueId($idPrefix)); // auto assign id
                 if ($id) $ids[]='#'.$id;
             }
             $sel = implode(',',$ids);
@@ -495,7 +564,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Selects the next sibling of the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function next($selector = null){
         return $this->traverse($selector,'nextSibling','nextSibling',true);
@@ -503,7 +572,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Selects the next siblings of the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function nextAll($selector = null){
         return $this->traverse($selector,'nextSibling','nextSibling'); // select all
@@ -511,7 +580,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Remove element matching the specified selector from the set of match elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function not($selector) {
         return $this->filter($selector, true); // return inverted filter set
@@ -519,7 +588,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Selects the parent element of the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function parent($selector = null){
         return $this->traverse($selector,'parentNode','parentNode',true);
@@ -527,7 +596,7 @@ class RichElement extends RichAPIBase {
     
     /**
      * Selects the ancestors of the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function parents($selector = null){
         return $this->traverse($selector,'parentNode','parentNode'); // select all
@@ -535,7 +604,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Selects the previous sibling of the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function prev($selector = null){
         return $this->traverse($selector,'previousSibling','previousSibling',true);
@@ -543,7 +612,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Selects the previous siblings of the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function prevAll($selector = null){
         return $this->traverse($selector,'previousSibling','previousSibling'); // select all
@@ -551,7 +620,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Prepend content to elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function prepend($content) {
         return $this->insert($content,'prepend');
@@ -559,7 +628,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Prepend matched elements to selector
-     * @return RichElement
+     * @return RaxanElement
      */
     public function prependTo($selector) {
         $m = P($selector,$this->doc);
@@ -568,34 +637,56 @@ class RichElement extends RichAPIBase {
 
     /**
      * Prepends the html of the matched elements to the selected client element. See <sendToClient>
-     * @return RichElement
+     * @return RaxanElement
      */
     public function prependToClient($selector) {
         return $this->sendToClient($selector, 'append');
     }
 
     /**
-     * Preserves the postback state of the matched form elements
-     * @return RichElement
+     * Preserves the state of the matched elements
+     * @param $mode String - local or global. Local states are preserved during postback. Global states preserved until the session ends.
+     * @see handleSaveState
+     * @return RaxanElement
      */
-    public function preserveState() {
-        $kv = array();
-        if (!$this->page->isPostback) return $this;
-        foreach($this->elms as $n) {
-            if ($n->nodeName=='form') {
-                $f = new RichElement('[name]',$n);
-                $f->preserveState();
-            } else {
-                $name = $n->getAttribute('name');
-                if ($name && isset($_POST[$name])) $kv[$name] = $_POST[$name];
-            }
+    public function preserveState($mode = null) {
+        if ($this->length==0) return $this;
+        $data = array();
+        $fixMode = ($mode!==null) ? true: false;
+        $this->page->preserveElementState($this);
+        foreach($this->elms as $n) {            
+            $imode = $mode;
+            if (!$n->hasAttribute('id')) $n->setAttribute('id',$id = self::uniqueId());
+            else $id = $n->getAttribute('id');
+            if ($fixMode) $n->setAttribute('xt-preservestate',$mode);
+            else $imode = trim($n->getAttribute('xt-preservestate'));
+            if (!isset($data[$imode])) $data[$imode] = $this->getStateData($imode);
+            if (isset($data[$imode][$id])) $this->_loadElmState($n,$data[$imode][$id]); // restore state
         }
-        return $this->val($kv); // set value;
+        return $this;
+    }
+
+    /**
+     * Removes the state of the matched form elements
+     * @see handleSaveState
+     * @return RaxanElement
+     */
+    public function removeState() {
+        $data = array();
+        foreach($this->elms as $n) {
+            if (!$n->hasAttribute('id')) $n->setAttribute('id',$id = self::uniqueId());
+            else $id = $n->getAttribute('id');
+            $imode = trim($n->getAttribute('xt-preservestate'));
+            $n->setAttribute('xt-preservestate','reset');
+            if (!isset($data[$imode])) $data[$imode] = & $this->getStateData($imode);
+            if (isset($data[$imode][$id])) unset($data[$imode][$id]);
+        }
+        return $this;
     }
 
     /**
      * Remove matched elements from document
-     * @return RichElement
+     * @return RaxanElement
      */
     public function remove() {
         foreach($this->elms as $i=>$n) {
@@ -608,7 +699,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Remove attribute from elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function removeAttr($cls) {
         foreach($this->elms as $i=>$n) {
@@ -619,7 +710,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * @alias empty() - Remove child nodes from match elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function removeChildren() {
         foreach($this->elms as $n) $n->nodeValue ='';
@@ -628,7 +719,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Removes css class name from elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function removeClass($cls) {
         return $this->modifyClass($cls,'remove');
@@ -636,7 +727,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Remove data from matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function removeData($name){
         $this->page->removeData($this->storeName().$name);
@@ -645,7 +736,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Replace all selected with matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function replaceAll($selector){
         $m = P($selector,$this->doc);
@@ -656,7 +747,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Replaces the selected client-side element with the html of the matched elements. See <sendToClient>
-     * @return RichElement
+     * @return RaxanElement
      */
     public function replaceClient($selector) {
         return $this->sendToClient($selector, 'replace');
@@ -664,7 +755,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Replace matched elements with content
-     * @return RichElement
+     * @return RaxanElement
      */
     public function replaceWith($content){
         return $this->after($content)->remove();
@@ -672,7 +763,7 @@ class RichElement extends RichAPIBase {
     
     /**
      * Selects inner child of match elements - used by wrap functions
-     * @return RichElement
+     * @return RaxanElement
      */
     public function selectInnerChild() {
         foreach($this->elms as $i=>$n) {
@@ -687,29 +778,38 @@ class RichElement extends RichAPIBase {
      * Sends the html of the matched elements to the selected client element
      * @param $selector String client-side css selector
      * @param $mode String Used internally. possible values 'insert (default), replace, append, prepend, before, after'
-     * @return RichElement
+     * @return RaxanElement
      */
     public function sendToClient($selector,$mode=null){
-        $h = '';
-        foreach($this->elms as $elm) $h.= $this->nodeContent($elm, true);
+        $h = ''; $delim = ($mode=='update') ? '<<'.time().'>>': '';
+        foreach($this->elms as $elm) {
+            if ($mode=='update' && $elm->hasAttribute('autoupdate'))
+                $elm->removeAttribute('autoupdate');
+            $h.= trim($this->nodeContent($elm, true)).$delim;
+        }
+
         if ($mode=='append') C($selector)->append($h);
         else if ($mode=='prepend') C($selector)->prepend($h);
         else if ($mode=='before') C($selector)->before($h);
         else if ($mode=='after') C($selector)->after($h);
-        else if ($mode=='replace')C($selector)->replaceWith($h);
+        else if ($mode=='replace') C($selector)->replaceWith($h);
+        else if ($mode=='update') { // setup custom action
+            $a = 'Raxan.iUpdateClient('._var($selector).','._var($h).',"'.$delim.'");';
+            array_unshift(RaxanWebPage::$actions,$a);
+        }
         else C($selector)->html($h);
         return $this;
     }
    
     /**
      * Show matched elements (display:block)
-     * @return RichElement
+     * @return RaxanElement
      */
-    public function show(){ $this->css('display','block'); }
+    public function show(){ return $this->css('display',''); }
 
     /**
      * Selects the siblings of the matched elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function siblings($selector = null){
         return $this->traverse($selector,'siblings','nextSibling'); // select all
@@ -717,7 +817,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Selects a subset of the match elements
-     * @return RichElement 
+     * @return RaxanElement
      */
     public function slice($start, $length = null) {
         return $this->stack(
@@ -728,10 +828,10 @@ class RichElement extends RichAPIBase {
 
     /**
      * Sets or returns a date store name for the matched selection
-     * @return RichElement or String
+     * @return RaxanElement or String
      */
     public function storeName($n = null) {
-        if ($n!==null) $his->name = $n;
+        if ($n!==null) $this->name = $n;
         else {
             if (!$this->name){ // auto-setup collection name
                 $id = ($this->elms) ? $this->elms[0]->getAttribute('id') : '';
@@ -755,7 +855,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Returns or set text on match elements
-     * @return RichElement or String
+     * @return RaxanElement or String
      */
     public function text($txt=null) {
         $txt = $txt ? htmlspecialchars($txt): $txt;
@@ -771,8 +871,17 @@ class RichElement extends RichAPIBase {
     }
 
     /**
+     * Returns or sets the non-html text value for a form element
+     * @return RaxanElement or string
+     */
+    public function textval($txt = null) {
+        if ($txt===null) return strip_tags($this->val());
+        return $this->val(strip_tags($txt));
+    }
+
+    /**
      * Binds a callback function to a timeout event. $msTime  - milliseconds
-     * @return RichElement
+     * @return RaxanElement
      */
     public function timeout($msTime,$data,$fn = null) {
         $sel = !$this->modified ? $this->selector : null;
@@ -786,7 +895,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Toggle css class name
-     * @return RichElement
+     * @return RaxanElement
      */
     public function toggleClass($cls) {
         return $this->modifyClass($cls,'toggle');
@@ -794,7 +903,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Trigger events on the match elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function trigger($type,$args = null) {
         $this->page->triggerEvent($this->elms,$type,$args);
@@ -803,7 +912,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Removes all event handlers for the specified event type
-     * @return RichElement
+     * @return RaxanElement
      */
     public function unbind($type) {
         $sel = !$this->modified ? $this->selector : null ;
@@ -813,7 +922,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Removes all duplicate elements from the matched set
-     * @return RichElement
+     * @return RaxanElement
      */
     public function unique() {
         $uid = time();
@@ -829,8 +938,20 @@ class RichElement extends RichAPIBase {
     }
 
     /**
+     * Update client-side elements with the html content of the matched elements. See <sendToClient>
+     * @return RaxanElement
+     */
+    public function updateClient() {
+        if ($this->page->isCallback) { // only update if in callback mode
+            $selector = $this->matchSelector();
+            $this->sendToClient($selector, 'update');
+        }
+        return $this;
+    }
+
+    /**
      * Returns or sets the value for a form element
-     * @return RichElement or String
+     * @return RaxanElement or String
      */
     public function val($v = null){ return $this->value($v); } // alias to value();
     public function value($v = null){
@@ -868,7 +989,7 @@ class RichElement extends RichAPIBase {
                 if ($nn=='textarea') {     // textareas
                     $n->nodeValue='';
                     if ($value && !is_array($value)) {
-                        $f = $this->createFragment(htmlspecialchars($value.''));
+                        $f = $this->createFragment(htmlspecialchars($value.'',null,$this->doc->charset));
                         if ($f) $n->appendChild($f);
                     }
                 }
@@ -903,11 +1024,9 @@ class RichElement extends RichAPIBase {
         }
     }
 
-
-
     /**
      * Wrap matched elements inside the specified HTML content or element.
-     * @return RichElement
+     * @return RaxanElement
      */
     public function wrap($content) {
         foreach($this->elms as $n) {
@@ -918,7 +1037,7 @@ class RichElement extends RichAPIBase {
 
     /**
      * Wrap all matched elements inside the specified HTML content or element
-     * @return RichElement
+     * @return RaxanElement
      */
     public function wrapAll($content) {
         P($content,$this->doc)
@@ -933,6 +1052,35 @@ class RichElement extends RichAPIBase {
      *  Private/protected Function -------------------------------
      *  ------------------------------------------------
      */
+
+    // load state info
+    protected function _loadElmState($elm,$data) {
+        $htm =  isset($data['_html']) ? $data['_html'] : '';
+        $htm =  $data['_html'];
+        unset($data['_html']);
+        foreach($data as $n=>$v) $elm->setAttribute($n,$v);
+        $elm = $this->clearNode($elm); // clear node
+        $f = $this->createFragment($htm);
+        if ($f) $elm->appendChild($f); // insert html
+    }
+
+    // save state info
+    protected function _saveElmState($elm,&$data) {
+        foreach($elm->attributes as $a) $data[$a->name] = $a->value ;
+        $data['_html'] = $this->nodeContent($elm);
+    }
+
+    // returns state data
+    protected function & getStateData($type = 'local') {
+        $dtKey = 'RaxanGlobal_State'; $dtName  = '__state__';
+        if ($type == 'global') { // global state
+            return Raxan::data($dtKey,$dtName,array(),true);
+        }
+        else { // local state
+           $pg  = & $this->page;
+           return $pg->data($dtName,array(),true);
+        }
+    }
 
     // returns the html content of an elment
     protected function nodeContent($n, $outer=false) {
@@ -971,7 +1119,7 @@ class RichElement extends RichAPIBase {
 
     // Create and return a DOM fragment node
     protected function createFragment($html) {
-        if (!$html) return false;
+        if (trim($html)==='') return false;
         $frag = $this->doc->createDocumentFragment();
         $ok = @$frag->appendXML($html); // I really wish there was an appendXML() method
         if(!$ok) {
@@ -1007,7 +1155,7 @@ class RichElement extends RichAPIBase {
             $content = array($this->createFragment($content));
         elseif ($content instanceof DOMNode ) $content =  array($content);
         elseif ($content instanceof DOMNodeList ) ;//$content =  $content;
-        elseif ($content instanceof RichElement ) $content =  $content->get();
+        elseif ($content instanceof RaxanElement ) $content =  $content->get();
         else return $this;
         if ($retNodes) $newNodes = array();
         foreach($this->elms as $i=>$n){
@@ -1073,9 +1221,16 @@ class RichElement extends RichAPIBase {
     }
 
     // Restore previously matched elements 
-    protected function unstack() {
-        $elms = isset($this->stack) ?  array_pop($this->stack) : $this->elms;
-        if ($elms) $this->elms = $elms;
+    protected function unstack($all = false) {
+        $hasStack = isset($this->stack) && $this->stack;
+        if ($hasStack) {
+            if (!$all) $elms = isset($this->stack) ?  array_pop($this->stack) : $this->elms;
+            else {
+                $elms = $this->stack[0];
+                unset($this->stack);
+            }
+            if ($elms) $this->elms = $elms;
+        }
         return $this;
     }
 
@@ -1083,37 +1238,71 @@ class RichElement extends RichAPIBase {
     // -------------------------------------------
 
     /**
-     * Adds a custom method to the RichElement Class
+     * Adds a custom method to the RaxanElement Class. Use addMethod($object) to add multiple methods from an object
      */
-    public static function addMethod($name,$callback) {
-        if (!is_callable($callback)) {
-            throw new Exception('Unable to execute callback function or method: '.print_r($callback,true));
-        }
+    public static function addMethod($name,$callback = null) {
         if(!self::$callMethods) self::$callMethods = array();
-        self::$callMethods[$name] = $callback;
+        if ($callback===null && is_object($name)) { // add methods from an object
+            $obj = $name; $names = get_class_methods($obj);
+            foreach($names as $name)
+                if($name[0]!='_') self::$callMethods[$name] = array($obj,$name); // don't add names that begins with '_'
+        }
+        else {
+            if (!is_callable($callback)) Raxan::throwCallbackException($callback);
+            self::$callMethods[$name] = $callback;
+        }
+    }
+
+    /**
+     * Returns a unique id
+     * @return String
+     */
+    protected static function uniqueId($prefix = 'e0x') {
+        return $prefix.(++self::$autoid);
     }
 
 }
 
 /**
- *  RichPlugin
+ *  Raxan User Interface Element
  */
-class RichPlugin extends RichElement {
+abstract class RaxanUIElement extends RaxanElement {
 
-    protected $implementPrerender = false;
+    protected $implementsLoad = false;
+    protected $implementsRender = false;
+
+    protected $_isPrerender = false;
 
     public function __construct($css,$context = null) {
         parent::__construct($css,$context);
-        if ($this->implementPrerender)
-            $this->page->registerPlugin($this);
+        if ($this->implementsLoad||$this->implementsRender) {
+            $this->page->registerUIElement($this);
+        }
     }
 
-    public function render() {}
-    public function dataSource($data) {}
+    // Event Handlers
+    protected function _load() { }       // invoked when page is loaded
+    protected function _prerender() { }  // invoked when page is been rendered
 
-    protected function getUniqueId($prefix = 'plug-x') {
-        return $prefix.self::$autoid++;
+    /**
+     * Triggers the _load event handler to load addition data
+     * @return RaxanUIElement
+     */
+    public function loadUI() {
+        if($this->implementsLoad) $this->_load();
+        return $this;
     }
+
+    /**
+     * Triggers the _prerender event handler to render the UI element.
+     * @return RaxanUIElement
+     */
+    public function renderUI() {
+        if($this->implementsRender && !$this->_isPrerender)
+            $this->_prerender();
+        return $this;
+    }
+
 }
 
 ?>

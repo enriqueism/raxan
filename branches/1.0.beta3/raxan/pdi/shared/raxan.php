@@ -1,35 +1,99 @@
 <?php
 /**
+ * Raxan for PHP
+ * This file includes Raxan, RaxanBase, RaxanDataStorage, RaxanSessionStorage, RaxanPlugin
  * @package Raxan
  */
 
 // @todo: check other server settings to make sure that site path/url works.
 
-// Main Error Handler
-function richAPI_error_handler($errno, $errstr, $errfile, $errline ) {
-    if (error_reporting()===0) return;
-    if (error_reporting() & $errno){    // repect error reporting level
-        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
-    }
-}
 
-// PHP Version ID
+// Set PHP Version ID
 if(!defined('PHP_VERSION_ID')) {
     $version = PHP_VERSION;
     define('PHP_VERSION_ID', ($version{0} * 10000 + $version{2} * 100 + $version{4}));
 }
 
 /**
- * Raxan Core Classes - Includes RichAPI & RichAPIEvent Classes
+ * Raxan Main Error Handler
  */
-class RichAPI {
+function raxan_error_handler($errno, $errstr, $errfile, $errline ) {
+    if (error_reporting()===0) return;
+    if (error_reporting() & $errno){    // repect error reporting level
+        throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+    }
+}
+
+/**
+ * Abstract Data Storage Class
+ * Extend the RaxanDataStorage class to create custom data storage classes for web pages and session data.
+ */
+abstract class RaxanDataStorage {
+    protected $store,$id;
+    public function __construct($id = null) {
+        $this->id = $id; $this->_init();
+    }
+    public function __destruct() { $this->_save(); }
+    protected function _init() { /* initailize storage and handle garbage collection  */ }
+    protected function _save() { /* save storage */ }
+    protected function _reset() { /* reset storage */ }
+    public function exists($key) { return isset($this->store[$key]); }
+    public function & read($key) { return $this->store[$key]; }
+    public function & write($key, $value) { $s = $this->store[$key] = $value; return $this->store[$key];}
+    public function remove($key) { unset($this->store[$key]); }
+    public function resetStore() { $this->_reset(); }
+    public function storageId() { return $this->id; }
+
+ }
+
+/**
+ * Abstract Class for creating plugins
+ */
+abstract class RaxanPlugin {
+
+    // copy these properties to new plugin
+    public static $name = 'Plugin Name';
+    public static $description = "Plugin description";
+    public static $author = "Author's name";
+
+    protected static $shared = array();
+
+    protected $events;
+
+    public function __construct() {
+        $call =  array($this,'raiseEvent');
+        $a = $this->methods();
+        foreach ($a as $n)
+            if ($n[0]!='_' && strpos($n,'_')){
+                $this->events[$n] = true;
+                Raxan::bindSysEvent($n, $call);
+            }
+    }
+
+    public function raiseEvent($event,$args) {
+        $type = $event->type;
+        if (isset($this->events[$type])) $this->{$type}($event,$args);
+    }
+
+    public static function instance($class) {
+        $cls = $class;
+        if (!isset(self::$shared[$cls])) self::$shared[$cls] = new $cls();
+        return self::$shared[$cls];
+    }
+}
+
+/**
+ * Raxan Main classs
+ */
+class Raxan {
 
     public static $version = '1.0'; // @todo: Update API version/revision
-    public static $revision = '1.0.0.b2';
+    public static $revision = '1.0.0.b3';
 
     public static $isInit = false;
-    public static $isSessionLoaded = false;
-    
+    public static $isPDOLoaded = false;
+    public static $isDataStorageLoaded = false;
+
     public static $isDebug = false;
     public static $isLogging = false;
     public static $postBackToken;  // used to identify legitimate Events and Post Back requests
@@ -38,6 +102,8 @@ class RichAPI {
     private static $isJSONLoaded;
     private static $isLocaleLoaded = false;
     private static $jsonStrict, $jsonLose;
+    private static $dataStore;
+    private static $isSanitizerLoaded = false;
 
     private static $debug, $logFile = 'PHP';
     private static $configFile;
@@ -47,6 +113,7 @@ class RichAPI {
     private static $jsStrng2= array('\\\\','\\"','','\n','\x00','\x1a');
     private static $locale = array();
     private static $config = array(
+        'autostart'     => '',
         'base.path'     => '',
         'site.locale'   => 'en',    // e.g. en-us
         'site.lang'     => 'en',    // languae used by labels
@@ -64,7 +131,7 @@ class RichAPI {
         'locale.path'   => '',
         'session.name'  => 'XPDI1000SE',
         'session.timeout'=> '30',   // in minutes
-        'session.handler'=> 'default',
+        'session.data.storage' => 'RaxanSessionStorage',    // default session data storage class
         'db.default'    => '',
         'debug'         => false,
         'debug.log'     => false,
@@ -75,9 +142,14 @@ class RichAPI {
         'error.403' => '', 'error.404' => '',
         'page.localizeOnResponse' => false,         // default page settings
         'page.initStartupScript' => false,
-        'page.resetDataOnFirstLoad' => false,      
+        'page.resetDataOnFirstLoad' => true,
         'page.preserveFormContent' => false,
-        'page.showRenderTime' => false
+        'page.disableInlineEvents' => false,
+        'page.masterTemplate' => '',
+        'page.serializeOnPostBack' => '',
+        'page.degradable' => false,
+        'page.showRenderTime' => false,
+        'page.data.storage' => 'RaxanWebPageStorage'    // default page data storage class
     );
 
     /**
@@ -128,7 +200,7 @@ class RichAPI {
         if ($config['site.timezone']) date_default_timezone_set($config['site.timezone']);
 
         // set error handler
-        set_error_handler("richAPI_error_handler",error_reporting());
+        set_error_handler("raxan_error_handler",error_reporting());
 
         self::$isInit = true;
         self::triggerSysEvent('system_init');
@@ -137,25 +209,18 @@ class RichAPI {
     }
 
     /**
-     * Start php user session
+     * Initialize session data storage handler
      */
-    public static function initSession() {
+    public static function initDataStorage() {
         if (!self::$isInit) self::init();
-        $hnd = self::$config['session.handler'];        
-        if ($hnd=='database') {
-            // load database session handler
-            include_once(self::$config['base.path'].'shared/session.database.php');
-        }
-        session_name(self::$config['session.name']);
-        $timeout = (int)self::$config['session.timeout'];
-        if ($timeout) session_set_cookie_params(60 * $timeout); //set timeout
-        session_start();
-        self::$isSessionLoaded = true;
+        $cls = self::$config['session.data.storage'];
+        self::$dataStore = new $cls();
+        self::$isDataStorageLoaded = true;
         self::triggerSysEvent('session_init');
     }
-    
+
     /**
-     *  Init JSON support
+     *  Initialize JSON support
      */
     public static function initJSON() {
         self::$nativeJSON = function_exists('json_encode');
@@ -185,9 +250,9 @@ class RichAPI {
         $rowType = '';
         if ($rows instanceof PDOStatement)
             $rows = $rows->fetchAll(PDO::FETCH_ASSOC); // get rows from PDO results
-        else if ($rows instanceof RichElement) {
+        else if ($rows instanceof RaxanElement) {
             $rows = $rows->get();   // get all matched elements
-            $rowType='richElement';
+            $rowType='raxanElement';
         }
 
         if (empty($rows) || !is_array($rows)) return '';
@@ -225,10 +290,9 @@ class RichAPI {
                 $removeTags = isset($opt['removeUnusedTags']) ? $opt['removeUnusedTags'] : false;
                 $tr1 = intval($trunc); $tr2 = abs(str_replace('0.','',$trunc - $tr1));  // get truncate values
                 if ($selected && !is_array($selected)) $selected = array($selected);
-                if ($fmt) $fmtr = new RichDataSanitizer();
+                if ($fmt) $fmtr = Raxan::dataSanitizer();
                 if ($fn) {
-                    if (!is_callable($fn))
-                        throw new Exception('Unable to execute callback function or method: '.print_r($fn,true));
+                    if (!is_callable($fn)) Raxan::throwCallbackException($fn);
                     $callByVariable = is_string($fn);
                 }
             }
@@ -246,7 +310,7 @@ class RichAPI {
         // finalize row setup
         $rc = $page ? ($page-1)*$size : 0; // init row count
         $rt = array(); $isIndex = false; $startTrunc = '';
-        if ($rowType!='richElement'){
+        if ($rowType!='raxanElement'){
             if (!isset($rows[0])) $rows = array($rows);
             elseif (!is_array($rows[0])) {
                 $isIndex = true;
@@ -292,7 +356,7 @@ class RichAPI {
             else {
 
                 // check if row is an element
-                if($rowType=='richElement'){
+                if($rowType=='raxanElement'){
                     $v = array('INDEX'=>$i,'VALUE'=>$row->nodeValue);
                     $row = $row->attributes;
                     foreach($row as $attr) $v[$attr->name] = $attr->value;
@@ -345,12 +409,12 @@ class RichAPI {
     }
     
     /**
-     * Converts the given date to a RichDateTime object
-     * @returns RichDateTime
+     * Converts the given date to a RaxanDateTime object
+     * @returns RaxanDateTime
      */
-    public static function CDate($dt = null) {
-        require_once(RichAPI::config('base.path').'shared/rich.datetime.php');
-        $dt = new RichDateTime($dt);
+    public static function cDate($dt = null) {
+        require_once(Raxan::config('base.path').'shared/raxan.datetime.php');
+        $dt = new RaxanDateTime($dt);
         return $dt;
     }
 
@@ -379,11 +443,21 @@ class RichAPI {
     /**
      * Creates and returns a PDO connection to a database.
      * If connection failed then error is logged to the log file or debug screen. Sensitive data will be removed.
+     *
+     * Usage:
+     *  Raxan::connect($dsn,$uid,$pwd,$errMode) // enables exception error mode - set $errMode to true or set to PDO error mode constant
+     *  Raxan::connect($dsn,$uid,$pwd,$attribs) // set attributes
+     * 
      * @param Mixed $dsn String or Array
-     * @return PDO  False is connection failed
+     * @param Mixed $attribs Boolean, PDO error mode or Array of attributes
+     * @return RaxanPDO  False if connection failed
      */
-    public static function Connect($dsn,$user=null,$password=null,$attribs=null){
-        $dsn = (is_string($dsn) && $d=RichAPI::config('db.'.$dsn)) ? $d :$dsn;
+    public static function connect($dsn,$user=null,$password=null,$attribs=null){
+        $dsn = (is_string($dsn) && $d=Raxan::config('db.'.$dsn)) ? $d :$dsn;
+        if (!self::$isPDOLoaded) {
+            self::$isPDOLoaded = true;
+            include_once(self::$config['base.path'].'shared/raxan.pdo.php');
+        }
         if (is_array($dsn)){
             // build pdo dsn
             $user = $user ? $user : $dsn['user'];
@@ -391,16 +465,26 @@ class RichAPI {
             $attribs = $attribs ? $attribs : ($dsn['attribs']? $dsn['attribs'] : null);
             $dsn = $dsn['dsn'];
         }
+            // check for error mode
+        if ($attribs===true) $attribs  = PDO::ERRMODE_EXCEPTION;
+        if ($attribs===PDO::ERRMODE_EXCEPTION||$attribs===PDO::ERRMODE_WARNING) {
+            $attribs = array(PDO::ATTR_ERRMODE => $attribs);
+        }
+        $errmode = ($attribs && is_array($attribs) && isset($attribs[PDO::ATTR_ERRMODE])) ?
+                   $attribs[PDO::ATTR_ERRMODE] : null;
         try {
-            return new PDO($dsn,$user,$password,$attribs);
+            $pdo =  new RaxanPDO($dsn,$user,$password,$attribs);
+            return $pdo;
         }
         catch(PDOException $e){
-            $lbl = 'RichAPI::Connect';
-            $msg = $e->getMessage()."\n".$e->getTraceAsString();
-            // remove sensative data
-            $msg = str_replace(array($dsn,$user,$password),'...',$msg);
-            RichAPI::log($msg,'error',$lbl) || RichAPI::debug($lbl.' Error: '.$msg);
-            return false;
+            $lbl = 'Raxan::connect';
+            $msg = $e->getMessage()."\n".$e->getTraceAsString();            
+            $msg = str_replace(array($dsn,$user,$password),'...',$msg); // remove sensative data
+            if ($errmode!==null) throw new Exception($msg,$e->getCode());
+            else {
+                self::log($msg,'error',$lbl) || self::debug($lbl.' Error: '.$msg);
+                return false;
+            }            
         }
     }
 
@@ -416,25 +500,54 @@ class RichAPI {
     }
 
     /**
-     * Converts a CSV file into an 2D array. The first row of the CSV file must contain the column names
-     * @return Array
-     */
-    public static function importCSV($file, $delimiter = ',', $enclosure = '"', $escape = '\\', $terminator = "\n") {
-        $csv = file_get_contents($file);
-        if (!function_exists('csv_to_array')) include_once self::$config['base.path'].'shared/csvtoarray.php';
-        return csv_to_array($csv);
-    }
-
-    /**
      * Returns or sets named data value based on the specified id and/or key
      * @return Mixed
      */
-    public static function &data($id,$name = null,$value = null){
-        if (!self::$isSessionLoaded) self::initSession();
-        if(!isset($_SESSION[$id])) $_SESSION[$id] = array(); // create data cache
-        if ($value!==null) $_SESSION[$id][$name] = $value;
-        else if ($name===null) return $_SESSION[$id];    // return data array
-        return $_SESSION[$id][$name];
+    public static function &data($id,$name = null,$value = null,$setValueIfNotIsSet = false){
+        if (!self::$isDataStorageLoaded) self::initDataStorage();
+        $s = self::$dataStore;
+        if($s->exists($id)) $h = & $s->read($id);
+        else $h = & $s->write($id,array()); // create data cache
+        if ($name===null) return $h;    // return data array
+        else if ($value!==null) {
+            $sv = $setValueIfNotIsSet;
+            if (!$sv || ($sv && !isset($h[$name]))) $h[$name] = $value; // set value on first use
+        }
+        return $h[$name];
+    }
+
+    /**
+     * Sanitize the selected array and returns an instanace of the Data Sanitizer
+     * @return RaxanDataSanitizer
+     */
+    public static function dataSanitizer($array = null, $charset = null) {
+        if (!self::$isSanitizerLoaded) {
+            require_once(Raxan::config('base.path').'shared/raxan.datasanitizer.php');
+            self::$isSanitizerLoaded = true;
+        }
+        return new RaxanDataSanitizer($array,$charset);
+    }
+
+    /**
+     * Returns or sets the session data storage handler
+     * @return RaxanDataStorage
+     */
+    public static function dataStorage(RaxanDataStorage $store = null) {
+        if ($store===null && !self::$isDataStorageLoaded) self::initDataStorage();
+        else {
+            self::$isDataStorageLoaded = true;
+            self::$dataStore = $store;
+        }
+        return self::$dataStore;
+    }
+
+    /**
+     * Returns the session data storage id
+     * @return string
+     */
+    public static function dataStorageId() {
+        if (!self::$isDataStorageLoaded) self::initDataStorage();
+        return self::$dataStore->storageId();
     }
 
     /**
@@ -480,6 +593,75 @@ class RichAPI {
     public static function startTimer(){ self::$_timer = microtime(true); }
     public static function stopTimer() { return self::$_timer = microtime(true) - self::$_timer; }
 
+
+    /**
+     * Resamples (convert/resize) an image file. You can specify a new width, height and type
+     * @return Boolean
+     */
+     public static function imageResample($file,$w,$h, $type = null) {
+        if (!function_exists('imagecreatefromstring')) {
+            Raxan::log('Function imagecreatefromstring does not exists - The GD image processing library is required.','warn','Raxan::imageResample');
+            return false;
+        }
+        $info = @getImageSize($file);
+        if ($info) {
+            // maintain aspect ratio
+            if ($h==0) $h = $info[1] * ($w/$info[0]);
+            if ($w==0) $w = $info[0] * ($h/$info[1]);
+            if ($w==0 && $h==0) {$w = $info[0]; $h = $info[1];}
+            // resize/resample image
+            $img = @imageCreateFromString(file_get_contents($file));
+            if (!$img) return false;
+            $newImg = function_exists('imagecreatetruecolor') ? imageCreateTrueColor($w,$h) : imageCreate($w,$h);
+            if(function_exists('imagecopyresampled'))
+                imageCopyResampled($newImg, $img, 0, 0, 0, 0, $w, $h, $info[0], $info[1]);
+            else
+                imageCopyResized($newImg, $img, 0, 0, 0, 0, $w, $h, $info[0], $info[1]);
+            imagedestroy($img);
+            $type = !$type ? $info[2] : strtolower(trim($type));
+            if ($type==1||$type=='gif') $f = 'imagegif';
+            else if ($type==3 || $type=='png') $f = 'imagepng';
+            else if ($type==6 || $type==16 || $type=='bmp' || $type=='xbmp') $f = 'imagexbm';
+            else if ($type==15 || $type=='wbmp') $f = 'image2wbmp';
+            else $f = 'imagejpeg';
+            if (function_exists($f)) $f($newImg,$file);
+            imagedestroy($newImg);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns an array containing the width, height and type for the image file
+     * @return Array or NULL if error
+     */
+    public static function imageSize($file) {
+        if (!function_exists('getImageSize')) {
+            Raxan::log('Function getImageSize does not exists - The GD image processing library is required.','warn','Raxan::imageSize');
+            return null;
+        }
+
+        $info = @getImageSize($file);
+        if (!$info) return null;
+        else {
+            return array(
+                'width' => $info[0],
+                'height'=> $info[1],
+                'type'  => $info[2]
+            );
+        }
+    }
+
+    /**
+     * Converts a CSV file into an 2D array. The first row of the CSV file must contain the column names
+     * @return Array
+     */
+    public static function importCSV($file, $delimiter = ',', $enclosure = '"', $escape = '\\', $terminator = "\n") {
+        $csv = file_get_contents($file);
+        if (!function_exists('raxan_csv_to_array')) include_once self::$config['base.path'].'shared/csvtoarray.php';
+        return raxan_csv_to_array($csv);
+    }
+    
     /**
      * Encode/Decode JSON Strings
      * @return String
@@ -541,7 +723,7 @@ class RichAPI {
                 $rt = include_once($pth.$f.'.php');
             } catch(Exception $e) {
                 if (self::$isDebug)
-                    RichAPI::debug('Error while loading Language File \''.$f.'\' - '.$e->getMessage());
+                    Raxan::debug('Error while loading Language File \''.$f.'\' - '.$e->getMessage());
             }
             
         }
@@ -549,10 +731,12 @@ class RichAPI {
     }
 
     /**
-     * Load PDI plugin file.
+     * Load plugin file.
      * @param $extrn Boolean Set to true if file will be loaded from path that's external to plugins.path
+     * @return Boolean
      */
     public static function loadPlugin($file,$extrn = false) {
+        if (!self::$isInit) self::init();
         if (!$extrn) $file = self::$config['plugins.path'].$file.'.php';
         return include_once($file);
     }
@@ -570,7 +754,7 @@ class RichAPI {
         $level = $level ? strtoupper($level): 'INFO';
         $label = $label ? ' ['.$label.']' :  '';
         $var = $level." \t".date('Y-m-d H:i:s',time())." \t".$label. " \t".print_r($var,true);
-        if (self::$isDebug && self::$config['debug.log']) RichAPI::debug($var);
+        if (self::$isDebug && self::$config['debug.log']) Raxan::debug($var);
         if (self::$logFile=='PHP') return error_log($var);
         else {
             try {
@@ -614,67 +798,10 @@ class RichAPI {
      * Remove named data
      */
     public static function removeData($id,$name = null) {
-        if (!self::$isSessionLoaded) self::initSession();
-        if ($name===null) unset($_SESSION[$id]);
-       else unset($_SESSION[$id][$name]);
-    }
-
-    /**
-     * Resamples (convert/resize) an image file. You can specify a new width, height and type
-     * @return Boolean
-     */
-     public static function imageResample($file,$w,$h, $type = null) {
-        if (!function_exists('imagecreatefromstring')) {
-            RichAPI::log('Function imagecreatefromstring does not exists - The GD image processing library is required.','warn','RichDataSanitizer::fileImageResample');
-            return false;
-        }
-        $info = @getImageSize($file);
-        if ($info) {
-            // maintain aspect ratio
-            if ($h==0) $h = $info[1] * ($w/$info[0]);
-            if ($w==0) $w = $info[0] * ($h/$info[1]);
-            if ($w==0 && $h==0) {$w = $info[0]; $h = $info[1];}
-            // resize/resample image
-            $img = @imageCreateFromString(file_get_contents($file));
-            if (!$img) return false;
-            $newImg = function_exists('imagecreatetruecolor') ? imageCreateTrueColor($w,$h) : imageCreate($w,$h);
-            if(function_exists('imagecopyresampled'))
-                imageCopyResampled($newImg, $img, 0, 0, 0, 0, $w, $h, $info[0], $info[1]);
-            else
-                imageCopyResized($newImg, $img, 0, 0, 0, 0, $w, $h, $info[0], $info[1]);
-            imagedestroy($img);
-            $type = !$type ? $info[2] : strtolower(trim($type));
-            if ($type==1||$type=='gif') $f = 'imagegif';
-            else if ($type==3 || $type=='png') $f = 'imagepng';
-            else if ($type==6 || $type==16 || $type=='bmp' || $type=='xbmp') $f = 'imagexbm';
-            else if ($type==15 || $type=='wbmp') $f = 'image2wbmp';
-            else $f = 'imagejpeg';
-            if (function_exists($f)) $f($newImg,$file);
-            imagedestroy($newImg);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Returns an array containing the width, height and type for the image file
-     * @return Array or NULL if error
-     */
-    public static function imageSize($file) {
-        if (!function_exists('getImageSize')) {
-            RichAPI::log('Function getImageSize does not exists - The GD image processing library is required.','warn','RichDataSanitizer::fileImageSize');
-            return null;
-        }
-
-        $info = @getImageSize($file);
-        if (!$info) return null;
-        else {
-            return array(
-                'width' => $info[0],
-                'height'=> $info[1],
-                'type'  => $info[2]
-            );
-        }
+        if (!self::$isDataStorageLoaded) self::initDataStorage();
+        $s = & self::$dataStore;
+        if ($name===null) $s->remove($id);
+        else { $h = & $s->read($id); unset($h[$name]); }
     }
 
     /**
@@ -694,8 +821,7 @@ class RichAPI {
         }
         if ($msg!=$code) {
             if (!isset($_REQUEST['_ajax_call_'])) echo $html;
-            else {
-                $html = strip_tags($html);
+            else {                
                 echo self::JSON('encode', array(
                     '_actions' => 'alert("'.self::escapeText($msg).'");'
                 ));
@@ -750,17 +876,29 @@ class RichAPI {
      */
     public static function triggerSysEvent($name,$args = null) {
         if (isset(self::$sysEvents[$name])) {
-            foreach (self::$sysEvents[$name] as $fn) {
-                if (is_array($fn)) $fn[0]->{$fn[1]}($args);
-                else $fn($args);
+            $e = new RaxanSysEvent($name);
+            $hndls = self::$sysEvents[$name];
+            if ($hndls) foreach ($hndls as $fn) {
+                if (is_array($fn)) $rt = $fn[0]->{$fn[1]}($e,$args);
+                else $rt = $fn($e,$args);
+                if ($rt!==null) $e->result = $rt;
+                if ($e->isStopPropagation) break;
             }
         }
     }
-    
+ 
+    /**
+     * Throws an exception for missing or invalid callback
+     */
+    public static function throwCallbackException($fn) {
+        if (is_array($fn) && is_object($fn[0])) $fn[0] = get_class($fn[0]);
+        throw new Exception('Unable to execute callback function or method: '.print_r($fn,true));
+    }
+
 }
 
-// RichAPI Base Class
-abstract class RichAPIBase {
+// Raxan Base Class
+abstract class RaxanBase {
 
     protected static $mObjId = 0;   // Event Object counter
     protected $objId, $events;
@@ -771,7 +909,7 @@ abstract class RichAPIBase {
 
     /**
      * Bind the selected event to a callback function
-     * @return RichAPIBase
+     * @return RaxanBase
      */
     public function bind($type,$data = null, $fn = null) {
         // @todo: To be reviewed.
@@ -784,29 +922,47 @@ abstract class RichAPIBase {
     }
 
     /**
+     * Adds an entry to the log file
+     * @return Boolean
+     */
+    public function log($var,$level=null,$label=null){
+        return Raxan::log($var,$level,$label);
+    }
+
+    /**
+     * Returns Object ID
+     * @return int
+     */
+    public function objectId() {
+        return $this->objId;
+    }
+
+    /**
      * Triggers an event on the object
-     * @return RichAPIBase
+     * @return RaxanBase
      */
     public function trigger($type,$args = null){
-        $e = & $this->events;
-        $id = $this->objId.$type;
+        $e = & $this->events; $id = $this->objId.$type;
         $hnds = isset($e[$id]) ? $e[$id] :  null;
-        if ($hnds) foreach($hnds as $hnd) {
-            if (is_callable($validator)) {
-                $fn = $validator;
-                if (is_string($fn)) $rt = $fn($value);  // function callback
-                else  $rt = $fn[0]->{$fn[1]}($value);   // object callback
+        if ($hnds) {
+            $e = new RaxanSysEvent($type);
+            foreach($hnds as $hnd) {
+                if (!is_callable($hnd)) Raxan::throwCallbackException($hnd);
+                else {
+                    $fn = $hnd;
+                    if (is_string($fn)) $rt = $fn($e,$args);  // function callback
+                    else  $rt = $fn[0]->{$fn[1]}($e,$args);   // object callback
+                    if ($rt!==null) $e->result = $rt;
+                    if (!$e->isStopPropagation) break;
+                }
             }
-            else {
-                throw new Exception('Unable to execute callback function or method: '.print_r($hnd,true));
-            }             
         }
         return $this;
     }
 
     /**
      * Removes all event handlers for the specified event type
-     * @return RichAPIBase
+     * @return RaxanBase
      */
     public function unbind($type){
         $id = $this->objId.$type;
@@ -814,370 +970,54 @@ abstract class RichAPIBase {
         return $this;
     }
 
-    /**
-     * Adds an entry to the log file
-     * @return Boolean     
-     */
-    public function log($var,$level=null,$label=null){
-        return RichAPI::log($var,$level,$label);
-    }
+
 }
 
 /**
- * Provides APIs to filter and sanitizer user inputs and file uploads
+ * Raxan System Event
  */
-class RichDataSanitizer {
-    /**
-     *  @var $iDate RichDateTime */
+class RaxanSysEvent {
+    public $type;
+    public $result = null;     // returned value from previous handler
+    public $data;
+    public $isStopPropagation = false;
 
-    protected static $validators = array();
-    protected static $badCharacters = array("\r","\n","\t","\x00","\x1a");
-
-    protected $iData;
-    protected $iDate;
-    protected $charset;
-
-    
-    public function __construct($array=null,$charset = null) {
-        $this->charset = $charset ? $charset : RichAPI::config('site.charset');
-        $this->setDataArray($array);
+    public function __construct($type) {
+        $this->type = $type;
     }
 
     /**
-     * Sets the array source for the sanitizer
+     * Stops event propagation
+     * @return  RaxanWebPageEvent
      */
-    public function setDataArray($array) {
-        $this->iData = is_array($array) ? $array : $_POST;
+    public function stopPropagation() {
+        $this->isStopPropagation = true;
+        return this;
+    }    
+}
+
+/**
+ * Raxan Session Data Storage
+ */
+class RaxanSessionStorage extends RaxanDataStorage {
+
+    protected function _init() {
+        if ($this->id) session_id($this->id);
+        session_name($name = Raxan::config('session.name'));
+        $timeout = intval(Raxan::config('session.timeout')) * 60;
+        if ($timeout) session_set_cookie_params($timeout); //set timeout
+        session_start();
+        $this->store = & $_SESSION;
+        if (!$this->id) $this->id = session_id();
+        // reset cookie timeout on page load/refesh
+        if (isset($_COOKIE[$name]))
+            setcookie($name, $_COOKIE[$name], time() + $timeout, '/');
     }
 
-    // handle calls for custom validators
-    public function __call($name,$args){
-        $validator = isset(self::$validators[$name]) ? self::$validators[$name] : '';
-        if (!$validator) {
-            throw new Exception('Undefined Method \''.$name.'\'');
-        }
-        $isPattern = substr($validator,0,1)=='#';
-        $value = $this->value($args[0]);
-        if ($isPattern) return preg_match(substr($validator,1),$value);
-        elseif (is_callable($validator)) {
-            $fn = $validator;
-            if (is_string($fn)) $rt = $fn($value);  // function callback
-            else  $rt = $fn[0]->{$fn[1]}($value);   // object callback
-            return $rt ? $rt : false;
-        }
-        else {
-            throw new Exception('Unable to execute validator callback function or method: '.print_r($validator,true));
-        }
-    }
-
-    /**
-     * Adds a custom data validator using regex patterns or callback function
-     * Used as a wrapper to addDataValidator
-     */
-    public function addValidator($name,$pattern){
-        self::addDataValidator($name,$pattern);
-    }
-
-    /**
-     * Returns formated date value
-     * @return String
-     */
-    public function date($key,$format = null) {
-        if ($format===null) $format = 'iso';
-        $noTrans  = false;
-        switch ($format) {
-            case 'iso':
-            case 'mysql':
-                $format = 'Y-m-d'; $noTrans = true;
-                break;
-            case 'mssql':
-                $format = 'm/d/Y'; $noTrans = true;
-                break;
-            case 'short':
-                $format = RichAPI::locale('date.short');
-                break;
-            case 'long':
-                $format = RichAPI::locale('date.long');
-                break;
-        }
-        
-        if (!isset($this->iDate)) $this->iDate = RichAPI::CDate();
-        $v = $this->iDate->format($format,$this->value($key),$noTrans);
-        return $v;
-    }
-
-    /**
-     * Returns sanitized email address for the selected field
-     * @return String
-     */
-    public function email($key) {
-        return str_replace(self::$badCharacters,'',$this->text($key));
-    }
-
-    /**
-     * Returns html escaped value for the selected field
-     * @return String
-     */
-    public function escape($key) {
-        return htmlspecialchars($this->value($key), ENT_COMPAT, $this->charset);
-    }
-
-    /**
-     * Returns float value
-     * @return Float
-     */
-    public function float($key,$decimal = null) {
-        $v = $this->value($key);
-        return $decimal ? number_format($v,$decimal) :(float)$v;
-    }
-
-    /**
-     * Returns sanitized html by removing javascript tags and inline events
-     * @return String
-     */
-    public function html($key,$allowable = null,$allowStyle = true) {
-        $v = $this->value($key);
-        if ($allowable==null) {
-            // remove script & style tags
-            $rx1 = '#<script[^>]*?>.*?</script>'.(!$allowStyle ? '|<style[^>]*?>.*?</style>' :'').'#is';
-            $v = preg_replace($rx1,'',$v);
-        }
-        else {
-            // allow specified html tags
-            $v = strip_tags($v,$allowable);
-        }
-        // nutralize inline styles and events
-        $rx1 = '/<\w+\s*.*(on\w+\s*=|style\s*=)[^>]*?>/is';
-        $rx2 = '/on\w+.s*=\s*'.(!$allowStyle ? '|style\s*=\s*' : '').'/is';
-        $rx3 = '/nXtra=(["\']).*?\1|javascript\:|\s*expression\s*.*\(.*[^\)]?\)/is';
-        if (preg_match_all($rx1,$v,$m)) {
-            $tags = preg_replace($rx2,'nXtra=',$m[0]); // nutralize inline scripts/styles
-            $tags = preg_replace($rx3,'',$tags);
-            $v = str_replace($m[0],$tags,$v);
-        }
-        return $v;
-
-    }
-
-    /**
-     * Returns the content of an uploaded file based on the selected field name
-     * @return String
-     */
-    public function fileContent($fld) {
-        $fl = isset($_FILES[$fld]) ? $_FILES[$fld]['tmp_name'] : '';
-        return (file_exists($fl)) ? file_get_contents($fl) : '';
-    }
-
-    /**
-     * Copies an uploaded files (based on the selected field name) to the specified destination.
-     * @return Boolean
-     */
-    public function fileCopy($fld,$dest) {
-        $fl = isset($_FILES[$fld]) ? $_FILES[$fld] : null;
-        if($fl) return copy($fl['tmp_name'],$dest);
-        else return false;
-    }
-
-    /**
-     * Returns a total number of file uploaded
-     * @return Integer
-     */
-    public function fileCount() {
-         return isset($_FILES) ? count($_FILES) : 0;
-    }
-
-    /**
-     * Returns an array containing the width, height and type for the uploaded image file
-     * @return Array or NULL if error
-     */
-    public function fileImageSize($key) {
-        $fl = isset($_FILES[$key]) ? $_FILES[$key] : null;
-        $fl = $fl ? $fl['tmp_name'] : null;
-        return RichAPI::imageSize($fl);
-    }
-
-    /**
-     * Resamples (convert/resize) the uploaded image. You can specify a new width, height and type
-     * @return Boolean
-     */
-    public function fileImageResample($key,$w,$h,$type=null) {
-        $fl = isset($_FILES[$key]) ? $_FILES[$key] : null;
-        $fl  = $fl ? $fl['tmp_name'] : null;
-        return RichAPI::imageResample($fl, $w, $h,$type);
-    }
-
-    /**
-     * Moves an uploaded files (based on the selected field name) to the specified destination.
-     * @return Boolean
-     */
-    public function fileMove($fld, $dest) {
-        $fl = isset($_FILES[$fld]) ? $_FILES[$fld] : null;
-        if($fl) return move_uploaded_file($fl['tmp_name'], $dest);
-        else  return false;
-
-    }
-
-    /**
-     * Returns the original name of the uploaded file based on the selected field name
-     * @return String
-     */
-    public function fileOrigName($fld) {
-        return  isset($_FILES[$fld]) ? $_FILES[$fld]['name'] : '';
-    }
-
-
-    /**
-     * Returns the size of the uploaded file based on the selected field name
-     * @return Integer
-     */
-    public function fileSize($fld) {
-        return  isset($_FILES[$fld]) ? $_FILES[$fld]['size'] : '';
-    }
-
-    /**
-     * Returns the file type (as reported by browser) of an uploaded file based on the selected field name
-     * @return String
-     */
-    public function fileType($fld) {
-        return  isset($_FILES[$fld]) ? $_FILES[$fld]['type'] : '';
-    }
-
-    /**
-     * Returns integer value
-     * @return Integer
-     */
-    public function integer($key) {
-        return (int)$this->value($key);
-    }
-
-    /**
-     * Returns true if the selected field is a valid date entry
-     * @return Boolean
-     */
-    public function isDate($key,$format = null) {
-        if ($format===null && $this->timestamp($key)>0) return true;
-        else {
-            $dt = trim($this->value($key));
-            return strtolower($dt) === strtolower($this->date($key,$format));
-        }
-    }
-
-    /**
-     * Returns true if the selected field is a valid email address
-     * @return Boolean
-     */
-    public function isEmail($key) {
-        // Based on Regex by Geert De Deckere. http://pastie.textmate.org/159503
-        $regex = '/^[-_a-z0-9\'+^~]++(?:\.[-_a-z0-9\'+^~]+)*+@'.
-                 '(?:(?![-.])[-a-z0-9.]+(?<![-.])\.[a-z]{2,6}|\d{1,3}(?:\.\d{1,3}){3})(?::\d++)?$/iD';
-        return preg_match($regex, $this->value($key));
-    }
-
-    /**
-     * Returns true if the selected field is numeric
-     * @return Boolean
-     */
-    public function isNumeric($key) {
-        return is_numeric($this->value($key));
-    }
-
-    /**
-     * Returns true if the selected field is numeric
-     * @return Boolean
-     */
-    public function isUrl($key) {
-        // @todo: Optimize isUrl() - replace rexgex if necessary
-        // regex based on http://geekswithblogs.net/casualjim/archive/2005/12/01/61722.aspx
-        $regex = '>^(?#Protocol)(?:(?:ht|f)tp(?:s?)\:\/\/|~/|/)?(?#Username:Password)(?:\w+:\w+@)'.
-                 '?(?#Subdomains)(?:(?:[-\w]+\.)+(?#TopLevel Domains)(?:com|org|net|gov|mil|biz|info|mobi|name|aero|jobs|museum|travel|[a-z]{2}))'.
-                 '(?#Port)(?::[\d]{1,5})?(?#Directories)(?:(?:(?:/(?:[-\w~!$+|.,=]|%[a-f\d]{2})+)+|/)+|\?|#)?(?#Query)(?:(?:\?(?:[-\w~!$+|.,*:]|'.
-                 '%[a-f\d{2}])+=(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)(?:&(?:[-\w~!$+|.,*:]|%[a-f\d{2}])+=(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)*)'.
-                 '*(?#Anchor)(?:#(?:[-\w~!$+|.,*:=]|%[a-f\d]{2})*)?$>i ';
-        $ok = preg_match($regex, $this->value($key),$m);
-        return $ok;
-    }
-
-    /**
-     * Returns the length of the speicifed field value
-     * @return Integer
-     */
-    public function length($key) {
-        return strlen($this->value($key));
-    }
-
-    /**
-     * Returns formatted money value based on locale settings
-     * @return String
-     */
-    public function money($key,$decimal = null) {
-        $v = $this->number($key,$decimal);
-        $mf = RichAPI::locale('money.format');
-        if ($mf) return money_format($mf, $v);   // @todo: Test money_format;
-        else {
-            $cs = RichAPI::locale('currency.symbol');
-            $cl = RichAPI::locale('currency.location');
-            return $cl=='rt' ? $v.$cs : $cs.$v;
-        }
-    }
-
-    /**
-     * Returns formatted number value based on locale settings
-     * @return String
-     */
-    public function number($key,$decimal = null) {
-        $ds = RichAPI::locale('decimal.separator');
-        $ts = RichAPI::locale('thousand.separator');
-        return number_format($this->value($key),$decimal,$ds,$ts);
-    }
-
-    /**
-     * Remove html tags
-     * @return String
-     */
-    public function text($key,$length = null) {
-        $v = strip_tags($this->value($key));
-        $v = ($length!==null && is_numeric($length)) ? substr($v,0,$length) : $v;
-        return $v;
-    }
-
-    /**
-     * Returns timestamp
-     * @return Integer
-     */
-    public function timestamp($key) {
-        if (!isset($this->iDate)) $this->iDate = RichAPI::CDate();
-        return $this->iDate->getTimestamp($this->value($key));
-    }
-
-    /**
-     * Returns sanitized url for the selected field
-     * @return String
-     */
-    public function url($key, $encoded = false) {
-        $v = str_replace(self::$badCharacters,'',$this->value($key));
-        return $encode ?  url_encode($v) : $v;
-    }
-    
-    /**
-     * Returns a value  based on the specified key
-     * @return Mixed
-     */
-    public function value($key) {
-        return isset($this->iData[$key]) ? $this->iData[$key] : null;
-    }
-
-
-    // Static Functions
-    // -----------------------
-
-    /**
-     * Adds a custom data validator using regex patterns or callback function
-     * A callback function can be used as in place of a $pattern
-     * @return null 
-     */
-    public static function addDataValidator($name,$pattern){
-        $isRegEx = is_string($pattern) && preg_match('/^\W/',trim($pattern));
-        self::$validators['is'.ucfirst($name)] = ($isRegEx ? '#':'').$pattern;
+    protected function _reset() {
+        session_destroy();
+        session_start();
+        $this->store = & $_SESSION;
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Rich Web Page 
+ * Raxan Web Page
  * Copyright Raymond Irving 2008
  * @date: 10-Dec-2008
  * @package Raxan
@@ -8,99 +8,110 @@
 
 
 
-// Load Rich Element
-include_once(dirname(__FILE__).'/rich.element.php');
+// Load Raxan Element
+include_once(dirname(__FILE__).'/raxan.element.php');
 
 /**
  * Rch web Page query shortcut
  * @param $selector Mixed - css selector, html, DOMNode
  * @param $content DOMNode
- * @return RichElement  
+ * @return RaxanElement
  */
 function P($selector = '', $context = null){
-    return RichWebPage::Controller()->find($selector,$context);
+    return RaxanWebPage::controller()->find($selector,$context);
 }
 
 /**
- * Rich Client Extention Wrapper
+ * Raxan Client Extention Wrapper
  * @param $selector Mixed - css selector, html
- * @return RichClientExtentions
+ * @return RaxanClientExtention
  */
 function C($selector = '', $context = null){
-    return RichWebPage::Controller()->client($selector,$context);
+    return RaxanWebPage::controller()->client($selector,$context);
 }
 
 /**
  * Creates a reference to a client-side function
- * @return RichClientVariable
+ * @return RaxanClientVariable
  */
 function _fn($str,$name = null,$registerGlobal = false){
-     RichWebPage::LoadClientExtension();
-    $v = new RichClientVariable($str,null,true);
+     RaxanWebPage::loadClientExtension();
+    $v = new RaxanClientVariable($str,null,true);
     return $v;
 }
 
 /**
  * Creates a reference to the client-side $trigger function. Used to trigger an event callback to the server from the client.
- * @return RichClientVariable
+ * @return RaxanClientVariable
  */
 function _event($type,$value = null,$target = 'page'){
     // get value from first argument. If first argument is an event then pass event to trigger
     $code = 'var e,v=arguments[0],data=arguments[1]; if (v && v.stopPropagation) {e=v;v=null};';
-    $code.= '$trigger("'.RichAPI::escapeText($target).'",'.
-         ($type!==null ? '"'.RichAPI::escapeText($type).'"' : '""').','.
-         ($value!==null ? '"'.RichAPI::escapeText($value).'"' : 'v').',null,{event:e,data:data}'.
+    $code.= '$trigger("'.Raxan::escapeText($target).'",'.
+         ($type!==null ? '"'.Raxan::escapeText($type).'"' : '""').','.
+         ($value!==null ? '"'.Raxan::escapeText($value).'"' : 'v').',null,{event:e,data:data}'.
     ')';
     return _fn($code);
 }
 
 /**
  * Creates a reference to a client-side javascript variable
- * @return RichClientVariable
+ * @return RaxanClientVariable
  */
 function _var($str, $name = null, $registerGlobal = false){
-    RichWebPage::LoadClientExtension();
-    $v = new RichClientVariable($str, $name, false,$registerGlobal);
+    RaxanWebPage::loadClientExtension();
+    $v = new RaxanClientVariable($str, $name, false,$registerGlobal);
     return $v;
 }
 
 /**
  * Use for traversing and manipulating HTML DOM elements
  */
-class RichWebPage extends RichAPIBase implements ArrayAccess  {
+class RaxanWebPage extends RaxanBase implements ArrayAccess  {
 
     public static $vars = array();          // client-side local variables.
     public static $varsGlobal = array();    // client-side global variables.
     public static $actions = array();       // client-side actions
 
     public $clientPostbackUrl;
+    public $isLoaded = false;
     public $isEmbedded,$embedOptions;
-    public $isPostback, $isCache, $isCallback, $isAuthorized;
+    public $isPostBack, $isCallback, $isAuthorized;
+    public $isCache, $isDataStorageLoaded;
     public $responseType = 'html';          // html,xhtml,xhtml/html,xml,wml,
     public $defaultBindOptions = array();   // default bind options
-    public $plugins;                        // plugins
 
     protected static $eventId = 1;
     protected static $cliExtLoaded = false;
-    protected static $mPage = null;      // page controller or master page
+    protected static $mPage = null;     // page controller or master page
+    protected static $callMethods;      // stores extended methods
 
     protected $localizeOnResponse;      // Automatically insert language strings into element with the langid attribute set to valid locale key/value pair
     protected $initStartupScript;       // loads the raxan startup.js script
     protected $resetDataOnFirstLoad;    // reset page data on first load
     protected $preserveFormContent;     // preserve form values on post back
-    protected $showRenderTime;
+    protected $disableInlineEvents;     // disables the processing on inline events
+    protected $scriptBehind = '';       // sets the javascript code behind file
+    protected $showRenderTime;          // shows the render time of the page
+    protected $serializeOnPostBack;     // default selector value for matched elements to be serialize on postback
+    protected $degradable;              // enable accessible mode for links, forms and submit buttons when binding to an event
+    protected $masterTemplate;
+    protected $masterContentBlock = '.master-content';
+
 
     /**
-     * @var RichDOMDocument $doc 
+     * @var RaxanDOMDocument $doc
      */
     protected $doc = null;   // document
-    protected $charset, $headers, $_contentType;
-    protected $name, $output;
-    protected $scripts = array();
-    protected $scriptBehind = '';
-    protected $request;
-    protected $startTime;
-    protected $flyDOM;
+    protected $pageOutput;   // output buffer
+    protected $_startTime, $_endResponse, $_startReply;
+    protected $_charset, $_headers, $_contentType;
+    protected $_storeName, $_postRqst;
+    protected $_flyDOM, $_scripts = array();
+    protected $_eCache = array();    // element cache
+    protected $_uiElms;     //registered ui elements
+    protected $_stateObjects;
+    protected $_dataStore, $_dataReset = false;
 
     // Page request handlers
     protected function _init() {}
@@ -116,30 +127,40 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     public function __construct($xhtml='', $charset = null, $type=null) {
         parent::__construct();
 
-        // initailize the RichAPI
-        if (!RichAPI::$isInit) RichAPI::init();
+        $t = & $this;
+
+        // set start time
+        if ($t->showRenderTime) $t->_startTime = Raxan::startTimer();
+
+        // initailize Raxan
+        if (!Raxan::$isInit) Raxan::init();
 
         // apply default page settings to the specified page object
-        $t = & $this; $c = RichAPI::config();
+        $c = Raxan::config();
         if (!isset($t->localizeOnResponse)) $t->localizeOnResponse = $c['page.localizeOnResponse'];
         if (!isset($t->showRenderTime)) $t->showRenderTime = $c['page.showRenderTime'];
         if (!isset($t->initStartupScript)) $t->initStartupScript = $c['page.initStartupScript'];
         if (!isset($t->resetDataOnFirstLoad)) $t->resetDataOnFirstLoad = $c['page.resetDataOnFirstLoad'];
+        if (!isset($t->preserveFormContent)) $t->preserveFormContent = $c['page.preserveFormContent'];
+        if (!isset($t->disableInlineEvents)) $t->disableInlineEvents = $c['page.disableInlineEvents'];
+        if (!isset($t->masterTemplate)) $t->masterTemplate = $c['page.masterTemplate'];
+        if (!isset($t->serializeOnPostBack)) $t->serializeOnPostBack = $c['page.serializeOnPostBack'];
+        if (!isset($t->degradable)) $t->degradable = $c['page.degradable'];
         // Deprecated. Use preserveFormContent instead
         if (isset($t->updateFormOnPostback)) $t->preserveFormContent = $t->updateFormOnPostback; // @todo: remove in future release
-        if (!isset($t->preserveFormContent)) $t->preserveFormContent = $c['page.preserveFormContent'];
 
         // set clientPostbackUrl
-        $t->clientPostbackUrl = RichAPI::currentURL();
+        $t->clientPostbackUrl = Raxan::currentURL();
 
         // load default settings, charset, etc
-        $t->charset = $charset ? $charset : $c['site.charset'];
-        $t->doc = self::CreateDOM($xhtml, $t->charset, $type);
+        $t->_charset = $charset ? $charset : $c['site.charset'];
+        $t->doc = self::createDOM(null, $t->_charset);
         $t->doc->page = $t;
-        if (self::$mPage==null) self::Controller($t);
+        $t->source($xhtml,$type); // set document source
+        if (self::$mPage==null) self::controller($t);
 
         // init postback variables
-        $t->isPostback = count($_POST) ? true : false;
+        $t->isPostBack = $t->isPostback = count($_POST) ? true : false; // @todo: deprecate $t->isPostback
         $t->isCallback = isset($_POST['_ajax_call_']) ? true : false;
         if (isset($_GET['embed'])) {
             $em = $_GET['embed'];
@@ -147,31 +168,44 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
             $t->embedOptions = $opt;
         }
 
-        // call page  _init, _load and switchboard
+        // call page  _init, _switchboard and _load
+        $t->_endResponse = false;
+        if (Raxan::$isDebug) Raxan::debug('Page _init()');
         $t->_init();
-        RichAPI::triggerSysEvent('page_init',$t);
-        $t->isAuthorized = $this->_authorize();
-        if ($t->isAuthorized) {
-            if ($t->resetDataOnFirstLoad && $t->_reset()) {
-                $pb = $this->isPostback; $lp = $this->data('_rxLastPage_');
-                if (!$pb || !$lp || ($pb && $lp != $_SERVER['PHP_SELF']))                     
-                    $this->removeData()->data('_rxLastPage_', $_SERVER['PHP_SELF']); // reset page data and save last page
-            }
-            $t->_load();
-            if ($t->preserveFormContent && $t->isPostback) $t->updateFields(); // update form fields on postbacks
+        Raxan::triggerSysEvent('page_init',$t);
+
+        if (Raxan::$isDebug) Raxan::debug('Page _authorize()');
+        $t->isAuthorized = !$t->_endResponse && $this->_authorize();
+        if ($t->isAuthorized || $t->_endResponse) {
 
             // switchboard
             $a = isset($_GET['sba']) ? $_GET['sba'] : '';   // get switchboad action (sba)
-            $t->_switchboard($a);
+            if (!$t->_endResponse) $t->_switchboard($a);
+
+            // bind inline events
+            if (Raxan::$isDebug) Raxan::debug('Page - Bind Inline Events');
+            $this->bindInlineEvents();
+
+            // preserve state
+            $this->findByXPath('//*[@xt-preservestate]')->preserveState();
+            
+            if (Raxan::$isDebug) Raxan::debug('Page _load()');
+            if (!$t->_endResponse) {
+                $t->_load(); $t->isLoaded = true;
+                $t->loadUIElements();
+                Raxan::triggerSysEvent('page_load',$t);
+            }                     
+
+            if ($t->preserveFormContent && $t->isPostback) {
+                if (Raxan::$isDebug) Raxan::debug('Page - Restore Form State');
+                $t->updateFields(); // update form fields on postbacks
+            }
 
         }
         else {            
             // if authorization failed then return HTTP: 403
-            RichAPI::sendError(RichAPI::locale('unauth_access'), 403);
+            Raxan::sendError(Raxan::locale('unauth_access'), 403);
         }
-
-        // set start time
-        if ($t->showRenderTime) $t->startTime = RichAPI::startTimer();
 
     }
 
@@ -180,19 +214,45 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
         $this->doc = null; // discard dom object
     }
 
+    // call
+    public function __call($name,$args){
+        if (isset(self::$callMethods[$name])) {
+            $fn = self::$callMethods[$name];
+            if (is_array($fn)) return $fn[0]->{$fn[1]}($this,$args);
+            else return $fn($this,$args);
+        }
+        else throw new Exception('Undefined Method \''.$name.'\'');
+    }
+
+    /**
+     * Returns a matched element by id using the variable name
+     * @param String $id
+     * @return RaxanElement
+     */
+    public function __get($id) {
+        $ec = & $this->_eCache;
+        if (isset($ec[$id]) && ($e = $ec[$id])) // check element cache
+            if (($n = $e->get(0)) && $n->parentNode) {
+                return $e->end(true); // reset stack if exist
+            }
+            else unset($ec[$id]);
+        if (($e = $this->findById($id))) return $ec[$id] = $e;
+        throw new Exception('Page element \''.$id.'\' or property not found');
+    }
+
     /**
      * Adds an HTTP header to the page
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function addHeader($hdr) {
-        if (!$this->headers) $this->headers = array();
-        $this->headers[] = $hdr;
+        if (!$this->_headers) $this->_headers = array();
+        $this->_headers[] = $hdr;
         return $this;
     }
 
     /**
      * Adds a block of CSS to the webpage
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function addCSS($style) {
         $this->loadCSS('<style type="text/css"><![CDATA[ '."\n".$style."\n".' ]]></style>');
@@ -201,7 +261,7 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
     /**
      * Adds a block of Javascript to the webpage
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function addScript($script,$startupEvent = null) {
         if ($startupEvent && strpos('ready,load,unload,',$startupEvent.',')!==false) {
@@ -213,35 +273,93 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     }
 
     /**
-     * Appends an html view to the page body element
-     * @return RichWebPage
+     * Appends the specified content to the page master content block element
+     * @return RaxanWebPage
+     */
+    public function append($html) {
+        $s = $this->masterContentSelecor();
+        $this->find($s)->append($html);
+        return $this;
+    }
+
+    /**
+     * Appends an html view to the page master content block element
+     * @return RaxanWebPage
      */
     public function appendView($view) {
-        $view = file_get_contents(RichAPI::config('views.path').$view);
+        $view = file_get_contents(Raxan::config('views.path').$view);
         if ($view) {
-            $this->find('body')->append($view);
+            $s = $this->masterContentSelecor();
+            $this->find($s)->append($view);
         }
         return $this;
     }
 
     /**
      * Binds an event to the page body element
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function bind($type,$data = null ,$fn = null) {
-        $this->find('body')->bind($type, $data, $fn);
+        $this->findByXPath('//body')->bind($type, $data, $fn);
         return $this;
     }
 
     /**
-     * Binds an array of elements to a client-side event - used by RichElement
-     * @return RichWebPage
+     * Bind Inline events to page callback method
+     * @return RaxanWebPage
+     */
+    public function bindInlineEvents() {
+        if ($this->disableInlineEvents) return $this;
+        $elms = $this->doc->xQuery('//*[@xt-bind]|//*[@xt-delegate]|//*[@xt-autoupdate]');
+        if ($elms->length > 0) {
+            $l = $elms->length;
+            for($i=0;$i<$l;$i++) {
+                $elm = $elms->item($i);
+                $attr = ($a = $elm->getAttribute('xt-bind')) ? 'B:'.str_replace(';',';B:',$a) : ''; // bind to multiple events
+                $attr.= ($a = $elm->getAttribute('xt-delegate')) ? ($attr ? ';':'').'D:'.str_replace(';',';D:',$a) : ''; // bind to multiple events
+                $attr.= (($a = $elm->getAttribute('xt-autoupdate'))!='true' && $a) ? ($attr ? ';':'').'A:'.$a : '';
+                $events = explode(';',$attr);
+                $elm->removeAttribute('xt-bind');
+                $elm->removeAttribute('xt-delegate');
+                foreach($events as $e) {
+                    if (!$e) continue;
+                    $sel = ''; $belms = null;
+                    $mode = $e[0]; $e = substr($e,2);
+                    $type = explode(',',trim($e),5); $de = false;
+                    $o = array('callback'=>(isset($type[1]) && ($t = trim($type[1])) ? '.'.$t : null));
+                    if (isset($type[2]) && ($t = trim($type[2])))
+                        $o[($mode=='A' ? 'repeat' : 'serialize')] =  ($mode=='A' && ($t=='true'||$t=='repeat')) ? true : $t;
+                    if (isset($type[3]) && ($t = trim($type[3])))
+                        $o[($mode=='A' ? 'serialize' : 'autoDisable')] =  ($t=='true') ? true : $t;
+                    if (isset($type[4]) && ($t = trim($type[4]))) $o['autoToggle'] = ($t=='true') ? true : $t;
+                    if ($mode=='D') {   // delegate event
+                        $t = trim($type[0]);
+                        if (($p = strrpos($t,' '))===false) $de = true;
+                        else {
+                            $de = substr($t,0,$p);
+                            $type[0] = substr($t,$p+1-strlen($t)); 
+                            $id = $elm->getAttribute('id');
+                            if (!$id) $elm->setAttribute('id',$id = 'e0'.self::$eventId++);
+                            $sel = '#'.$id;
+                        }                        
+                    }
+                    $belms = is_array($belms) ? $belms : array($elm);
+                    $this->bindElements($belms, $type[0], $o, null, $sel, $de);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * Binds an array of elements to a client-side event - used by RaxanElement
+     * @return RaxanWebPage
      */
     public function bindElements(&$elms,$type,$data,$fn = null,$selector = '',$delegate = false) {
         if (!$this->events) $this->events = array();
         if (!isset($this->events['selectors'])) $this->events['selectors'] = array();
         $e = & $this->events; $type = trim($type);
-        $accessible = $extras = false;
+        $accessible = $extras = $isOpt = false;
         $selector = trim($selector);
         $local = $global = $ids = $prefTarget = $serialize = $value = $script =  '';
         $delay = $autoDisable = $autoToggle = $inputCache = $repeat = $switchTo = $extendedOpt = '';
@@ -252,29 +370,37 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
         if ($local) $hndPrefix = 'l:'; // flag event as local (private)
         else {
             // get default options
-            $defOpt = $this->defaultBindOptions;
-            if (count($defOpt)>0) {
-                if ($fn===null) $data = $defOpt + $data;
-                else {
-                    $defOpt['data'] = $data;
-                    $defOpt['callback'] = $fn;
-                    $data = $defOpt;
+            $opts = $this->defaultBindOptions;
+            if ($this->serializeOnPostBack) $opts['serialize'] = $this->serializeOnPostBack;
+            if ($this->degradable) $opts['accessible'] = true;
+            if ($fn===null) {
+                $isOpt = (is_array($data) && !isset($data[1])) ; // check if data is a callback function
+                if (!$isOpt) {
+                    $fn = $data; $data = null;
                 }
             }
-            if ($fn===null && is_array($data)) {
-                $fn = isset($data['callback']) ? $data['callback'] : $data;
-                $value = isset($data['value']) ? $extras = $data['value'] : null;
-                $prefTarget = isset($data['prefTarget']) ? $extras = $data['prefTarget'] : null;
-                $serialize = isset($data['serialize']) ? $extras = $data['serialize'] : null;
-                $script = isset($data['script']) ? $extras = $data['script'] : null;
-                $delay = isset($data['delay']) ? $extras = $data['delay'] : null;
-                $autoDisable = isset($data['autoDisable']) ? $extras = $data['autoDisable'] : null;
-                $autoToggle = isset($data['autoToggle']) ? $extras = $data['autoToggle'] : null;
-                $inputCache = isset($data['inputCache']) ? $extras = $data['inputCache'] : null;
-                $accessible = isset($data['accessible']) && $data['accessible']==true ? true : false;
-                $repeat = isset($data['repeat']) ? $data['repeat'] : null;
-                $switchTo = isset($data['switchTo']) ? $data['switchTo'] : null;
-                $data = isset($data['data']) ? $data['data'] : null; // get data object
+            if ($isOpt) $opts = ($opts) ? $opts+$data : $data;
+            else if ($opts) {
+                $isOpt = true;
+                $opts['data'] = $data;
+                $opts['callback'] = $fn;
+            }
+
+            if ($isOpt) {
+                $extras = $delegate ? true : $extras;
+                $fn = isset($opts['callback']) ? $opts['callback'] : null;
+                $value = isset($opts['value']) ? $extras = $opts['value'] : null;
+                $prefTarget = isset($opts['prefTarget']) ? $extras = $opts['prefTarget'] : null;
+                $serialize = isset($opts['serialize']) ? $extras = $opts['serialize'] : null;
+                $script = isset($opts['script']) ? $extras = $opts['script'] : null;
+                $delay = isset($opts['delay']) ? $extras = $opts['delay'] : null;
+                $autoDisable = isset($opts['autoDisable']) ? $extras = $opts['autoDisable'] : null;
+                $autoToggle = isset($opts['autoToggle']) ? $extras = $opts['autoToggle'] : null;
+                $inputCache = isset($opts['inputCache']) ? $extras = $opts['inputCache'] : null;
+                $accessible = isset($opts['accessible']) && $opts['accessible']==true ? true : false;
+                $repeat = isset($opts['repeat']) ? $opts['repeat'] : null;
+                $switchTo = isset($opts['switchTo']) ? $opts['switchTo'] : null;
+                $data = isset($opts['data']) ? $opts['data'] : null; // get data object
                 $extendedOpt = ($delay||$autoDisable||$autoToggle||$inputCache||$repeat||$switchTo) ? true : false;
                 if ($delay && $delay!==true && $delay < 200) $delay = 200; // make sure delay is not < 200ms
             }
@@ -297,57 +423,89 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
         } 
         // bind elements to event
         if (substr($type,0,1)=='#') $type = substr($type,1); // remove ajax event callback symbol (#)
-        $callback = ($fn===null) ? array($data,null,$global) : array($fn,$data,$global);
+        $callback = array($fn,$data,$global);
         // suport for .function_name - will callabck a method on the current page
         if (is_string($callback[0]) && substr($callback[0],0,1)=='.') {
             $callback[0] = array($this, substr($callback[0],1));
         }
-        foreach($elms as $n) {
-            $id = $n->getAttribute('id');
-            if (!$id) $n->setAttribute('id', $id = 'e0'.self::$eventId++); // auto assign id
-            if (!$local && !$selector) {
-                if(!$ids) $ids = array();
-                $ids[]='#'.$id;
+
+        // setup delegate target and selector
+        $dlgSelector = $selector;
+        if ($delegate && $delegate!==true) { // check if delegate is a string
+            $dlgSelector = str_replace(',',' '.$delegate.',',$selector).' '.$delegate;
+            if ($accessible) { // locate child elements for delagates if any
+                $elms = $this->find($dlgSelector)->get();
+                $delegate = true;
             }
-            $hkey = $hndPrefix.$id.'.'.$type;
-            if (!isset($e[$hkey])) $e[$hkey] = array();
-            $e[$hkey][] = & $callback;
-            // make forms and links accessible
-            if ($accessible) {  
+        }
+        $dlgPTarget = $accessible && $delegate ? urlencode(($prefTarget) ? $prefTarget : $dlgSelector) : '';
+
+        if (!$delegate || $accessible) foreach($elms as $n) {
+            $id = $n->getAttribute('id'); // get id
+            // setup non-delegate callback and element id
+            if (!$delegate) { 
+                if (!$id) $n->setAttribute('id', $id = 'e0'.self::$eventId++); // auto assign id
+                if (!$local && !$selector) {
+                    if(!$ids) $ids = array();
+                    $ids[]='#'.$id;
+                }
+                $hkey = $hndPrefix.$id.'.'.$type;
+                if (!isset($e[$hkey])) $e[$hkey] = array();
+                $e[$hkey][] = & $callback;
+            }
+
+            if ($accessible && ($type=='click'||$type=='submit')) {  // make forms, links and button accessible
                 $name = $n->nodeName;
-                if ($name=='a') {           // links
+                $target  = $dlgPTarget ? $dlgPTarget : $id;
+                if ($name=='a' || $name=='area') { // links
                     $href = explode('#',$n->getAttribute('href'),2);
                     $val = !$value && isset($href[1]) ? trim($href[1]) : $value;  // use anchor (hash) as value
                     $query = explode('?',$href[0],2);
                     $href[0] = $query[0].'?'.(isset($query[1]) ? $query[1].'&' : '').
-                    '_e[type]=click&'.'_e[target]='.$id.($val ? '&_e[value]='.urlencode($val) : '').
-                    '&_e[tok]='.RichAPI::$postBackToken.($switchTo ? '&sba='.$switchTo : '');
-                    $url = implode('#',$href);
+                    '_e[target]='.$target.($val ? '&_e[value]='.urlencode($val) : '').
+                    '&_e[tok]='.Raxan::$postBackToken.($switchTo ? '&sba='.$switchTo : '');
+                    if (isset($href[1])) $href[0].='&'.rand(1,90); // add a random value to the url to make
+                    $url = implode('#',$href);                     // it clickable when a # is present.
                     $n->setAttribute('href',$url);
                 }
-                elseif ($name=='form') {    // form
+                elseif ($name=='form') {    // forms
                     $htm = '<input type="hidden" name="_e[type]" value="submit" />'."\n".
-                           '<input type="hidden" name="_e[target]" value="'.$id.'" />'."\n".
-                           '<input type="hidden" name="_e[tok]" value="'.RichAPI::$postBackToken.'" />'."\n".
+                           '<input type="hidden" name="_e[target]" value="'.$target.'" />'."\n".
+                           '<input type="hidden" name="_e[tok]" value="'.Raxan::$postBackToken.'" />'."\n".
                            ($value ? '<input type="hidden" name="_e[value]" value="'.htmlspecialchars($value).'" />' :'');
                     $f = $this->doc->createDocumentFragment();
                     $f->appendXML($htm);
                     $n->appendChild($f);
                 }
+                elseif ($name=='input'||$name=='button') {    // submit buttons
+                    if (($inpType=$n->getAttribute('type'))=='submit' || $inpType=='image') {
+                        $name = $n->getAttribute('name');                        
+                        if (!$name) {
+                            if (!$id) $n->setAttribute('id', $id = 'e0'.self::$eventId++); // auto assign id
+                            $n->setAttribute('name',$name = $id);
+                        }
+                        // find parent form
+                        $f = $this->findByXPath('//input[@id="'.$id.'"]/ancestor::form[not(//input[@name="_e[tok]"])]');
+                        if ($f->length) $f->prepend('<input type="hidden" name="_e[tok]" value="'.Raxan::$postBackToken.'" />');
+                        $name = ($inpType=='image' ? $name.'_x':$name);
+                        $e['button:'.$name] = $id.'|'.$value; // store native button name inside event array
+                    }
+                }
             }
         }
+
         $selector = $ids ? implode(',',$ids): $selector;
         if (!$local && $selector) {
             $skey = 's:'.$selector.':'.$type;
             if (!isset($e['selectors'][$selector])) $e['selectors'][$selector] = array();
-            // check if a selector options already exist for this event
+            // check if a selector option already exist for this event
             if (!isset($e[$skey]) || ($extras && !in_array($opts,$e['selectors'][$selector]))) {
                 $e['selectors'][$selector][] =  $opts; // attach event options
                 $e[$skey] = true;
             }
-            // bind event through a delegate
+            // bind event to a delegate
             if ($delegate) {
-                $hkey = $hndPrefix.$selector.'.'.$type;
+                $hkey = $hndPrefix.$dlgSelector.'.'.$type;
                 if (!isset($e[$hkey])) $e[$hkey] = array();
                 $e[$hkey][] = & $callback;
             }
@@ -356,32 +514,30 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     }
 
     /**
-     * Returns an instance of the RichClientExtension class
-     * @return RichClientExtension
+     * Returns an instance of the RaxanClientExtension class
+     * @return RaxanClientExtension
      */
     public function client($selector = null, $context = null) {
-        self::LoadClientExtension();
-        return new RichClientExtension($selector,$context);
+        self::loadClientExtension();
+        return new RaxanClientExtension($selector,$context);
     }
 
+
     /**
-     * Returns data sanitizer object with get and/or post values. Defaults to post values
-     * @return RichDataSanitizer
+     * This method has been deprecated and will be removed from future releases. Use sanitizePostBack
+     * @deprecated
+     * @see sanitizePostBack
      */
-    public function clientRequest($incGetRequest = false) {
-        $array = $incGetRequest ? array_merge($_GET,$_POST): null;
-        if (!isset($this->request)) $this->request = new RichDataSanitizer($array,$this->charset);
-        return $this->request;
-    }
+    public function clientRequest($incGetRequest = false) { return $this->sanitizePostBack($incGetRequest); }
 
 
     /**
      * Returns or sets the main (body or card) content for an HTML or WML document
-     * @return RichWebPage or HTML String
+     * @return RaxanWebPage or HTML String
      */
     public function content($html = null) {
-        $tag =  $this->responseType=='wml' ? 'card:first' : 'body';
-        $c = $this->find($tag)->html($html);
+        $s = $this->masterContentSelecor();
+        $c = $this->find($s)->html($html);
         return is_string($c) ? $c : $this;
     }
 
@@ -397,17 +553,17 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
     /**
      * Set page content type. e.g. text/html
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function contentType($type,$charset = null) {
-        $charset =  ($charset!==null) ? ($this->charset = $charset) :$this->charset;
+        $charset =  ($charset!==null) ? ($this->_charset = $charset) :$this->_charset;
         $this->_contentType = 'Content-Type: '.$type.'; charset='.$charset .'';
         return $this;
     }
 
     /**
      * Makes the page content downloadable
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function contentDisposition($fileName,$transEncode = null, $fileSize = null) {
         $this->addHeader('Content-Disposition: attachment; filename="'.$fileName.'"');
@@ -417,48 +573,88 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
     /**
      * Sets or returns names data value
-     * @return RichWebPage or Mixed
+     * @return Mixed
      */
-    public function &data($key,$value = null){
-        $id = 'pdiWPage-'.($this->name ? $this->name : $this->objId);
-        return RichAPI::data($id,$key,$value);
+    public function &data($key,$value = null,$setValueIfNotIsSet = false){
+        if (!$this->isDataStorageLoaded) $this->initDataStorage();
+        $s = & $this->_dataStore;
+        if (!$this->_dataReset && $this->resetDataOnFirstLoad) {
+            $this->_dataReset = true; $tokenMatch = false;
+            if ($this->degradable && !isset($_POST['_e']) && isset($_GET['_e'])) {
+                $g = $_GET['_e'];
+                $tokenMatch = isset($g['tok']) ? $g['tok']==Raxan::$postBackToken : false;
+            }
+            $pb = $this->isPostback|$tokenMatch; $lp = $s->read('_rxLastPage_');
+            if (!$pb || !$lp || ($pb && $lp != $_SERVER['PHP_SELF'])) {
+                if (Raxan::$isDebug) Raxan::debug('Page _reset()');
+                if ($this->_reset()) $s->resetStore(); // reset page data store
+            }
+            $s->write('_rxLastPage_', $_SERVER['PHP_SELF']); // save last page
+        }
+        if ($value!==null) {
+            $sv = $setValueIfNotIsSet;
+            if (!$sv || ($sv && !$s->exists($key))) return $s->write($key,$value);
+        }
+        return $s->read($key);
     }
 
     /**
-     * Returns RichDOMDocument instance
-     * @return RichDOMDocument
+     * Returns or sets the page data storage handler
+     * @return RaxanDataStorage
+     */
+    public function dataStorage(RaxanDataStorage $store = null) {
+        if ($store===null && !$this->isDataStorageLoaded) $this->initDataStorage();
+        else {
+            $this->$isDataStorageLoaded = true;
+            $this->_dataStore = $store;
+        }
+        return $this->_dataStore;
+    }
+
+    /**
+     * Returns RaxanDOMDocument instance
+     * @return RaxanDOMDocument
      */
     public function document() {
         return $this->doc;
     }
 
     /**
-     * Search the page for matched elements
-     * @return RichElement
+     * Ends page event execution and send content to the client. No further events will be processed
+     * @return RaxanWebPage
      */
-    public function find($css,$context = null){
-        $context = $context ? $context : $this->doc;
-        return new RichElement($css,$context);
+    public function endResponse() {
+        $this->_endResponse = true;        
+        return $this;
     }
 
     /**
-     * Find and returns a RichElement by Id
-     * @return RichElement
+     * Search the page for matched elements
+     * @return RaxanElement
+     */
+    public function find($css,$context = null){
+        $context = $context ? $context : $this->doc;
+        return new RaxanElement($css,$context);
+    }
+
+    /**
+     * Find and returns a RaxanElement by Id
+     * @return RaxanElement
      */
     public function findById($id){
         $elm = $this->getElementById($id);
         if (!$elm) $elm = ' ';
-        return new RichElement($elm);
+        return new RaxanElement($elm);
     }
 
     /**
      * Find and return matched elements based on specified xpath
-     * @return RichElement
+     * @return RaxanElement
      */
     public function findByXPath($pth){
         $dl = $this->doc->xQuery($pth);
         if (!$dl) $dl = ' ';
-        return new RichElement($dl);
+        return new RaxanElement($dl);
     }
 
     /**
@@ -480,17 +676,17 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
      * @return DOMDocument
      */
     public function flyDOM() {
-        if ($this->flyDOM) return $this->flyDOM;
+        if ($this->_flyDOM) return $this->_flyDOM;
         else {
-            $dom = new DOMDocument('1.0',$this->charset);
-            $dom->loadXML(self::PageCode('html',$this->charset));
-            return $this->flyDOM = $dom;
+            $dom = new DOMDocument('1.0',$this->_charset);
+            $dom->loadXML(self::pageCode('html',$this->_charset));
+            return $this->_flyDOM = $dom;
         }
     }
 
     /**
      * Handle client Postback/Callback events
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     protected function handleClientEventRequest(&$eventResult){
         $events = & $this->events;
@@ -499,12 +695,21 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
         if ($e && $events) {
             $rt = '';
             // get handlers
-            $id = isset($e['target']) ? trim($e['target']) : '';    // defaults to nothing. Dont raise an event if a target was not specified
+            $id = isset($e['target']) ? trim($e['target']) : '';    // defaults to nothing. Don't raise an event if a target was not specified
+            if (!$id && isset($e['tok'])) { // check for native button clicks
+                $names = array_keys($_POST);
+                foreach ($names as $name) if (isset($events['button:'.$name])) {
+                    list($id,$val) = explode('|',$events['button:'.$name],2);
+                    $e['value'] = $val;
+                    break;
+                }
+            }
             $type = isset($e['type']) ? $e['type'] : 'click';
-            $tokenMatch = isset($e['tok']) && $e['tok']==RichAPI::$postBackToken ? true : false ;
+            $tokenMatch = isset($e['tok']) && $e['tok']==Raxan::$postBackToken ? true : false ;
             $hnd = 'e:'.$id.'.'.$type;
             $hndlrs = isset($events[$hnd]) ? $events[$hnd] : null;
             if ($hndlrs) {
+                if (Raxan::$isDebug) Raxan::debug('Raise '.htmlspecialchars($type).' Event For '.htmlspecialchars($id));
                 // check if delegate
                 $delegate = isset($events['selectors'][$id]) ? true : false;
                 if($delegate) $e['target'] = null;
@@ -512,10 +717,10 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
                 if (isset($e['uiSender'])) $e['uiSender'] = $this->getElementById($e['uiSender']);
                 if (isset($e['uiHelper'])) $e['uiHelper'] = $this->getElementById($e['uiHelper']);
                 if (isset($e['uiDraggable'])) $e['uiDraggable'] = $this->getElementById($e['uiDraggable']);
-                $e = new RichWebPageEvent($type,$this,$e); // convert data from client to event object
+                $e = new RaxanWebPageEvent($type,$this,$e); // convert data from client to event object
                 foreach ($hndlrs as $hnd) {
                     if ($hnd[2] || $tokenMatch) { // only invoke if global access or token matched
-                        if (!$this->triggerHandle($hnd, $e)) break;
+                        if ($hnd[0]!==null && !$this->triggerHandle($hnd, $e)) break;
                     }
                 }
                 $eventResult = $e->result;
@@ -526,27 +731,27 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
     /**
      * Localize nodes with the langid attribute set to a valid lcoale key/value pair
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     protected function handleNodeL10n(){
         if (!$this->localizeOnResponse) return true;
         $nl = $this->doc->xQuery('//*[@langid]');
-        self::NodeL10n($nl);
+        self::nodeL10n($nl);
         return $this;
     }
 
     /**
      * Send debugging information to client
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     protected function handleDebugResponse(){
-        $d = RichAPI::debugOutut();
-        $o = RichAPI::config('debug.output');
+        $d = Raxan::debugOutut();
+        $o = Raxan::config('debug.output');
         if ($o=='popup'||$o=='embedded')
             $d = '<pre><code><strong>Debug Output</strong><hr />'.$d.'</code></pre>';
         if ($o=='alert') C()->alert($d);
         else if ($o=='popup') C()->popup('','rxPDI_Debug','width=500, scrollbars=yes')->html($d);
-        else if ($o=='console') C()->evaluate('(window.console)? window.console.log("'.RichAPI::escapeText($d).'"):""');
+        else if ($o=='console') C()->evaluate('(window.console)? window.console.log("'.Raxan::escapeText($d).'"):""');
         else if ($o=='embedded') {
             if ($this->isCallback) C('#rxPDI_Debug')->remove(); // remove if in callback
             C('body')->append('<div id="rxPDI_Debug" style="padding:5px;border:3px solid #ccc;background:#fff"></div>');
@@ -558,14 +763,15 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
      /**
      * Inserts JavaScript into the html document
-     * @return RichWebPage
+     * @return RaxanWebPage
       */
     protected function handleScripts() {
+        $charset = $this->_charset;
         $inc = $raxan = $css = $js = '';
         $actions = $this->buildActionScripts();
         // build scripts
-        $url = RichAPI::config('raxan.url');
-        foreach($this->scripts as $s=>$i) {
+        $url = Raxan::config('raxan.url');
+        foreach($this->_scripts as $s=>$i) {
             $tag = substr($s,0,4); $s = substr($s,4);
             if ($tag=='JSI:'){
                 if ($i===1) $js.= $s."\n";
@@ -573,18 +779,24 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
             }
             elseif ($tag=='CSS:') {
                 if ($i===1) $css.=$s;
-                else $css.= '<link href="'.$url.'styles/'.$s.'.css" type="text/css" rel="stylesheet" />'."\n";
+                else $css.= '<link href="'.($i ? $s : $url.'styles/'.$s.'.css').'" type="text/css" rel="stylesheet" />'."\n";
                 if ($s=='master') $css.='<!--[if IE]><link href="'.$url.'styles/master.ie.css" type="text/css" rel="stylesheet" /><![endif]-->'."\n";
             }
         }
         $sb = $this->scriptBehind;
         if ($sb || $inc || $actions || $this->initStartupScript || $this->isEmbedded) {
             $raxan = '<script type="text/javascript" src="'.$url.'startup.js">'.$sb.'</script>'."\n";
-            if ($inc || $actions) 
-                $inc =  '<script type="text/javascript"><![CDATA[ var _PDI_URL ="'.RichAPI::escapeText($this->clientPostbackUrl).'",h=Raxan;'.$inc.$actions." ]]></script>\n";
+            if ($inc || $actions) {
+                $actions = iconv($charset,$charset.'//IGNORE',preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]+/S','',$actions)); // clean up encoding and remove ascii ctrl chars
+                $inc =  '<script type="text/javascript"><![CDATA[ var _PDI_URL ="'.Raxan::escapeText($this->clientPostbackUrl).'",h=Raxan;'.$inc.$actions." ]]></script>\n";
+            }
         }
         $inc = $css.$raxan.$inc.$js;
-        if ($inc) $this->find('head:first')->append($inc);
+        if ($inc) {
+            $hd = $this->findByXPath('/html/head');
+            if ($hd->length) $hd->append($inc); // check for <head> tag. add if necessary
+            else $this->findByXPath('/html/body')->before('<head>'.$inc.'</head>'); 
+        }
 
         return $this;
     }
@@ -598,24 +810,24 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
     /**
      *  Add CSS stylesheet to document
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function loadCSS($css,$extrn = false) {
         $css = trim($css);
         $embed = (stripos($css,'<')!==false);
-        if (!isset($this->scripts['CSS:'.$css])) {
-            $this->scripts['CSS:'.$css] = $embed ? 1 : $extrn;
+        if (!isset($this->_scripts['CSS:'.$css])) {
+            $this->_scripts['CSS:'.$css] = $embed ? 1 : $extrn;
         }
         return $this;
     }
 
     /**
      *  Add Javascript to document
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function loadScript($js,$extrn = false, $_priority = 0) {
         $js = trim($js);
-        $s = & $this->scripts;
+        $s = & $this->_scripts;
         if (isset($s['RegJS:'.$js])) { // check if script was registered
             $js = $s['RegJS:'.$js];
             if ($js===tue) return; // script manually loaded by user
@@ -624,15 +836,15 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
         $embed = (stripos($js,'<script')!==false);
         if (!isset($s['JSI:'.$js])) {
             $state = $embed ? 1 : $extrn;
-            if ($_priority==1) $this->scripts = array('JSI:'.$js=> $state) + $s;
-            else $this->scripts['JSI:'.$js] = $state;
+            if ($_priority==1) $this->_scripts = array('JSI:'.$js=> $state) + $s;
+            else $this->_scripts['JSI:'.$js] = $state;
         }
         return $this;
     }
 
     /**
      * Loads JavaScript Code behind file
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function loadScriptBehind($pth = null) {
         if ($pth===null) $pth = '-';
@@ -641,6 +853,27 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
         return $this;
     }
 
+    /**
+     * Prepends the specified html content to the page master content block element
+     * @return RaxanWebPage
+     */
+    public function prepend($html) {
+        $s = $this->masterContentSelecor();
+        $this->find($s)->prepend($html);
+        return $this;
+    }
+    
+    /**
+     * Implement state management for the sepcified RaxanElement.
+     * This will trigger callback the element when the state is to be saved.
+     * @return RaxanWebPage
+     */
+    public function preserveElementState(RaxanElement $rElm) {
+        if (!isset($this->_stateObjects)) $this->_stateObjects = array();
+        $this->_stateObjects[] = $rElm;
+        return $this;
+    }
+    
     /**
      * Redirect client to the specified url
      */
@@ -652,7 +885,7 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     /**
      * Registers a event to be triggered from the client using page as the target id
      * Example: $trigger('page','buttonClick');
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function registerEvent($type,$data,$fn = null){
         $elms = array();
@@ -661,13 +894,14 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     }
 
     /**
-     * Registers a plugin with the current web page.
-     * @param RichPlugin $plugin
-     * @return RichWebPage
+     * Registers a UI Element with the current web page.
+     * @param RaxanUIElement $ui
+     * @return RaxanWebPage
      */
-    public function registerPlugin($plugin) {
-        if (!$this->plugins) $this->plugins = array();
-        $this->plugins[$plugin->id] = $plugin;
+    public function registerUIElement(RaxanUIElement $ui) {
+        if (!isset($this->_uiElms)) $this->_uiElms = array();
+        $this->_uiElms[$ui->objectId()] = $ui;
+        if ($this->isLoaded) $ui->loadUI();
         return $this;
     }
 
@@ -676,10 +910,10 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
      * Use the loadScript() method to load the script by name.
      * @param $name - Name of script
      * @param $url - Url for the script. Set to True to is the script was loaded manually.
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function registerScript($name,$url){
-        $this->scripts['RegJS:'.$name] = $url;
+        $this->_scripts['RegJS:'.$name] = $url;
         return $this;
     }
 
@@ -688,35 +922,52 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
      * @return String     
      */
     public function render($type = 'html') {
-        $this->output = '';
-        $this->handleClientEventRequest($result); // handle client events request
+        $this->pageOutput = $result = '';
+        if (!$this->_endResponse) {
+            $this->handleClientEventRequest($result); // handle client events request
+        }
+
+        // find auto updat elements
+        $auto = $this->findByXPath('//*[@xt-autoupdate]');
+        if ($auto->length){
+            $auto->autoId()->removeAttr('xt-autoupdate');
+            if ($this->isCallback) $auto->updateClient();
+        }
 
         // respond to ajax callback
         if ($this->isCallback) {
-            $charset = $this->charset;
-            if (RichAPI::$isDebug) $this->handleDebugResponse();
+            $charset = $this->_charset; $rt = '';
+            if (Raxan::$isDebug) {
+                Raxan::debug('Handle Ajax Response');
+                $this->handleDebugResponse();
+            }
             $this->handleNodeL10n();    // proccess tags with langid
             $a = $this->buildActionScripts(false); // exclude events from actions
-            $rt = isset($result) ? $result : '';
-            $json =  RichAPI::JSON('encode',array(
-                '_result' => $rt,
-                '_actions' =>  iconv($charset,$charset.'//IGNORE',$a)  // clean up action scripts charset encoding
-            ));
+            $a = iconv($charset,$charset.'//IGNORE',$a);  // clean up action scripts charset encoding
+            if (isset($result)) $rt = is_string($rt) ?  iconv($charset,$charset.'//IGNORE',$result) : '';
+            $json =  Raxan::JSON('encode',array( '_result' => $rt, '_actions' => $a ));
             if ($_POST['_ajax_call_']=='iframe') {
-                $html = str_replace('UTF-8',$this->charset,self::PageCode());
-                $json = '<form><textarea>'.htmlspecialchars($json,null,$this->charset).'</textarea></form>';
-                $json = str_replace('</body>',$json.'</body>',$html);
+                $json = '<form><textarea>'.htmlspecialchars($json).'</textarea></form>';
+                $html = self::pageCode('html',$this->_charset,$json);
             }
-            $this->output = $json;
+            $this->pageOutput = $json;
         }
         // response to standard postback
         elseif (!$this->isCallback) {
-            $this->renderPlugins()->_prerender();         // call _prerender event and render registered plugins
-            if (RichAPI::$isDebug) $this->handleDebugResponse();
+            if (!$this->_endResponse) {
+                if (Raxan::$isDebug) Raxan::debug('Page _prerender()');
+                $this->_prerender();     // call _prerender event and render registered ui elements
+                $this->renderUIElements();
+                Raxan::triggerSysEvent('page_prerender',$this);
+            }
+            if (Raxan::$isDebug) {
+                Raxan::debug('Handle Full Page Response');
+                $this->handleDebugResponse();
+            }
             $this->handleScripts();      // build scripts
             $this->handleNodeL10n();    // proccess tags with langid
             // check if is embedded
-            if (!$this->isEmbedded) $this->output = $this->doc->source(null,$type);
+            if (!$this->isEmbedded) $this->pageOutput = $this->doc->source(null,$type);
             else {
                 // handle embedded mode  
                 $opt = $this->embedOptions;
@@ -729,7 +980,7 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
                 $rx = '#<(\!doctype|html|head|body)[^>]*>|</(html|head|body)>#is';  // remove tags
                 $h = trim(preg_replace($rx,'',$this->doc->source(null,$type)));
                 // handle js embeds
-                $h = substr(str_replace('<script','<\script',RichAPI::JSON('encode', $h)),1,-1);
+                $h = substr(str_replace('<script','<\script',Raxan::JSON('encode', $h)),1,-1);
                 if ($noxjs) $h = 'document.write("'.$h.'");';
                 else {
                     $a = explode('<\/script>',$h,2);
@@ -738,21 +989,31 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
                     $h.= 'if (!self.Raxan) document.write("'.$a[0].'<\/script>");'; // load the raxan startup script
                     $h.= 'else RaxanPreInit[RaxanPreInit.length-1]();';
                 }
-                $this->output = $h;
+                $this->pageOutput = $h;
             }
-            $this->_postrender();        // call _postrender event
+            if (!$this->_endResponse) {
+                $this->_postrender();        // call _postrender event
+                Raxan::triggerSysEvent('page_postrender',$this);
+            }
         }
         
+        // save element state
+        if (isset($this->_stateObjects))  {
+            foreach($this->_stateObjects as $r) $r->handleSaveState();         
+        }
+
         // return html or json string
-        return $this->output; 
+        return $this->pageOutput;
     }
     
     /**
      * Sends data to client
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function reply($responseType = null) {
-
+        
+        $this->_startReply = true;
+        
         $rt = $responseType;
         if ($rt===null) $rt = $this->responseType;
         else $this->responseType = $rt;
@@ -777,7 +1038,7 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
                 break;
             default: //html
                 $content = $this->render('html');
-                if (!$this->_contentType) $this->contentType('text/html');
+                if (!$this->_contentType) $this->contentType( $this->isEmbedded ? 'text/javascript' : 'text/html');
                 if ($rt=='html') { // change existing doctype to HTML5 Doctype
                     $content = preg_replace('/<!DOCTYPE[^>]*>/si',"<!DOCTYPE html >",$content,1);
                 }
@@ -786,55 +1047,88 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
         // send headers
         header($this->_contentType); 
-        if ($this->headers) foreach($this->headers as $s) @header($s);
+        if ($this->_headers) foreach($this->_headers as $s) @header($s);
         
         // send content to client (eg. html, xml, json, etc)
         echo $content;
-        $this->_reply(); // call _reply event
-        RichAPI::triggerSysEvent('page_reply', $this);
+        if (Raxan::$isDebug) Raxan::debug('Page _reply()');
+        if (!$this->_endResponse) {
+            $this->_reply(); // call _reply event
+            Raxan::triggerSysEvent('page_reply', $this);
+        }
+        
         if ($this->showRenderTime && !$this->isCallback)
-            echo 'Render Time: '.RichAPI::stopTimer($this->startTime);
+            echo '<div>Render Time: '.Raxan::stopTimer($this->_startTime).'</div>';
 
         return $this;
     }
 
     /**
      * Remove Page data
-     * @return RichWebPage     
+     * @return RaxanWebPage
      */
     public function removeData($name = null){
-        $id = 'pdiWPage-'.($this->name ? $this->name : $this->objId);
-        RichAPI::removeData($id,$name);
+        if (!$this->isDataStorageLoaded) $this->initDataStorage();
+        $this->_dataStore->remove($name);
         return $this;
     }
 
     /**
+     * Returns data sanitizer object with get and/or post values. Defaults to post values
+     * @return RaxanDataSanitizer
+     */
+    public function sanitizePostBack($incGETRequest = false) {
+        $array = $incGETRequest ? array_merge($_GET,$_POST): null;
+        if (!isset($this->_postRqst)) $this->_postRqst = Raxan::dataSanitizer($array,$this->_charset);
+        return $this->_postRqst;
+    }
+
+    /**
+     * Sends an error page or message to the web browser and stop page processing.
+     * @return void
+     */
+    public function sendError($msg, $code = null) {
+        Raxan::sendError($msg, $code);
+    }
+
+    /**
      * Set or returns the page html/xml source. Source can be a file, url or <html> tags
-     * @return RichWebPage or String
+     * @return RaxanWebPage or String
      */
     public function source($src = null,$srcType = 'html') {
+        
         if ($src===null) return $this->doc->source(null,$srcType);
+        else if ($this->masterTemplate) { // set master template
+            $tpl = file_get_contents($this->masterTemplate);
+            $this->doc->source($tpl,$srcType);
+            $this->content($src);
+        }
         else {
-            if ($src=='wml:page') {
-                $src = self::PageCode('wml');
-                $this->responseType = 'wml';$srcType = 'xml';
+            if ($src=='wml:page') { // set page source
+                $src = self::pageCode('wml');
+                $this->responseType = 'wml'; $srcType = 'xml';
             }
-            elseif ($src=='html:page') {
-                $src = self::PageCode('html');
+            elseif (!$src || $src=='html:page') {
+                $src = self::pageCode('html');
                 $this->responseType = $srcType = 'html';
             }
+            else if ($srcType!='xml' && $srcType!='html')
+                $srcType = ($src && substr($src,-4)=='.xml') ? 'xml' : 'html';
+
             $this->doc->source($src,$srcType);
-            return $this;
         }
+
+        return $this;
+
     }
 
     /**
      * Set or returns the data store name for the page
-     * @return RichWebPage or String
+     * @return RaxanWebPage or String
      */
     public function storeName($n = null) {
-        if ($n===null) return $this->name;
-        else $his->name = $n;
+        if ($n===null) return $this->_storeName;
+        else $this->_storeName = $n;
         return $this;
     }
 
@@ -842,7 +1136,7 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
      * Change switchboard action and reloads the current page
      */
     public function switchTo($action){
-        $url = RichAPI::currentURL();
+        $url = Raxan::currentURL();
         if (strpos($url,'sba=')!==false) $url = trim(preg_replace('#sba=[^&]*#','',$url),"&?\n\r ");
         $url.= (strpos($url,'?') ? '&' : '?').'sba='.$action;
         $this->redirectTo($url);
@@ -857,18 +1151,18 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     }
 
     /**
-     * Trigger events on the specified elements - used by RichElement
-     * @return RichWebPage
+     * Trigger events on the specified elements - used by RaxanElement
+     * @return RaxanWebPage
      */
     public function triggerEvent(&$elms,$type,$args = null,$eOpt = null) {
-        $events = & $this->events;
-        $e = new RichWebPageEvent($type,$this,$eOpt); // convert to object
+        $events = & $this->events; $e = null;
         foreach($elms as $n) {
             $id = $n->getAttribute('id');
             $hnd = 'e:'.$id.'.'.$type; $lhnd = 'l:'.$id.'.'.$type;
             $hndlrs = isset($events[$hnd]) ? $events[$hnd] : array();
             $hndlrs = isset($events[$lhnd]) ? array_merge($hndlrs,$events[$lhnd]) : $hndlrs ; // merge local events handlers
             if ($hndlrs) {
+                if (!$e) $e = new RaxanWebPageEvent($type,$this,$eOpt); // convert to object
                 foreach ($hndlrs as $hnd) {
                     if (!$this->triggerHandle($hnd, $e,$args)) break;
                 }
@@ -879,7 +1173,7 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
     /**
      * Returns or sets the title for an HTML page
-     * @return RichWebPage or String
+     * @return RaxanWebPage or String
      */
     public function title($str = null) {
         if (!$this->doc->isInit()) $this->doc->initDOMDocument();
@@ -891,7 +1185,7 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
     /**
      * Update form fields with postback values
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function updateFields() {
         if ($this->isPostback)
@@ -900,8 +1194,8 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     }
 
     /**
-     * Remove event handlers from elements - used by RichElement
-     * @return RichWebPage 
+     * Remove event handlers from elements - used by RaxanElement
+     * @return RaxanWebPage
      */
     public function unbindElements(&$elms,$type,$selector) {
         if ($this->events) {
@@ -922,7 +1216,6 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     }
 
 
-
     // Array Access Methods - support for $page['selector']->html()
     // -----------------------
     
@@ -933,17 +1226,17 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     public function offsetExists($selector) {return $this->find($selector)->length>0; }
     /**
      * Sets HTML for selected elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function offsetSet( $selector, $html) { return $this->find($selector)->html($html); }
     /**
      * Return selectd elements
-     * @return RichElement
+     * @return RaxanElement
      */
     public function offsetGet( $selector ) { return $this->find($selector); }
     /**
      * Remove selectd elements
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
     public function offsetUnset( $selector ) {$this->find($selector)->remove(); return $this; }
 
@@ -951,7 +1244,19 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
 
     // Protected Functions
     // -----------------------
-    
+
+    /**
+     * Initialize page data storage handler
+     * @return RaxanWebPage
+     */
+    protected function initDataStorage() {
+        $cls = Raxan::config('page.data.storage');
+        $id = 'pdiWPage-'.(($id = $this->_storeName) ? $id : $this->objId); // setup store id
+        $this->_dataStore = new $cls($id);
+        $this->isDataStorageLoaded = true;
+        return $this;
+    }
+
      /**
      * Returns string containing action scripts and client-side event bindings
      * @return String
@@ -965,24 +1270,25 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
                 foreach($sels as $sel=>$opts) {
                     // no need to bind page registered events on client
                     if ($sel!='page') foreach ($opts as $opt) {
-                        $x = ($opt['delegate'] ? ',true' : '');
+                        $de = $opt['delegate'];
+                        $x = ($de ? ',true' : '');
                         // setup extended options
-                        if ($opt['_extendedOpt']) {
+                        if ($opt['_extendedOpt'] || is_string($de)) {
                             $x = array();
-                             if ($opt['delegate']) $x[] = 'dt:true';  // delegate
-                             if ($opt['delay']) $x[] = 'dl:\''.$opt['delay'].'\'';
-                             if ($opt['autoDisable']) $x[] = 'ad:\''.$opt['autoDisable'].'\'';
-                             if ($opt['autoToggle']) $x[] = 'at:\''.$opt['autoToggle'].'\'';
-                             if ($opt['inputCache']) $x[] = 'ic:\''.$opt['inputCache'].'\'';
-                             if ($opt['switchTo']) $x[] = 'sba:\''.$opt['switchTo'].'\'';
-                             if ($opt['repeat']) $x[] = 'rpt:'.($opt['repeat']===true ? 'true' : (int)$opt['repeat']).'';
-                             $x = ',{'.implode(',',$x).'}';
+                            if ($opt['delegate']) $x[] = 'dt:'.($de!==true  ? '"'.Raxan::escapeText($de).'"' : 'true');  // delegate
+                            if ($opt['delay']) $x[] = 'dl:\''.$opt['delay'].'\'';
+                            if ($opt['autoDisable']) $x[] = 'ad:\''.$opt['autoDisable'].'\'';
+                            if ($opt['autoToggle']) $x[] = 'at:\''.$opt['autoToggle'].'\'';
+                            if ($opt['inputCache']) $x[] = 'ic:\''.$opt['inputCache'].'\'';
+                            if ($opt['switchTo']) $x[] = 'sba:\''.$opt['switchTo'].'\'';
+                            if ($opt['repeat']) $x[] = 'rpt:'.($opt['repeat']===true ? 'true' : (int)$opt['repeat']).'';
+                            $x = ',{'.implode(',',$x).'}';
                         }
-                        $script = is_array($opt['script']) ? RichAPI::JSON('encode',$opt['script']): '"'.RichAPI::escapeText($opt['script']).'"';
+                        $script = is_array($opt['script']) ? Raxan::JSON('encode',$opt['script']): '"'.Raxan::escapeText($opt['script']).'"';
                         $binds.='$bind("'.$sel.'","'.
                             $opt['type'].'","'.
-                            RichAPI::escapeText($opt['value']).'","'.
-                            RichAPI::escapeText($opt['serialize']).'","'.
+                            Raxan::escapeText($opt['value']).'","'.
+                            Raxan::escapeText($opt['serialize']).'","'.
                             $opt['ptarget'].'",'.
                             $script.
                             $x.');';
@@ -990,20 +1296,20 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
                 }
             }
         }
-        $vars = implode(',',RichWebPage::$vars);
-        $varsGlobal = implode(',',RichWebPage::$varsGlobal);
+        $vars = implode(',',RaxanWebPage::$vars);
+        $varsGlobal = implode(',',RaxanWebPage::$varsGlobal);
         if ($vars) $vars = 'var '.$vars.';';
         if ($varsGlobal) $vars.= $varsGlobal.';';
         if (PHP_VERSION_ID < 50200) {   // fix for issue #4
-            foreach(RichWebPage::$actions as $i=>$act)
-                if ($act) RichWebPage::$actions[$i] = $act->__toString();
+            foreach(RaxanWebPage::$actions as $i=>$act)
+                if ($act) RaxanWebPage::$actions[$i] = $act->__toString();
         }
-        if ($binds) RichWebPage::$actions[] = $binds; // add bindings to the end of the actions script queue
-        $actions = $vars.implode(';',RichWebPage::$actions);
+        if ($binds) RaxanWebPage::$actions[] = $binds; // add bindings to the end of the actions script queue
+        $actions = $vars.implode(';',RaxanWebPage::$actions);
         if (!$includeEvents) return $actions;
         else if ($actions){
             // check if we should load jquery
-            if (!isset($this->scripts['JSI:jquery'])) {
+            if (!isset($this->_scripts['JSI:jquery'])) {
                 $this->loadScript('jquery',false,1);
             }
             $actions = 'html.ready(function() {'.$actions.'});';
@@ -1012,12 +1318,32 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     }
 
     /**
-     * Render regsitered plugins
-     * @return RichWebPage
+     * Returns the selector for the master content block
+     * @return string
      */
-    protected function renderPlugins() {
-        if ($this->plugins)
-            foreach($this->plugins as $p) $p->render();
+    protected function masterContentSelecor() {
+        $s = $this->masterContentBlock;
+        $t =  $this->responseType=='wml' ? 'card:first' : 'body';
+        return ($s && $this->masterTemplate) ?  $s : $t;
+    }
+
+    /**
+     * Load regsitered UI Elements
+     * @return RaxanWebPage
+     */
+    protected function loadUIElements() {
+        if (isset($this->_uiElms))
+            foreach($this->_uiElms as $ui) $ui->loadUI();
+         return $this;
+    }
+
+    /**
+     * Render regsitered UI Elements
+     * @return RaxanWebPage
+     */
+    protected function renderUIElements() {
+        if (isset($this->_uiElms))
+            foreach($this->_uiElms as $ui) $ui->renderUI();
          return $this;
     }
 
@@ -1028,10 +1354,7 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     protected function triggerHandle($hnd,$e,$args = null) {
         $fn = $hnd[0]; $data = $hnd[1];
         $e->data = $data;
-        if (!is_callable($fn)) {
-            $rt = null;
-            throw new Exception('Unable to execute callback function or method: '.print_r($fn,true));
-        }
+        if (!is_callable($fn)) Raxan::throwCallbackException($fn);
         elseif (is_array($fn)) $rt = $fn[0]->{$fn[1]}($e,$args);       // object callback
         else  $rt = $fn($e,$args);  // function callback (string or anonymous function)
         if ($rt!==null) $e->result = $rt;
@@ -1043,37 +1366,53 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     // Static Functions
     // -----------------------
 
-
+    /**
+     * Adds a custom method to the RaxanWebPage Class. Use addMethod($object) to add multiple methods from an object
+     */
+    public static function addMethod($name,$callback = null) {
+        if(!self::$callMethods) self::$callMethods = array();
+        if ($callback===null && is_object($name)) { // add methods from an object
+            $obj = $name; $names = get_class_methods($obj);
+            foreach($names as $name)
+                if($name[0]!='_') self::$callMethods[$name] = array($obj,$name); // don't add names that begins with '_'
+        }
+        else {
+            if (!is_callable($callback)) Raxan::throwCallbackException($callback);
+            self::$callMethods[$name] = $callback;
+        }
+    }
+    
     /**
      * Creates and return a DOMDocument
-     * @return RichDOMDocument
+     * @return RaxanDOMDocument
      */
-    public static function CreateDOM($html,$charset = 'UTF-8',$type = null) {
-        $dom = new RichDOMDocument('1.0',$charset);
+    public static function createDOM($html,$charset = 'UTF-8',$type = null) {
+        $dom = new RaxanDOMDocument('1.0',$charset);
         $dom->formatOutput = false;
-        if ($type!='xml' && $type!='html')
-            $type = ($html && substr($html,-4)=='.xml') ? 'xml' : 'html';
-        $html = $html ? $html : self::PageCode();
-        $dom->source($html,$type);
+        if ($html!==null) {  // don't set source if html is null. See __construct
+            if ($type!='xml' && $type!='html')
+                $type = ($html && substr($html,-4)=='.xml') ? 'xml' : 'html';
+            $html = $html ? $html : self::pageCode();
+            $dom->source($html,$type);
+        }
         return $dom;
     } 
 
     /**
      * Returns the Page controller object
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
-    public static function Controller($page = null) {
-        if ($page && ($page instanceof RichWebPage)) self::$mPage = $page;
-        else if (self::$mPage==null) self::$mPage = new RichWebPage();
+    public static function controller($page = null) {
+        if ($page && ($page instanceof RaxanWebPage)) self::$mPage = $page;
+        else if (self::$mPage==null) self::$mPage = new RaxanWebPage();
         return self::$mPage;
     }
 
-
     /**
      * Creates and returns an instance of the web page class
-     * @return RichWebPage
+     * @return RaxanWebPage
      */
-    public static function Init($pageClass) {
+    public static function init($pageClass) {
         if (class_exists($pageClass)) {
             $page = new $pageClass();
             return $page->reply();
@@ -1084,21 +1423,21 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
     }
 
     /**
-     * Loads the RichClientExtension class
+     * Loads the RaxanClientExtension class
      */
-    public static function LoadClientExtension() {
+    public static function loadClientExtension() {
         if (self::$cliExtLoaded) return;
-        require_once(RichAPI::config('base.path').'shared/rich.clientextension.php');
+        require_once(Raxan::config('base.path').'shared/raxan.clientextension.php');
         self::$cliExtLoaded = true;
     }
 
     /**
      * Localize nodes
      */
-    public static function NodeL10n($nodes){
+    public static function nodeL10n($nodes){
         if ($nodes) foreach ($nodes as $n) {
             $id = $n->getAttribute('langid');
-            $v = RichAPI::locale($id);
+            $v = Raxan::locale($id);
             if ($v) {
                 $n->nodeValue = $v;
                 $n->removeAttribute('langid');
@@ -1110,44 +1449,54 @@ class RichWebPage extends RichAPIBase implements ArrayAccess  {
      * Returns blank html page template 
      * @return String
      */
-    protected static function PageCode($type = 'html',$charset='UTF-8'){
+    protected static function pageCode($type = 'html',$charset='UTF-8',$content = ''){
         $nl = "\n";
         if ($type=='wml') return '<?xml version="1.0" standalone="yes"?>'.$nl.
             '<!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml">'.$nl.
-            '<wml><card>'.$nl.'</card></wml>';
+            '<wml><card>'.$content.'</card></wml>';
         else return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.$nl.
             '<html>'.$nl.'<head>'.$nl.'<meta http-equiv="Content-Type" content="text/html; charset='.$charset.'" />'.$nl.
-            '<title></title>'.$nl.'</head>'.$nl.'<body></body>'.$nl.'</html>';
+            '<title></title>'.$nl.'</head>'.$nl.'<body>'.$content.'</body>'.$nl.'</html>';
     }
 
 
 }
 
+/**
+ * Raxan Web Page Storage
+ */
+class RaxanWebPageStorage extends RaxanDataStorage {
+
+    protected function _init() {
+        $this->store = & Raxan::data($this->id);
+    }
+    protected function _reset() {
+        Raxan::removeData($this->id);
+        $this->_init();
+    }
+}
 
 /**
- *  Used internally by RichWebPage
+ *  Used internally by RaxanWebPage
  */
-class RichWebPageEvent {
+class RaxanWebPageEvent extends RaxanSysEvent{
 
     /**
      * @var $target DOMElement */
     public $target;
     public $uiDraggable,$uiHelper,$uiSender;
 
-    public $type;
-    public $result = null;     // returned value from previous handler
-    public $data, $value, $button;
+    public $value, $button;
     public $pageX, $pageY;
     public $targetX, $targetY;
     public $which, $ctrlKey, $metaKey;
-    public $isStopPropagation = false;
 
     /**
-     *  @var $target RichWebPage */
+     *  @var $target RaxanWebPage */
     protected $iPage;    
 
     public function __construct($type, &$page, $e = null) {
-        $this->type = $type;
+        parent::__construct($type);
         $this->iPage = $page;
         if ($e) {
             $props = explode(' ','data value target button pageX pageY targetX targetY which ctrlKey metaKey uiDraggable uiHelper uiSender');
@@ -1158,39 +1507,63 @@ class RichWebPageEvent {
     }
 
     /**
-     * Returns an instance of the RichClientExtension class
-     * @return RichClientExtension
+     * Returns an instance of the RaxanClientExtension class
+     * @return RaxanClientExtension
      */
     public function client($selector = null, $context = null) {
-        RichWebPage::LoadClientExtension();
-        return new RichClientExtension($selector,$context);
+        RaxanWebPage::loadClientExtension();
+        return new RaxanClientExtension($selector,$context);
     }
 
     /**
-     * Returns an instance of the rich web page controller that's associated with this event
-     * @return  RichWebPage
+     * Returns an instance of the web page controller that's associated with this event
+     * @return  RaxanWebPage
      */
-    function page($css = null) {
+    public function page($css = null) {
         if ($css) return  $this->iPage[$css];
         else return  $this->iPage;
     }
 
     /**
-     * Stops event propagation
-     * @return  RichEvent
+     * Returns the event callback value
+     * @return mixed
      */
-    public function stopPropagation() {
-        $this->isStopPropagation = true;
-        return this;
+    public function val() {
+        return $this->value;
     }
+
+    /**
+     * Returns the non-html text from the callback value
+     * @return string
+     */
+    public function textval() {
+        return strip_tags($this->value);
+    }
+
+    /**
+     * Returns an integer from the callback value
+     * @return string
+     */
+    public function intval() {
+        return intval($this->value);
+    }
+
+    /**
+     * Returns a float from the callback value 
+     * @return string
+     */
+    public function floatval() {
+        return floatval($this->value);
+    }
+
 }
 
 /**
- * Used internally by RichWebPage */
-class RichDOMDocument extends DOMDocument {
+ * Used internally by RaxanWebPage */
+class RaxanDOMDocument extends DOMDocument {
 
     public $charset;
-    public $page;   // Reference to Rich Web Document
+    public $page;   // Reference to Raxan Web Page
 
     protected $css; // css: cache array for xpath queries
     protected $xPath, $source, $srcType, $init;
@@ -1232,9 +1605,9 @@ class RichDOMDocument extends DOMDocument {
             if (substr($pth,0,1)=='/') $pth = '.'.$pth;
             $dl = @$this->xPath->query($pth, $context);
         }
-        if ((RichAPI::$isDebug)) {
-            if (!$dl) RichAPI::debug('xQuery Error: Invalid XPath Expression: '.$pth);
-            else RichAPI::debug("XPath: \t Found ".$dl->length." \t $pth ");
+        if ((Raxan::$isDebug)) {
+            if (!$dl) Raxan::debug('xQuery Error: Invalid XPath Expression: '.$pth);
+            else Raxan::debug("XPath: \t Found ".$dl->length." \t $pth ");
         }
         return $dl;
     }
@@ -1286,7 +1659,7 @@ class RichDOMDocument extends DOMDocument {
     public function initDOMDocument() {
         $isFile = false;
         $s = trim($this->source); $stype = $this->srcType;
-        if (substr($s,0,7)=='http://') $s = file_get_contents($s);
+        if (($p = substr($s,0,7))=='http://' || $p=='https:/') $s = file_get_contents($s);
         else $isFile = (substr($s,0,1)=='<') ? false: true;
         if ($stype=='xml') $s = (!$isFile) ? @$this->loadXML($s) : @$this->load($s);
         else $s = (!$isFile) ?  @$this->loadHTML($s) : @$this->loadHTMLFile($s);
@@ -1324,7 +1697,7 @@ class RichDOMDocument extends DOMDocument {
                     else if( $m[1] == '#') {
                         $parts[] = "[@id='".$m[2]."'][1]";
                     } else if ( $m[1] == '.' ) {
-                        $parts[] = "[contains(@class, '".$m[2]."')]";
+                        $parts[] = "[contains(concat(' ',@class,' '), concat(' ','".$m[2]."',' '))]";
                     }else {
                         $parts[] = $m[0];
                     }

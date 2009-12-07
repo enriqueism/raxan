@@ -10,11 +10,11 @@
 $__raxanGTWPth = str_replace('\\','/', dirname(__FILE__)).'/';
 
 // include main files
-include_once($__raxanGTWPth.'shared/rich.api.php');
-include_once($__raxanGTWPth.'shared/rich.webpage.php');
+include_once($__raxanGTWPth.'shared/raxan.php');
+include_once($__raxanGTWPth.'shared/raxan.webpage.php');
 
 // set base path
-RichAPI::setBasePath($__raxanGTWPth);
+Raxan::setBasePath($__raxanGTWPth);
 
 
 ?>
