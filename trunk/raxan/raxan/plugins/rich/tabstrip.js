@@ -6,7 +6,7 @@
 
 var c;
 // add to rich namespace
-html.rich.tabstrip = c = function($){
+Raxan.rich.tabstrip = c = function($){
     var tab;
     return tab = {
         id: 'rxTabStrip',
@@ -106,7 +106,8 @@ html.rich.tabstrip = c = function($){
             var li = $('li',ul).removeClass('selected');
             $(this).addClass('selected');
 
-            if (u.id && bag.current != u.id) {
+            if (!u.id && u.url) window.location.href = u.url;
+            else if (u.id && bag.current != u.id) {
                 if (typeof o.animate == 'function') {
                     //custom animation: index, current, previous
                     o.animate.call(this,li.index(this),$('#'+u.id),$('#'+bag.current));

@@ -9,12 +9,13 @@
 
 
 
-html = Raxan = { // html class object
-    version: '1.0',     //@todo: update version number
-    revision: '1.0.0.b2',
+html = raxan = Raxan = {    // Raxan html class object
+    version: '1.0',         //@todo: update version number
+    revision: '1.0.0.b3',
     path:'',
     pluginpath:'',
     csspath:'',
+    expando:'',
     arraycol: {},
     inc: {},
     rich: {}, //rich plugin namespace
@@ -60,7 +61,7 @@ html = Raxan = { // html class object
         else if (src && code) eval(code);
         // invoke pre init functions
         if (self.RaxanPreInit)
-            for(i in RaxanPreInit) 
+            for(i in RaxanPreInit)
                 if (typeof RaxanPreInit[i]=='function') RaxanPreInit[i]();
     },
 
@@ -69,7 +70,7 @@ html = Raxan = { // html class object
         if (this.pcbk) return this;
         this.pcbk = true;
         if (document.all) this.insertScript(this.path+'callback.js','text/javascript');
-        else this.insertScript('html.callback()','text/javascript',true);
+        else this.insertScript('Raxan.callback()','text/javascript',true);
         return this;
     },
 
@@ -80,13 +81,13 @@ html = Raxan = { // html class object
             return;
         }
         var me = this;
-        var load = function(e){ var i,l,a=html.collection('load'); l=a.length; for(i=0; i<l; i++) a[i](e); delete a; me.isLoad = true};
-        var unload = function(e){ var i,l,a=html.collection('unload'); l=a.length; for(i=0; i<l; i++) a[i](e); delete a };
+        var load = function(e){ var i,l,a=me.collection('load'); l=a.length; for(i=0; i<l; i++) a[i](e); delete a; me.isLoad = true};
+        var unload = function(e){ var i,l,a=me.collection('unload'); l=a.length; for(i=0; i<l; i++) a[i](e); delete a };
         var ready = function(e){
-            var i,l,a = html.collection('ready');
+            var i,l,a = me.collection('ready');
             l=a.length; for(i=0; i<l; i++) a[i](e); delete a
-            a = html.collection('binds');
-            l=a.length; for(i=0; i<l; i++) html.handleEvent(a[i][0],a[i][1],a[i][2]); delete a;
+            a = me.collection('binds');
+            l=a.length; for(i=0; i<l; i++) me.handleEvent(a[i][0],a[i][1],a[i][2]); delete a;
             me.isReady = true;
         }
         this.handlePageEvents(ready,load,unload);
@@ -237,14 +238,14 @@ html = Raxan = { // html class object
                 id = this.insertScript(url,'text/javascript');
             }
         }
-        
+
         // trigger callback function
         if (typeof fn == 'function') {
             if (!id) fn();
             else {
                 this.inc[id] = n;
                 if (document.all) this.insertScript(this.path+'callback.js?'+id,'text/javascript');
-                else this.insertScript('html.callback("'+id+'")','text/javascript',true);
+                else this.insertScript('Raxan.callback("'+id+'")','text/javascript',true);
             }
         }
 
@@ -302,19 +303,88 @@ html = Raxan = { // html class object
     log: function(txt) {
         if (window.console) console.log(txt);
         else alert(txt);
-    }
+    },
 
+    // For internal use only - Update Client Element
+    iUpdateClient: function(selectors,source,sourceDelim) {
+        var $ = jQuery; source = source.split(sourceDelim);
+        $(selectors).each(function(i) {
+            Raxan.iUpdateElement(this,$(source[i]).get(0));
+        });
+    },
+    // @todo: this method needs to be optimized and modified to support ui widgets
+    iUpdateElement: function(srcElm,targetElm) {
+        var expando,cb = [], src = srcElm, tar = targetElm;
+
+        // get jQuery expando - the hard way :(
+        if (this.expando) expando = this.expando;
+        else {
+            var a = $('<div />').data('test',1).get(0);
+            for (i in a) if (i.indexOf('jQuery')==0) expando = this.expando = i;
+        }
+
+        function cloneEvents(elm,mode,path,index) {
+            var i, e, l, data,events, type, handler, ix = 1;
+            if ( elm.nodeType == 3 || elm.nodeType == 8 ) return;
+            if (!index) index = '';
+            path = path ? path + '/' : '';
+            path+= elm['id'] ? elm['id'] : elm.nodeName.toLowerCase() + index;
+            if (mode=='copy') {
+              e = elm[expando] ? elm[expando] : jQuery.data(elm);
+              if (jQuery.cache[e]) cb[path] = jQuery.cache[e];
+            }
+            else if (mode=='paste' && cb[path]) {
+                // clone events and data
+                data = cb[path];
+                events = data['events'];
+                delete data['handle']; delete data['events'];
+                for (type in data) jQuery.data(elm,type,data[type]);
+                for ( type in events ) {
+                    for ( handler in events[ type ] ) {
+                        jQuery.event.add( elm, type, events[ type ][ handler ], events[ type ][ handler ].data );
+                    }
+                }
+            }
+            l = elm.childNodes.length;
+            if(l) for(i=0; i<l; i++) {
+                e = elm.childNodes[i];
+                if ( e.nodeType != 3 && e.nodeType != 8 ) {
+                    cloneEvents(e,mode,path,ix++);
+                }
+            }
+        }
+        cloneEvents(src,'copy');
+        cloneEvents(tar,'paste');
+        var s  = src.style, t = tar.style;  // retain elmement position
+        if(s.position && !t.position) t.position = s.position
+        if(s.left && !t.left) t.left = s.left
+        if(s.top && !t.top) t.top = s.top
+        $(srcElm).replaceWith(targetElm);   // replace element
+    }
 
 }
 
 /* PDI Transporter Functions */
 $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options) {
-    evt = jQuery.trim(evt);
+    var $ = jQuery;
+
+    // custom delegate function
+    if(!$.fn.rxlive) {
+        $.fn.rxlive = function(css,event,fn) {
+            var e, s = (css!==true) ? css: '',p = this.selector + ' ';
+            if (!s.indexOf(',')) s = p + s;
+            else s = p+(s.split(/,/)).join(','+p);
+            e = jQuery(document); e.selector = s; e.live(event,fn);
+            return this;
+        }
+    }
+
+    evt = $.trim(evt);
     var type = evt.substr(0,1)=='#' ? evt.substr(1) : evt;
     var delay,delegate,disable,toggle,icache,before,after,sba,repeat=1,o = options;
     if (o===true) delegate = true; // last param can be true (for delegates) or an array of options
     else if (o) {
-        delegate = (o['dt']) ? true : false;
+        delegate = (o['dt']) ? o['dt'] : false;
         delay = o['dl'] ? o['dl'] : 0; disable = o['ad'] ? o['ad'] : '';
         toggle = o['at'] ? o['at'] : ''; icache = o['ic'] ? o['ic'] : '';
         repeat = o['rpt'] ? o['rpt'] : repeat; sba = o['sba'] ? o['sba'] : ''
@@ -324,7 +394,7 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
         var preventDefault = (e.type=='click'||e.type=='submit') ? true : false;
         var me = this, t = ptarget ? ptarget : this.getAttribute('id')+'' ;
         e.currentTarget = this; // needed for jQuery.live() 1.3.2 ?
-        if (delegate && !ptarget) t = css;
+        if (delegate && !ptarget) t = css + (delegate!==true ? ' '+ delegate : ''); // append delegate css to target
         if (script) {
             before = script['before'] ? script['before'] : script;
             after = script['after'] ? script['after'] : '';
@@ -355,7 +425,7 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
                     d.attr('disabled','disabled');
                 }
                 // auto-toggle element
-                if (toggle) $(toggle = (toggle==1) ? me : toggle).show(); 
+                if (toggle) $(toggle = (toggle==1) ? me : toggle).show();
                 preventDefault = Raxan.triggerRemote(t,evt,val,serialize,opt)===false ? true : preventDefault;
             }
             if (!delay) fn();
@@ -366,8 +436,11 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
         }
         if (preventDefault) e.preventDefault();
     }
-    
-    if (isNaN(type)) $(css)[(delegate ? 'live' : 'bind')](type,cb);
+
+    if (isNaN(type)) {
+        if (!delegate) $(css).bind(type,cb);
+        else $(css).rxlive(delegate,type,cb);
+    }
     else {  // timeout
         var cnt = 1,tmr = 0,ms = parseInt(type);
         if (ms<1000) ms = 1000;
@@ -386,7 +459,7 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
 $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
     opt = opt || {};
     var e = opt.event, callback = opt.callback, sba = opt.sba;
-    var i, a, s, telm, tname, isupload, post = {}, tmp, url, isAjax=false;
+    var i, a, s, telm, tname, isupload, form, post = {}, tmp, url, isAjax=false;
     if(!type) type = 'click';  // defaults to click
     if (type.substr(0,1)=='#') { isAjax  = true; type=type.substr(1) }
     tmp = target.split(/@/); // support for target@url
@@ -401,30 +474,40 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
     if (e && (e.currentTarget||e.target)) {
         telm = e.currentTarget || e.target;
         tname = (telm.nodeName+'').toLowerCase();
-        isupload = (tname=='form' && (/multipart\/form-data/i).test(telm.encoding)) ? true : false;
+        isupload = (tname=='form' && (/multipart\/form-data/i).test(telm.encoding)); // check form encoding
+        if (isupload) form = telm;
     }
 
-    // get default value from target element
+    // get default value from currentTarget or target element
     if (telm && (val===''||val===null)) {
-        if ((/v:/i).test(telm.className)) {
-            s = telm.className.match(/v:(\w+)/)[1]; // extract value from class name using format v:value
+        var n,nn,targets = e ? [e.currentTarget,e.target] : [];
+        for(n in targets) {
+            n = targets[n]; if (!n) continue;
+            nn = (n.nodeName+'').toLowerCase(); //  get node name
+            if ((/v:/i).test(n.className)) {
+                s = n.className.match(/v:(\w+)/)[1]; // extract value from class name using format v:value
+            }
+            else if (nn=='a'||nn=='area') {
+                // extract value from anchor hash
+                s=((n.href||n.getAttribute('href'))+'').split(/\#/)[1];
+            }
+            else if (nn=='input'||nn=='select'||nn=='textarea') {
+                // extract value from element
+                s = $(n).serializeArray()[0];
+                s = s ? s['value'] : null;
+            }
+            if (s) break;
         }
-        else if (tname=='a') {
-            // extract value from anchor hash
-            s=((telm.href||telm.getAttribute('href'))+'').split(/\#/)[1];
-        }
-        else if (tname=='input'||tname=='select'||tname=='textarea') {
-            // extract value from element
-            s = $(telm).serializeArray()[0];
-            s = s ? s['value'] : null;
-        }
-        // look for value in current target class
-        if (!s && e && (/v:/i).test(e.currentTarget.className))
-            s = e.currentTarget.className.match(/v:(\w+)/i)[1];
         val = (s) ?  s : val;
     }
     // if target is form then serialize the form
     if (!serialize && tname=='form' && !isupload) serialize = telm;
+    else if (!serialize && (tname=='input'||tname=='button') &&  // if target is submit button then serialize form
+        (/submit|image/i).test(telm.type) && telm.form) {
+        isupload = (/multipart\/form-data/i).test(telm.form.encoding); // check form encoding
+        if (isupload) form = telm.form;
+        else serialize = telm.form;
+    }
     // serialize selector values
     if (serialize) {
         s = $(serialize).serializeArray();
@@ -436,7 +519,7 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
                 if (typeof a != 'object') a = [a];
                 a[a.length] = s[i].value
                 post[s[i].name] = a;
-            }            
+            }
         }
     }
 
@@ -466,9 +549,9 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
        if (ui.sender) post['_e[uiSender]'] = ui.sender.attr('id');
        if (ui.draggable) post['_e[uiDraggable]'] = ui.draggable.attr('id');
     }
-    
+
     // post data to server
-    if (!isAjax) html.post(url, post, (isupload ? telm : null));
+    if (!isAjax) Raxan.post(url, post, (isupload ? form : null));
     else {
         post['_ajax_call_'] = 'on';  // let server know this is ajax
         $.ajax({
@@ -484,7 +567,7 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
             error: function(s) {
                 var rt;
                 if (callback) rt = callback(s.responseText,false); // pass results to callback function
-                if (rt!==false) Raxan.log("Error while making callback:\n\n" + s.responseText);
+                if (rt!==false) Raxan.log("Error while connecting to Server:\n\n" + s.responseText);
             },
             dataFilter: function(data) {
                 // support for native JSON parser - http://ping.fm/UFKii
@@ -518,7 +601,7 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
                     send:function(){
                         var target = 'rx01Ajax'+$.data(this);
                         post['_ajax_call_'] = 'iframe';
-                        html.post(this.url, post, telm,target);
+                        Raxan.post(this.url, post, form,target);
                     },
                     abort:function(){
                         if (this.frm) {
@@ -532,6 +615,7 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
     }
 }
 
-html.init();
+
+Raxan.init();
 
 

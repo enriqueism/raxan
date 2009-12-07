@@ -23,22 +23,30 @@
                 <ul>
                     <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
                     <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
                 </ul>
             </div></div></div>
         </div>
-        <div class="prepend1 append1"><h3>Using the Client Extension Class</h3>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h3>Using the Client Extension Class</h3>
 
-<p>The RichClientExtension (CLX) class makes it very easy to manipulate client-side DOM elements on-the-fly. It does this by generating action scripts that are sent to the client's web browser for processing. Action scripts can be defined as a sequence of jQuery or native javascript function calls.</p>
+<p>The RaxanClientExtension (CLX) class makes it very easy to manipulate client-side DOM elements on-the-fly. It does this by generating action scripts that are sent to the client's web browser for processing. Action scripts can be defined as a sequence of jQuery or native JavaScript function calls.</p>
 
-<p>The C() function is available to developers as a wrapper to the RichClientExtension class.</p>
+<p>The C() function is available to developers as a wrapper to the RaxanClientExtension class.</p>
 
 <p>In this example, we are going to use the CLX to set the html value the &lt;div&gt; tag and then fade in the result:</p>
 
 <pre><code>&lt;?php
 
-require_once("raxan/pdi/gateway.php");
+require_once("raxan/pdi/autostart.php");
 
-class MyPage extends RichWebPage {
+class MyPage extends RaxanWebPage {
 
     protected function _load() {
         // set the content of the page
@@ -46,10 +54,10 @@ class MyPage extends RichWebPage {
 
 
         $elm = $this['#mybutton']; // select the mybutton input element 
-        $elm-&gt;bind('#click','.button_click'); // bind to the mybutton click event using an ajax callback
+        $elm-&gt;bind('#click','.buttonClick'); // bind to the mybutton click event using an ajax callback
     }
 
-    protected function button_click($e) {
+    protected function buttonClick($e) {
         // select the #msg element on the client
         C('#msg')-&gt;html('Hello World')  // use the C() function
             -&gt;hide()        // hide the element
@@ -57,12 +65,16 @@ class MyPage extends RichWebPage {
     }
 }
 
-RichWebPage::Init('MyPage');
 ?&gt; 
 </code></pre>
-</div>
+
+        </div>
         <div class="tpb pad" style="text-align:right">
-            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
         </div>
     </div>
 </body>

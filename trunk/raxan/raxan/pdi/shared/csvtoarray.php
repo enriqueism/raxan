@@ -1,16 +1,20 @@
 <?php
 /**
- * Converts CSV to array. For use with RichAPI
+ * Converts CSV to array. Used internally by the Raxan class
  *
  */
-function csv_to_array($csv, $delimiter = ',', $enclosure = '"', $escape = '\\', $terminator = "\n") {
+function raxan_csv_to_array($csv, $delimiter = ',', $enclosure = '"', $escape = '\\', $terminator = "\n") {
     $r = array();
     $rows = explode($terminator,trim($csv));
     $names = array_shift($rows);
     $names = str_getcsv($names,$delimiter,$enclosure,$escape);
+    $nc = count($names);
     foreach ($rows as $row) {
-        $values = str_getcsv($row,$delimiter,$enclosure,$escape);
-        $r[] = array_combine($names,$values);
+        if (trim($row)) {
+            $values = str_getcsv($row,$delimiter,$enclosure,$escape);
+            if (!$values) $values = array_fill(0,$nc,null);
+            $r[] = array_combine($names,$values);
+        }
     }
     return $r;
 }

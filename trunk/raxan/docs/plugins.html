@@ -23,40 +23,62 @@
                 <ul>
                     <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
                     <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
                 </ul>
             </div></div></div>
         </div>
-        <div class="prepend1 append1"><h2>How To Create a Plugin</h2>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>Plugins</h2>
 
-<p>There are many ways a developer can create and load a PDI plugin but for now we will just highlight the basics of how it can be done.</p>
+<p>Plugins are special classes that are used to extend the framework by listening to or interacting with system-events or making system wide changes.</p>
 
-<p>To create a plugin you only need to extend the RichPlugin class as shown below:</p>
+<h3>Creating a Plugin</h3>
+
+<p>To create a plugin you need to extend the RaxanPlugin class as shown below:</p>
 
 <pre><code>&lt;?php
-class MyPlugin extends RichPlugin {
+    class NewPlugin extends RaxanPlugin {
+        public static $name = 'New Plugin';
+        public static $description = "Plugin descrtion goes here";
+        public static $author = "Author's Name";
+        protected function methods() { return get_class_methods($this); }
+        public static function register() { return self::instance(__CLASS__); }
 
-    public function doSomething() {
-        // some code here
+        protected function myMethodName() {
+            // your method code here
+        }
     }
-}
+    NewPlugin::register(); // register the plugin
 ?&gt;
 </code></pre>
 
-<p>Next, you will need to let the framework know whether or not you would like the plugin's render function to be called whenever the page is being rendered. To do this you only need to set declare and set the class variable $implementPrerender.</p>
+<p>Next, you will need to add system event handler methods to your plugin so that you can perform an action when the event is invoked:</p>
 
 <pre><code>&lt;?php
-class MyPlugin extends RichPlugin {
+    class NewPlugin extends RaxanPlugin {
+        public static $name = 'New Plugin';
+        public static $description = "Plugin descrtion goes here";
+        public static $author = "Author's Name";
+        protected function methods() { return get_class_methods($this); }
+        public static function register() { return self::instance(__CLASS__); }
 
-    protected $implementPrerender = true;
+        protected function page_load($e, $page) {
+            $page-&gt;append('Hello from Plugin!'); // append the this text to the web page
+        }
 
-    public function doSomething() {
-        // some code here
+        protected function myMethodName() {
+            // your method code here
+        }
+
     }
+    NewPlugin::register(); // register the plugin
 
-    public function render() {
-        // render plugin code
-    }
-}
 ?&gt;
 </code></pre>
 
@@ -64,10 +86,10 @@ class MyPlugin extends RichPlugin {
 
 <h3>Loading a plugin</h3>
 
-<p>To load a plugin you simple make a call the the RichAPI::loadPlugin() method:</p>
+<p>To load a plugin you simple make a call to the Raxan::loadPlugin() method:</p>
 
 <pre><code>&lt;?php
-    RichAPI::loadPlugin('myplugins/dosomething');
+    Raxan::loadPlugin('myplugins/dosomething'); // you don't need the .php extension
 ?&gt;
 </code></pre>
 
@@ -76,14 +98,19 @@ class MyPlugin extends RichPlugin {
 <p>To load a plugin that's located inside an alternate folder (not relative to plugins.path):</p>
 
 <pre><code>&lt;?php
-    RichAPI::loadPlugin('/path/to/plugin/dosomething.php', true);
+    Raxan::loadPlugin('/path/to/plugin/dosomething.php', true);
 ?&gt;
 </code></pre>
 
-<p>The second parameter will cause the framework to load the plugin based on specified the folder path and filename. Please notice that we had to include the .php extension when loading plugins that are external to the assigned 'plugin.path'.</p>
-</div>
+<p>The second parameter will cause the framework to load the plugin based on the specified folder path and filename. Please note that you will have to include the .php extension when loading plugins that are external to the assigned 'plugin.path'.</p>
+
+        </div>
         <div class="tpb pad" style="text-align:right">
-            <a href="table-of-contents.html" class="quiet">Back to Table of Content</a>
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
         </div>
     </div>
 </body>

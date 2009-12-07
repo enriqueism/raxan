@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Database | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>Connecting to a Database</h2>
+
+<p>Raxan for PHP uses native PHP Data Objects (PDO) to connect to supported databases such as (MySQL, Oracle, Postregress, etc). The correct PDO driver must be loaded before before you can make a connection to the database.</p>
+
+<p>To connect to a database use the Raxan::connect() method by passing in the dsn, user id and password or a predefined database connection name:</p>
+
+<pre><code>&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected $masterTemplate = 'homemade.html';
+
+        protected function _init($e) {
+            $dsn = 'mysql:host=localhost;dbname=employees';
+            $uuser = 'dbuser';
+            $password = 'password';
+            $db = Raxan::connect($dsn,$user,$password,true);
+
+            // or use the db.default config parameter name
+            // $db = Raxan::connect('db.default');
+
+        }
+    }
+
+?&gt;
+</code></pre>
+
+<p>Note: Predefined database connection values are stored within the configuration file. See <a href="custom-config.html">Loading A Custom Configuration File</a></p>
+
+<p>The Raxan::connect() method will establish a connection with the database and returns an instance of the RaxanPDO class. You can use the connection object in the same way you would use a normal PDO object.</p>
+
+<p>The RaxanPDO class provides a convenient table() method for retrieving data from a table:</p>
+
+<pre><code>&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected $masterTemplate = 'homemade.html';
+
+        protected function _init($e) {
+            $dsn = 'mysql:host=localhost;dbname=employees';
+            $uuser = 'dbuser';
+            $password = 'password';
+            $db = Raxan::connect($dsn,$user,$password,true);
+
+            // retrieve all records from employees table
+            $rows = $db-&gt;table('employees'); 
+
+            // retrieve columns first_name and last_name from employees table
+            $rows = $db-&gt;table('employees first_name, last_name'); 
+
+            // retrieves records from the employees table where last_name= john or williams
+            $rows = $db-&gt;table('employees','last_name = ? or last_name = ?','james','williams'); 
+
+        }
+    }
+
+?&gt;
+</code></pre>
+
+<p>See <a href="raxanpdo.html">RaxanPDO Class</a> for more information</p>
+
+        </div>
+        <div class="tpb pad" style="text-align:right">
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
