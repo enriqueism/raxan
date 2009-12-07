@@ -1,8 +1,8 @@
 <?php
 
-require_once('../raxan/pdi/gateway.php');
+require_once('../raxan/pdi/autostart.php');
 
-class SlidePanel extends RichWebPage {
+class SlidePanel extends RaxanWebPage {
     
     protected function _init() {
         // load page source 
@@ -27,7 +27,5 @@ class SlidePanel extends RichWebPage {
 
 }
 
-$page = new SlidePanel();
-$page->reply();
 
 ?>

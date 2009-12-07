@@ -2,7 +2,7 @@
 
 require_once('../raxan/pdi/gateway.php');
 
-$page = new RichWebPage();
+$page = new RaxanWebPage();
 $page->content('<input id="button" type="button" value="Click me" />');
 
 $page['#button']->bind('#click','button_click');

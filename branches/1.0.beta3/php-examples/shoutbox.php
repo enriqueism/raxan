@@ -7,10 +7,10 @@
 require_once('../raxan/pdi/gateway.php');
 
 // Enable or disable debugging
-//RichAPI::config('debug', true);
-//RichAPI::config('debug.output', 'embedded');
+//Raxan::config('debug', true);
+//Raxan::config('debug.output', 'embedded');
 
-class ShoutPage extends RichWebPage {
+class ShoutPage extends RaxanWebPage {
 
     private $db;
 
@@ -21,7 +21,7 @@ class ShoutPage extends RichWebPage {
 
         // connect to DB
         $dbFile = './shouts.db'; // for demo only - change db path
-        $this->db = RichAPI::Connect('sqlite:'.$dbFile);
+        $this->db = Raxan::Connect('sqlite:'.$dbFile);
         if (!$this->db) {
             $this['body']->text('Error while connecting to database');
             $this->reply();
@@ -107,7 +107,7 @@ class ShoutPage extends RichWebPage {
                 C('#list')->html($this['#list']->html());
             }
         }catch(Exception $e) {
-            RichAPI::debug('Error while fetching records -> '.$e);
+            Raxan::debug('Error while fetching records -> '.$e);
         }
     }
 

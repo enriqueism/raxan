@@ -12,20 +12,23 @@
         <h2 class="tpm success bmm"><img src="views/images/users.png" width="24" height="24" />&nbsp;Contacts</h2>
         <div class="box prepend1 pad" >
             <form id="contact" method="post">
-                <label class="column c4">Name:</label><input class="textbox" name="name" size="30" /><br />
-                <label class="column c4">Address:</label><input class="textbox" name="address" size="30" /><br />
-                <label class="column c4">Phone:</label><input class="textbox" name="phone" size="30" /><br />
+                <input type="hidden" name="rowid" id="rowid" value="" />
+                <label class="column c4">Name:</label><input class="textbox" id="name" name="name" size="30" /><br />
+                <label class="column c4">Address:</label><input class="textbox" id="address" name="address" size="30" /><br />
+                <label class="column c4">Phone:</label><input class="textbox" id="phone" name="phone" size="30" /><br />
                 <hr />
-                <input id="cmdsave" type="submit" class="button" value="Add Contact" />&nbsp;
-                <input id="cmdcancel" type="button" class="button cancel hide" value="Cancel" />
+                <div id="btnbar" class="container" xt-preservestate>
+                    <input id="cmdsave" type="submit" class="left button rtm " value="Add Contact" xt-bind="#click,saveContact,,true" />&nbsp;
+                    <input id="cmdcancel" type="submit" class="left button cancel hide" value="Cancel" xt-bind="#click,cancelEdit" /><br />
+                </div>
             </form>
         </div>
-        <div id="msg" class="tpm"></div>
-        <div id="list">
+        <div id="msg" class="tpm" xt-autoupdate></div>
+        <div id="list" xt-delegate="a.edit #click,editContact; a.remove #click,removeContact">
             <div class="pad bmb">
                 <span class="right">
-                    <a class="edit v:{id}" href="#">Edit</a>&nbsp;/&nbsp;
-                    <a class="remove v:{id}" href="#">Remove</a>
+                    <a class="edit" href="#{id}">Edit</a>&nbsp;/&nbsp;
+                    <a class="remove" href="#{id}">Remove</a>
                 </span>
                 <h3 class="bottom"><img src="views/images/user.png" width="16" height="16" /> {name}</h3>
                 Address:{address} / Phone: {phone}

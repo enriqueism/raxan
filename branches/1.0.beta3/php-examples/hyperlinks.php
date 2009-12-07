@@ -1,8 +1,21 @@
+<?php require_once('../raxan/pdi/autostart.php'); ?>
+
+<div class="container c25 dbl-pad">
+    <div id="menu">
+        <a href="#1">Home</a>&nbsp;|&nbsp;
+        <a href="#2">Products</a>&nbsp;|&nbsp;
+        <a href="#3">Contact</a>&nbsp;|&nbsp;
+        <a href="#4">About</a>
+    </div>
+    <hr />
+    <div id="details" class="box hide"></div>
+</div>
+
 <?php
 
-require_once('../raxan/pdi/gateway.php');
 
-class LinkPage extends RichWebPage {
+
+class LinkPage extends RaxanWebPage {
 
     protected $text = array();
 
@@ -16,24 +29,15 @@ class LinkPage extends RichWebPage {
     
     protected function _load() {
         $this->loadCSS('master');
-        $this['body']->append('
-            <div class="container c25 dbl-pad">
-                <div id="menu">
-                    <a href="#1">Home</a>&nbsp;|&nbsp;
-                    <a href="#2">Products</a>&nbsp;|&nbsp;
-                    <a href="#3">Contact</a>&nbsp;|&nbsp;
-                    <a href="#4">About</a>
-                </div>
-                <hr />
-                <div id="details" class="box hide"></div>
-            </div>
-        ');
 
-        // listen to click event
-        $this['div#menu a']->bind('#click','.a_click');
+        // bind to click event on <a> elements
+        $this['div#menu a']->bind('#click','.linkClick');
+
+        // note the dot (.) in .button_click - This tells the framework to
+        // look for the button_click function the current page object.
     }
 
-    protected function a_click($e) {
+    protected function linkClick($e) {
         // reset color on all link siblings
         C('this')->parent()->find('a')
             ->css('background','none');
@@ -47,8 +51,5 @@ class LinkPage extends RichWebPage {
     }
 
 }
-
-// initialize the web page
-RichWebPage::Init('LinkPage'); // alternative to new LinkPage()
 
 ?>

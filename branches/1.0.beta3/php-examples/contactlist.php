@@ -1,156 +1,184 @@
 <?php
 /**
  * Contact List Demo
- * An Ajax Web form to Database example
+ * A degradable Ajax Web form exmaple database storage
  */
 
-require_once('../raxan/pdi/gateway.php');
+require_once('../raxan/pdi/autostart.php');
 
-// Enable or disable debugging
-//RichAPI::config('debug', true);
-//RichAPI::config('debug.output', 'embedded');
+class ContactPage extends RaxanWebPage {
 
-class ContactPage extends RichWebPage {
-
+    protected $degradable = true;
+    protected $preserveFormContent = true;
+    
     private $db;
 
     protected function _init() {
+
+        // enable or disable debugging
+        Raxan::config('debug', false);
+
+        // load html source file
         $this->source('views/contactlist.html');
-        $this->loadCSS('master');
-        $this->loadCSS('default/theme');
+        // load Raxan css framework
+        $this->loadCSS('master')->loadCSS('default/theme');
 
-        // connect to DB
-        $dbFile = './contacts.db'; // for demo only - change db path
-        $this->db = RichAPI::Connect('sqlite:'.$dbFile);
-        if (!$this->db) {
-            $this['body']->text('Error while connecting to database');
-            $this->reply();
-            exit();
-        }
+        $this->connectToDB();
 
-        // create the table
-        if (filesize($dbFile)==0) {
-            $this->db->query('CREATE TABLE contacts(
-                id INTEGER PRIMARY KEY,
-                name TEXT NOT NULL,
-                address TEXT,
-                phone TEXT
-            )');
-        }
     }
     
-    protected function _load() {
-        // bind events
-        // bind to form submit and disbable the save button when clicked
-        $this['#contact']->bind('#submit',array('callback'=>'.save_contact','autoDisable'=>'#cmdsave'));
-        $this['#cmdcancel']->bind('#click','.cancel_edit');
-        $this['#list a.edit']->delegate('#click','.edit_contact'); // bind to hyperlinks
-        $this['#list a.remove']->delegate('#click','.remove_contact'); 
-
-        // show list if not ajax request
-        if (!$this->isCallback) $this->showList();
+    protected function _prerender() {        
+            $this->showList(); // show list if not ajax request
     }
 
-    protected function cancel_edit($e) {
+    protected function cancelEdit($e) {
         $this->resetForm(true);
     }
 
     // add or update contact
-    protected function save_contact($e) {
+    protected function saveContact($e) {
         // sanitize request data
-        $rq = $e->page()->clientRequest();
-        $name = $rq->text('name');
-        $address = $rq->text('address');
-        $phone = $rq->text('phone');
-        
+        $post = $this->sanitizePostBack();
+        $name = $post->text('name');
+        $address = $post->text('address');
+        $phone = $post->text('phone');
+
         // validate
         $msg = '';
         if ($name=='') $msg = "* Missing Name<br />";
         if ($address=='') $msg.= "* Missing Address<br />";
         if ($msg) {
             // show validation messages
-            C('#msg')->hide()->html($msg)
+            $this->msg->show()
+                ->html($msg)
                 ->addClass('error notice')
-                ->fadeIn();
+                ->client->hide()->fadeIn();
+                return;
         }
         else {
             // insert/update record
-            $id = (int)$e->value;
+            $id = $this->rowid->intval();
             if ($id) {
                 $sql = 'UPDATE contacts set name=:name,address=:address,phone=:phone WHERE id=:id';
             } else {
                 $sql = 'INSERT INTO contacts (name,address,phone) VALUES(:name,:address,:phone)';
             }
 
-            $qs = $this->db->prepare($sql);
-            $qs->bindParam(':name',$name, PDO::PARAM_STR);
-            $qs->bindParam(':address',$address, PDO::PARAM_STR);
-            $qs->bindParam(':phone',$phone, PDO::PARAM_STR);
-            if ($id) $qs->bindParam(':id',$id, PDO::PARAM_STR);
-            $qs->execute();
+            try {
+                $qs = $this->db->prepare($sql);
+                $qs->bindParam(':name',$name, PDO::PARAM_STR);
+                $qs->bindParam(':address',$address, PDO::PARAM_STR);
+                $qs->bindParam(':phone',$phone, PDO::PARAM_STR);
+                if ($id) $qs->bindParam(':id',$id, PDO::PARAM_STR);
+                $qs->execute();
+                if ($this->isCallback) $this->showList();
+            }
+            catch(Exception $e) {
+                $msg = 'Error while saving record';
+                Raxan::debug($msg.' '.$e);
+                $this->content($msg)->endResponse();
+                return;
+            }
 
-            $this->showList();
-            C('#msg')->fadeOut(); // hide mesages if previously displayed
+            $this->msg->client->fadeOut(); // hide mesages if previously displayed
             $this->resetForm($id ? true : false); // reset form fields
         }
     }
 
-    protected function edit_contact($e) {
+    protected function editContact($e) {
         $id = (int)$e->value;
-        $sql = 'SELECT * FROM contacts WHERE id='.$id;
-        $rs = $this->db->query($sql);
-        $row = $rs->fetch(PDO::FETCH_ASSOC);
+
+        try {
+            $sql = 'SELECT * FROM contacts WHERE id='.$id;
+            $rs = $this->db->query($sql);
+            $row = $rs->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(Exception $e) {
+            $msg = 'Error while ediing record';
+            Raxan::debug($msg.' '.$e);
+            $this->content($msg)->endResponse();
+            return;
+        }
+
         // populate form field
-        C('input[name="name"]')->val($row['name']);
-        C('input[name="address"]')->val($row['address']);
-        C('input[name="phone"]')->val($row['phone']);
-        
+        $this->name->val($row['name']);
+        $this->address->val($row['address']);
+        $this->phone->val($row['phone']);
+
         // set value to be returned by event when form is submitted
-        C('#contact')->attr('class','v:'.$id); // set event value using form class
+        $this->rowid->val($id); // set event value using form class
 
         // setup buttons
-        C('#cmdcancel')->show();
-        C('#cmdsave')->val('Save Contact')
-            ->addClass('process');
-
+        $this->cmdcancel->show();
+        $this->cmdsave->val('Save Contact')->addClass('process');
+        
+        $this->contact->updateClient(); // update web form
     }
 
-    protected function remove_contact($e) {
-        $id = (int)$e->value;
-        $sql = 'DELETE FROM contacts WHERE id='.$id;
-        $this->db->exec($sql);
+    protected function removeContact($e) {
+        $id = $e->intval();
 
-        $this->showList();
+        try {
+            $sql = 'DELETE FROM contacts WHERE id='.$id;
+            $this->db->exec($sql);
+            if ($this->isCallback) $this->showList();
+        }
+        catch(Exception $e) {
+            $msg = 'Error while deleting records';
+            Raxan::debug($msg.' '.$e);
+            $this->content($msg)->endResponse();
+            return;
+        }
     }
 
     protected function resetForm($isEdit) {
-        C('#contact input.textbox')->val(''); // clear form text fields
+        $selector = '#contact input.textbox, #rowid';
+        $this[$selector]->val(''); // clear form text fields
         if ($isEdit) {
-            C('#contact')->removeClass(); // remove event value from form class
-            C('#cmdcancel')->hide();
-            C('#cmdsave')->val('Add Contact')
-                ->removeClass('process');
+            $this->cmdcancel->hide();
+            $this->cmdsave->val('Add Contact')
+                 ->removeClass('process');
         }
+        $this->contact->updateClient(); // update web form
     }
 
     protected function showList() {
         $sql = 'SELECT * FROM contacts ORDER BY id desc';
         try {
             $rs = $this->db->query($sql);
-            $this['#list']->bind($rs); // bind result to #list
-            if ($this->isCallback) {
-                // update list on client when in ajax mode
-                C('#list')->html($this['#list']->html());
-            }
+            $this->list->bind($rs); // bind result to #list
+            if ($this->isCallback) $this->list->updateClient(); // manually update list on client
         }catch(Exception $e) {
-            RichAPI::debug('Error while fetching records -> '.$e);
+            $msg = 'Error while fetching records';
+            Raxan::debug($msg.' '.$e);
+            $this->content($msg)->endResponse();
+            return;
+        }
+
+    }
+
+    protected function connectToDB() {
+        // connect to SQLite database
+        $dbFile = './contacts.db'; // for demo only - change db path and enable read/write permissions on file
+        try {
+            $this->db = Raxan::connect('sqlite:'.$dbFile,null,null,true); // last param will enable exception error mode
+            // create the table
+            if (filesize($dbFile)==0) {
+                $this->db->query('CREATE TABLE contacts(
+                    id INTEGER PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    address TEXT,
+                    phone TEXT
+                )');
+            }
+        }
+        catch(Exception $e) {
+            $msg ='Error while connecting to database';
+            Raxan::debug($msg.' '.$e);
+            $this->content($msg)->endResponse();
         }
     }
 
-
 }
-
-$page = new ContactPage();
-$page->reply();
 
 ?>

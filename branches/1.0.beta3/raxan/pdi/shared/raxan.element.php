@@ -805,7 +805,7 @@ class RaxanElement extends RaxanBase {
      * Show matched elements (display:block)
      * @return RaxanElement
      */
-    public function show(){ return $this->css('display',''); }
+    public function show(){ return $this->css('display','block'); }
 
     /**
      * Selects the siblings of the matched elements

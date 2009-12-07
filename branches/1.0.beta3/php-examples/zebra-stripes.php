@@ -1,8 +1,8 @@
 <?php
 
-require_once("../raxan/pdi/gateway.php");
+require_once("../raxan/pdi/autostart.php");
 
-class MyZebraStripes extends RichWebPage {
+class MyZebraStripes extends RaxanWebPage {
 
     protected function _init() {
         // load the html page
@@ -33,6 +33,6 @@ class MyZebraStripes extends RichWebPage {
     }
 }
 
-RichWebPage::Init('MyZebraStripes');
+
 
 ?>

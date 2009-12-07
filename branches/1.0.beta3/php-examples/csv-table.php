@@ -1,15 +1,15 @@
 <?php
 
-require_once('../raxan/pdi/gateway.php');
+require_once('../raxan/pdi/autostart.php');
 
-RichAPI::loadPlugin('plugins/table.php', true);
+Raxan::loadPlugin('plugins/table.php', true);
 
-class MyPage extends RichWebPage {
+class MyPage extends RaxanWebPage {
 
     protected function _load() {
         $this->title('Table Plugin Demo');
 
-        $data = RichAPI::importCSV('addressbook.csv');
+        $data = Raxan::importCSV('addressbook.csv');
 
         $btn = $this['<a id="btnhide" />']->appendTo('body');
         $btn->text('Toggle Address Column');
@@ -27,8 +27,6 @@ class MyPage extends RichWebPage {
     }
 
 }
-
-RichWebPage::Init('MyPage');
 
 
 ?>

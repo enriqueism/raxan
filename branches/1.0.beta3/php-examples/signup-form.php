@@ -2,22 +2,20 @@
 
 require_once("../raxan/pdi/gateway.php");
 
-class MyPage extends RichWebPage {
+class MyPage extends RaxanWebPage {
 
     protected $frm;
     protected $preserveFormContent = true; // redisplay form values
 
-    protected function _load() {
+    protected function _init() {
         // load the html page
         $this->source('views/signup-form.html');
-
-        // bind to form submit event
-        $this->frm = $this['form']->bind('submit', '.form_submit');
+        $this->loadCSS('master');
     }
 
-    protected function form_submit($e) {    // event callback
+    protected function signup($e) {    // event callback
         $msg = array();
-        $data = $this->clientRequest();
+        $data = $this->sanitizePostBack();
         $pwd = $data->value('password'); $cpwd = $data->value('cpassword');
 
         // validate user input
@@ -26,7 +24,6 @@ class MyPage extends RichWebPage {
         if (!$pwd) $msg[] ='Please enter a valid password.';
         else if ($pwd!=$cpwd) $msg[] ='Password typed mismatched.';
         if (!$data->isUrl('website')) $msg[] ='Please enter a valid website.';
-
         if (count($msg)>0) {
             $msg = '<strong>'.implode('<br />',$msg).'</strong>';
             $this['#msg']->html($msg)->show();
@@ -41,6 +38,6 @@ class MyPage extends RichWebPage {
 }
 
 
-RichWebPage::Init('MyPage');
+RaxanWebPage::Init('MyPage');
 
 ?>

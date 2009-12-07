@@ -3,9 +3,9 @@
 include_once "../raxan/pdi/gateway.php";
 
 // Set timezone - also needed when using E_STRICT
-RichAPI::config('site.timezone','America/Jamaica');     
+Raxan::config('site.timezone','America/Jamaica');
 
-class MultiLangPage extends RichWebPage {
+class MultiLangPage extends RaxanWebPage {
 
     protected $lang = 'en';
 
@@ -27,13 +27,13 @@ class MultiLangPage extends RichWebPage {
     protected function lang_click($e){
         $this->lang = $e->value;
         if (in_array($this->lang,array('en','es','fr'))) {
-            RichAPI::setLocale($this->lang);
+            Raxan::setLocale($this->lang);
         }
     }
 
     protected function _prerender() {
-        $dt = RichAPI::CDate(); // get date
-        $f = RichAPI::locale('date.long'); // get date format
+        $dt = Raxan::cDate(); // get date
+        $f = Raxan::locale('date.long'); // get date format
         $this['#date']->text($dt->format($f));
 
         // higlight the select link

@@ -83,7 +83,7 @@ abstract class RaxanPlugin {
 }
 
 /**
- * Raxan Main classs
+ * Raxan Main Class
  */
 class Raxan {
 

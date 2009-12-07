@@ -1,21 +1,20 @@
 <?php
 
-require_once '../raxan/pdi/gateway.php';
+require_once "../raxan/pdi/autostart.php";
 
-$page = new RichwebPage('views/pdi-examples.html');
 
-// list beta files
-$d = dir('./'); $files = array();
-$exclude = array('index.php','gateway.config.php');
-while (false !== ($entry = $d->read())) {
-    if (!in_array($entry,$exclude)  && strpos($entry,'.php')!==false) {
-        $files[$entry] = '<div class="info column c10 tpm"><a href="'.$entry.'">'.$entry.'</a></div>';
+class HomePage extends RaxanWebPage {
+    
+    protected function _init() {
+        $this->source('views/php-examples.html');
     }
+    
+    protected function _load() {
+        $examples = Raxan::importCSV('examples.csv');
+        $this->list->bind($examples);
+    }
+
 }
 
-ksort($files);
-$page['#list']->html(implode( ' ',array_values($files)));
-
-$page->reply();
 
 ?>

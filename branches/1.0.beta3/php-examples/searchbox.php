@@ -1,10 +1,10 @@
 <?php
 
-require_once '../raxan/pdi/gateway.php';
+require_once '../raxan/pdi/autostart.php';
 
-RichAPI::config('site.timezone','America/Toronto');
+Raxan::config('site.timezone','America/Toronto');
 
-class SearchBoxPage extends RichWebPage {
+class SearchBoxPage extends RaxanWebPage {
 
     protected $db;
     protected $infoTpl, $searchTpl;
@@ -14,7 +14,7 @@ class SearchBoxPage extends RichWebPage {
 
         // Modify this line to connect to your employees table.
         // For employee sample data visit http://dev.mysql.com/doc/
-        $this->db = RichAPI::Connect('mysql: host=localhost; dbname=employees', 'dbuser', 'password');
+        $this->db = Raxan::Connect('mysql: host=localhost; dbname=employees', 'dbuser', 'password');
         if (!$this->db){
             $this->halt('<h2>Unable to connect to the MySQL Database.</h2>
                 Please make sure you have properly configured your MySQL database connection. <br />
@@ -26,11 +26,11 @@ class SearchBoxPage extends RichWebPage {
     function _load() {
 
         // event to handle employee click
-        $this['#results a']->delegate('#click','.employee_click');
+        $this['#results a']->delegate('#click','.employeeClick');
 
         // event to handle auto search
         $this['#name']->bind('#keydown',array(
-            'callback' => '.search_employee',
+            'callback' => '.searchEmployee',
             'delay' => 600,
             'autoToggle' => 'img#pre',
             'serialize' => '#name',
@@ -44,10 +44,10 @@ class SearchBoxPage extends RichWebPage {
 
     }
 
-    function employee_click($e) {
+    function employeeClick($e) {
         $id = $e->value;
         $ds = $this->getEmployeeInfo($id);
-        $html = RichAPI::bindTemplate($ds,array(
+        $html = Raxan::bindTemplate($ds,array(
             'tpl'=>$this->infoTpl,
             'removeUnusedTags'=>true,
             'format'=>array(
@@ -62,7 +62,7 @@ class SearchBoxPage extends RichWebPage {
             ->fadeIn();
     }
 
-    function search_employee($e) {
+    function searchEmployee($e) {
         $html = '';
         $rq = $e->page()->clientRequest();
         $name = $rq->text('name');
@@ -72,7 +72,7 @@ class SearchBoxPage extends RichWebPage {
             $fname = $name[0];
             $lname = isset($name[1]) ? trim($name[1]) : '';
             $rows = $this->getEmployees($fname.'%', $lname.'%');
-            $rows = RichAPI::bindTemplate($rows,$this->searchTpl);
+            $rows = Raxan::bindTemplate($rows,$this->searchTpl);
             $name = $fname.' '.$lname;
             if ($rows) $html = '<span class="quiet">Top 10 results for '.$name.'<hr />'.$rows;
             else $html = '<span class="quiet">No results found for '.$name.'<hr />'.$rows;
@@ -109,8 +109,5 @@ class SearchBoxPage extends RichWebPage {
         $this['#info']->html('');
     }
 }
-
-RichWebPage::Init('SearchBoxPage');
-
 
 ?>

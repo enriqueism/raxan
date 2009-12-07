@@ -3,11 +3,11 @@
  *  Accessing a Remote HTML Page Example
  */
 
-require_once "../raxan/pdi/gateway.php";
+require_once "../raxan/pdi/autostart.php";
 
-//RichAPI::config('debug',true);
+//Raxan::config('debug',true);
 
-class WebPageExtractor extends RichWebPage {
+class WebPageExtractor extends RaxanWebPage {
     protected $query  = 'pre vs iphone';
     protected $url = 'http://search.yahoo.com/search?p=';
 
@@ -34,7 +34,7 @@ class WebPageExtractor extends RichWebPage {
     function _prerender(){
         // load remote html page
         $url = $this->url.urlencode($this->query);
-        $search = new RichWebPage($url);
+        $search = new RaxanWebPage($url);
         // find the search titles (h3)
         $titles = $search['h3']; $html = '';
         foreach($titles->get() as $node){
@@ -43,7 +43,5 @@ class WebPageExtractor extends RichWebPage {
         $this['#result']->html($html);
     }
 }
-
-RichWebPage::Init('WebPageExtractor');
 
 ?>

@@ -1,9 +1,13 @@
 <?php
 
+/**
+ * Shopping Cart example showing how to generate a web page using the RaxanWebPage class
+ * Note: This example makes a direct call to gateway.php instad of autostart.php
+ */
+
 require_once '../raxan/pdi/gateway.php';
 
-
-$page = new RichWebPage();
+$page = new RaxanWebPage();
 $page->appendView('dragdrop.html');
 
 $page->loadCSS('master');

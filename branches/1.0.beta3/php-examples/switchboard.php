@@ -1,26 +1,47 @@
+<?php require_once '../raxan/pdi/autostart.php'; ?>
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Switchboard</title>
+        <link href="../raxan/styles/master.css" type="text/css" rel="stylesheet" />
+    </head>
+
+    <body>
+        <div class="container c35">
+            <div class="pad">
+               <a href="switchboard.php">Home</a>
+             | <a href="switchboard.php?sba=signup">Signup</a>
+             | <a href="switchboard.php?sba=switcher">Switch To Help...</a>
+            </div>
+        </div>
+
+    </body>
+
+</html>
+
 <?php
 
-require_once("../raxan/pdi/gateway.php");
+class MyPage extends RaxanWebPage {
 
-class MyPage extends RichWebPage {
     
-    function _switchboard($action) {
+    protected function _switchboard($action) {
         switch ($action) {
 
             case 'help' :
-                $this->source('views/help.html');
+                $this->appendView('help.html');
                 break;
 
             case 'thankyou' :
-                $this->source('views/thankyou.html');
+                $this->appendView('thankyou.html');
                 break;
 
             case 'signup':
-                $this->source('views/signup-form.html');
-                $this['form [name="name"]']->preserveState();
-                $this['form']->submit('.signup');
+                $this->appendView('signup-form.html');
+                $this->preserveFormContent = true;
                 break;
-
 
             case 'switcher' :
                     // use the switchTo() method to redirect
@@ -29,30 +50,20 @@ class MyPage extends RichWebPage {
                     break;
             
             default :
-                    $this->source('views/welcome.html');
+                    $this->appendView('welcome.html');
                     break;
         }
 
-        $url = $_SERVER['PHP_SELF'];
-        $this['.container']->prepend(
-            '<div class="pad">'.
-            '   <a href="'.$url.'">Home</a>'.
-            ' | <a href="'.$url.'?sba=signup">Signup</a>'.
-            ' | <a href="'.$url.'?sba=switcher">Switch To Help...</a>'.
-            '</div>'
-        );
     }
 
-    function signup($e){
-        $rq = $this->clientRequest();
+    protected function signup($e){
+        $post = $this->sanitizePostBack();
+
         // we're in ajax mode so let's use the C() function
-        if (!$rq->text('name')) C()->alert('Sign up Error. Please enter a name.');
+        if (!$post->text('name')) C()->alert('Sign up Error. Please enter a name.');
         else C()->switchTo('thankyou');
     }
 
 }
-
-RichWebPage::Init('MyPage');
-
 
 ?>

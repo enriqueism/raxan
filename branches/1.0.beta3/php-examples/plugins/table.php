@@ -13,7 +13,7 @@
  *  $t->appendTo('body');
  */
 
-class Table extends RichPlugin {
+class Table extends RaxanUIElement {
 
     public $itemStyle;
     public $altItemStyle = 'background:#eee';
@@ -21,11 +21,12 @@ class Table extends RichPlugin {
     protected $source;
     protected $cols = array();
     
-    protected $implementPrerender = true;
+    protected $implementsRender = true;
 
     function __construct($columns = null,$data = null){
+
         parent::__construct('<table />');
-        $this->attr('id', $this->getUniqueId('wtable'));
+        $this->attr('id', $this->uniqueId('wtable'));
         if ($columns) $this->addColumn($columns);
         $this->source = $data;
     }
@@ -47,7 +48,7 @@ class Table extends RichPlugin {
         return $this;
     }
 
-    public function render() {
+    public function _prerender() {
         $b = $h = '';
         foreach($this->cols as $fld=>$title) {
             $h.= '<th>'.$title.'</th>';
@@ -59,7 +60,7 @@ class Table extends RichPlugin {
         $tplAlt = '<tr'.$altItemStyle.'>'.$b.'</tr>';
         $this->html('<thead><tr>'.$h.'</tr></thead><tbody></tbody>');
         if ($this->source) {
-            $h = RichAPI::bindTemplate($this->source,array('tpl'=>$tpl,'tplAlt'=>$tplAlt));
+            $h = Raxan::bindTemplate($this->source,array('tpl'=>$tpl,'tplAlt'=>$tplAlt));
             $this->find('tbody')->html($h)->end();
         }
         return $this;

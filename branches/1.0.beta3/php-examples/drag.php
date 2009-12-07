@@ -1,35 +1,37 @@
+<?php require_once '../raxan/pdi/autostart.php'; ?>
+
+<div id="msg" class="info c4" xt-autoupdate>X: Y:</div>
+<div id="drag" class="c2 r2 alert" xt-bind="#dragstop,dragStop" />
+
 <?php
 
-require_once '../raxan/pdi/gateway.php';
 
+class DragDropPage extends RaxanWebPage {
 
-$page = new RichWebPage();
-$page->loadCSS('master');
-// load jquery files from the plugins folder
-$page->loadScript('jquery');
-$page->loadScript('jquery-ui-interactions');
+    protected function _load() {
+        $this->loadCSS('master');
+        // load jquery files from the plugins folder
+        $this->loadScript('jquery');
+        $this->loadScript('jquery-ui-interactions');
 
-$page['body']->append('
-    <div id="msg" class="info c4">X: Y:</div>
-    <div id="drag" class="c2 r2 alert" />
-');
+        $this->drag->client->draggable();
+    }
 
+    protected function dragStop($e) {
+        $x = (int)$e->targetX;
+        $y = (int)$e->targetY;
+        $this->msg->text('X:'.$x.' Y:'.$y);  
+        $d = $this->drag; // update box color
+        $d->client->css('background','#'.$this->randomColor());
+        $d->client->css('border-color','#'.$this->randomColor());
+    }
 
-$page['#drag']->bind('#dragstop','drag_stop');
-function drag_stop($e) {
-    $x = $e->targetX; $y = $e->targetY;
-    C('#msg')->text('X:'.$x.' Y:'.$y);
-    C('#drag')->css('background','#'.randomColor())
-        ->css('border-color','#'.randomColor());
+    // generate random hex color
+    protected function randomColor() {
+        return dechex(rand(10, 254)).dechex(rand(10, 254)).dechex(rand(10, 254));
+    }
 }
 
-// make the div draggable using the clx
-C('#drag')->draggable();
 
-$page->reply();
 
-// generate random hex color
-function randomColor() {
-    return dechex(rand(10, 254)).dechex(rand(10, 254)).dechex(rand(10, 254));
-}
 ?>

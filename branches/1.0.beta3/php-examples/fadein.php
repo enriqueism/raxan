@@ -1,8 +1,14 @@
 <?php
 
+/**
+ * Fade In Example - Use the Client Extension to modify elements
+ * within the client's web browser.
+ *
+ */
+
 require_once('../raxan/pdi/gateway.php');
 
-$page = new RichWebPage();
+$page = new RaxanWebPage();
 $page->loadCSS('master');
 $page->content('<div id="box" class="margin success c10 r5"  />');
 

@@ -232,11 +232,11 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public function __get($id) {
         $ec = & $this->_eCache;
         if (isset($ec[$id]) && ($e = $ec[$id])) // check element cache
-            if (($n = $e->get(0)) && $n->parentNode) {
+            if (($n = $e->get(0)) && $n->parentNode) 
                 return $e->end(true); // reset stack if exist
-            }
-            else unset($ec[$id]);
-        if (($e = $this->findById($id))) return $ec[$id] = $e;
+            else
+                unset($ec[$id]);
+        if (($e = $this->findById($id)) && $e->length) return $ec[$id] = $e;
         throw new Exception('Page element \''.$id.'\' or property not found');
     }
 

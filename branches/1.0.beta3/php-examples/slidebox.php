@@ -2,7 +2,7 @@
 
 require_once('../raxan/pdi/gateway.php');
 
-$page = new RichWebPage();
+$page = new RaxanWebPage();
 $page->loadCSS('master');
 $page->content('<div id="me" class="c2 r2 success above" align="center">Click Me</div>');
 

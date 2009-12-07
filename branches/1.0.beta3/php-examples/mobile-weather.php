@@ -6,7 +6,7 @@
 
 require_once "../raxan/pdi/gateway.php";
 
-class MobileWather extends RichWebPage {
+class MobileWather extends RaxanWebPage {
     protected $query  = 'new york';
     protected $url = 'http://www.wolframalpha.com/input/?i=weather+';
 
@@ -34,7 +34,7 @@ class MobileWather extends RichWebPage {
         // load remote html page
         if ($this->isPostback){
             $url = $this->url.urlencode($this->query);
-            $wr = new RichWebPage($url); // get page from WolframAlpha
+            $wr = new RaxanWebPage($url); // get page from WolframAlpha
             // get data from page
             $title = $wr['img#i_0100_1']->attr('alt');
             $data = $wr['img#i_0200_1']->attr('alt');
@@ -50,6 +50,6 @@ class MobileWather extends RichWebPage {
     }
 }
 
-RichWebPage::Init('MobileWather');
+RaxanWebPage::Init('MobileWather');
 
 ?>

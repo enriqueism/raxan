@@ -1,9 +1,9 @@
 <?php
 
-require_once('../raxan/pdi/gateway.php');
+require_once('../raxan/pdi/autostart.php');
 
 
-class MenuPage extends RichWebPage {
+class MenuPage extends RaxanWebPage {
 
     
     function _load() {
@@ -32,6 +32,5 @@ class MenuPage extends RichWebPage {
     }
 }
 
-RichWebPage::Init('MenuPage');
 
 ?>

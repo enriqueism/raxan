@@ -2,13 +2,13 @@
 
 require_once '../raxan/pdi/gateway.php';
 
-//RichAPI::config('debug',true);
-RichAPI::config('site.timezone','America/Toronto');
+//Raxan::config('debug',true);
+Raxan::config('site.timezone','America/Toronto');
 
-class EmployeePage extends RichWebPage {
+class EmployeePage extends RaxanWebPage {
 
     protected $db;
-    protected $page;
+    protected $pgNumber;
 
     protected function _init() {
         $this->source('views/employees.html');
@@ -16,33 +16,34 @@ class EmployeePage extends RichWebPage {
         $this->resetDataOnFirstLoad = true;
         // connect to db
         $dsn = 'mysql: host=localhost; dbname=employees';
-        $this->db = RichAPI::Connect($dsn,'dbuser','password');
+        $this->db = Raxan::connect($dsn,'dbuser','password');
         if (!$this->db){
             $this->halt('<h2>Unable to connect to the MySQL Database.</h2>
                 Please make sure you have properly configured your MySQL database connection. <br />
-                You can download the employee sample database from the MySQL website (<a href="http://dev.mysql.com/doc/">http://dev.mysql.com/doc/</a>)
+                You can download the employee sample database from the
+                MySQL website (<a href="http://dev.mysql.com/doc/">http://dev.mysql.com/doc/</a>)
             ');
         }
     }
 
     protected function _load() {
         // get current page
-        $this->page = & $this->data('page') || $this->data('page',1);
+        $this->pgNumber = & $this->data('page') || $this->data('page',1);
         // bind events
-        $this['#pager a']->delegate('click','.change_page');
-        $this['#emplist tr']->delegate('click','.row_click');
+        $this['#pager a']->delegate('click','.changePage');
+        $this['#emplist tr']->delegate('click','.rowClick');
     }
 
     protected function _prerender() {
         $this->loadEmployees();
     }
     
-    protected function change_page($e){
-        $this->page = (int)$e->value;
+    protected function changePage($e){
+        $this->pgNumber = (int)$e->value;
         if ($this->isCallback) $this->loadEmployees();
     }
 
-    protected function row_click($e){
+    protected function rowClick($e){
         $id = (int)$e->value;   // sanitize: convert to number
         if (!$e->ctrlKey && !$e->metaKey) $this->data('selected.empno',$id);
         else {  // multiple selection
@@ -61,7 +62,7 @@ class EmployeePage extends RichWebPage {
         // load employees
         $rows = $this->getEmployees();
         $this['#emplist tbody']->bind($rows,array(
-            'page' => $this->page,
+            'page' => $this->pgNumber,
             'pageSize' => 10,
             'tpl' => $tpl,
             'tplAlt' => $tplAlt,
@@ -77,9 +78,9 @@ class EmployeePage extends RichWebPage {
         C('#emplist tbody tr')->hoverClass('hover');
     
         // setup pager
-        $tpl = $this['#pager']->html();
+        $tpl = $this->pager->html();
         $maxpage = ceil(count($rows)/10); 
-        P('#pager')->html('Page: '.RichAPI::paginate($maxpage,$this->page,array(
+        $this->pager->html('Page: '.Raxan::paginate($maxpage,$this->pgNumber,array(
             'tpl' => $tpl,
             'tplFirst' => '<a href="#{FIRST}" title="First">First</a> .'.$tpl,
             'tplLast' => $tpl.' . <a href="#{LAST}" title="Last">Last</a>',
@@ -93,6 +94,6 @@ class EmployeePage extends RichWebPage {
     }
 }
 
-RichWebPage::Init('EmployeePage');
+RaxanWebPage::Init('EmployeePage');
 
 ?>

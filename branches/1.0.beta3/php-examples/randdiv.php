@@ -3,7 +3,7 @@
 require_once '../raxan/pdi/gateway.php';
 
 
-$page = new RichWebPage();
+$page = new RaxanWebPage();
 $page->loadCSS('master');
 
 $html = '';

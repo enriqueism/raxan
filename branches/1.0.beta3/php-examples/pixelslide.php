@@ -1,66 +1,78 @@
+<?php require_once('../raxan/pdi/autostart.php');  ?>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Pixel Slide show</title>
+    <link href="../raxan/styles/master.css" type="text/css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container c30">
+        <h2>Click the arrows to change the slide</h2>
+        <div class="prepend1" xt-autoupdate>
+            <a id="prev" href="#" xt-bind="#click,prevClick" ><img src="views/images/back.png" /></a>
+            <img id="slide" src="" width="64" height="64" />
+            <a id="next" href="#" xt-bind="#click,nextClick"><img  src="views/images/next.png" /></a>
+            <div id="msg"></div>
+        </div>
+    </div>
+</body>
+
+</html>
 <?php
 
-require_once('../raxan/pdi/gateway.php');
 
-class PixelShow extends RichWebPage {
 
-    protected $images;
+class PixelShow extends RaxanWebPage {
+
+    protected $images, $slideNo;
     
-    protected function _init() {
-        // load page source 
-        $this->source('views/slideshow.html');
-        $this->loadCSS('master'); // load raxan css
-
+    protected function _load() {
         // setup image array
         $this->images = array(
-            'calendar.png',
-            'chart.png',
-            'chart_pie.png',
-            'clock.png',
-            'users.png',
-            'folder.png'
+            'calendar.png','chart.png','chart_pie.png',
+            'clock.png','users.png','folder.png'
         );
-        
+
+        $this->slideNo = & $this->data('slide',0,true);
     }
 
-    protected function _load() {
-        // bind a callback function to the buttons
-        $this['#next']->bind('#click','.next_click');
-        $this['#prev']->bind('#click','.prev_click');
-
-        // display first image
-        if (!$this->isPostback) $this->showImage(0);
+    protected function _prerender() {
+        // display image
+        $this->showImage();
     }
 
-    protected function showImage($index) {
+    protected function showImage($index = null) {
+        $index = $index ? $index : $this->slideNo ;
+
         $img = isset($this->images[$index]) ? $this->images[$index]: '';
         if ($img) {
-            $total = count($this->images);
             // display image with fade-in effect
-            C('#slide')->hide()
-                ->attr('src','views/images/'.$img)
-                ->fadeIn();
-            C('#msg')->text('Slide '.($index+1).' of '.$total);
-            // set the value to be passed to the event
-            C('#next,#prev')->attr('class','v:'.$index);
+            $this->slide->attr('src','views/images/'.$img)
+                 ->client->hide()->fadeIn();
+            $total = count($this->images);
+            $this->msg->text('Slide '.($index+1).' of '.$total);
         }
     }
 
     // next button callback
-    protected function next_click($e) {
-        $index = (int)$e->value;
-        $this->showImage(++$index);
+    protected function nextClick($e) {
+        $this->slideNo++;
+        $total = count($this->images) - 1;
+        if ($this->slideNo > $total) $this->slideNo = $total;
+        if ($this->isCallback) $this->showImage();
     }
 
     // prev button callback
-    protected function prev_click($e) {
-        $index = (int)$e->value;
-        $this->showImage(--$index);
+    protected function prevClick($e) {
+        $this->slideNo--;
+        if ($this->slideNo <0 ) $this->slideNo = 0;
+        if ($this->isCallback) $this->showImage();
     }
 
 }
-
-$page = new PixelShow();
-$page->reply();
 
 ?>

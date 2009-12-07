@@ -1,35 +1,49 @@
+<?php require_once "../raxan/pdi/autostart.php";  ?>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Date Entry</title>
+</head>
+
+<body>
+    <h2>Date Entry</h2>
+    <form method="post" class="accessible">
+        Enter your Date of Birth:<br />
+        <input name="date" />&nbsp;
+        <select id="format" name="format">
+            <option value="iso">iso</option>
+            <option value="mysql">mysql</option>
+            <option value="mssql">mssql</option>
+            <option value="long">long</option>
+            <option value="short">short</option>
+        </select>
+        <input type="submit" id="btnSend" value="Send" xt-bind="click,buttonClick" />
+        <p id="msg"></p>
+    </form>
+</body>
+
+</html>
+
 <?php
 
-include_once "../raxan/pdi/gateway.php";
-
 // Set timezone - also needed when using E_STRICT
-RichAPI::config('site.timezone','America/Jamaica');
+Raxan::config('site.timezone','America/Jamaica');
 
-class DateEntry extends RichWebPage {
+class DateEntry extends RaxanWebPage {
 
-    protected function _init() {
-        $this->preserveFormContent = true;
-        $this->appendView('date-form.html'); // append view to the body tag
-    }
+    protected $preserveFormContent = true;
 
-    protected function _load() {                
-        $this['#btnSend']->bind('click',array(
-            'callback'  => '.button_click',
-            'serialize' => ':input'   // serialize and return form input values
-        ));
-    }
-
-    protected function button_click($e){
-        $rq = $this->clientRequest();
-        $f = $rq->text('format');
-        $dt = $rq->date('date',$f);
+    protected function buttonClick($e){
+        $post = $this->sanitizePostBack();
+        $f = $post->text('format');
+        $dt = $post->date('date',$f);
         if(!$dt) $dt = 'Invalid date';
-        $this['#msg']->text($dt);
+        $this->msg->text($dt);
     }
 
 }
-
-$p = new DateEntry();
-$p->reply();
 
 ?>
