@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Plugins | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>Plugins</h2>
+
+<p>Plugins are special classes that are used to extend the framework by listening to or interacting with system-events or making system wide changes.</p>
+
+<h3>Creating a Plugin</h3>
+
+<p>To create a plugin you need to extend the RaxanPlugin class as shown below:</p>
+
+<pre><code>&lt;?php
+    class NewPlugin extends RaxanPlugin {
+        public static $name = 'New Plugin';
+        public static $description = "Plugin descrtion goes here";
+        public static $author = "Author's Name";
+        protected function methods() { return get_class_methods($this); }
+        public static function register() { return self::instance(__CLASS__); }
+
+        protected function myMethodName() {
+            // your method code here
+        }
+    }
+    NewPlugin::register(); // register the plugin
+?&gt;
+</code></pre>
+
+<p>Next, you will need to add system event handler methods to your plugin so that you can perform an action when the event is invoked:</p>
+
+<pre><code>&lt;?php
+    class NewPlugin extends RaxanPlugin {
+        public static $name = 'New Plugin';
+        public static $description = "Plugin descrtion goes here";
+        public static $author = "Author's Name";
+        protected function methods() { return get_class_methods($this); }
+        public static function register() { return self::instance(__CLASS__); }
+
+        protected function page_load($e, $page) {
+            $page-&gt;append('Hello from Plugin!'); // append the this text to the web page
+        }
+
+        protected function myMethodName() {
+            // your method code here
+        }
+
+    }
+    NewPlugin::register(); // register the plugin
+
+?&gt;
+</code></pre>
+
+<p>When you're finished you can save your plugin to the raxan plugins folder. For example you could save the file (dosomething.php) to a folder called myplugins (raxan/plugins/myplugins).</p>
+
+<h3>Loading a plugin</h3>
+
+<p>To load a plugin you simple make a call to the Raxan::loadPlugin() method:</p>
+
+<pre><code>&lt;?php
+    Raxan::loadPlugin('myplugins/dosomething'); // you don't need the .php extension
+?&gt;
+</code></pre>
+
+<p>The above will load the plugin relative to the plugins.path config setting, which defaults to the raxan/plugins folder.  Notice that we did not have to specify the .php extension for the plugin file.</p>
+
+<p>To load a plugin that's located inside an alternate folder (not relative to plugins.path):</p>
+
+<pre><code>&lt;?php
+    Raxan::loadPlugin('/path/to/plugin/dosomething.php', true);
+?&gt;
+</code></pre>
+
+<p>The second parameter will cause the framework to load the plugin based on the specified folder path and filename. Please note that you will have to include the .php extension when loading plugins that are external to the assigned 'plugin.path'.</p>
+
+        </div>
+        <div class="tpb pad" style="text-align:right">
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

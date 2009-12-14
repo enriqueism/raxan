@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>RaxanUIElement | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <div class="container c45">
+
+    <h2 class="class-name">Class RaxanUIElement</h2>
+
+    <a name="sec-description"></a>
+    <div class="box bmm">
+        <div class="box-title">Description</div>
+        <div class="nav-bar">
+            <span class="disabled">Description</span> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+            |                                                            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="box bmm-body">
+            <!-- ========== Info from phpDoc block ========= -->
+            <p class="short-description">Raxan User Interface Element</p>
+            <ul class="tags">
+                <li><span class="field">abstract:</span> </li>
+            </ul>
+            <p class="notes">
+                Located in <a class="field" href="#">raxan/pdi/shared/raxan.element.php</a> (line <span class="field">1269</span>)
+            </p>
+
+
+            <pre><a href="RaxanBase.html">RaxanBase</a>
+   |
+   --<a href="RaxanElement.html">RaxanElement</a>
+      |
+      --RaxanUIElement</pre>
+
+        </div>
+    </div>
+
+
+
+    <a name="sec-var-summary"></a>
+    <div class="box bmm">
+        <div class="box-title">Variable Summary</span></div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+            |
+            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="box bmm-body">
+            <div class="var-summary">
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$implementsLoad" title="details" class="var-name">$implementsLoad</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$implementsRender" title="details" class="var-name">$implementsRender</a>
+                </div>
+                <div class="var-title">
+                    <span class="var-type">mixed</span>
+                    <a href="#$_isPrerender" title="details" class="var-name">$_isPrerender</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a name="sec-method-summary"></a>
+    <div class="box bmm">
+        <div class="box-title">Method Summary</span></div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+
+            |
+            <span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+        </div>
+        <div class="box bmm-body">
+            <div class="method-summary">
+
+                <div class="method-definition">
+                    <span class="method-result">RaxanUIElement</span>
+                    <a href="#__construct" title="details" class="method-name">__construct</a>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$css</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>])
+                </div>
+                <div class="method-definition">
+                    <span class="method-result"><a href="RaxanUIElement.html">RaxanUIElement</a></span>
+                    <a href="#loadUI" title="details" class="method-name">loadUI</a>
+                    ()
+                </div>
+                <div class="method-definition">
+                    <span class="method-result"><a href="RaxanUIElement.html">RaxanUIElement</a></span>
+                    <a href="#renderUI" title="details" class="method-name">renderUI</a>
+                    ()
+                </div>
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_load" title="details" class="method-name">_load</a>
+                    ()
+                </div>
+                <div class="method-definition">
+                    <span class="method-result">void</span>
+                    <a href="#_prerender" title="details" class="method-name">_prerender</a>
+                    ()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a name="sec-vars"></a>
+    <div class="box bmm">
+        <div class="box-title">Variables</div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+
+
+            |
+            <a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+
+        </div>
+        <div class="box bmm-body">
+            <a name="var$implementsLoad" id="$implementsLoad"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$implementsLoad</span>
+                        = <span class="var-default"> false</span>            (line <span class="line-number">1271</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$implementsRender" id="$implementsRender"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$implementsRender</span>
+                        = <span class="var-default"> false</span>            (line <span class="line-number">1272</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <a name="var$_isPrerender" id="$_isPrerender"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="var-header">
+                    <span class="var-title">
+                        <span class="var-type">mixed</span>
+                        <span class="var-name">$_isPrerender</span>
+                        = <span class="var-default"> false</span>            (line <span class="line-number">1274</span>)
+                    </span>
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+
+
+
+
+            </div>
+            <h4>Inherited Variables</h4>
+            <a name='inherited_vars'><!-- --></a>
+            <p>Inherited from <span class="classname"><a href="RaxanElement.html">RaxanElement</a></span></p>
+            <blockquote>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$autoid">RaxanElement::$autoid</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$callMethods">RaxanElement::$callMethods</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$context">RaxanElement::$context</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$doc">RaxanElement::$doc</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$elms">RaxanElement::$elms</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$modified">RaxanElement::$modified</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$name">RaxanElement::$name</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$page">RaxanElement::$page</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$rootElm">RaxanElement::$rootElm</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$selector">RaxanElement::$selector</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanElement.html#var$stack">RaxanElement::$stack</a></span><br>
+                </span>
+            </blockquote>
+            <p>Inherited from <span class="classname"><a href="RaxanBase.html">RaxanBase</a></span></p>
+            <blockquote>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanBase.html#var$events">RaxanBase::$events</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanBase.html#var$mObjId">RaxanBase::$mObjId</a></span><br>
+                </span>
+                <span class="var-title">
+                    <span class="var-name"><a href="RaxanBase.html#var$objId">RaxanBase::$objId</a></span><br>
+                </span>
+            </blockquote>
+
+        </div>
+    </div>
+
+    <a name="sec-methods"></a>
+    <div class="box bmm">
+        <div class="box-title">Methods</div>
+        <div class="nav-bar">
+            <a href="#sec-description">Description</a> |
+            <a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
+            <a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+
+        </div>
+        <div class="box bmm-body">
+            <a name='method_detail'></a>
+            <a name="method__construct" id="__construct"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">Constructor __construct</span> (line <span class="line-number">1276</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">RaxanUIElement</span>
+                    <span class="method-name">
+                        __construct
+                    </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$css</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$context</span> = <span class="var-default">null</span>])
+                </div>
+
+                <ul class="parameters">
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$css</span>            </li>
+                    <li>
+                        <span class="var-type"></span>
+                        <span class="var-name">$context</span>            </li>
+                </ul>
+
+                <hr class="separator" />
+                <div class="notes">Redefinition of:</div>
+                <dl>
+                    <dt><a href="RaxanElement.html#method__construct">RaxanElement::__construct()</a></dt>
+                    <dd>RaxanElement(css,context)</dd>
+                </dl>
+
+            </div>
+            <a name="methodloadUI" id="loadUI"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">loadUI</span> (line <span class="line-number">1291</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Triggers the _load event handler to load addition data</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RaxanUIElement.html">RaxanUIElement</a></span>
+                    <span class="method-name">
+                        loadUI
+                    </span>
+                    ()
+                </div>
+
+
+
+            </div>
+            <a name="methodrenderUI" id="renderUI"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">renderUI</span> (line <span class="line-number">1300</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <p class="short-description">Triggers the _prerender event handler to render the UI element.</p>
+                <ul class="tags">
+                    <li><span class="field">access:</span> public</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result"><a href="RaxanUIElement.html">RaxanUIElement</a></span>
+                    <span class="method-name">
+                        renderUI
+                    </span>
+                    ()
+                </div>
+
+
+
+            </div>
+            <a name="method_load" id="_load"><!-- --></a>
+            <div class="oddrow">
+
+                <div class="method-header">
+                    <span class="method-title">_load</span> (line <span class="line-number">1284</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+                        _load
+                    </span>
+                    ()
+                </div>
+
+
+
+            </div>
+            <a name="method_prerender" id="_prerender"><!-- --></a>
+            <div class="evenrow">
+
+                <div class="method-header">
+                    <span class="method-title">_prerender</span> (line <span class="line-number">1285</span>)
+                </div>
+
+                <!-- ========== Info from phpDoc block ========= -->
+                <ul class="tags">
+                    <li><span class="field">access:</span> protected</li>
+                </ul>
+
+                <div class="method-signature">
+                    <span class="method-result">void</span>
+                    <span class="method-name">
+                        _prerender
+                    </span>
+                    ()
+                </div>
+
+
+
+            </div>
+            <h4>Inherited Methods</h4>
+            <a name='inherited_methods'><!-- --></a>
+            <!-- =========== Summary =========== -->
+            <p>Inherited From <span class="classname"><a href="RaxanElement.html">RaxanElement</a></span></p>
+            <blockquote>
+                <span class="method-name"><a href="RaxanElement.html#method__construct">RaxanElement::__construct()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodadd">RaxanElement::add()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodaddClass">RaxanElement::addClass()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodaddMethod">RaxanElement::addMethod()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodafter">RaxanElement::after()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodandSelf">RaxanElement::andSelf()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodappend">RaxanElement::append()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodappendTo">RaxanElement::appendTo()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodappendToClient">RaxanElement::appendToClient()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodappendView">RaxanElement::appendView()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodattr">RaxanElement::attr()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodautoId">RaxanElement::autoId()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodbefore">RaxanElement::before()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodbind">RaxanElement::bind()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodchildren">RaxanElement::children()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodclearNode">RaxanElement::clearNode()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodclick">RaxanElement::click()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodcloneNodes">RaxanElement::cloneNodes()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodcreateFragment">RaxanElement::createFragment()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodcss">RaxanElement::css()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methoddata">RaxanElement::data()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methoddelegate">RaxanElement::delegate()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methoddisable">RaxanElement::disable()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodenable">RaxanElement::enable()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodend">RaxanElement::end()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodeq">RaxanElement::eq()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodfilter">RaxanElement::filter()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodfind">RaxanElement::find()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodfloatval">RaxanElement::floatval()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodget">RaxanElement::get()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodgetStateData">RaxanElement::getStateData()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodhandleSaveState">RaxanElement::handleSaveState()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodhasClass">RaxanElement::hasClass()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodhide">RaxanElement::hide()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodhtml">RaxanElement::html()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodhtmlMarkup">RaxanElement::htmlMarkup()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodinsert">RaxanElement::insert()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodinsertAfter">RaxanElement::insertAfter()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodinsertBefore">RaxanElement::insertBefore()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodintval">RaxanElement::intval()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodis">RaxanElement::is()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodisHTML">RaxanElement::isHTML()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodlocalize">RaxanElement::localize()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodmap">RaxanElement::map()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodmatchSelector">RaxanElement::matchSelector()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodmodifyClass">RaxanElement::modifyClass()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodnext">RaxanElement::next()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodnextAll">RaxanElement::nextAll()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodnode">RaxanElement::node()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodnodeContent">RaxanElement::nodeContent()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodnot">RaxanElement::not()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodparent">RaxanElement::parent()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodparents">RaxanElement::parents()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodprepend">RaxanElement::prepend()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodprependTo">RaxanElement::prependTo()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodprependToClient">RaxanElement::prependToClient()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodpreserveState">RaxanElement::preserveState()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodprev">RaxanElement::prev()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodprevAll">RaxanElement::prevAll()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodremove">RaxanElement::remove()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodremoveAttr">RaxanElement::removeAttr()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodremoveChildren">RaxanElement::removeChildren()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodremoveClass">RaxanElement::removeClass()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodremoveData">RaxanElement::removeData()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodremoveState">RaxanElement::removeState()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodreplaceAll">RaxanElement::replaceAll()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodreplaceClient">RaxanElement::replaceClient()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodreplaceWith">RaxanElement::replaceWith()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodselectInnerChild">RaxanElement::selectInnerChild()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodsendToClient">RaxanElement::sendToClient()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodshow">RaxanElement::show()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodsiblings">RaxanElement::siblings()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodslice">RaxanElement::slice()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodstack">RaxanElement::stack()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodstoreName">RaxanElement::storeName()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodsubmit">RaxanElement::submit()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodtext">RaxanElement::text()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodtextval">RaxanElement::textval()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodtimeout">RaxanElement::timeout()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodtoggleClass">RaxanElement::toggleClass()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodtraverse">RaxanElement::traverse()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodtrigger">RaxanElement::trigger()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodunbind">RaxanElement::unbind()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodunique">RaxanElement::unique()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methoduniqueId">RaxanElement::uniqueId()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodunstack">RaxanElement::unstack()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodupdateClient">RaxanElement::updateClient()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodval">RaxanElement::val()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodvalue">RaxanElement::value()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodwrap">RaxanElement::wrap()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#methodwrapAll">RaxanElement::wrapAll()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#method_loadElmState">RaxanElement::_loadElmState()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#method_saveElmState">RaxanElement::_saveElmState()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#method__call">RaxanElement::__call()</a></span><br>
+                <span class="method-name"><a href="RaxanElement.html#method__get">RaxanElement::__get()</a></span><br>
+            </blockquote>
+            <!-- =========== Summary =========== -->
+            <p>Inherited From <span class="classname"><a href="RaxanBase.html">RaxanBase</a></span></p>
+            <blockquote>
+                <span class="method-name"><a href="RaxanBase.html#method__construct">RaxanBase::__construct()</a></span><br>
+                <span class="method-name"><a href="RaxanBase.html#methodbind">RaxanBase::bind()</a></span><br>
+                <span class="method-name"><a href="RaxanBase.html#methodlog">RaxanBase::log()</a></span><br>
+                <span class="method-name"><a href="RaxanBase.html#methodobjectId">RaxanBase::objectId()</a></span><br>
+                <span class="method-name"><a href="RaxanBase.html#methodtrigger">RaxanBase::trigger()</a></span><br>
+                <span class="method-name"><a href="RaxanBase.html#methodunbind">RaxanBase::unbind()</a></span><br>
+            </blockquote>
+
+        </div>
+    </div>
+
+</div>
+
+        </div>
+        <div class="tpb pad" style="text-align:right">
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

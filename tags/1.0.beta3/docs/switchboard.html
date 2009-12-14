@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Switchboard | Raxan User Guide</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad('javascript','html','php');
+    </script>
+
+</head>
+
+<body>
+    <div class="container c48 prepend-top">
+        <h2 class="bottom">Raxan User Guide</h2>
+        <div class="navbar">
+            <div class="lf"><div class="rt"><div class="md">
+                <ul>
+                    <li><a href="../index.html" title="The Rich Ajax, CSS &amp; PHP Framework" >Home</a></li>
+                    <li><a href="table-of-contents.html" title="Blog Posts" >Table Of Contents</a></li>
+                    <li><a href="../php-examples/index.php" title="PHP Examples" >PHP Examples</a></li>
+                    <li><a href="../css-examples/index.html" title="User Guide" >CSS Examples</a></li>
+                </ul>
+            </div></div></div>
+        </div>
+        <div class="prepend1 append1">
+            <div class="ltm" align="right">
+                <a href="table-of-contents.html" title="Show Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+            <h2>The Switchboard</h2>
+
+<p>The Switchboard is special web page handler that can be used to manage switchboard actions that are requested by the client. A typical switchboard is used to conditionally trigger or respond to a specific request.</p>
+
+<p>Here's an example of a typical switchboard:</p>
+
+<pre><code>&lt;?p
+
+require_once("raxan/pdi/autostart.php");
+
+class MyPage extends RaxanWebPage {
+
+    protected function _switchboard($action){       
+        $body = $this['body'];
+
+        switch ($action) {
+            case 'speak' :
+                $body-&gt;html('Today is '.date('d-M-Y',time()));
+                break;
+
+            default :
+                $body-&gt;html('Hi, welcome to the Switchboard');
+                break;
+
+        }
+
+    }
+
+}
+
+?&gt;
+</code></pre>
+
+<p>In the above example, the first parameter that's passed to the switchboard handler is the action parameter. This contains the name of the action that's being requested. The next step, is to use the switch() command to determine the correct action to be executed.</p>
+
+<h3>How To Trigger an Action</h3>
+
+<p>To trigger an action, you simply append the query string sba=action to the url of the page, where action is the name of the action that's being requested:</p>
+
+<pre><code>mypage.php?sba=speak
+</code></pre>
+
+<p>This is will instruct mypage.php to trigger the speak action and display today's date.</p>
+
+<p>Switchboard actions can also be trigger by an event or programmatically from the server. To trigger an action based on a click event from the browser, use the <strong>switchTo</strong> option as shown below:</p>
+
+<pre><code>&lt;?php
+$page['#button']-&gt;bind('click',array('
+    switchTo'=&gt; 'speak'
+));
+?&gt;
+</code></pre>
+
+<p>To trigger an action from the server-side use either the switchTo() method as shown below:</p>
+
+<pre><code>&lt;?php
+    $page-&gt;switchTo('speak'); // works similar to redirected
+
+    // or you could use when inside an ajax callback
+    C()-&gt;switchTo('speak');
+?&gt;
+</code></pre>
+
+        </div>
+        <div class="tpb pad" style="text-align:right">
+            <div class="right ltm">
+                <a href="table-of-contents.html" title="Back to Table of Content">
+                    <img src="images/toc-button.png"  alt="Table of Contents" />
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
