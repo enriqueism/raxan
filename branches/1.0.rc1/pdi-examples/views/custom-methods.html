@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Zebra Stripes</title>
+    <link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/styles/default/theme.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+    	/* jQuery Resizable UI css */
+		.ui-resizable { position: relative;}
+		.ui-resizable-handle { position: absolute;font-size: 0.1px;z-index: 99999; display: block;}
+		.ui-resizable-disabled .ui-resizable-handle, .ui-resizable-autohide .ui-resizable-handle { display: none; }
+		.ui-resizable-n { cursor: n-resize; height: 7px; width: 100%; top: -5px; left: 0px; }
+		.ui-resizable-s { cursor: s-resize; height: 7px; width: 100%; bottom: -5px; left: 0px; }
+		.ui-resizable-e { cursor: e-resize; width: 7px; right: -5px; top: 0px; height: 100%; }
+		.ui-resizable-w { cursor: w-resize; width: 7px; left: -5px; top: 0px; height: 100%; }
+		.ui-resizable-se { cursor: se-resize; width: 12px; height: 12px; right: 1px; bottom: 1px; }
+		.ui-resizable-sw { cursor: sw-resize; width: 9px; height: 9px; left: -5px; bottom: -5px; }
+		.ui-resizable-nw { cursor: nw-resize; width: 9px; height: 9px; left: -5px; top: -5px; }
+		.ui-resizable-ne { cursor: ne-resize; width: 9px; height: 9px; right: -5px; top: -5px;}
+    </style>
+</head>
+
+<body>
+    <div class="container c35">
+
+    	<h3>Zebra Custom Method:</h3>
+    	<p>These zebra stripes where created using the custom zebra() method:</p>
+        <table class="border">
+            <thead><tr class="tbl-header"><th>Fruits</th><th>Sales (%) in Q3</th></tr></thead>
+            <tbody>
+                <tr><td>Apple</td><td>40</td></tr>
+                <tr><td>Mangoes</td><td>20</td></tr>
+                <tr><td>Pears</td><td>10</td></tr>
+                <tr><td>Grapes</td><td>30</td></tr>
+                <tr><td>Banana</td><td>25</td></tr>
+                <tr><td>Oranges</td><td>45</td></tr>
+                <tr><td>Strawberries</td><td>6</td></tr>
+            </tbody>
+        </table>
+
+        <h3>Resizable Custom Method:</h3>
+        <p>Use your mouse to drag the corners of the box.</p>
+        <div id="box" class="box c5 r5 softyellow"></div>
+
+        <p>&nbsp;</p>
+    </div>
+</body>
+
+</html>

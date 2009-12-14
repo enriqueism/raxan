@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>TabStrip Plugin</title>
+	<link href="../raxan/styles/master.css" rel="stylesheet" type="text/css" />
+	<!--[if IE]><link rel="stylesheet" href="../raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <script src="../raxan/startup.js" type="text/javascript">/scripts/tabstrip.js/</script>
+	<style>
+        /* sample tabstrip theme */
+        ul.tabstrip.nicetab {
+            border:none;
+            background:url("images/tab_bg.gif") repeat-x left bottom;
+        }
+        ul.tabstrip.nicetab li {
+            border:none; padding:0 0 0 9px;
+            background:url("images/tab_off.png") no-repeat left top;
+        }
+        ul.tabstrip.nicetab a {
+            color:#765; border:none;
+            padding:5px 15px 4px 6px;
+            background:url("images/tab_off.png") no-repeat right top;
+        }
+        ul.tabstrip.nicetab a:hover { color:#333; }
+        ul.tabstrip.nicetab .selected  {
+            cursor:default;
+            background-image:url("images/tab_on.png");
+        }
+        ul.tabstrip.nicetab .selected a {
+            color:#333; padding-bottom:5px;
+            background-image:url("images/tab_on.png");
+        }
+	</style>
+</head>
+
+<body>
+    <div class="container c30 hlf-pad lightgray">&nbsp;<a href="index.html" title="Back to the Examples Web Page"><img src="images/arrow_left.png" width="16" alt="Menu"/> Examples</a> | Raxan Framework&nbsp;</div>
+    <div class="container c30 tpm">
+        <h1>TabStrip</h1>
+        <hr />
+        <h2>Basic TabStrip</h2>
+        <hr />
+
+		<ul id="tab1" class="tabstrip">
+			<li><a href="#home">Home</a></li>
+			<li class="selected"><a href="#news">News</a></li>
+			<li><a href="#products">Products</a></li>
+			<li><a href="#about">About</a></li>
+			<li><a href="#contact">Contact</a></li>
+			<li><a href="remote.html#ajax;h2,#ajax-p">Ajax Remote</a></li>
+		</ul>
+
+        <div id="home" class="pad ltb rtb bmb">
+            <h2 class="bottom">Home Tab (Border added to container)</h2>
+            <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer bibendum rutrum nunc. Aliquam erat volutpat. Nam porta. Nunc vulputate, arcu vel dictum sollicitudin, nibh arcu cursus metus, venenatis tempor neque dui ornare lectus. Etiam non eros quis urna tristique convallis. Donec lacinia turpis ac quam. Sed quam ante, dictum in, congue placerat, faucibus bibendum, urna. </p>
+        </div>
+        <div id="news" class="pad">
+            <h2 class="bottom">Headline New Tab</h2>
+            <p>Aenean scelerisque hendrerit leo. Nam mollis mi non turpis. Aliquam nec augue non augue euismod aliquam. Proin auctor ultricies urna. Quisque sollicitudin. Ut consequat varius augue. Etiam orci tellus, cursus vitae, sollicitudin nec, condimentum ut, ante. Mauris sed ipsum a lectus fermentum semper. Donec tempus mi quis lorem. Integer luctus massa. Ut purus nisi, rutrum in, tempor vitae, scelerisque nec, justo. In hac habitasse platea dictumst. Mauris est. Sed molestie. Quisque congue consequat ligula. Suspendisse potenti. Maecenas in velit sed lorem lacinia cursus. Pellentesque vel urna. Morbi eleifend nulla non enim. </p>
+        </div>
+        <div id="products" class="pad">
+            <h2 class="bottom">Product Tab</h2>
+            <p>Fusce pretium, dui id varius pulvinar, sem diam pellentesque nunc, in venenatis arcu enim ut orci. Suspendisse potenti. Vivamus vitae massa. Fusce tempor, massa vel lobortis auctor, nunc justo ullamcorper orci, nec sollicitudin nibh pede nec dui. Cras rhoncus neque eu nisi. Nam vulputate felis ut erat. Nulla pretium lectus sed quam. Quisque vulputate, metus sit amet semper tincidunt, dolor mauris blandit urna, quis imperdiet ante odio sed urna. Quisque vitae lacus vel risus suscipit dapibus. Maecenas imperdiet tincidunt leo. Aliquam laoreet, massa et volutpat aliquet, orci mauris venenatis quam, sit amet luctus ipsum odio semper odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus pede. Vivamus a ante. </p>
+        </div>
+        <div id="about" class="pad">
+            <h2 class="bottom">About Tab</h2>
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent facilisis lectus a lectus lacinia bibendum. Nam eget eros. Pellentesque tincidunt dignissim sapien. Quisque vestibulum tristique justo. Nullam id metus vitae enim dignissim pharetra. Nunc ante est, egestas in, tempus eget, accumsan ac, est. Nam in elit et diam vestibulum malesuada. Sed justo tortor, iaculis at, vestibulum non, convallis et, ante. Sed sapien neque, facilisis in, ultrices eget, molestie ac, tellus.</p>
+        </div>
+        <div id="contact" class="pad">
+            <h2 class="bottom">Contact Tab</h2>
+            <p>Nulla pretium lectus sed quam. Quisque vulputate, metus sit amet semper tincidunt, dolor mauris blandit urna, quis imperdiet ante odio sed urna. Quisque vitae lacus vel risus suscipit dapibus. Maecenas imperdiet tincidunt leo. Aliquam laoreet, massa et volutpat aliquet, orci mauris venenatis quam, sit amet luctus ipsum odio semper odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus pede. Vivamus a ante. </p>
+        </div>
+        <div id="ajax" class="pad">
+            <h3>Loading...</h3>
+        </div>
+
+        <hr class="space" />
+        
+        <h2>TabStrip with nicetab theme</h2>
+		<ul class="tabstrip nicetab">
+			<li><a href="#home2">Home</a></li>
+			<li class="selected"><a href="#news2">News</a></li>
+			<li><a href="#products2">Products</a></li>
+			<li><a href="#about2">About</a></li>
+			<li><a href="#contact2">Contact</a></li>
+		</ul>
+
+
+        <div id="home2" class="pad">
+            <h2 class="bottom">Home Tab</h2>
+            <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Integer bibendum rutrum nunc. Aliquam erat volutpat. Nam porta. Nunc vulputate, arcu vel dictum sollicitudin, nibh arcu cursus metus, venenatis tempor neque dui ornare lectus. Etiam non eros quis urna tristique convallis. Donec lacinia turpis ac quam. Sed quam ante, dictum in, congue placerat, faucibus bibendum, urna. </p>
+        </div>
+        <div id="news2" class="pad">
+            <h2 class="bottom">Tabs with nicetab theme</h2>
+            <p>Aenean scelerisque hendrerit leo. Nam mollis mi non turpis. Aliquam nec augue non augue euismod aliquam. Proin auctor ultricies urna. Quisque sollicitudin. Ut consequat varius augue. Etiam orci tellus, cursus vitae, sollicitudin nec, condimentum ut, ante. Mauris sed ipsum a lectus fermentum semper. Donec tempus mi quis lorem. Integer luctus massa. Ut purus nisi, rutrum in, tempor vitae, scelerisque nec, justo. In hac habitasse platea dictumst. Mauris est. Sed molestie. Quisque congue consequat ligula. Suspendisse potenti. Maecenas in velit sed lorem lacinia cursus. Pellentesque vel urna. Morbi eleifend nulla non enim. </p>
+        </div>
+        <div id="products2" class="pad">
+            <h2 class="bottom">Product Tab</h2>
+            <p>Fusce pretium, dui id varius pulvinar, sem diam pellentesque nunc, in venenatis arcu enim ut orci. Suspendisse potenti. Vivamus vitae massa. Fusce tempor, massa vel lobortis auctor, nunc justo ullamcorper orci, nec sollicitudin nibh pede nec dui. Cras rhoncus neque eu nisi. Nam vulputate felis ut erat. Nulla pretium lectus sed quam. Quisque vulputate, metus sit amet semper tincidunt, dolor mauris blandit urna, quis imperdiet ante odio sed urna. Quisque vitae lacus vel risus suscipit dapibus. Maecenas imperdiet tincidunt leo. Aliquam laoreet, massa et volutpat aliquet, orci mauris venenatis quam, sit amet luctus ipsum odio semper odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus pede. Vivamus a ante. </p>
+        </div>
+        <div id="about2" class="pad">
+            <h2 class="bottom">About Tab</h2>
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Praesent facilisis lectus a lectus lacinia bibendum. Nam eget eros. Pellentesque tincidunt dignissim sapien. Quisque vestibulum tristique justo. Nullam id metus vitae enim dignissim pharetra. Nunc ante est, egestas in, tempus eget, accumsan ac, est. Nam in elit et diam vestibulum malesuada. Sed justo tortor, iaculis at, vestibulum non, convallis et, ante. Sed sapien neque, facilisis in, ultrices eget, molestie ac, tellus.</p>
+        </div>
+        <div id="contact2" class="pad">
+            <h2 class="bottom">Contact Tab</h2>
+            <p>Nulla pretium lectus sed quam. Quisque vulputate, metus sit amet semper tincidunt, dolor mauris blandit urna, quis imperdiet ante odio sed urna. Quisque vitae lacus vel risus suscipit dapibus. Maecenas imperdiet tincidunt leo. Aliquam laoreet, massa et volutpat aliquet, orci mauris venenatis quam, sit amet luctus ipsum odio semper odio. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Phasellus pede. Vivamus a ante. </p>
+        </div>
+    </div>
+</body>
+
+</html>
