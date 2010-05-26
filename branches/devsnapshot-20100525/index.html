@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Raxan - The Rich Ajax Application Framework</title>
+    <link href="raxan/styles/master.css" rel="stylesheet" type="text/css" />
+    <!--[if IE]><link rel="stylesheet" href="raxan/styles/master.ie.css" type="text/css"><![endif]-->
+    <link href="raxan/styles/default/theme.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        body { font-size:0.9em }
+    </style>
+</head>
+
+<body>
+
+<div class="container c48 prepend-top">
+
+<h1 class="ui-widget-header pad round">Raxan Developer Snapshot (20100525)</h1>
+
+<div class="pad">
+
+<h2>What to expect in RC1</h2>
+
+<h3>Improved CSS theme</h3>
+
+<p>Designing  great looking web pages and applications has been made easier with the new integrated jQuery UI CSS theme-able classes. Just include the default theme or create your own and you're ready to go.</p>
+
+<h3>Improved Sanitizer</h3>
+
+<p>The new web page "post" and "get" properties makes it easier to get access to all your HTTP POST and GET values while being able to filter and sanitize values.</p>
+
+<pre><code>&lt;?php
+    protected function saveData() {
+        $id = $this-&gt;post-&gt;intVal('id');
+        $name = $this-&gt;post-&gt;textVal('name');
+        $email = $this-&gt;post-&gt;emailVal('email');
+        $age = $this-&gt;post-&gt;intVal('age');
+        // code to save data...
+    }
+?&gt;
+</code></pre>
+
+<h3>Improved Template Binder</h3>
+
+<p>New Template Binder optional make it possible to add CSS classes while rendering a template. It's also possible to dynamically format display values from a callback function.</p>
+
+<h3>Ajax Ready</h3>
+
+<p>Tighter integration with client-side JavaScript and the jQuery 1.4.2 and jQuery Tools 1.2.2 API make it possible to build Rich Ajax Applications using PHP.</p>
+
+<h3>New UI API</h3>
+
+<p>The UI support for Raxan has been overhauled to support new components and widgets.  New features include support for inline properties (e.g. xt-ui-background,  etc), new event handlers and a  new RaxanUIContainer class.</p>
+
+<h3>Flash Messages</h3>
+
+<p>With the new flash message API, developers will be able to quickly display messages within a web page.</p>
+
+<pre><code>&lt;?php
+    protected function speak($word){
+        if ( !$word) {
+            $this-&gt;flashmsg('I have nothing to say.');
+        }
+    }
+?&gt;
+</code></pre>
+
+<p>To display flash messages within the page, you only need to insert an HTML element with the class attribute set to flash-message:</p>
+
+<pre><code>&lt;div class="flash-message"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>Server-Side HTML5 Validation
+Basic HTML5 validation has been added to the framework to make it easier to validate client inputs.  With just a few line of code, you can check for valid inputs:</p>
+
+<pre><code>&lt;?php
+    protected function addItem($e){
+        $frm = $this-&gt;webForm;
+        if ( !$frm-&gt;checkValidity(true,'required') ) {
+            $this-&gt;flashmsg('Invalid input values');
+        } else {
+            $v = $frm-&gt;validValues();
+            // some code here....
+            $this-&gt;flashmsg('New item added');
+        }
+    }
+?&gt;
+</code></pre>
+
+<p>Since we're doing HTML5 Form validation on the server-side you only need to type the HTML once:</p>
+
+<pre><code>&lt;input type="text" name="itemname" id="itemname" value="" maxlength="50" required /&gt;
+&lt;textarea name="description" id="description" cols="10" rows="5" maxlength="250" required&gt;&lt;/textarea&gt;
+&lt;input type="submit" name="submit1" id="submit1" value="Submit" /&gt;
+</code></pre>
+
+<p><em>Supported HTML5 Validation constraints:</em></p>
+
+<pre><code>• Maxlength
+• Required
+• Min / Max (only works with type=number )
+• Email
+• URL
+• Number
+• Date
+• Month
+• Pattern
+</code></pre>
+
+<h3>Page-View Design Pattern</h3>
+
+<p>Raxan Beta 3 introduced a switchboard page handler that was designed to manage actions requested by the client. In RC1, the Switchboard Page Handler and Action has been replaced with individual view handlers and view mode.</p>
+
+<p>The Page-View pattern makes it easier for developers to load and display multiple content views while maintaining separation between content and logic.</p>
+
+<ul>
+<li>Page - The Page controller loads and interacts with the view and the model.</li>
+<li>View - Stores the content to be displayed. This can be either a be a static or a dynamic page.</li>
+</ul>
+
+<p><img src="images/page-view-pattern.png" alt="Page-View Pattern" /></p>
+
+<p>The page controller receives a view mode request from the client to load and display a view. This information is passed to the view handler which then loads the requested view and the associated data/model. If a view was not specified, then the page controller will invoke the default _indexView() handler.</p>
+
+<p>The view mode which forms part of the page controller's url is case sensitive and can only contain characters A-Z, 0-9 and _ (underscore). For example: items, contacts, book_list, orderItems, etc.</p>
+
+<p>To request a view the page controller url  must contain the desired view mode as part of the query sting as shown below:</p>
+
+<pre><code>http://domain.com/page-controller.php?vu=items
+</code></pre>
+
+<p>Where "vu" is the view mode query string parameter.</p>
+
+<p>Once the view mode request is received by the page controller, the activeView property is set and the appropriate view handler will be invoked. The view handler is a special method that's only invoked when a specific view is requested. The method name consist of an underscore (_), the view mode and the suffix "View". For example:</p>
+
+<pre><code>&lt;?php
+    // items view handler
+    protected function _itemsView() {
+        // code here
+    }
+?&gt;
+</code></pre>
+
+<p><em>Example:</em></p>
+
+<p>The Page-View pattern allows developers to organize an application or page into Views and Events. For example, a blog application can be organized as follows:</p>
+
+<p><strong>Blog Page</strong></p>
+
+<p><em>Views:</em></p>
+
+<ul>
+<li>index view (default view - list blog entries)</li>
+<li>detail view (show blog detail)</li>
+<li>form view (create or edit blog)</li>
+</ul>
+
+<p><em>Events:</em></p>
+
+<ul>
+<li>save event</li>
+<li>delete event</li>
+</ul>
+
+<p>Views are normally stored inside a views folder. This folder can be configured by setting the views.path configuration option inside the config file.</p>
+
+<p>See examples/notes.php for a working example. To create the database run the script examples/notes.sql on your database server.</p>
+
+    </div>
+</div>
+
+</body>
+
+</html>

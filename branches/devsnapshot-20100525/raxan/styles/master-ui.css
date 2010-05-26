@@ -1,0 +1,131 @@
+/**
+* Raxan CSS Framework - Master UI classes
+* Copyright (c) 2010 Raymond Irving (http://raxanpdi.com)
+*
+* Dual licensed under the MIT and LGPL licenses.
+* See the LICENSE.txt file
+*
+*/
+
+/* button */
+.button {
+    height:26px;
+    color:#333;
+    cursor: pointer;
+    background-color: #ddd;
+    border:1px solid #999;
+    vertical-align:middle;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+}
+.button img {padding-bottom:1px;vertical-align:middle;}
+.button:active { border-style:inset;}
+.button.ok { background-color: #C6D880; border-color:#A9C440; color:#264409}
+.button.cancel { background-color: #FF7575; border-color:#FF641A; color:#fff; font-weight: bold;}
+.button.process { background-color: #AECDFF; border-color:#5998FF; color:#0055AA }
+.button.continue { background-color: #FFD324; border-color:#E1B500; color:#514721 }
+.button.disabled { -moz-opacity:0.5; opacity: 0.5;}
+.button.disabled:active { border-style:solid;}
+a.button { padding:4px 5px 5px 5px; line-height:21px; outline: none}
+a.button:hover { text-decoration: none }
+
+.fancy {    /* create serif italic dramatic text */
+  color: #666;
+  font-family: "Warnock Pro", "Goudy Old Style","Palatino","Book Antiqua", Georgia, serif;
+  font-style: italic;  font-weight: normal;
+}
+
+
+/* table */
+caption     { background-color: #eee; }
+tr.tbl-header th,tr.tbl-header td  { background-color: #F7F7F7; }
+tr.even td  { background-color: #eee; }
+td.sort { background-color: #eee; }
+tr.even td.sort { background-color: #ddd; }
+tr.tbl-header .sort { background-color: #ededed; }
+tr.select td  { background-color: #ccc; } /*should always be last*/
+tr.hover td  { background-color: #cfcfcf !important;} /*should always be last*/
+
+/* box */
+.box  { padding: 8px; border: 2px solid #ddd;}
+.box { background-color: #eee;  border-color: #ccc; }
+.box.alert { background-color: #FFF6BF; color: #514721; border-color: #FFD324; }
+.box.notice  { background-color: #FBE3E4; color: #8a1f11; border-color: #FBC2C4; }
+.box.info { background-color: #E5ECF9; color: #514721; border-color: #C3D9FF; }
+.box.success { background-color: #E6EFC2; color: #264409; border-color: #C6D880; }
+.box.error { background-color: #ffcccc; color: #000; border-color: #cc3300; }
+.box.alert a { color: #514721; }
+.box.success a  { color: #264409; }
+.box.info a { color: #000099;  }
+.box.error a, .notice a { color: #8a1f11; }
+/* box title */
+.box .box-title { margin:-7px -7px 10px -7px; font-weight:bold; padding: 2px 5px; border-bottom: 1px solid #777; display:block; background:#C1C1C1;}
+.box.success .box-title { background-color:#B8D152; border-color:#91A92E}
+.box.alert .box-title { background-color:#FFD900; border-color:#CEAF00}
+.box.info .box-title { background-color:#98B4E7; border-color:#5381D7}
+.box.notice .box-title,
+.box.error .box-title { background-color:#EF8F95; border-color:#BA1B23}
+
+ /* background colors */
+.white { background:#fff; }
+.silver { background:#c0c0c0; }
+.lightgray { background:#e0e0e0; }
+.softgreen { background-color: #C6D880 }    /* soft colors */
+.softblue { background-color: #C3D9FF }
+.softred { background-color: #FBC2C4 }
+.softyellow{ background-color: #FDEE89 }
+.pastelgreen { background-color: #E6EFC2 }
+
+/* panel */
+.panel .pb1 { border-top: 1px solid; margin: 0 2px; }
+.panel .pb2, .panel .pm1 {
+    border: 1px solid; border-width: 0 1px;
+    margin: 0 1px; padding: 1px 0;
+}
+.panel .pm1 {
+    height: 100%; overflow:hidden; margin:0; padding: 0;
+}
+.panel .pb1, .panel .pb2, .panel .pm1 { background: #F3F3F3; }
+.panel .pb1, .panel .pb2, .panel .pm1 { border-color: #D1D1D1; }
+.panel .pnl-footer, .panel .pnl-header {
+    display:block; padding: 3px; margin:0 2px;
+    background: #E5E5E5; border-bottom:1px solid #dedede;
+}
+.panel .pnl-footer {
+    background: #F0F0F0;  border-bottom: none; border-top:1px solid #dedede;
+}
+
+/* tabstrip */
+ul.tabstrip {
+    height:1%; /* fixing IE 6  - from blueprintcss tab */
+    margin:0; padding:2px 10px 0;
+    list-style:none; font-size:93%;
+    line-height:normal; border-bottom:1px solid #ccc; overflow:auto;
+}
+ul.tabstrip li {
+    cursor:pointer;
+    padding:0; margin:0 3px 0 0;
+    float:left; font-weight:bold;
+    border:1px solid #ccc; border-bottom:none;
+}
+ul.tabstrip a {
+    float:left; display:block;
+    color:#777; text-decoration:none;
+    padding:2px 4px 2px 4px; background:#ddd;
+    border:1px solid #eee; border-bottom:none; line-height:18px;
+}
+ul.tabstrip li.right { float:right; margin:0 0 0 3px;}
+ul.tabstrip ul { display:none }
+ul.tabstrip img { vertical-align:middle; }
+ul.tabstrip a:hover { color:#333; }
+ul.tabstrip .selected  { cursor:default; }
+ul.tabstrip .selected a {
+    color:#fff; background:#666; cursor:default;
+    border:1px solid #777; border-bottom:none;
+}
+
+/* hr */
+hr {
+  background: #ccc;
+  color: #ccc;
+}
