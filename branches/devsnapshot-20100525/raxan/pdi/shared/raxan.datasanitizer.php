@@ -1,7 +1,13 @@
 <?php
 /**
- * Provides APIs to filter, sanitizer and format user inputs and file uploads
+ * Raxan Data Sanitizer/Filter 
+ * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
+ */
+
+
+/**
+ * Provides APIs to filter, sanitizer and format user inputs and file uploads
  */
 class RaxanDataSanitizer {
     /**
@@ -70,13 +76,13 @@ class RaxanDataSanitizer {
 
     /**
      * Returns an alphanumeric value for the specified field name
-     * @return string  If input is an array then an array of alphanumeric date values is returned
+     * @return string  If input is an array then an array of alphanumeric values will be returned
      */
     public function alphanumericVal($key) {
         $v = $this->value($key);
-        if (!is_array($v)) $v = trim(preg_replace('/(\W|_)/i','',$v));
+        if (!is_array($v)) $v = trim(((preg_match('/^[a-zA-Z0-9]+$/',$t = trim($v))) ? $t : ''));
         else foreach ($v as $k=>$b){
-            $v[$k] = trim(preg_replace('/(\W|_)/i','',$b));
+            $v[$k] = trim(((preg_match('/^[a-zA-Z0-9]+$/',$t = trim($b))) ? $t : ''));
         }
         return $v;
     }

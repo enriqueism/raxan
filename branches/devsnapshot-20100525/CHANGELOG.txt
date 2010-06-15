@@ -17,8 +17,13 @@ Design changes:
 * CSS - Remove .shadow and .toolbar classes.
 * CSS - The alert, notice, error and success classes are now subset classes of the the box class
 * Move JavaScript files from raxan/plugins to raxan/ui/javascripts.
+* Change Raxan::data() signature to maintain consistency with RaxanWebPage::data()
+* Add new Raxan::dataBank() method
 
 Other changes:
+* Modify RaxanWebPage->registerEvent() to support array input
+* Add dispatchEvent() method to Raxan JavaScript Object
+* Remove dataFilter option from $.ajax call in startup.js. JSON.parse is supported in jQuery 1.4.2
 * Merge fixes from BluePrint CSS 0.9.1
 * Trigger client-side submit event on serializable objects
 * Add RaxanElment->checkValidity() and RaxanElment->setCustomValidity().  The checkValidity() method supports basic server-side HTML5 validation
@@ -35,7 +40,7 @@ Other changes:
 * Add view_not_found locale string to general.php language files
 * Add server-side RaxanWebPage->registerVar() and JavaScript Raxan.getVar()
 * Add RaxanDataSanitizer->filterValues()
-* Add RaxanWebPage->autoAppendViews property
+* Add RaxanWebPage->autoAppendView property
 * Add RaxanWebPage->initUIElemenet() and RaxanWebPage->initPreservedElements()
 * Rename switchTo() method to redirectToView() on both RaxanWebPage and RaxanClientExtension
 * Add tableInsert(), tableUpdate(), tableDelete() methods to RaxanPDO

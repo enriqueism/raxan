@@ -1,5 +1,7 @@
 <?php
 /**
+ * Raxan Client Extension
+ * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 
@@ -131,7 +133,7 @@ class RaxanClientExtension {
      * @return RaxanClientExtension
      */
     public function console($var, $halt = false) {
-        $var = print_r($var,true);
+        $var = $var===null ? 'null' : print_r($var,true); 
         $this->chain  = (($this->chain=='$()') ? '':$this->chain.';').
             'Raxan.log("'.$this->escapeString($var).'")';
         if (!$halt) return $this;

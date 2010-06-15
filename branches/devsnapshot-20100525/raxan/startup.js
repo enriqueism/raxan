@@ -1,17 +1,19 @@
 /**
- * Raxan (Rich Ajax Application) Startup script - 1.0 beta 1
- * Copyright (c) 2008-2009 Raymond Irving (http://raxanpdi.com)
+ * Raxan (Rich Ajax Application) JavaScript Object / Startup script
+ * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
  *
- * Dual licensed under the MIT and LGPL licenses.
+ * Dual licensed under the MIT and GPL licenses.
  * See the LICENSE.txt file
  *
  */
 
 
-
-html = raxan = Raxan = {    // Raxan html class object
+/**
+ *  Raxan Javascript Object
+ */
+Raxan = html = {
     version: '1.0',         //@todo: update version number
-    revision: '1.0.0.rc1',
+    revision: 'rc1',
     path:'',
     scriptpath:'',
     csspath:'',
@@ -147,20 +149,6 @@ html = raxan = Raxan = {    // Raxan html class object
         }
     },
 
-    // flash message effect - used by PDI
-    flashEffect: function(effect,id) {
-        id = id ? '#'+id : '.flashmsg';
-        jQuery(id + ' .message').hide().show(effect);
-        if (!this.flashmsg) jQuery('.flashmsg .close').live('click',function(e){
-            var me = jQuery(this), elm = me.parents('.message:first');
-            if (elm.length==0) elm = me;
-            if (elm.attr('rel')) elm.fadeOut().slideUp();
-            e.preventDefault();
-            return false;
-        });
-        this.flashmsg = true;
-    },
-
     // returns html file name
     filename: function() {
         var f = ((location+'').split(/\?/))[0].split(/\//);
@@ -168,23 +156,10 @@ html = raxan = Raxan = {    // Raxan html class object
         return f;
     },
 
-    // returns registered server-side value
-    getVar: function(name, _default, _remove) {
-      var v = this.regvar[name];
-      if (typeof v == 'undefined') v = _default;
-      if (_remove) delete Raxan.regvar[name];
-      return v;
-    },
-
     // returns array from the collection object
     collection: function(name) {
         var c = this.arraycol;
         return  !c[name] ? c[name] = [] : c[name];
-    },
-
-    // register function - for use with auto-disable, auto-toggle and serialize
-    registerFn: function(name,callback) {
-       this.regfn[name] = callback
     },
 
     // register ready event. This is event normally triggered before onload
@@ -394,64 +369,8 @@ html = raxan = Raxan = {    // Raxan html class object
     // log to debug console
     log: function(txt) {
         if (window.console) window.console.log(txt);
-    },
-
-    // For internal use only - Update Client Element
-    iUpdateClient: function(selectors,source,sourceDelim) {
-        var $ = jQuery;source = source.split(sourceDelim);
-        $(selectors).each(function(i) {
-            Raxan.iUpdateElement(this,$(source[i]).get(0));
-        });
-    },
-    // @todo: this method needs to be optimized and modified to support ui widgets
-    iUpdateElement: function(srcElm,targetElm) {
-        var expando,cb = [], src = srcElm, tar = targetElm;
-
-        // get jQuery expando - the hard way :(
-        if (this.expando) expando = this.expando;
-        else {
-            var a = $('<div />').data('test',1).get(0);
-            for (i in a) if (i.indexOf('jQuery')==0) expando = this.expando = i;
-        }
-
-        function cloneEvents(elm,mode,path,index) {
-            var i, e, l, data,events, type, handler, ix = 1;
-            if ( elm.nodeType == 3 || elm.nodeType == 8 ) return;
-            if (!index) index = '';
-            path = path ? path + '/' : '';
-            path+= elm['id'] ? elm['id'] : elm.nodeName.toLowerCase() + index;
-            if (mode=='copy') {
-              e = elm[expando] ? elm[expando] : jQuery.data(elm);
-              if (jQuery.cache[e]) cb[path] = jQuery.cache[e];
-            }
-            else if (mode=='paste' && cb[path]) {
-                // clone events and data
-                data = cb[path];
-                events = data['events'];
-                delete data['handle'];delete data['events'];
-                for (type in data) jQuery.data(elm,type,data[type]);
-                for ( type in events ) {
-                    for ( handler in events[ type ] ) {
-                        jQuery.event.add( elm, type, events[ type ][ handler ], events[ type ][ handler ].data );
-                    }
-                }
-            }
-            l = elm.childNodes.length;
-            if(l) for(i=0; i<l; i++) {
-                e = elm.childNodes[i];
-                if ( e.nodeType != 3 && e.nodeType != 8 ) {
-                    cloneEvents(e,mode,path,ix++);
-                }
-            }
-        }
-        cloneEvents(src,'copy');
-        cloneEvents(tar,'paste');
-        var s  = src.style, t = tar.style;  // retain elmement position
-        if(s.position && !t.position) t.position = s.position
-        if(s.left && !t.left) t.left = s.left
-        if(s.top && !t.top) t.top = s.top
-        $(srcElm).replaceWith(targetElm);   // replace element
     }
+
 }
 
 // Script Load callback
@@ -473,21 +392,131 @@ function raxanloadjs(id,elm){
     }
 }
 
-/* PDI Transporter Functions */
-var _PDI_AJAX_ERR_MSG = 'Error while connecting to server. Please try again or report the matter to the administrator. See the Error Console for more information.'; //default msg
-$bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options) {
-    var $ = jQuery;
+/* PDI Helper Functions */
 
-    // custom delegate function
-    if(!$.fn.rxlive) {
-        $.fn.rxlive = function(css,event,fn) {
-            var e, s = (css!==true) ? css: '',p = this.selector + ' ';
-            if (!s.indexOf(',')) s = p + s;
-            else s = p+(s.split(/,/)).join(','+p);
-            e = jQuery(document);e.selector = s;e.live(event,fn);
-            return this;
+var _PDI_AJAX_ERR_MSG = 'Error while connecting to server. Please try again or report the matter to the administrator. See the Error Console for more information.'; //default msg
+
+/**
+ * Dispatch server-side event
+ * @param string type Event type
+ * @param mixed value (Optional) Value to be passed to the server-side event. This value can be retrieved from the server by using val(), intVal(), etc
+ * @param function fn (Optional) JavaScript Callback function
+ * @return Raxan
+ */
+Raxan.dispatchEvent = function(type, value, fn) {
+    var url, target, serialize, opt =  {}, o = {};
+    if (typeof type == 'object') { o = type; type = o.type; fn = null; value = null; }  // dispatchEvent(option)
+    else if (value && jQuery.isFunction(value)) { fn = value; value = null; }           // dispatchEvent(type,fn)
+    type = jQuery.trim(type);
+    opt.vu = o.view;
+    opt.callback = o.complete ? o.complete : fn;
+    target = (o.target) ? o.target : 'page';
+    url = o.url; if (url) target+= '@'+url;     // setup preferred target
+    serialize = (o.serialize) ? o.serialize : null;
+    if (value===null) value = o.value;
+    if (opt.callback && type.substr(0,1)!='#') type = '#' + type;
+    this.triggerRemote(target,type,value,serialize,opt);
+    return this;
+}
+
+/**
+ * Returns registered server-side value
+ * @param string name Name of variable
+ * @param mixed _default Optional default value
+ * @param boolean _remove Optional. Remove or delete the registered variable
+ * @return mixed
+ *
+ */
+Raxan.getVar = function(name, _default, _remove) {
+  var v = this.regvar[name];
+  if (typeof v == 'undefined') v = _default;
+  if (_remove) delete this.regvar[name];
+  return v;
+}
+
+/**
+ * Registers a JavaScript callback function to use with the auto-disable, auto-toggle and serialize event options
+ */
+Raxan.registerFn =  function(name,callback) {
+   this.regfn[name] = callback
+}
+
+// Used internally to control Flash message effect
+Raxan.flashEffect = function(effect,id) {
+    id = id ? '#'+id : '.flashmsg';
+    jQuery(id + ' .message').hide().show(effect);
+    if (!this.flashmsg) jQuery('.flashmsg .close').live('click',function(e){
+        var me = jQuery(this), elm = me.parents('.message:first');
+        if (elm.length==0) elm = me;
+        if (elm.attr('rel')) elm.fadeOut().slideUp();
+        e.preventDefault();
+        return false;
+    });
+    this.flashmsg = true;
+}
+
+// Used internally to update client element
+Raxan.iUpdateClient = function(selectors,source,sourceDelim) {
+    var $ = jQuery;source = source.split(sourceDelim);
+    $(selectors).each(function(i) {
+        Raxan.iUpdateElement(this,$(source[i]).get(0));
+    });
+}
+// Used internally
+Raxan.iUpdateElement = function(srcElm,targetElm) {
+    var expando,cb = [], src = srcElm, tar = targetElm;
+
+    // @todo: this method needs to be optimized and modified to support ui widgets
+
+    // get jQuery expando 
+    if (jQuery.expando) expando = jQuery.expando;   // jquery 1.4.2
+    else if (this.expando) expando = this.expando;
+    else {
+        var a = $('<div />').data('test',1).get(0); // get the expando the hard way :(
+        for (i in a) if (i.indexOf('jQuery')==0) expando = this.expando = i;
+    }
+    function cloneEvents(elm,mode,path,index) {
+        var i, e, l, data,events, type, handler, ix = 1;
+        if ( elm.nodeType == 3 || elm.nodeType == 8 ) return;
+        if (!index) index = '';
+        path = path ? path + '/' : '';
+        path+= elm['id'] ? elm['id'] : elm.nodeName.toLowerCase() + index;
+        if (mode=='copy') {
+          e = elm[expando] ? elm[expando] : jQuery.data(elm);
+          if (jQuery.cache[e]) cb[path] = jQuery.cache[e];
+        }
+        else if (mode=='paste' && cb[path]) {
+            // clone events and data
+            data = cb[path];
+            events = data['events'];
+            delete data['handle'];delete data['events'];
+            for (type in data) jQuery.data(elm,type,data[type]);
+            for ( type in events ) {
+                for ( handler in events[ type ] ) {
+                    jQuery.event.add( elm, type, events[ type ][ handler ], events[ type ][ handler ].data );
+                }
+            }
+        }
+        l = elm.childNodes.length;
+        if(l) for(i=0; i<l; i++) {
+            e = elm.childNodes[i];
+            if ( e.nodeType != 3 && e.nodeType != 8 ) {
+                cloneEvents(e,mode,path,ix++);
+            }
         }
     }
+    cloneEvents(src,'copy');
+    cloneEvents(tar,'paste');
+    var s  = src.style, t = tar.style;  // retain elmement position
+    if(s.position && !t.position) t.position = s.position
+    if(s.left && !t.left) t.left = s.left
+    if(s.top && !t.top) t.top = s.top
+    $(srcElm).replaceWith(targetElm);   // replace element
+}
+
+// Used internally to bind client-side elements to server-side events
+Raxan.bindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,options) {
+    var $ = jQuery;
 
     evt = $.trim(evt);
     if (!evt) evt = 'click';
@@ -586,7 +615,8 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
 
     if (isNaN(type)) {
         if (!delegate) $(css).bind(type,cb);
-        else $(css).rxlive(delegate,type,cb);
+        else if(delegate===true) $(css).live(type,cb);
+        else $(css).delegate(delegate,type,cb);
     }
     else {  // timeout
         var cnt = 1,tmr = 0,ms = parseInt(type);
@@ -603,7 +633,8 @@ $bind = Raxan.bindRemote = function(css,evt,val,serialize,ptarget,script,options
     }
 }
 
-$trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
+// Used internally to trigger or invoke an event on the server
+Raxan.triggerRemote = $trigger = function(target,type,val,serialize,opt){
     opt = opt || {};
     var e = opt.event, callback = opt.callback, vu = opt.vu;
     var i, a, s, telm, tname, isupload, form, post = {}, tmp, url, isAjax=false;
@@ -614,7 +645,7 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
     if (!url) url = self.location.href;
     if (vu) { // setup view mode
         url = url.replace(/vu=[^&]*/,'').replace(/[\?&]$/,'');
-        url+= (url.indexOf('?')==-1 ? '?' : '&')+'vu=' + vu;
+        if (vu && vu!='index') url+= (url.indexOf('?')==-1 ? '?' : '&')+'vu=' + vu;
     }
 
     // get event current target element
@@ -661,7 +692,7 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
         if (s.length > 0) {
             var valid = false;
             s.bind('submit.raxCheckValidity', function(e){
-                valid = true; e.preventDefault(); return false;
+                valid = true;e.preventDefault();return false;
             }).submit().unbind('.raxCheckValidity'); // trigger submit event on serializable objects
             if (!valid) return false;
             s = s.serializeArray();
@@ -740,19 +771,19 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
                     alert(friendlyerr); // show friendly message
                 }
             },
-            dataFilter: function(data) {
+            /*dataFilter: function(data) {
                 // support for native JSON parser - http://ping.fm/UFKii
                 if (typeof (JSON) !== 'undefined' &&
                     typeof (JSON.parse) === 'function') data = JSON.parse(data);
                 return data;
-            },
+            },*/
             xhr: function(){    // XHR for postbacks and file uploads
                 var fn = function(){};
+                var id =  this.counter ? ++this.counter : this.counter = 10;
                 return !isupload ? $.ajaxSettings.xhr(): {
                     status:404, readyState: 0,
                     getResponseHeader: fn, setRequestHeader: fn,
                     open:function(type,url){
-                        var id =  $.data(this);
                         var frame = '<iframe name="rx01Ajax'+id+'" src="about:blank" width="1" height="1" '+
                                     'style="position:absolute;left:-1000px;visibility:hidden"/>'
                         var me = this;
@@ -765,12 +796,14 @@ $trigger = Raxan.triggerRemote = function(target,type,val,serialize,opt){
                             me.readyState = 4;me.status = 200;
                             $(f).unbind(); // unbind event to prevent looping in IE
                             d.open();d.close(); // close document to prevent busy cursor in FF
-                            me.abort()
+                            me.onreadystatechange(); // tigger the onreadystatechange - used in jquery 1.4+
+                            document.body.removeChild(me.frm);
+                            me.frm = null;
                         }).get(0);
                         document.body.appendChild(this.frm);
                     },
                     send:function(){
-                        var target = 'rx01Ajax'+$.data(this);
+                        var target = 'rx01Ajax'+id;
                         post['_ajax_call_'] = 'iframe';
                         Raxan.post(this.url, post, form,target);
                     },

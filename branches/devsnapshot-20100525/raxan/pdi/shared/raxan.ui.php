@@ -2,6 +2,7 @@
 /**
  * Raxan UI Element
  * Classes for building UI components and widgets
+ * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 

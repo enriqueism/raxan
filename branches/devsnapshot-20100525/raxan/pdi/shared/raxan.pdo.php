@@ -22,14 +22,15 @@ class RaxanPDO extends PDO {
      * Retrieve records from a database table
      * @example <p>$pdo->table('Customer','f_name=? and l_name=?',array($fname,$lname));</p>
      *          <p>$pdo->table('OrderItem','order_id=? and item_id=?',$ordid,$itmid);</p>
-     * @param string $name Name of table
+     *          <p>$pdo->table('Order field1, field2, fieldN','field1 = ?',$id);</p>
+     * @param string $name Name of table. A comma separated list of field names can be retrieved from the table. Example: Customer fname, lname, address
      * @param string $filterClause Optional SQL where clause. Supports ? and :name parameters
      * @param array $filterValues Optional parameter values
      * @returns mixed Array or false on error
      */
     public function table($name,$filterClause = null, $filterValues = null) {
         // get field names
-        $fields = '*';
+        $fields = '*'; $name = trim($name);
         if (($p = strpos($name,' '))!==false) {
             $fields = substr($name,$p);
             $name = substr($name,0,$p);

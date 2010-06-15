@@ -29,7 +29,7 @@ $config['site.phone']   = '';
 $config['site.url']     = '';
 $config['site.path']    = '';
 
-// raxan folder path and url. Defaults to {base path}/../ 
+// raxan folder path and url. Defaults to {base path}/../
 $config['raxan.url']    = '';
 $config['raxan.path']   = '';   
 
@@ -40,7 +40,7 @@ $config['views.path']   = '';
 // locale path. defaults to {base path}/shared/locale/
 $config['locale.path']  = '';
 
-// cache path. defaults to {base path}/cache/
+// cache path. defaults to {raxan path}/cache/
 $config['cache.path']   = '';
 
 // Path to error pages. eg. views/404.html
@@ -64,8 +64,8 @@ $config['page.data.storage'] = 'RaxanWebPageStorage';  // default page data stor
 // The page class will passed the shared store name or id to the staorage class.
 
 // Session settings
-$config['session.name']    = 'XPDI1000SE';
-$config['session.timeout'] = '30';      // in minutes
+$config['session.name']    = 'XPDI1000SE';  // change for each new application to prevent PHP sessions from being shared across applications. session name must be short and contains only alphanumeric characters
+$config['session.timeout'] = '30';          // in minutes
 $config['session.data.storage'] = 'RaxanSessionStorage'; // default session data storage class
 // No id value will be to the above session storage class.  The class will have to generate unique ids for each user
 

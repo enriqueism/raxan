@@ -2,7 +2,7 @@
 /**
  * Raxan Framework
  * This file includes Raxan, RaxanBase, RaxanDataStorage, RaxanSessionStorage, RaxanPlugin
- * @copyright Raymond Irving 2008-2010
+ * Copyright (c) 2008-2010 Raymond Irving 
  * @license GPL/MIT
  * @date 10-Dec-2008
  * @package Raxan
@@ -199,7 +199,7 @@ class Raxan {
             $url = Raxan::mapSitePathToUrl($pth);
             $config['raxan.url'] = $url ? $url.'/' : './raxan/';
         }
-        if (empty($config['cache.path'])) $config['cache.path'] = $base.'cache/';
+        if (empty($config['cache.path'])) $config['cache.path'] = $config['raxan.path'].'cache/';
         if (empty($config['locale.path'])) $config['locale.path'] = $base.'shared/locale/';
         if (empty($config['views.path'])) $config['views.path'] = $config['site.path'].'views/';
         if (empty($config['plugins.path'])) $config['plugins.path'] = $config['raxan.path'].'plugins/';
@@ -516,7 +516,7 @@ class Raxan {
 
     /**
      * Returns or sets configuration values
-     * @return Mixed
+     * @return mixed
      */
     public static function config($key = null,$value = null) {
         if ($key!=='base.path' &&  !self::$isInit) self::init();
@@ -583,8 +583,8 @@ class Raxan {
         catch(PDOException $e){
             $lbl = 'Raxan::connect';
             $msg = $e->getMessage();            
-            $msg = str_replace(array($dsn,$user,$password),'...',$msg); // remove sensative data
-            if ($errmode!==null) throw new PDOException($msg,$e->getCode(),$e);
+            $msg = str_replace(array($dsn,$user,$password),'...',$msg); // remove sensitive data
+            if ($errmode!==null) throw new PDOException($msg,$e->getCode());
             else {
                 self::log($msg,'error',$lbl) || self::debug($lbl.' Error: '.$msg);
                 return false;
@@ -594,7 +594,7 @@ class Raxan {
 
     /**
      * Returns current web page URL
-     * @return String
+     * @return string
      */
     public static function currentURL() {
         // @todo: optimize currentURL ?
@@ -603,15 +603,33 @@ class Raxan {
         return isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'].$qs : '';
     }
 
+
     /**
-     * Returns or sets named data value based on the specified id and/or key
-     * @return Mixed
+     * Get and/or set a named data value for the current Session
+     * @param string $name
+     * @param mixed $value
+     * @param boolean $setValueIfNotIsSet
+     * @return mixed
      */
-    public static function &data($id,$name = null,$value = null,$setValueIfNotIsSet = false){
+    public static function &data($name = null,$value = null,$setValueIfNotIsSet = false){
         if (!self::$isDataStorageLoaded) self::initDataStorage();
-        $s = self::$dataStore;
-        if($s->exists($id)) $h = & $s->read($id);
-        else $h = & $s->write($id,array()); // create data cache
+        $s = self::$dataStore; $name = '_RaxDT.'.$name;
+        if ($value!==null) {
+            $sv = $setValueIfNotIsSet;
+            if (!$sv || ($sv && !$s->exists($name))) return $s->write($name,$value);
+        }
+        return $s->read($name);
+    }
+
+    /**
+     * Sets or returns a named data value for the current Session based on the specified data bank id
+     * @return mixed
+     */
+    public static function &dataBank($bankId,$name = null,$value = null,$setValueIfNotIsSet = false){
+        if (!self::$isDataStorageLoaded) self::initDataStorage();
+        $s = self::$dataStore; $bankId = '_RaxDB.'.$bankId;
+        if($s->exists($bankId)) $h = & $s->read($bankId);
+        else $h = & $s->write($bankId,array()); // create data bank
         if ($name===null) return $h;    // return data array
         else if ($value!==null) {
             $sv = $setValueIfNotIsSet;
@@ -708,11 +726,11 @@ class Raxan {
      * @return string
      */
     public static function flash($name,$value = null) {
-        $key = 'Raxan.Session.Flash';
-        if ($value !== null) self::data($key,$name,$value);
+        $name = 'FlashMsg.'.$name;
+        if ($value !== null) self::data($name,$value);
         else {
-            $value = self::data($key,$name);
-            self::removeData($key,$name);
+            $value = self::data($name);
+            self::removeData($name);
         }
         return $value;
     }
@@ -970,7 +988,7 @@ class Raxan {
      * @param boolean $useJavaScript Optional. Enable page redirection using client-side JavaScript
      */
     public static function redirectTo($url,$useJavaScript = false) {
-        if ($useJavaScript) header('Location: '.$url);
+        if (!$useJavaScript) header('Location: '.$url);
         else {
             $redirect = 'window.location = "'.self::escapeText($url).'"';
             RaxanWebPage::$actions = array($redirect);
@@ -994,13 +1012,22 @@ class Raxan {
     }
 
     /**
-     * Remove named data
+     * Remove session data
      */
-    public static function removeData($id,$name = null) {
+    public static function removeData($name) {
         if (!self::$isDataStorageLoaded) self::initDataStorage();
-        $s = & self::$dataStore;
-        if ($name===null) $s->remove($id);
-        else { $h = & $s->read($id); unset($h[$name]); }
+        $s = self::$dataStore; $name = '_RaxDT.'.$name;
+        $s->remove($name);
+    }
+
+    /**
+     * Remove named data from a data bank within the current session
+     */
+    public static function removeDataBank($bankId,$name = null) {
+        if (!self::$isDataStorageLoaded) self::initDataStorage();
+        $s = & self::$dataStore; $bankId = '_RaxDB.'.$bankId;
+        if ($name===null) $s->remove($bankId);
+        else { $h = & $s->read($bankId); unset($h[$name]); }
     }
 
     /**
@@ -1132,7 +1159,6 @@ abstract class RaxanBase {
      * @return RaxanBase
      */
     public function bind($type,$data = null, $fn = null) {
-        // @todo: To be reviewed.
         if (!$this->events) $this->events = array();
         $cb = ($fn===null) ? array($data,null) : array($fn,$data);
         $e = & $this->events; $id = $this->objId.$type;
@@ -1162,14 +1188,15 @@ abstract class RaxanBase {
      * @return RaxanBase
      */
     public function trigger($type,$args = null){
-        $e = & $this->events; $id = $this->objId.$type;
-        $hnds = isset($e[$id]) ? $e[$id] :  null;
+        $events = & $this->events; $id = $this->objId.$type;
+        $hnds = isset($events[$id]) ? $events[$id] :  null;
         if ($hnds) {
             $e = new RaxanSysEvent($type);
             foreach($hnds as $hnd) {
-                if (!is_callable($hnd)) Raxan::throwCallbackException($hnd);
+                $fn = $hnd[0]; $data = $hnd[1];
+                if (!is_callable($fn)) Raxan::throwCallbackException($hnd);
                 else {
-                    $fn = $hnd;
+                    $e->data = $data;
                     if (is_string($fn)) $rt = $fn($e,$args);  // function callback
                     else  $rt = $fn[0]->{$fn[1]}($e,$args);   // object callback
                     if ($rt!==null) $e->result = $rt;

@@ -1,14 +1,17 @@
 <!DOCTYPE html >
 <html>
-<head><style type="text/css">
-    li span { color:#111 }
-    li {margin-bottom:5px}
-    body { font-family: arial,verdana; font-size: .95em;}
-    .legend li {
-        float:left;
-        margin-right:40px;
-    }
-</style></head>
+<head>
+    <title>Raxan Quick Reference Guide</title>
+    <style type="text/css">
+        li span { color:#111 }
+        li {margin-bottom:5px}
+        body { font-family: arial,verdana; font-size: .95em;}
+        .legend li {
+            float:left;
+            margin-right:40px;
+        }
+    </style>
+</head>
 <body>
 <h1>Quick Reference</h1>
 <ul class="legend">
@@ -16,777 +19,1301 @@
     <li style="color:green;list-style:circle;"><span>Public Static</span></li>
     <li style="color:orange;"><span>Protected</span></li>
     <li style="color:orange;list-style:circle;"><span>Protected Static</span></li>
+
 </ul>
 <hr style="clear:both">
 <h2>RaxanWebPage</h2>
 <ul>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;actions</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;autoId</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;autoIdPrefix</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;badIdChars</em></strong></span></li>
+
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;callMethods</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;cliExtLoaded</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;eventId</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;mObjId</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;mPageId</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;pages</em></strong></span></li>
+
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;regScripts</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;vars</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;varsGlobal</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_charset</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_clientElms</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_codeBehindScript</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_contentType</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_dataReset</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_dataStore</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_eCache</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_endResponse</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_flyDOM</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_get</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_hasRegisteredEvents</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_headers</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_post</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_postRqst</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_preserveElms</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_scripts</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_startTime</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_storeName</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_tmpStateData</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_uiElms</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;activeView</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;autoAppendView</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;clientPostbackUrl</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;defaultBindOptions</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;degradable</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;disableInlineEvents</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;doc</em></strong></span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;embedOptions</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;events</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;initStartupScript</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isAjaxRequest</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isAuthorized</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isCache</em></strong></span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isCallback</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isDataStorageLoaded</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isEmbedded</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isInitialized</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isLoaded</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isPostBack</em></strong></span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isRendering</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isReplying</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isThemeLoaded</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;localizeOnResponse</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;masterContentBlock</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;masterTemplate</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;objId</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;pageOutput</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;preserveFormContent</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;preventBrowserCache</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;Raxan</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;resetDataOnFirstLoad</em></strong></span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;responseType</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;serializeOnPostBack</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;showRenderTime</em></strong></span></li>
 <li style="color:green;"><span><strong>__call</strong> ( <em>$name</em><em>, $args</em> )</span></li>
+
 <li style="color:green;"><span><strong>__construct</strong> (  [<em>$xhtml</em> = ''] [<em>, $charset</em> = NULL] [<em>, $type</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>__destruct</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>__get</strong> ( <em>$name</em> )</span></li>
 <li style="color:orange;"><span><strong>_authorize</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_config</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_destroy</strong> (  )</span></li>
+
 <li style="color:orange;"><span><strong>_indexView</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_init</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_load</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_postrender</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_prerender</strong> (  )</span></li>
+
 <li style="color:orange;"><span><strong>_reply</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_reset</strong> (  )</span></li>
 <li style="color:green;"><span><strong>addCSS</strong> ( <em>$style</em> )</span></li>
 <li style="color:green;"><span><strong>addHeader</strong> ( <em>$hdr</em> )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>addMethod</strong> ( <em>$name</em> [<em>, $callback</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>addScript</strong> ( <em>$script</em> [<em>, $startupEvent</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>append</strong> ( <em>$html</em> )</span></li>
 <li style="color:green;"><span><strong>appendView</strong> ( <em>$view</em> [<em>, $selector</em> = NULL] [<em>, $data</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>bind</strong> ( <em>$type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>bindElements</strong> ( <em>$elms</em><em>, $type</em><em>, $data</em> [<em>, $fn</em> = NULL] [<em>, $selector</em> = ''] [<em>, $delegate</em> = false] )</span></li>
+
 <li style="color:orange;"><span><strong>buildActionScripts</strong> (  [<em>$includeEvents</em> = true] )</span></li>
 <li style="color:green;"><span><strong>client</strong> (  [<em>$selector</em> = NULL] [<em>, $context</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>content</strong> (  [<em>$html</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>contentDisposition</strong> ( <em>$fileName</em> [<em>, $transEncode</em> = NULL] [<em>, $fileSize</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>contentType</strong> ( <em>$type</em> [<em>, $charset</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>controller</strong> (  [<em>$pageId</em> = NULL] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>createDOM</strong> ( <em>$html</em> [<em>, $charset</em> = 'UTF-8'] [<em>, $type</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>createElement</strong> ( <em>$name</em> [<em>, $value</em> = NULL] [<em>, $attribs</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>createFragment</strong> ( <em>$html</em> )</span></li>
-<li style="color:green;"><span><strong>data</strong> ( <em>$key</em> [<em>, $value</em> = NULL] [<em>, $setValueIfNotIsSet</em> = false] )</span></li>
+<li style="color:green;"><span><strong>data</strong> ( <em>$name</em> [<em>, $value</em> = NULL] [<em>, $setValueIfNotIsSet</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>dataStorage</strong> (  [<em>$store</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>document</strong> (  )</span></li>
 <li style="color:green;"><span><strong>download</strong> ( <em>$content</em> [<em>, $fileName</em> = NULL] [<em>, $contentType</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>dump</strong> ( <em>$content</em> [<em>, $contentType</em> = 'text/html'] )</span></li>
 <li style="color:green;"><span><strong>endResponse</strong> (  )</span></li>
 <li style="color:green;"><span><strong>find</strong> ( <em>$css</em> [<em>, $context</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>findById</strong> ( <em>$id</em> )</span></li>
 <li style="color:green;"><span><strong>findByXPath</strong> ( <em>$pth</em> [<em>, $context</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>flashmsg</strong> (  [<em>$msg</em> = NULL] [<em>, $effect</em> = NULL] [<em>, $class</em> = NULL] [<em>, $id</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>flyDOM</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>getElementById</strong> ( <em>$id</em> )</span></li>
 <li style="color:orange;"><span><strong>getStateData</strong> (  [<em>$type</em> = 'local'] )</span></li>
 <li style="color:green;"><span><strong>getView</strong> ( <em>$view</em> [<em>, $selector</em> = NULL] [<em>, $data</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>halt</strong> (  [<em>$msg</em> = NULL] )</span></li>
 <li style="color:orange;"><span><strong>handleClientEventRequest</strong> ( <em>$eventResult</em> )</span></li>
 <li style="color:green;"><span><strong>handleClientUpdates</strong> (  )</span></li>
+
 <li style="color:orange;"><span><strong>handleDebugResponse</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>handleNodeL10n</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>handleScripts</strong> (  [<em>$includeEvents</em> = true] [<em>, $returnActionScripts</em> = false] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>init</strong> ( <em>$pageClass</em> )</span></li>
 <li style="color:orange;"><span><strong>initDataStorage</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>initInlineEvents</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>initPreservedElements</strong> (  )</span></li>
+
 <li style="color:orange;"><span><strong>initUIElements</strong> (  )</span></li>
-<li style="color:green;"><span><strong>loadCSS</strong> ( <em>$css</em> [<em>, $extrn</em> = false] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>loadClientExtension</strong> (  )</span></li>
+<li style="color:green;"><span><strong>loadCodeBehindScript</strong> (  [<em>$pth</em> = NULL] )</span></li>
+<li style="color:green;"><span><strong>loadCSS</strong> ( <em>$css</em> [<em>, $extrn</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>loadScript</strong> ( <em>$js</em> [<em>, $extrn</em> = false] [<em>, $_priority</em> = 0] )</span></li>
-<li style="color:green;"><span><strong>loadScriptBehind</strong> (  [<em>$pth</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>loadTheme</strong> ( <em>$name</em> [<em>, $extrn</em> = false] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>loadUI</strong> ( <em>$name</em> )</span></li>
 <li style="color:orange;"><span><strong>loadUIElements</strong> (  )</span></li>
 <li style="color:green;"><span><strong>log</strong> ( <em>$var</em> [<em>, $level</em> = NULL] [<em>, $label</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>masterContentSelecor</strong> (  )</span></li>
 <li style="color:green;"><span><strong>nodeContent</strong> ( <em>$n</em> [<em>, $outer</em> = false] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>nodeL10n</strong> ( <em>$nodes</em> )</span></li>
+
 <li style="color:green;"><span><strong>objectId</strong> (  )</span></li>
 <li style="color:green;"><span><strong>offsetExists</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>offsetGet</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>offsetSet</strong> ( <em>$selector</em><em>, $html</em> )</span></li>
 <li style="color:green;"><span><strong>offsetUnset</strong> ( <em>$selector</em> )</span></li>
 <li style="color:orange;list-style:circle;"><span><strong>pageCode</strong> (  [<em>$type</em> = 'html'] [<em>, $charset</em> = 'UTF-8'] [<em>, $content</em> = ''] )</span></li>
+
 <li style="color:green;"><span><strong>prepend</strong> ( <em>$html</em> )</span></li>
 <li style="color:green;"><span><strong>redirectTo</strong> ( <em>$url</em> [<em>, $forceAjax</em> = true] )</span></li>
+
 <li style="color:green;"><span><strong>redirectToView</strong> ( <em>$view</em> [<em>, $url</em> = NULL] [<em>, $forceAjax</em> = true] )</span></li>
-<li style="color:green;"><span><strong>registerEvent</strong> ( <em>$type</em><em>, $data</em> [<em>, $fn</em> = NULL] )</span></li>
-<li style="color:green;list-style:circle;"><span><strong>registerScript</strong> ( <em>$name</em><em>, $src</em> [<em>, $dependcies</em> = NULL] )</span></li>
+<li style="color:green;"><span><strong>registerEvent</strong> ( <em>$type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
+
+<li style="color:green;list-style:circle;"><span><strong>registerScript</strong> ( <em>$name</em><em>, $src</em> [<em>, $dependencies</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>registerUIElement</strong> ( <em>$ui</em> )</span></li>
+
 <li style="color:green;"><span><strong>registerVar</strong> ( <em>$name</em><em>, $value</em> )</span></li>
 <li style="color:green;"><span><strong>removeData</strong> (  [<em>$name</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>render</strong> (  [<em>$type</em> = 'html'] )</span></li>
+
 <li style="color:orange;"><span><strong>renderUIElements</strong> (  )</span></li>
 <li style="color:green;"><span><strong>reply</strong> (  [<em>$responseType</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>restoreElement</strong> ( <em>$elm</em><em>, $id</em><em>, $mode</em> )</span></li>
+
 <li style="color:green;"><span><strong>sanitizePostBack</strong> (  [<em>$incGETRequest</em> = false] )</span></li>
 <li style="color:green;"><span><strong>saveElement</strong> ( <em>$elm</em><em>, $id</em><em>, $mode</em> [<em>, $reset</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>sendError</strong> ( <em>$msg</em> [<em>, $code</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>source</strong> (  [<em>$src</em> = NULL] [<em>, $srcType</em> = 'html'] )</span></li>
+
 <li style="color:green;"><span><strong>storeName</strong> (  [<em>$n</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>title</strong> (  [<em>$str</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>transferTo</strong> ( <em>$file</em> [<em>, $autoStartClass</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>trigger</strong> ( <em>$type</em> [<em>, $args</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>triggerEvent</strong> ( <em>$elms</em><em>, $type</em> [<em>, $args</em> = NULL] [<em>, $eObject</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>triggerHandle</strong> ( <em>$hnd</em><em>, $e</em> [<em>, $args</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>unbind</strong> ( <em>$type</em> )</span></li>
+
 <li style="color:green;"><span><strong>unbindElements</strong> ( <em>$elms</em><em>, $type</em><em>, $selector</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>uniqueElmId</strong> (  [<em>$prefix</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>updateClient</strong> ( <em>$selector</em><em>, $mode</em><em>, $content</em> )</span></li>
+
 <li style="color:green;"><span><strong>updateFormFields</strong> (  )</span></li>
 <li style="color:green;"><span><strong>wrapElement</strong> ( <em>$elm</em> [<em>, $ui</em> = NULL] )</span></li>
 </ul>
 <hr>
 <h2>RaxanWebPageEvent</h2>
+
 <ul>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;button</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;ctrlKey</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;data</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;iPage</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isStopPropagation</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;metaKey</em></strong></span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;pageX</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;pageY</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;result</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;target</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;targetX</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;targetY</em></strong></span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;type</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;uiDraggable</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;uiHelper</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;uiItem</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;uiSender</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;uiSortedItemIds</em></strong></span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;value</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;which</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> ( <em>$type</em><em>, $page</em> [<em>, $e</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>client</strong> (  [<em>$selector</em> = NULL] [<em>, $context</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>floatVal</strong> (  )</span></li>
 <li style="color:green;"><span><strong>intVal</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>page</strong> (  [<em>$css</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>stopPropagation</strong> (  )</span></li>
 <li style="color:green;"><span><strong>textVal</strong> (  )</span></li>
 <li style="color:green;"><span><strong>val</strong> (  )</span></li>
+
 </ul>
 <hr>
 <h2>RaxanWebPageStorage</h2>
 <ul>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;id</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;store</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> (  [<em>$id</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>__destruct</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_init</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_reset</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_save</strong> (  )</span></li>
 <li style="color:green;"><span><strong>exists</strong> ( <em>$key</em> )</span></li>
+
 <li style="color:green;"><span><strong>read</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>remove</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>resetStore</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>storageId</strong> (  )</span></li>
 <li style="color:green;"><span><strong>write</strong> ( <em>$key</em><em>, $value</em> )</span></li>
 </ul>
 <hr>
 <h2>RaxanDOMDocument</h2>
 <ul>
-<li style="color:green;"><span><strong>C14N</strong> (  )</span></li>
-<li style="color:green;"><span><strong>C14NFile</strong> (  )</span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;charset</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;css</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;cssRegEx</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;init</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;pageId</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;source</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;srcType</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;xPath</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> (  [<em>$v</em> = '1.0'] [<em>, $charset</em> = 'UTF-8'] )</span></li>
 <li style="color:green;"><span><strong>__get</strong> ( <em>$name</em> )</span></li>
-<li style="color:green;"><span><strong>adoptNode</strong> (  )</span></li>
-<li style="color:green;"><span><strong>appendChild</strong> (  )</span></li>
-<li style="color:green;"><span><strong>cloneNode</strong> (  )</span></li>
-<li style="color:green;"><span><strong>compareDocumentPosition</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createAttribute</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createAttributeNS</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createCDATASection</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createComment</strong> (  )</span></li>
+
+<li style="color:green;"><span><strong>adoptNode</strong> ( <em>$source</em> )</span></li>
+<li style="color:green;"><span><strong>appendChild</strong> ( <em>$newChild</em> )</span></li>
+<li style="color:green;"><span><strong>C14N</strong> (  [<em>$exclusive</em>] [<em>, $with_comments</em>] [<em>, $xpath</em>] [<em>, $ns_prefixes</em>] )</span></li>
+
+<li style="color:green;"><span><strong>C14NFile</strong> ( <em>$uri</em> [<em>, $exclusive</em>] [<em>, $with_comments</em>] [<em>, $xpath</em>] [<em>, $ns_prefixes</em>] )</span></li>
+<li style="color:green;"><span><strong>cloneNode</strong> ( <em>$deep</em> )</span></li>
+
+<li style="color:green;"><span><strong>compareDocumentPosition</strong> ( <em>$other</em> )</span></li>
+<li style="color:green;"><span><strong>createAttribute</strong> ( <em>$name</em> )</span></li>
+<li style="color:green;"><span><strong>createAttributeNS</strong> ( <em>$namespaceURI</em><em>, $qualifiedName</em> )</span></li>
+
+<li style="color:green;"><span><strong>createCDATASection</strong> ( <em>$data</em> )</span></li>
+<li style="color:green;"><span><strong>createComment</strong> ( <em>$data</em> )</span></li>
 <li style="color:green;"><span><strong>createDocumentFragment</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createElement</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createElementNS</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createEntityReference</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createProcessingInstruction</strong> (  )</span></li>
-<li style="color:green;"><span><strong>createTextNode</strong> (  )</span></li>
+
+<li style="color:green;"><span><strong>createElement</strong> ( <em>$tagName</em> [<em>, $value</em>] )</span></li>
+<li style="color:green;"><span><strong>createElementNS</strong> ( <em>$namespaceURI</em><em>, $qualifiedName</em> [<em>, $value</em>] )</span></li>
+
+<li style="color:green;"><span><strong>createEntityReference</strong> ( <em>$name</em> )</span></li>
+<li style="color:green;"><span><strong>createProcessingInstruction</strong> ( <em>$target</em><em>, $data</em> )</span></li>
+<li style="color:green;"><span><strong>createTextNode</strong> ( <em>$data</em> )</span></li>
+
 <li style="color:green;"><span><strong>cssQuery</strong> ( <em>$rule</em> [<em>, $context</em> = NULL] [<em>, $includeSelf</em> = false] )</span></li>
 <li style="color:orange;"><span><strong>cssToXPath</strong> ( <em>$rule</em> [<em>, $inludeSelf</em> = false] )</span></li>
-<li style="color:green;"><span><strong>getElementById</strong> (  )</span></li>
-<li style="color:green;"><span><strong>getElementsByTagName</strong> (  )</span></li>
-<li style="color:green;"><span><strong>getElementsByTagNameNS</strong> (  )</span></li>
-<li style="color:green;"><span><strong>getFeature</strong> (  )</span></li>
+
+<li style="color:green;"><span><strong>getElementById</strong> ( <em>$elementId</em> )</span></li>
+<li style="color:green;"><span><strong>getElementsByTagName</strong> ( <em>$tagName</em> )</span></li>
+<li style="color:green;"><span><strong>getElementsByTagNameNS</strong> ( <em>$namespaceURI</em><em>, $localName</em> )</span></li>
+
+<li style="color:green;"><span><strong>getFeature</strong> ( <em>$feature</em><em>, $version</em> )</span></li>
+<li style="color:green;"><span><strong>getLineNo</strong> (  )</span></li>
 <li style="color:green;"><span><strong>getNodePath</strong> (  )</span></li>
-<li style="color:green;"><span><strong>getUserData</strong> (  )</span></li>
+<li style="color:green;"><span><strong>getUserData</strong> ( <em>$key</em> )</span></li>
+
 <li style="color:green;"><span><strong>hasAttributes</strong> (  )</span></li>
 <li style="color:green;"><span><strong>hasChildNodes</strong> (  )</span></li>
-<li style="color:green;"><span><strong>importNode</strong> (  )</span></li>
+<li style="color:green;"><span><strong>importNode</strong> ( <em>$importedNode</em><em>, $deep</em> )</span></li>
 <li style="color:green;"><span><strong>initDOMDocument</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>initPageController</strong> ( <em>$id</em> )</span></li>
-<li style="color:green;"><span><strong>insertBefore</strong> (  )</span></li>
-<li style="color:green;"><span><strong>isDefaultNamespace</strong> (  )</span></li>
-<li style="color:green;"><span><strong>isEqualNode</strong> (  )</span></li>
+<li style="color:green;"><span><strong>insertBefore</strong> ( <em>$newChild</em> [<em>, $refChild</em>] )</span></li>
+<li style="color:green;"><span><strong>isDefaultNamespace</strong> ( <em>$namespaceURI</em> )</span></li>
+
+<li style="color:green;"><span><strong>isEqualNode</strong> ( <em>$arg</em> )</span></li>
 <li style="color:green;"><span><strong>isInit</strong> (  )</span></li>
-<li style="color:green;"><span><strong>isSameNode</strong> (  )</span></li>
-<li style="color:green;"><span><strong>isSupported</strong> (  )</span></li>
-<li style="color:green;"><span><strong>load</strong> (  )</span></li>
-<li style="color:green;"><span><strong>loadHTML</strong> (  )</span></li>
-<li style="color:green;"><span><strong>loadHTMLFile</strong> (  )</span></li>
-<li style="color:green;"><span><strong>loadXML</strong> (  )</span></li>
-<li style="color:green;"><span><strong>lookupNamespaceUri</strong> (  )</span></li>
-<li style="color:green;"><span><strong>lookupPrefix</strong> (  )</span></li>
+<li style="color:green;"><span><strong>isSameNode</strong> ( <em>$other</em> )</span></li>
+
+<li style="color:green;"><span><strong>isSupported</strong> ( <em>$feature</em><em>, $version</em> )</span></li>
+<li style="color:green;"><span><strong>load</strong> ( <em>$source</em> [<em>, $options</em>] )</span></li>
+
+<li style="color:green;"><span><strong>loadHTML</strong> ( <em>$source</em> )</span></li>
+<li style="color:green;"><span><strong>loadHTMLFile</strong> ( <em>$source</em> )</span></li>
+<li style="color:green;"><span><strong>loadXML</strong> ( <em>$source</em> [<em>, $options</em>] )</span></li>
+
+<li style="color:green;"><span><strong>lookupNamespaceUri</strong> ( <em>$prefix</em> )</span></li>
+<li style="color:green;"><span><strong>lookupPrefix</strong> ( <em>$namespaceURI</em> )</span></li>
 <li style="color:green;"><span><strong>normalize</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>normalizeDocument</strong> (  )</span></li>
-<li style="color:green;"><span><strong>registerNodeClass</strong> (  )</span></li>
-<li style="color:green;"><span><strong>relaxNGValidate</strong> (  )</span></li>
-<li style="color:green;"><span><strong>relaxNGValidateSource</strong> (  )</span></li>
-<li style="color:green;"><span><strong>removeChild</strong> (  )</span></li>
-<li style="color:green;"><span><strong>renameNode</strong> (  )</span></li>
-<li style="color:green;"><span><strong>replaceChild</strong> (  )</span></li>
-<li style="color:green;"><span><strong>save</strong> (  )</span></li>
+<li style="color:green;"><span><strong>registerNodeClass</strong> ( <em>$baseClass</em><em>, $extendedClass</em> )</span></li>
+<li style="color:green;"><span><strong>relaxNGValidate</strong> ( <em>$filename</em> )</span></li>
+
+<li style="color:green;"><span><strong>relaxNGValidateSource</strong> ( <em>$source</em> )</span></li>
+<li style="color:green;"><span><strong>removeChild</strong> ( <em>$oldChild</em> )</span></li>
+<li style="color:green;"><span><strong>renameNode</strong> ( <em>$node</em><em>, $namespaceURI</em><em>, $qualifiedName</em> )</span></li>
+
+<li style="color:green;"><span><strong>replaceChild</strong> ( <em>$newChild</em><em>, $oldChild</em> )</span></li>
+<li style="color:green;"><span><strong>save</strong> ( <em>$file</em> )</span></li>
 <li style="color:green;"><span><strong>saveHTML</strong> (  )</span></li>
-<li style="color:green;"><span><strong>saveHTMLFile</strong> (  )</span></li>
-<li style="color:green;"><span><strong>saveXML</strong> (  )</span></li>
-<li style="color:green;"><span><strong>schemaValidate</strong> (  )</span></li>
-<li style="color:green;"><span><strong>schemaValidateSource</strong> (  )</span></li>
-<li style="color:green;"><span><strong>setUserData</strong> (  )</span></li>
+
+<li style="color:green;"><span><strong>saveHTMLFile</strong> ( <em>$file</em> )</span></li>
+<li style="color:green;"><span><strong>saveXML</strong> (  [<em>$node</em>] )</span></li>
+<li style="color:green;"><span><strong>schemaValidate</strong> ( <em>$filename</em> )</span></li>
+
+<li style="color:green;"><span><strong>schemaValidateSource</strong> ( <em>$source</em> )</span></li>
+<li style="color:green;"><span><strong>setUserData</strong> ( <em>$key</em><em>, $data</em><em>, $handler</em> )</span></li>
 <li style="color:green;"><span><strong>source</strong> (  [<em>$src</em> = NULL] [<em>, $srcType</em> = 'html'] )</span></li>
+
 <li style="color:green;"><span><strong>validate</strong> (  )</span></li>
+<li style="color:green;"><span><strong>xinclude</strong> (  [<em>$options</em>] )</span></li>
 <li style="color:green;"><span><strong>xQuery</strong> ( <em>$pth</em> [<em>, $context</em> = NULL] )</span></li>
-<li style="color:green;"><span><strong>xinclude</strong> (  )</span></li>
+
 </ul>
 <hr>
 <h2>Raxan</h2>
 <ul>
-<li style="color:green;list-style:circle;"><span><strong>JSON</strong> ( <em>$mode</em><em>, $value</em> [<em>, $assoc</em> = false] )</span></li>
+<li style="list-style:circle;"><span><strong><em>-&gt;&nbsp;_timer</em></strong></span></li>
+<li style="list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;config</em></strong></span></li>
+<li style="list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;configFile</em></strong></span></li>
+<li style="list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;dataStore</em></strong></span></li>
+
+<li style="list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;debug</em></strong></span></li>
+<li style="list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;instance</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;isDataStorageLoaded</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;isDebug</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;isInit</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;isJSONLoaded</em></strong></span></li>
+
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;isLocaleLoaded</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;isLogging</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;isPDOLoaded</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;isSanitizerLoaded</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;jsonLose</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;jsonStrict</em></strong></span></li>
+
+<li style="color:green;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;jsStrng1</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;jsStrng2</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;locale</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;logFile</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;nativeJSON</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;postBackToken</em></strong></span></li>
+
+<li style="color:green;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;sharedSanitizer</em></strong></span></li>
+<li style="color:green;list-style:circle;list-style:circle;list-style:circle;"><span><strong><em>-&gt;&nbsp;sysEvents</em></strong></span></li>
 <li style="color:green;list-style:circle;"><span><strong>bindSysEvent</strong> ( <em>$name</em><em>, $callback</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>bindTemplate</strong> ( <em>$rows</em><em>, $options</em> )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>cDate</strong> (  [<em>$dt</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>config</strong> (  [<em>$key</em> = NULL] [<em>, $value</em> = NULL] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>connect</strong> ( <em>$dsn</em> [<em>, $user</em> = NULL] [<em>, $password</em> = NULL] [<em>, $attribs</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>currentURL</strong> (  )</span></li>
-<li style="color:green;list-style:circle;"><span><strong>data</strong> ( <em>$id</em> [<em>, $name</em> = NULL] [<em>, $value</em> = NULL] [<em>, $setValueIfNotIsSet</em> = false] )</span></li>
+
+<li style="color:green;list-style:circle;"><span><strong>data</strong> (  [<em>$name</em> = NULL] [<em>, $value</em> = NULL] [<em>, $setValueIfNotIsSet</em> = false] )</span></li>
+<li style="color:green;list-style:circle;"><span><strong>dataBank</strong> ( <em>$bankId</em> [<em>, $name</em> = NULL] [<em>, $value</em> = NULL] [<em>, $setValueIfNotIsSet</em> = false] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>dataSanitizer</strong> (  [<em>$array</em> = NULL] [<em>, $charset</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>dataStorage</strong> (  [<em>$store</em> = NULL] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>dataStorageId</strong> (  )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>debug</strong> ( <em>$txt</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>debugOutut</strong> (  )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>escapeText</strong> ( <em>$txt</em> )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>flash</strong> ( <em>$name</em> [<em>, $value</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>getSharedSanitizer</strong> (  )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>imageResample</strong> ( <em>$file</em><em>, $w</em><em>, $h</em> [<em>, $type</em> = NULL] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>imageSize</strong> ( <em>$file</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>importCSV</strong> ( <em>$file</em> [<em>, $delimiter</em> = ','] [<em>, $enclosure</em> = '"'] [<em>, $escape</em> = '\\'] [<em>, $terminator</em> = '
 '] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>init</strong> (  )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>initDataStorage</strong> (  )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>initJSON</strong> (  )</span></li>
+<li style="color:green;list-style:circle;"><span><strong>JSON</strong> ( <em>$mode</em><em>, $value</em> [<em>, $assoc</em> = false] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>loadConfig</strong> ( <em>$file</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>loadLangFile</strong> ( <em>$fl</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>loadPlugin</strong> ( <em>$file</em> [<em>, $extrn</em> = false] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>loadUI</strong> ( <em>$name</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>locale</strong> (  [<em>$key</em> = NULL] [<em>, $arg1</em> = NULL] [<em>, $arg2</em> = NULL] [<em>, $arg3</em> = NULL] [<em>, $arg4</em> = NULL] [<em>, $arg5</em> = NULL] [<em>, $arg6</em> = NULL] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>log</strong> ( <em>$var</em> [<em>, $level</em> = NULL] [<em>, $label</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>mapSitePathToUrl</strong> ( <em>$pth</em> )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>paginate</strong> ( <em>$maxPage</em><em>, $page</em> [<em>, $options</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>redirectTo</strong> ( <em>$url</em> [<em>, $useJavaScript</em> = false] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>redirectToView</strong> ( <em>$view</em> [<em>, $url</em> = NULL] [<em>, $useJavaScript</em> = false] )</span></li>
-<li style="color:green;list-style:circle;"><span><strong>removeData</strong> ( <em>$id</em> [<em>, $name</em> = NULL] )</span></li>
+<li style="color:green;list-style:circle;"><span><strong>removeData</strong> ( <em>$name</em> )</span></li>
+
+<li style="color:green;list-style:circle;"><span><strong>removeDataBank</strong> ( <em>$bankId</em> [<em>, $name</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>sendError</strong> ( <em>$msg</em> [<em>, $code</em> = NULL] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>setBasePath</strong> ( <em>$pth</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>setLocale</strong> ( <em>$code</em> [<em>, $lang</em> = NULL] )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>singleton</strong> (  )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>startTimer</strong> (  )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>stopTimer</strong> (  [<em>$time</em> = NULL] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>throwCallbackException</strong> ( <em>$fn</em> )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>triggerSysEvent</strong> ( <em>$name</em> [<em>, $args</em> = NULL] )</span></li>
 </ul>
 <hr>
 <h2>RaxanBase</h2>
 <ul>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;mObjId</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;events</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;objId</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> (  )</span></li>
 <li style="color:green;"><span><strong>bind</strong> ( <em>$type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>log</strong> ( <em>$var</em> [<em>, $level</em> = NULL] [<em>, $label</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>objectId</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>trigger</strong> ( <em>$type</em> [<em>, $args</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>unbind</strong> ( <em>$type</em> )</span></li>
+
 </ul>
 <hr>
 <h2>RaxanDataStorage</h2>
 <ul>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;id</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;store</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> (  [<em>$id</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>__destruct</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_init</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_reset</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_save</strong> (  )</span></li>
 <li style="color:green;"><span><strong>exists</strong> ( <em>$key</em> )</span></li>
+
 <li style="color:green;"><span><strong>read</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>remove</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>resetStore</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>storageId</strong> (  )</span></li>
 <li style="color:green;"><span><strong>write</strong> ( <em>$key</em><em>, $value</em> )</span></li>
 </ul>
 <hr>
 <h2>RaxanPlugin</h2>
 <ul>
+
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;author</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;description</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;name</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;shared</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;events</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> (  )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>instance</strong> ( <em>$class</em> )</span></li>
 <li style="color:green;"><span><strong>raiseEvent</strong> ( <em>$event</em><em>, $args</em> )</span></li>
 </ul>
 <hr>
+
 <h2>RaxanSessionStorage</h2>
 <ul>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;id</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;store</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> (  [<em>$id</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>__destruct</strong> (  )</span></li>
+
 <li style="color:orange;"><span><strong>_init</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_reset</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_save</strong> (  )</span></li>
 <li style="color:green;"><span><strong>exists</strong> ( <em>$key</em> )</span></li>
+
 <li style="color:green;"><span><strong>read</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>remove</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>resetStore</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>storageId</strong> (  )</span></li>
 <li style="color:green;"><span><strong>write</strong> ( <em>$key</em><em>, $value</em> )</span></li>
 </ul>
 <hr>
 <h2>RaxanSysEvent</h2>
 <ul>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;data</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isStopPropagation</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;result</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;type</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> ( <em>$type</em> )</span></li>
+
 <li style="color:green;"><span><strong>stopPropagation</strong> (  )</span></li>
 </ul>
 <hr>
 <h2>RaxanElement</h2>
 <ul>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;callMethods</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;mObjId</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_context</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_customValidity</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_invalidInp</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_length</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_modifiedStack</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_rootElm</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_selector</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_stack</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_storeName</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_validInp</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;doc</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;elms</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;events</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;objId</em></strong></span></li>
 <li style="color:green;"><span><strong>__call</strong> ( <em>$name</em><em>, $args</em> )</span></li>
 <li style="color:green;"><span><strong>__construct</strong> ( <em>$css</em> [<em>, $context</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>__get</strong> ( <em>$var</em> )</span></li>
 <li style="color:green;"><span><strong>add</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>addClass</strong> ( <em>$cls</em> )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>addMethod</strong> ( <em>$name</em> [<em>, $callback</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>after</strong> ( <em>$content</em> )</span></li>
+
 <li style="color:green;"><span><strong>andSelf</strong> (  )</span></li>
 <li style="color:green;"><span><strong>append</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>appendTo</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>appendToClient</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>appendView</strong> ( <em>$view</em> [<em>, $selector</em> = NULL] [<em>, $data</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>attr</strong> ( <em>$name</em> [<em>, $val</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>autoId</strong> (  [<em>$idPrefix</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>before</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>bind</strong> ( <em>$type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>checkValidity</strong> (  [<em>$markInvalid</em> = false] [<em>, $cssClass</em> = NULL] [<em>, $callback</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>children</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>clearNode</strong> ( <em>$n</em> )</span></li>
 <li style="color:green;"><span><strong>click</strong> ( <em>$fn</em> [<em>, $serialize</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>cloneNodes</strong> (  [<em>$deep</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>css</strong> ( <em>$name</em> [<em>, $val</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>data</strong> ( <em>$name</em> [<em>, $value</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>delegate</strong> ( <em>$selector</em><em>, $type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>disable</strong> (  )</span></li>
 <li style="color:green;"><span><strong>draggable</strong> (  [<em>$opt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>droppable</strong> (  [<em>$opt</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>enable</strong> (  )</span></li>
 <li style="color:green;"><span><strong>end</strong> (  [<em>$all</em> = false] )</span></li>
 <li style="color:green;"><span><strong>eq</strong> ( <em>$index</em> )</span></li>
+
 <li style="color:green;"><span><strong>expose</strong> (  [<em>$opt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>fadeIn</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>fadeOut</strong> (  [<em>$speed</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>filter</strong> ( <em>$selector</em> [<em>, $_invert</em> = false] )</span></li>
 <li style="color:green;"><span><strong>find</strong> ( <em>$selector</em> [<em>, $returnArray</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>findByXPath</strong> ( <em>$xpath</em> [<em>, $returnArray</em> = false] )</span></li>
 <li style="color:green;"><span><strong>floatVal</strong> (  [<em>$v</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>get</strong> (  [<em>$index</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>hasClass</strong> ( <em>$cls</em> )</span></li>
 <li style="color:green;"><span><strong>height</strong> (  [<em>$h</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>hide</strong> (  )</span></li>
 <li style="color:green;"><span><strong>html</strong> (  [<em>$html</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>inputValues</strong> (  [<em>$data</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>insert</strong> ( <em>$content</em><em>, $pos</em> [<em>, $retNodes</em> = false] )</span></li>
 <li style="color:green;"><span><strong>insertAfter</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>insertBefore</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>intVal</strong> (  [<em>$v</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>invalidInputs</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>is</strong> ( <em>$selector</em> )</span></li>
 <li style="color:orange;"><span><strong>isHTML</strong> ( <em>$str</em> )</span></li>
 <li style="color:green;"><span><strong>localize</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>log</strong> ( <em>$var</em> [<em>, $level</em> = NULL] [<em>, $label</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>map</strong> ( <em>$fn</em> )</span></li>
+
 <li style="color:green;"><span><strong>mask</strong> (  [<em>$label</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>matchSelector</strong> (  [<em>$autoId</em> = false] [<em>, $idPrefix</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>modifyClass</strong> ( <em>$classes</em><em>, $mode</em> )</span></li>
 <li style="color:green;"><span><strong>next</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>nextAll</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>node</strong> (  [<em>$index</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>not</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>objectId</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>outerHtml</strong> (  )</span></li>
 <li style="color:green;"><span><strong>parent</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>parents</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>position</strong> ( <em>$opt</em> )</span></li>
 <li style="color:green;"><span><strong>prepend</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>prependTo</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>prependToClient</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>preserveState</strong> (  [<em>$mode</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>prev</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>prevAll</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>remove</strong> (  )</span></li>
 <li style="color:green;"><span><strong>removeAttr</strong> ( <em>$cls</em> )</span></li>
+
 <li style="color:green;"><span><strong>removeChildren</strong> (  )</span></li>
 <li style="color:green;"><span><strong>removeClass</strong> ( <em>$cls</em> )</span></li>
 <li style="color:green;"><span><strong>removeData</strong> ( <em>$name</em> )</span></li>
+
 <li style="color:green;"><span><strong>removeState</strong> (  [<em>$mode</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>replaceAll</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>replaceClient</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>replaceWith</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>selectInnerChild</strong> (  )</span></li>
 <li style="color:green;"><span><strong>setCustomValidity</strong> ( <em>$name</em><em>, $messgae</em> )</span></li>
+
 <li style="color:green;"><span><strong>show</strong> (  )</span></li>
 <li style="color:green;"><span><strong>siblings</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>slice</strong> ( <em>$start</em> [<em>, $length</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>slideDown</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>slideUp</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:orange;"><span><strong>stack</strong> ( <em>$elms</em> )</span></li>
+
 <li style="color:green;"><span><strong>storeName</strong> (  [<em>$n</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>submit</strong> ( <em>$fn</em> [<em>, $serialize</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>text</strong> (  [<em>$txt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>textVal</strong> (  [<em>$txt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>timeout</strong> ( <em>$msTime</em><em>, $data</em> [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>toggleClass</strong> ( <em>$cls</em> )</span></li>
 <li style="color:orange;"><span><strong>traverse</strong> ( <em>$selector</em><em>, $prop1</em><em>, $prop2</em> [<em>, $first</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>trigger</strong> ( <em>$type</em> [<em>, $args</em> = NULL] [<em>, $eObject</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>unbind</strong> ( <em>$type</em> )</span></li>
+
 <li style="color:green;"><span><strong>unique</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>unstack</strong> (  [<em>$all</em> = false] )</span></li>
 <li style="color:green;"><span><strong>updateClient</strong> (  )</span></li>
 <li style="color:green;"><span><strong>val</strong> (  [<em>$v</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>validInputs</strong> (  )</span></li>
 <li style="color:green;"><span><strong>value</strong> (  [<em>$v</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>width</strong> (  [<em>$w</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>wrap</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>wrapAll</strong> ( <em>$content</em> )</span></li>
 </ul>
 <hr>
 <h2>RaxanDataSanitizer</h2>
+
 <ul>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;badCharacters</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;validators</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_charset</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_data</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_date</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_directInp</em></strong></span></li>
+
 <li style="color:green;"><span><strong>__call</strong> ( <em>$name</em><em>, $args</em> )</span></li>
 <li style="color:green;"><span><strong>__construct</strong> (  [<em>$array</em> = NULL] [<em>, $charset</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>__get</strong> ( <em>$name</em> )</span></li>
 <li style="color:green;"><span><strong>__set</strong> ( <em>$name</em><em>, $value</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>addDataValidator</strong> ( <em>$name</em><em>, $pattern</em> )</span></li>
+
 <li style="color:green;"><span><strong>addValidator</strong> ( <em>$name</em><em>, $pattern</em> )</span></li>
 <li style="color:green;"><span><strong>alphanumericVal</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>dateVal</strong> ( <em>$key</em> [<em>, $format</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>emailVal</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>enableDirectInput</strong> (  [<em>$state</em> = true] )</span></li>
 <li style="color:green;"><span><strong>escapeVal</strong> ( <em>$key</em> )</span></li>
+
 <li style="color:green;"><span><strong>fileContent</strong> ( <em>$fld</em> )</span></li>
 <li style="color:green;"><span><strong>fileCopy</strong> ( <em>$fld</em><em>, $dest</em> )</span></li>
 <li style="color:green;"><span><strong>fileCount</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>fileImageResample</strong> ( <em>$fld</em><em>, $w</em><em>, $h</em> [<em>, $type</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>fileImageSize</strong> ( <em>$fld</em> )</span></li>
+
 <li style="color:green;"><span><strong>fileMove</strong> ( <em>$fld</em><em>, $dest</em> )</span></li>
 <li style="color:green;"><span><strong>fileOrigName</strong> ( <em>$fld</em> )</span></li>
 <li style="color:green;"><span><strong>fileSize</strong> ( <em>$fld</em> )</span></li>
+
 <li style="color:green;"><span><strong>fileType</strong> ( <em>$fld</em> )</span></li>
 <li style="color:green;"><span><strong>filterValues</strong> (  [<em>$keyFields</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>floatVal</strong> ( <em>$key</em> [<em>, $decimal</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>formatDate</strong> ( <em>$key</em> [<em>, $format</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>formatMoney</strong> ( <em>$key</em> [<em>, $decimal</em> = NULL] [<em>, $symbol</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>formatNumber</strong> ( <em>$key</em> [<em>, $decimal</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>htmlVal</strong> ( <em>$key</em> [<em>, $allowable</em> = NULL] [<em>, $allowStyle</em> = true] )</span></li>
+
 <li style="color:green;"><span><strong>intVal</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>isDate</strong> ( <em>$key</em> [<em>, $format</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>isEmail</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>isNumeric</strong> ( <em>$key</em> [<em>, $min</em> = NULL] [<em>, $max</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>isUrl</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>length</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>matchVal</strong> ( <em>$key</em> [<em>, $pattern</em> = '/[a-zA-Z0-9-.]/'] )</span></li>
+
 <li style="color:green;"><span><strong>setDataArray</strong> ( <em>$array</em> )</span></li>
 <li style="color:green;"><span><strong>textVal</strong> ( <em>$key</em> [<em>, $maxlength</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>timestampVal</strong> ( <em>$key</em> )</span></li>
 <li style="color:green;"><span><strong>urlVal</strong> ( <em>$key</em> [<em>, $encoded</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>value</strong> ( <em>$key</em> )</span></li>
 </ul>
 <hr>
 <h2>RaxanUIElement</h2>
 <ul>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;callMethods</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;mObjId</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_context</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_customValidity</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_invalidInp</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_length</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_modifiedStack</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_rootElm</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_selector</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_stack</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_storeName</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_validInp</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;contentElement</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;doc</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;element</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;elmMarkup</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;elms</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;enableDefaultUIProperties</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;events</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;isRendered</em></strong></span></li>
+
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isUIElement</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;objId</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;preserveState</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;properties</em></strong></span></li>
 <li style="color:green;"><span><strong>__call</strong> ( <em>$name</em><em>, $args</em> )</span></li>
+
 <li style="color:green;"><span><strong>__construct</strong> ( <em>$id</em> [<em>, $properties</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>__destruct</strong> (  )</span></li>
 <li style="color:green;"><span><strong>__get</strong> ( <em>$name</em> )</span></li>
+
 <li style="color:green;"><span><strong>__set</strong> ( <em>$name</em><em>, $value</em> )</span></li>
 <li style="color:orange;"><span><strong>_bind</strong> ( <em>$type</em><em>, $options</em><em>, $local</em> )</span></li>
+
 <li style="color:orange;"><span><strong>_bindData</strong> ( <em>$data</em><em>, $opt</em> )</span></li>
 <li style="color:orange;"><span><strong>_config</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_destroy</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_init</strong> (  )</span></li>
+
 <li style="color:orange;"><span><strong>_load</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_prerender</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_property</strong> ( <em>$name</em> [<em>, $value</em> = NULL] [<em>, $writeMode</em> = false] )</span></li>
+
 <li style="color:orange;"><span><strong>_restore</strong> ( <em>$mode</em><em>, $data</em> )</span></li>
 <li style="color:orange;"><span><strong>_save</strong> ( <em>$mode</em><em>, $data</em> )</span></li>
 <li style="color:green;"><span><strong>add</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>addClass</strong> ( <em>$cls</em> )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>addMethod</strong> ( <em>$name</em> [<em>, $callback</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>after</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>andSelf</strong> (  )</span></li>
 <li style="color:green;"><span><strong>append</strong> ( <em>$content</em> )</span></li>
+
 <li style="color:green;"><span><strong>appendTo</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>appendToClient</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>appendView</strong> ( <em>$view</em> [<em>, $selector</em> = NULL] [<em>, $data</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>attr</strong> ( <em>$name</em> [<em>, $val</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>autoId</strong> (  [<em>$idPrefix</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>before</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>bind</strong> ( <em>$type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>checkValidity</strong> (  [<em>$markInvalid</em> = false] [<em>, $cssClass</em> = NULL] [<em>, $callback</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>children</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>clearNode</strong> ( <em>$n</em> )</span></li>
 <li style="color:green;"><span><strong>click</strong> ( <em>$fn</em> [<em>, $serialize</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>cloneNodes</strong> (  [<em>$deep</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>css</strong> ( <em>$name</em> [<em>, $val</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>data</strong> ( <em>$name</em> [<em>, $value</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>delegate</strong> ( <em>$selector</em><em>, $type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>disable</strong> (  )</span></li>
 <li style="color:green;"><span><strong>draggable</strong> (  [<em>$opt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>droppable</strong> (  [<em>$opt</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>enable</strong> (  )</span></li>
 <li style="color:green;"><span><strong>end</strong> (  [<em>$all</em> = false] )</span></li>
 <li style="color:green;"><span><strong>eq</strong> ( <em>$index</em> )</span></li>
+
 <li style="color:green;"><span><strong>expose</strong> (  [<em>$opt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>fadeIn</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>fadeOut</strong> (  [<em>$speed</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>filter</strong> ( <em>$selector</em> [<em>, $_invert</em> = false] )</span></li>
 <li style="color:green;"><span><strong>find</strong> ( <em>$selector</em> [<em>, $returnArray</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>findByXPath</strong> ( <em>$xpath</em> [<em>, $returnArray</em> = false] )</span></li>
 <li style="color:green;"><span><strong>floatVal</strong> (  [<em>$v</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>get</strong> (  [<em>$index</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>getProperty</strong> ( <em>$name</em> )</span></li>
 <li style="color:green;"><span><strong>handleEventBinding</strong> ( <em>$type</em><em>, $options</em><em>, $local</em> )</span></li>
+
 <li style="color:green;"><span><strong>handleStateData</strong> ( <em>$mode</em><em>, $data</em> [<em>, $save</em> = false] )</span></li>
 <li style="color:green;"><span><strong>hasClass</strong> ( <em>$cls</em> )</span></li>
+
 <li style="color:green;"><span><strong>height</strong> (  [<em>$h</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>hide</strong> (  )</span></li>
 <li style="color:green;"><span><strong>html</strong> (  [<em>$html</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>inputValues</strong> (  [<em>$data</em> = NULL] )</span></li>
 <li style="color:orange;"><span><strong>insert</strong> ( <em>$content</em><em>, $pos</em> [<em>, $retNodes</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>insertAfter</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>insertBefore</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>intVal</strong> (  [<em>$v</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>invalidInputs</strong> (  )</span></li>
 <li style="color:green;"><span><strong>is</strong> ( <em>$selector</em> )</span></li>
 <li style="color:orange;"><span><strong>isHTML</strong> ( <em>$str</em> )</span></li>
+
 <li style="color:green;"><span><strong>loadInterface</strong> (  )</span></li>
 <li style="color:green;"><span><strong>localize</strong> (  )</span></li>
 <li style="color:green;"><span><strong>log</strong> ( <em>$var</em> [<em>, $level</em> = NULL] [<em>, $label</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>map</strong> ( <em>$fn</em> )</span></li>
 <li style="color:green;"><span><strong>mask</strong> (  [<em>$label</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>matchSelector</strong> (  [<em>$autoId</em> = false] [<em>, $idPrefix</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>modifyClass</strong> ( <em>$classes</em><em>, $mode</em> )</span></li>
 <li style="color:green;"><span><strong>next</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>nextAll</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>node</strong> (  [<em>$index</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>not</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>objectId</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>outerHtml</strong> (  )</span></li>
 <li style="color:green;"><span><strong>parent</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>parents</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>position</strong> ( <em>$opt</em> )</span></li>
 <li style="color:green;"><span><strong>prepend</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>prependTo</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>prependToClient</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>preserveState</strong> (  [<em>$mode</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>prev</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>prevAll</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>remove</strong> (  )</span></li>
 <li style="color:green;"><span><strong>removeAttr</strong> ( <em>$cls</em> )</span></li>
+
 <li style="color:green;"><span><strong>removeChildren</strong> (  )</span></li>
 <li style="color:green;"><span><strong>removeClass</strong> ( <em>$cls</em> )</span></li>
 <li style="color:green;"><span><strong>removeData</strong> ( <em>$name</em> )</span></li>
+
 <li style="color:green;"><span><strong>removeState</strong> (  [<em>$mode</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>renderInterface</strong> (  )</span></li>
 <li style="color:green;"><span><strong>replaceAll</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>replaceClient</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>replaceWith</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>selectInnerChild</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>setCustomValidity</strong> ( <em>$name</em><em>, $messgae</em> )</span></li>
 <li style="color:green;"><span><strong>setProperty</strong> ( <em>$name</em><em>, $value</em> )</span></li>
 <li style="color:green;"><span><strong>show</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>siblings</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>slice</strong> ( <em>$start</em> [<em>, $length</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>slideDown</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>slideUp</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:orange;"><span><strong>stack</strong> ( <em>$elms</em> )</span></li>
+
 <li style="color:green;"><span><strong>storeName</strong> (  [<em>$n</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>submit</strong> ( <em>$fn</em> [<em>, $serialize</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>text</strong> (  [<em>$txt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>textVal</strong> (  [<em>$txt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>timeout</strong> ( <em>$msTime</em><em>, $data</em> [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>toggleClass</strong> ( <em>$cls</em> )</span></li>
 <li style="color:orange;"><span><strong>traverse</strong> ( <em>$selector</em><em>, $prop1</em><em>, $prop2</em> [<em>, $first</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>trigger</strong> ( <em>$type</em> [<em>, $args</em> = NULL] [<em>, $eObject</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>unbind</strong> ( <em>$type</em> )</span></li>
+
 <li style="color:green;"><span><strong>unique</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>unstack</strong> (  [<em>$all</em> = false] )</span></li>
 <li style="color:green;"><span><strong>updateClient</strong> (  )</span></li>
 <li style="color:green;"><span><strong>val</strong> (  [<em>$v</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>validInputs</strong> (  )</span></li>
 <li style="color:green;"><span><strong>value</strong> (  [<em>$v</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>width</strong> (  [<em>$w</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>wrap</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>wrapAll</strong> ( <em>$content</em> )</span></li>
 </ul>
 <hr>
 <h2>RaxanUIContainer</h2>
+
 <ul>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;callMethods</em></strong></span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;mObjId</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_context</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_customValidity</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_invalidInp</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_length</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_modifiedStack</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_rootElm</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_selector</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_stack</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_storeName</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_validInp</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;contentElement</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;doc</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;element</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;elmMarkup</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;elms</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;enableDefaultUIProperties</em></strong></span></li>
+
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;events</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;isRendered</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;isUIElement</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;objId</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;preserveState</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;properties</em></strong></span></li>
+
 <li style="color:green;"><span><strong>__call</strong> ( <em>$name</em><em>, $args</em> )</span></li>
 <li style="color:green;"><span><strong>__construct</strong> ( <em>$id</em> [<em>, $properties</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>__destruct</strong> (  )</span></li>
 <li style="color:green;"><span><strong>__get</strong> ( <em>$name</em> )</span></li>
 <li style="color:green;"><span><strong>__set</strong> ( <em>$name</em><em>, $value</em> )</span></li>
+
 <li style="color:orange;"><span><strong>_bind</strong> ( <em>$type</em><em>, $options</em><em>, $local</em> )</span></li>
 <li style="color:orange;"><span><strong>_bindData</strong> ( <em>$data</em><em>, $opt</em> )</span></li>
+
 <li style="color:orange;"><span><strong>_config</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_destroy</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_init</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_load</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>_prerender</strong> (  )</span></li>
+
 <li style="color:orange;"><span><strong>_property</strong> ( <em>$name</em> [<em>, $value</em> = NULL] [<em>, $writeMode</em> = false] )</span></li>
 <li style="color:orange;"><span><strong>_restore</strong> ( <em>$mode</em><em>, $data</em> )</span></li>
+
 <li style="color:orange;"><span><strong>_save</strong> ( <em>$mode</em><em>, $data</em> )</span></li>
 <li style="color:green;"><span><strong>add</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>addClass</strong> ( <em>$cls</em> )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>addMethod</strong> ( <em>$name</em> [<em>, $callback</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>after</strong> ( <em>$content</em> )</span></li>
+
 <li style="color:green;"><span><strong>andSelf</strong> (  )</span></li>
 <li style="color:green;"><span><strong>append</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>appendTo</strong> ( <em>$selector</em> )</span></li>
+
 <li style="color:green;"><span><strong>appendToClient</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>appendView</strong> ( <em>$view</em> [<em>, $selector</em> = NULL] [<em>, $data</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>attr</strong> ( <em>$name</em> [<em>, $val</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>autoId</strong> (  [<em>$idPrefix</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>before</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>bind</strong> ( <em>$type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>checkValidity</strong> (  [<em>$markInvalid</em> = false] [<em>, $cssClass</em> = NULL] [<em>, $callback</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>children</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>clearNode</strong> ( <em>$n</em> )</span></li>
 <li style="color:green;"><span><strong>click</strong> ( <em>$fn</em> [<em>, $serialize</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>cloneNodes</strong> (  [<em>$deep</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>css</strong> ( <em>$name</em> [<em>, $val</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>data</strong> ( <em>$name</em> [<em>, $value</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>delegate</strong> ( <em>$selector</em><em>, $type</em> [<em>, $data</em> = NULL] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>disable</strong> (  )</span></li>
 <li style="color:green;"><span><strong>draggable</strong> (  [<em>$opt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>droppable</strong> (  [<em>$opt</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>enable</strong> (  )</span></li>
 <li style="color:green;"><span><strong>end</strong> (  [<em>$all</em> = false] )</span></li>
 <li style="color:green;"><span><strong>eq</strong> ( <em>$index</em> )</span></li>
+
 <li style="color:green;"><span><strong>expose</strong> (  [<em>$opt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>fadeIn</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>fadeOut</strong> (  [<em>$speed</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>filter</strong> ( <em>$selector</em> [<em>, $_invert</em> = false] )</span></li>
 <li style="color:green;"><span><strong>find</strong> ( <em>$selector</em> [<em>, $returnArray</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>findByXPath</strong> ( <em>$xpath</em> [<em>, $returnArray</em> = false] )</span></li>
 <li style="color:green;"><span><strong>floatVal</strong> (  [<em>$v</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>get</strong> (  [<em>$index</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>getProperty</strong> ( <em>$name</em> )</span></li>
 <li style="color:green;"><span><strong>handleEventBinding</strong> ( <em>$type</em><em>, $options</em><em>, $local</em> )</span></li>
+
 <li style="color:green;"><span><strong>handleStateData</strong> ( <em>$mode</em><em>, $data</em> [<em>, $save</em> = false] )</span></li>
 <li style="color:green;"><span><strong>hasClass</strong> ( <em>$cls</em> )</span></li>
+
 <li style="color:green;"><span><strong>height</strong> (  [<em>$h</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>hide</strong> (  )</span></li>
 <li style="color:green;"><span><strong>html</strong> (  [<em>$html</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>inputValues</strong> (  [<em>$data</em> = NULL] )</span></li>
 <li style="color:orange;"><span><strong>insert</strong> ( <em>$content</em><em>, $pos</em> [<em>, $retNodes</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>insertAfter</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>insertBefore</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>intVal</strong> (  [<em>$v</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>invalidInputs</strong> (  )</span></li>
 <li style="color:green;"><span><strong>is</strong> ( <em>$selector</em> )</span></li>
 <li style="color:orange;"><span><strong>isHTML</strong> ( <em>$str</em> )</span></li>
+
 <li style="color:green;"><span><strong>loadInterface</strong> (  )</span></li>
 <li style="color:green;"><span><strong>localize</strong> (  )</span></li>
 <li style="color:green;"><span><strong>log</strong> ( <em>$var</em> [<em>, $level</em> = NULL] [<em>, $label</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>map</strong> ( <em>$fn</em> )</span></li>
 <li style="color:green;"><span><strong>mask</strong> (  [<em>$label</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>matchSelector</strong> (  [<em>$autoId</em> = false] [<em>, $idPrefix</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>modifyClass</strong> ( <em>$classes</em><em>, $mode</em> )</span></li>
 <li style="color:green;"><span><strong>next</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>nextAll</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>node</strong> (  [<em>$index</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>not</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>objectId</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>outerHtml</strong> (  )</span></li>
 <li style="color:green;"><span><strong>overlay</strong> (  [<em>$opt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>parent</strong> (  [<em>$selector</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>parents</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>position</strong> ( <em>$opt</em> )</span></li>
 <li style="color:green;"><span><strong>prepend</strong> ( <em>$content</em> )</span></li>
+
 <li style="color:green;"><span><strong>prependTo</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>prependToClient</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>preserveState</strong> (  [<em>$mode</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>prev</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>prevAll</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>remove</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>removeAttr</strong> ( <em>$cls</em> )</span></li>
 <li style="color:green;"><span><strong>removeChildren</strong> (  )</span></li>
 <li style="color:green;"><span><strong>removeClass</strong> ( <em>$cls</em> )</span></li>
+
 <li style="color:green;"><span><strong>removeData</strong> ( <em>$name</em> )</span></li>
 <li style="color:green;"><span><strong>removeState</strong> (  [<em>$mode</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>renderInterface</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>replaceAll</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>replaceClient</strong> ( <em>$selector</em> )</span></li>
 <li style="color:green;"><span><strong>replaceWith</strong> ( <em>$content</em> )</span></li>
+
 <li style="color:green;"><span><strong>resizable</strong> (  [<em>$opt</em> = NULL] )</span></li>
-<li style="color:green;"><span><strong>selectInnerChild</strong> (  )</span></li>
 <li style="color:green;"><span><strong>selectable</strong> (  [<em>$opt</em> = NULL] )</span></li>
+<li style="color:green;"><span><strong>selectInnerChild</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>setCustomValidity</strong> ( <em>$name</em><em>, $messgae</em> )</span></li>
 <li style="color:green;"><span><strong>setProperty</strong> ( <em>$name</em><em>, $value</em> )</span></li>
 <li style="color:green;"><span><strong>show</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>siblings</strong> (  [<em>$selector</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>slice</strong> ( <em>$start</em> [<em>, $length</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>slideDown</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>slideUp</strong> (  [<em>$speed</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>sortable</strong> (  [<em>$opt</em> = NULL] )</span></li>
+
 <li style="color:orange;"><span><strong>stack</strong> ( <em>$elms</em> )</span></li>
 <li style="color:green;"><span><strong>storeName</strong> (  [<em>$n</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>submit</strong> ( <em>$fn</em> [<em>, $serialize</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>text</strong> (  [<em>$txt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>textVal</strong> (  [<em>$txt</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>timeout</strong> ( <em>$msTime</em><em>, $data</em> [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>toggleClass</strong> ( <em>$cls</em> )</span></li>
 <li style="color:orange;"><span><strong>traverse</strong> ( <em>$selector</em><em>, $prop1</em><em>, $prop2</em> [<em>, $first</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>trigger</strong> ( <em>$type</em> [<em>, $args</em> = NULL] [<em>, $eObject</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>unbind</strong> ( <em>$type</em> )</span></li>
+
 <li style="color:green;"><span><strong>unique</strong> (  )</span></li>
 <li style="color:orange;"><span><strong>unstack</strong> (  [<em>$all</em> = false] )</span></li>
 <li style="color:green;"><span><strong>updateClient</strong> (  )</span></li>
 <li style="color:green;"><span><strong>val</strong> (  [<em>$v</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>validInputs</strong> (  )</span></li>
 <li style="color:green;"><span><strong>value</strong> (  [<em>$v</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>width</strong> (  [<em>$w</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>wrap</strong> ( <em>$content</em> )</span></li>
 <li style="color:green;"><span><strong>wrapAll</strong> ( <em>$content</em> )</span></li>
 </ul>
 <hr>
 <h2>RaxanPDO</h2>
+
 <ul>
-<li style="color:green;"><span><strong>__construct</strong> (  )</span></li>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;_BadFieldNameChars</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_lastRowsAffected</em></strong></span></li>
+<li style="color:green;"><span><strong>__construct</strong> ( <em>$dsn</em><em>, $username</em><em>, $passwd</em> [<em>, $options</em>] )</span></li>
+
 <li style="color:green;"><span><strong>__sleep</strong> (  )</span></li>
 <li style="color:green;"><span><strong>__wakeup</strong> (  )</span></li>
 <li style="color:green;"><span><strong>beginTransaction</strong> (  )</span></li>
 <li style="color:green;"><span><strong>commit</strong> (  )</span></li>
 <li style="color:green;"><span><strong>errorCode</strong> (  )</span></li>
+
 <li style="color:green;"><span><strong>errorInfo</strong> (  )</span></li>
-<li style="color:green;"><span><strong>exec</strong> (  )</span></li>
-<li style="color:green;"><span><strong>getAttribute</strong> (  )</span></li>
+<li style="color:green;"><span><strong>exec</strong> ( <em>$query</em> )</span></li>
+<li style="color:green;"><span><strong>getAttribute</strong> ( <em>$attribute</em> )</span></li>
+
 <li style="color:green;list-style:circle;"><span><strong>getAvailableDrivers</strong> (  )</span></li>
 <li style="color:green;"><span><strong>getLastRowsAffected</strong> (  )</span></li>
-<li style="color:green;"><span><strong>lastInsertId</strong> (  )</span></li>
-<li style="color:green;"><span><strong>prepare</strong> (  )</span></li>
+<li style="color:green;"><span><strong>lastInsertId</strong> (  [<em>$seqname</em>] )</span></li>
+<li style="color:green;"><span><strong>prepare</strong> ( <em>$statment</em> [<em>, $options</em>] )</span></li>
+
 <li style="color:green;"><span><strong>query</strong> (  )</span></li>
-<li style="color:green;"><span><strong>quote</strong> (  )</span></li>
+<li style="color:green;"><span><strong>quote</strong> ( <em>$string</em> [<em>, $paramtype</em>] )</span></li>
 <li style="color:green;"><span><strong>rollBack</strong> (  )</span></li>
-<li style="color:green;"><span><strong>setAttribute</strong> (  )</span></li>
+
+<li style="color:green;"><span><strong>setAttribute</strong> ( <em>$attribute</em><em>, $value</em> )</span></li>
 <li style="color:green;"><span><strong>table</strong> ( <em>$name</em> [<em>, $filterClause</em> = NULL] [<em>, $filterValues</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>tableDelete</strong> ( <em>$name</em> [<em>, $filterClause</em> = NULL] [<em>, $filterValues</em> = NULL] )</span></li>
 <li style="color:green;"><span><strong>tableInsert</strong> ( <em>$name</em><em>, $data</em> )</span></li>
+
 <li style="color:green;"><span><strong>tableUpdate</strong> ( <em>$name</em><em>, $data</em> [<em>, $filterClause</em> = NULL] [<em>, $filterValues</em> = NULL] )</span></li>
 </ul>
 <hr>
 <h2>RaxanClientExtension</h2>
+
 <ul>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;scripts</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;chain</em></strong></span></li>
 <li style="color:green;"><span><strong>__call</strong> ( <em>$name</em><em>, $args</em> )</span></li>
 <li style="color:green;"><span><strong>__construct</strong> ( <em>$ss</em> [<em>, $context</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>__toString</strong> (  )</span></li>
 <li style="color:green;"><span><strong>alert</strong> ( <em>$msg</em> )</span></li>
 <li style="color:green;"><span><strong>browser</strong> (  )</span></li>
 <li style="color:green;"><span><strong>confirm</strong> ( <em>$msg</em> [<em>, $okFn</em> = NULL] [<em>, $cancelFn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>console</strong> ( <em>$var</em> [<em>, $halt</em> = false] )</span></li>
 <li style="color:green;list-style:circle;"><span><strong>encodeVar</strong> ( <em>$v</em> )</span></li>
+
 <li style="color:orange;"><span><strong>escapeString</strong> ( <em>$txt</em> )</span></li>
 <li style="color:green;"><span><strong>evaluate</strong> ( <em>$s</em> )</span></li>
 <li style="color:green;"><span><strong>hoverClass</strong> ( <em>$cls</em> )</span></li>
+
 <li style="color:green;"><span><strong>loadCSS</strong> ( <em>$src</em> [<em>, $ext</em> = false] )</span></li>
 <li style="color:green;"><span><strong>loadScript</strong> ( <em>$src</em> [<em>, $ext</em> = false] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>popup</strong> ( <em>$url</em> [<em>, $name</em> = ''] [<em>, $attributes</em> = ''] [<em>, $errorMsg</em> = ''] )</span></li>
 <li style="color:green;"><span><strong>prompt</strong> ( <em>$msg</em> [<em>, $default</em> = ''] [<em>, $fn</em> = NULL] )</span></li>
+
 <li style="color:green;"><span><strong>redirectTo</strong> ( <em>$url</em> )</span></li>
 <li style="color:green;"><span><strong>redirectToView</strong> ( <em>$view</em> [<em>, $url</em> = NULL] )</span></li>
+
 </ul>
 <hr>
 <h2>RaxanClientVariable</h2>
 <ul>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;vid</em></strong></span></li>
+<li style="color:green;"><span><strong><em>-&gt;&nbsp;_pointer</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;name</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;value</em></strong></span></li>
+
 <li style="color:green;"><span><strong>__construct</strong> ( <em>$val</em> [<em>, $name</em> = NULL] [<em>, $isFunction</em> = false] [<em>, $registerGlobal</em> = false] )</span></li>
 <li style="color:green;"><span><strong>__toString</strong> (  )</span></li>
+
 </ul>
 <hr>
 <h2>RaxanDateTime</h2>
 <ul>
+<li style="color:orange;list-style:circle;"><span><strong><em>-&gt;&nbsp;isDateTimeSupported</em></strong></span></li>
+<li style="color:green;list-style:circle;"><span><strong><em>-&gt;&nbsp;months</em></strong></span></li>
+<li style="color:orange;"><span><strong><em>-&gt;&nbsp;_dtstr</em></strong></span></li>
 <li style="color:green;"><span><strong>__construct</strong> (  [<em>$str</em> = ''] )</span></li>
+
 <li style="color:green;"><span><strong>__toString</strong> (  )</span></li>
 <li style="color:green;"><span><strong>format</strong> ( <em>$fmt</em> [<em>, $strtime</em> = ''] [<em>, $noTrans</em> = false] )</span></li>
+
 <li style="color:green;"><span><strong>getTimestamp</strong> (  [<em>$strtime</em> = ''] )</span></li>
 <li style="color:green;"><span><strong>parse</strong> ( <em>$str</em> )</span></li>
 <li style="color:green;"><span><strong>setDate</strong> ( <em>$strtime</em> )</span></li>
+
 </ul>
 <hr>
 </body>

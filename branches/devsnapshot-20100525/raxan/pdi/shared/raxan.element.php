@@ -1,6 +1,7 @@
 <?php
 /**
  * Raxan Element
+ * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 
