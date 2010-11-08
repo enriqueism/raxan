@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Templates - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Server-Side Templates</h2>
+
+<p>There are two types of templates within the framework.</p>
+
+<ul>
+<li><strong>Master Templates</strong> - These are reusable html/php file that provides an easy way to change the look and feel of a web page or application.</li>
+<li><strong>HTML Templates</strong> - A set of matched elements or snippets of html codes that contains template fields that are parsed and rendered when binded to a databset.</li>
+</ul>
+
+<h3>Master Templates</h3>
+
+<p>A master template contains the basic html structure needed for rendering the layput of a page.
+Before you can use a master template you need to identify the content area of the template by assigning the "<strong>master-content</strong>" css class name to an
+element within the template.</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/&gt;
+        &lt;title&gt;My Website&lt;/title&gt;
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;h2&gt;My Website&lt;/h2&gt;
+        &lt;div class="master-content"&gt;
+            &lt;!-- your content will be loaded here --&gt;
+        &lt;/div&gt;
+    &lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+
+<p>To set or change the template of a web page,you will need to set the "<em>$masterTemplate</em>" page property as shown below:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _config() { // config handler
+            $this-&gt;masterTemplate = 'path/to/master.html'; // works with .php and .html files
+        }
+
+        protected function _load() {
+            // append the content.html view
+            $this-&gt;appendView('content.html');
+
+            // or just set the content of the page to hello world
+            // $this-&gt;content('Hello World');
+
+        }
+    }
+
+?&gt;
+</code></pre>
+
+<p>The "<strong>masterTemplate</strong>" property will load either a "<strong>.html</strong>" or "<strong>.php</strong>" file. If you're using a "<strong>.php</strong>" file there might be times when
+you would want to prevent the file from being access directly. To do this simply add the following line of code the to top of the master template page:</p>
+
+<pre><code class="php">&lt;?php defined("RAXANPDI") || die("Access Denied"); ?&gt;
+</code></pre>
+
+<p>In addition to setting the <strong>$masterTemplate</strong> property of the page, you can also set the <strong>$masterContentBlock</strong> property to use your own template
+content css selector. The default template content selector is "<strong>.master-content</strong>".</p>
+
+<pre><code class="php">&lt;?php
+    protected function _config() { // config handler
+        $this-&gt;masterTemplate = 'path/to/master.html';
+        $this-&gt;$masterContentBlock = '#page-content';  // set master content block selector
+    }
+?&gt;
+</code></pre>
+
+<h3>HTML Templates</h3>
+
+<p>The template binder API is used to parse and render html templates within the page. Each template is parsed and the template fields replaced with
+content from a dataset. The rendered html is either inserted into matched element.</p>
+
+<p>The bind() method is used to bind a set of array elements or objects to the template's child elements or text content. It acts as a wrapper to
+Raxan::bindTemplate() and supports binding to a list of values from an Array, PDO recordset or a set of DOM elements as shown below:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _load() {
+        // create new array
+        $urls = array();
+        $urls[] = array('name'=&gt;'PHP Website', 'link'=&gt;'www.php.net');
+        $urls[] = array('name'=&gt;'Yahoo', 'link'=&gt;'www.yahoo.com');
+        $urls[] = array('name'=&gt;'Google', 'link'=&gt;'www.google.com');
+
+        // bind array to the #list element
+        $this-&gt;list1-&gt;bind($urls);
+
+        // bind to data from a database
+        $db = $this-&gt;Raxan-&gt;connect('my-database');
+        $dataset = $db-&gt;table('customers');
+        $this-&gt;table1-&gt;bind($dataset);
+
+        // bind to attributes from .person elements within the page
+        $person = $this['.person'];
+        $this-&gt;contacts-&gt;bind($person);
+    }
+?&gt;
+</code></pre>
+
+<p>Here's the html markup for the <strong>list1</strong> element:</p>
+
+<pre><code>    &lt;ul id="list"&gt;
+        &lt;li&gt;&lt;a href="{link}"&gt;{name}&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+</code></pre>
+
+<p>In the above, <strong>{link}</strong> and <strong>{name}</strong> are template fields that will be replaced with values from the "<strong>$urls</strong>" array.</p>
+
+<p>Note: By default the framework will encode special HTML/XML characters (e.g. &lt;,&gt;) within an unformatted template field. Use the format option
+to set the type of formatting to be applied to the field.</p>
+
+<h4>Built-in Template fields</h4>
+
+<ul>
+<li><strong>INDEX</strong> - Represents the current index of an indexed array</li>
+<li><strong>VALUE</strong> - Represents value from an indexed array</li>
+<li><strong>ROWCLASS</strong> - Represents the CSS class value. See the CSS class name options</li>
+<li><p><strong>ROWCOUNT</strong> - Represents the row number being rendered</p>
+
+<pre><code>&lt;ul&gt;
+    &lt;li id="item-{ROWCOUNT}" class="{ROWCLASS} country"&gt;{name}&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre></li>
+</ul>
+
+<p>The <strong>{INDEX}</strong> and <strong>{VALUE}</strong> fields are only available when working with indexed arrays.</p>
+
+<h4>Template binder syntax:</h4>
+
+<pre><code class="php">&lt;?php
+    $element-&gt;bind($data[,$options])
+?&gt;
+</code></pre>
+
+<ul>
+<li><strong>$data</strong> - Array of elements or objects to bind to the template.</li>
+<li><strong>$options</strong> - Optional. An array of templates bind options. For example array($mainTemplate, $alternateTemplate).
+As of version 1.0 Beta 1 additional options can be passed as an associative array. Eg. array('tpl'=> $mainTemplate, 'tplAlt'=> $alternateTemplate)</li>
+</ul>
+
+<h4>Template binder Option values:</h4>
+
+<p><strong>Template options</strong></p>
+
+<ul>
+<li>tpl - Main template</li>
+<li>tplAlt - Alternate template</li>
+<li>tplFirst - First template</li>
+<li>tplLast - Last template</li>
+<li>tplSelected - Selected template</li>
+<li>tplEdit - Edit template</li>
+</ul>
+
+<p>Use the above template options to manually set the html templates for the matched element(s). If template options were not specified then
+the inner html for the matched elements will be used as the main template.</p>
+
+<pre><code class="php">&lt;?php
+    protected function _load() {
+        // code to get data here
+        $this-&gt;customers-&gt;bind($data, array(
+            'tpl' =&gt; '{first_name} {last_name}',
+            'tplAlt' =&gt; '&lt;div class="bold"&gt;{first_name} {last_name}&lt;/div&gt;'
+        ));
+    }
+?&gt;
+</code></pre>
+
+<p><strong>CSS class name options</strong></p>
+
+<ul>
+<li>itemClass - Item class</li>
+<li>altClass - Alternate item class</li>
+<li>selectClass - Selected item class</li>
+<li>editClass - Edited item class</li>
+<li>firstClass - First item class</li>
+<li>lastClass - Last item class</li>
+</ul>
+
+<p>The css class name options are used to set the <strong>{ROWCLASS}</strong> template field for the row being rendered</p>
+
+<pre><code class="php">&lt;?php
+    protected function _load() {
+        // code to get data here
+        $this-&gt;orderItems-&gt;bind($data, array(
+            'itemClass' =&gt; 'white-row',
+            'altClass' =&gt; 'silver-row'
+        ));
+    }
+?&gt;
+
+Sample template:
+&lt;div id="orderItems"&gt;
+    &lt;div class="{ROWCLASS} item"&gt;{code} {desc} {qty}&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p><strong>Page/Pager options</strong></p>
+
+<ul>
+<li>page - Currently selected page</li>
+<li>pageSize - Size the current page</li>
+<li>truncString - String to use when truncating a records</li>
+<li>truncate - Truncate rows. Format: NumberOfRowsToTruncate.Offset. For example, 1.0 will truncate the first row. A negative value of -1.0 will
+truncate the last row, while a value of 2.1 will truncate the first 2 rows (row 2 to 3) after row 1.</li>
+</ul>
+
+<p><strong>Format option</strong></p>
+
+<ul>
+<li>format - Array contain field names and datatypes.</li>
+</ul>
+
+<blockquote>
+  <p>Format data types ("name" => type):</p>
+  
+  <ul>
+  <li>integer Convert to integer</li>
+  <li>float - Convert to float</li>
+  <li>money - Convert to money</li>
+  <li>number:decimal - Convert to number with optional decimal values. For example: number:2</li>
+  <li>date:format - Convert to date values using PHP date() format. For example, date:Y-m-d</li>
+  <li>escape - Escape html special characters</li>
+  <li>capitalize - Capitalize words</li>
+  <li>replace:searchRegex,replacedValue - replace regex pattern with value. For example: replace:blue,green</li>
+  <li>upper - Converts text to upper-case characters</li>
+  <li>lower - Convert to lower-case characters</li>
+  <li>html - Allow special html tags. Remove script and style tags</li>
+  <li>raw - Allow raw text</li>
+  </ul>
+</blockquote>
+
+<p>Format options are used to format or filter data values</p>
+
+<pre><code class="php">&lt;?php
+    protected function _load() {
+        // code to get data here
+        $this-&gt;taskList-&gt;bind($data, array(
+            'format' =&gt; array(
+                'title' =&gt; 'capitalize',
+                'due_date' =&gt; 'date:Y-m-d',
+                'duration' =&gt; 'integer'
+            )
+        ));
+    }
+?&gt;
+</code></pre>
+
+<blockquote>
+  <p>Format styles ("name style" => value):</p>
+  
+  <ul>
+  <li>bold - Bold text</li>
+  <li>color - Color text</li>
+  <li>style - Inline css style</li>
+  </ul>
+</blockquote>
+
+<p>Use the style options to style text values</p>
+
+<pre><code class="php">&lt;?php
+    protected function _load() {
+        // code to get data here
+        $this-&gt;taskList-&gt;bind($data, array(
+            'format' =&gt; array(
+                'title style' =&gt; 'text-decoration:underline',
+                'due_date bold' =&gt; true,
+                'duration color' =&gt; 'blue'
+            )
+        ));
+    }
+?&gt;
+</code></pre>
+
+<p>The style options can be very useful when rendering values via a callback function:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _load() {
+        // code to get data here
+        $this-&gt;taskList-&gt;bind($data,array(
+            'callback' =&gt; array($this,'rowHandler'),
+        ));
+    }
+
+    // param $tplType = Raxan::TPL_* contants
+    public function rowHandler(&amp;$row, $index, $tpl, $tplType, &amp;$fmt, $cssClass) {
+        $status = $row['status'];
+        if ($status=='overdue') $fmt['title color'] =  'red';
+        else if ($status=='due') $fmt['title color'] =  'blue';
+        else $fmt['title color'] =  'green';
+        if ($status=='complete') return false; // skip current row
+    }
+?&gt;
+</code></pre>
+
+<p><strong>Other options</strong></p>
+
+<ul>
+<li>key - Name of the field to used when selected or editing rows</li>
+<li>edited - Key value of row to be edited. This will use tplEdit as the active template for the row being edited</li>
+<li>selected - Selected key values. Multiple values can be passed in as an array</li>
+<li>returnArray - Return the result as an array. Used when making a direct call to Raxan::bindTemplate()</li>
+<li>delimiter - Delmiter used to separate each row</li>
+<li>removeUnusedTags - Set to true to remove unused template tags. Defaults to true</li>
+<li>initRowCount - Initial Row Count value. Defaults to 1</li>
+<li>callback - Callback function to render each row. Callback function parameters: (array) $row, (int) $index, (string) $tpl, (int) $tplType , (array) $format, (string) $cssClass</li>
+</ul>
+
+<p>Example of a callback function:</p>
+
+<pre><code class="php">&lt;?php
+    public function rowHandler(&amp;$row, $index, $tpl, $tplType, &amp;$fmt, &amp;$cssClass) {
+        if ($row['status']=='hide') return false; // skip current row
+        else if ($row['status']=='show') {
+            return '&lt;td colspan="4"&gt;'.htmlspecialchars($row['details']).'&lt;/td&gt;'; // return rendered row
+        }
+
+        // change row class when status == cancelled
+        if ($row['status']=='cancelled') $cssClass = 'rax-error-pal';
+    }
+?&gt;
+</code></pre>
+
+<p>See also <a href="Raxan.html#bindTemplate">Raxan::bindTemplate()</a></p>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="state-management.html" title="State Management">State Management</a> </p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

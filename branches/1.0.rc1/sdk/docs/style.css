@@ -1,0 +1,197 @@
+
+body {
+    background: #fff;
+    font-size: 0.9em;
+    color: #222;
+}
+
+body a {
+    color: #0f810f;
+    text-decoration: underline;
+}
+body a:hover {
+    color: #A30400;
+    text-decoration: underline;
+}
+
+.master-content { text-align: left; }
+.master-content-wrapper { text-align: center; } /* for IE6 :( */
+
+h1,h2 {
+    color:#00A7EA;
+}
+.toc h2 {
+    color:#009999;
+}
+.toc h2 img {
+    vertical-align: middle;
+}
+
+.toc a {
+    color: #717103;
+    text-decoration: none;
+}
+.toc li {
+    margin-bottom: 5px;
+}
+.toc ul {
+    list-style: circle;
+}
+
+#header h2 {
+    color: #fff;
+    float:left;
+    display:block;
+    border-right:1px solid #eee;
+    padding-right:40px;
+}
+#header {
+    border-bottom:2px solid #222;
+    padding: 10px;
+    height: 50px;
+}
+#header ul {
+    color:#fff;
+    display:block;
+    line-height:50px;
+    vertical-align: middle;
+    margin-left:0px;
+    padding-left:20px;
+    float:left;
+}
+#header ul li, #footer ul li {
+    display:block;
+    float:left;
+    margin-left:15px;
+}
+#header ul li a {
+    color:#fff;
+    text-decoration: none;
+}
+#header ul li a:hover {
+    color:#FDD83F;
+    text-decoration: underline;
+}
+#header ul.search {
+    margin: 0 10px 0 0;
+    float:right;
+}
+#header ul.search li {
+    margin:0;
+}
+
+#footer {
+    border-width: 1px;
+    border-style: solid;
+    margin:10px auto;
+}
+#footer ul {
+    margin:0px;
+    padding:10px
+}
+#footer ul li a {
+    color:#555;
+    text-decoration: none;
+}
+#footer ul li a:hover {
+    color:#000;
+}
+
+
+form { margin:0; padding:0; }
+form label { display:block; width:120px; float: left; }
+form fieldset {
+    margin-bottom:0;
+}
+form p { margin: 5px 5px 5px 5px; }
+
+.alt { background: #eee; }
+.homelink { color:white; }
+.soft { background: #eee; }
+.bold {
+    font-weight:bold;
+    color: #555;
+}
+p strong { color:#009999; }
+strong, li strong { color:#343434; }
+
+.color-blue { color:#00A7EA; }
+.color-orange { color:darkorange; }
+
+/* Class Reference styles */
+
+.info-box-body { border: 1px solid #999999; padding: .5em; }
+.nav-bar { font-size: 9pt; white-space: nowrap; text-align: right; padding: .2em; margin: 0em 0em 1em 0em; }
+.nav-bar a {
+    color:navy;
+}
+.bmm-body {
+    background:#fff;
+}
+.oddrow { background-color: #F8F8F8; border: 1px solid #AAAAAA; padding: .5em; margin-bottom: 1em}
+.evenrow { background-color: #fff; border: 1px solid #AAAAAA; padding: .5em; margin-bottom: 1em}
+
+/* Code elements */
+
+.line-number {  }
+
+.class-table { width: 100%; }
+.class-table-header { border-bottom: 1px dotted #666666; text-align: left}
+.class-name { color: #00A7EA; font-weight: bold; }
+
+
+.method-summary { padding-left: 1em; font-size: 8pt }
+.method-header { }
+.method-definition { margin-bottom: .3em }
+.method-title { font-weight: bold; }
+.method-name { font-weight: bold; }
+.method-signature { font-size: 85%; color: #666666; margin: .5em 0em }
+.method-result { font-style: italic; }
+
+.var-summary { padding-left: 1em; font-size: 8pt; }
+.var-header { }
+.var-title { margin-bottom: .3em;}
+.var-type { font-style: italic; }
+.var-name { font-weight: bold; }
+.var-default {}
+.var-description { font-weight: normal; color: #000000; }
+
+.include-title {  }
+.include-type { font-style: italic; }
+.include-name { font-weight: bold; }
+
+.const-title {  }
+.const-name { font-weight: bold; }
+
+/* Syntax highlighting */
+
+.src-code {  border: 1px solid #336699; padding: 1em; background-color: #EEEEEE; }
+.src-line {  font-family: 'Courier New', Courier, monospace; font-weight: normal; }
+
+.src-comm { color: green; }
+.src-id {  }
+.src-inc { color: #0000FF; }
+.src-key { color: #0000FF; }
+.src-num { color: #CC0000; }
+.src-str { color: #66cccc; }
+.src-sym { font-weight: bold; }
+.src-var { }
+
+.src-php { font-weight: bold; }
+
+.src-doc { color: #009999 }
+.src-doc-close-template { color: #0000FF }
+.src-doc-coretag { color: #0099FF; font-weight: bold }
+.src-doc-inlinetag { color: #0099FF }
+.src-doc-internal { color: #6699cc }
+.src-doc-tag { color: #0080CC }
+.src-doc-template { color: #0000FF }
+.src-doc-type { font-style: italic }
+.src-doc-var { font-style: italic }
+
+.tute-tag { color: #009999 }
+.tute-attribute-name { color: #0000FF }
+.tute-attribute-value { color: #0099FF }
+.tute-entity { font-weight: bold; }
+.tute-comment { font-style: italic }
+.tute-inline-tag { color: #636311; font-weight: bold }

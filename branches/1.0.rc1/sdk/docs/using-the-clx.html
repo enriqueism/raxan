@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Using The Clx - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Using the Client Extension Class</h2>
+
+<p>The RaxanClientExtension (CLX) class makes it very easy to manipulate client-side DOM elements on-the-fly. It does this by generating action scripts that are sent to the client's web browser for processing. Action scripts can be defined as a sequence of jQuery or native JavaScript function calls.</p>
+
+<p>The C() function is available to developers as a wrapper to the RaxanClientExtension class.</p>
+
+<p>In this example, we are going to use the CLX to set the html value the &lt;div&gt; tag and then fade in the result:</p>
+
+<pre><code class="php">&lt;?php
+
+require_once("raxan/pdi/autostart.php");
+
+class MyPage extends RaxanWebPage {
+
+    protected function _load() {
+        // set the content of the page
+        $this-&gt;content('&lt;input id="mybutton" type="button" value="Click Me"  /&gt;&lt;div id="msg" /&gt;');
+
+
+        $elm = $this['#mybutton']; // select the mybutton input element 
+        $elm-&gt;bind('#click','.buttonClick'); // bind to the mybutton click event using an ajax callback
+    }
+
+    protected function buttonClick($e) {
+        // select the #msg element on the client
+        C('#msg')-&gt;html('Hello World')  // use the C() function
+            -&gt;hide()        // hide the element
+            -&gt;fadeIn(); // fade in the element.
+    }
+}
+
+?&gt; 
+</code></pre>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

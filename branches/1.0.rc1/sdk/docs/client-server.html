@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Client Server - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><p><img class="margin" align="right" src="images/client-server.png" alt="Client-Server Communication" width="372" height="283" /></p>
+
+<h2>Client-Server Introduction</h2>
+
+<p>Raxan's flexible client-server communication model makes it easier to build sophisticated web applications while taking advantage of the
+framework's integrated features.</p>
+
+<p>In the client-server model, a client submits data to the web server via a <strong>GET or POST</strong> request. This data can be either a server-side event
+notification, a page request or form submit. Upon receiving the request, the server will process the data and then returns the result as an 
+<strong>HTML or JSON</strong> formatted text.</p>
+
+<p>The list below shows the main methods for sending and receiving data to and from the server.</p>
+
+<table class="rax-table">
+    <thead>
+        <tr class="tbl-header">
+            <th>Type</th><th>Client Method </th><th>Direction</th><th>Server Method</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Events </td><td>Raxan.dispatchEvent()</td><td><img src="images/arrow_right.png" alt="right" width="16" /></td><td>bind(), delegate(), registerEvent()</td>
+        </tr>
+        <tr class="even">
+            <td>Variables</td><td>Raxan.getVar()</td><td><img src="images/arrow_left_red.png" alt="left" width="16" /></td><td>registerVar()</td>
+        </tr>
+        <tr>
+            <td>Functions</td><td>Any JavaScript Function</td><td><img src="images/arrow_left_red.png" alt="left" width="16" /></td><td>callScriptFn()</td>
+        </tr>
+        <tr class="even">
+            <td>Conduits</td><td>Raxan.createConduit()</td><td><img src="images/arrow_right.png" alt="right" width="16" /></td><td>registerConduit()</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Events</h3>
+
+<p>Events are special actions that are used to invoke a callback method on the web server. These events can be triggered locally or remotely.</p>
+
+<p>To receive server-side event notifications in Raxan you can use either <strong>bind()</strong>, <strong>delegate()</strong> or the <strong>xt-bind/xt-delegate</strong> attributes. Here's
+an example showing how to use bind()</p>
+
+<pre><code class="php">&lt;?php
+    $this-&gt;button1-&gt;bind('click','.buttonClick');
+?&gt;
+</code></pre>
+
+<p>This will bind the callback method to the click event on the client.</p>
+
+<p>When <strong>button1</strong> is clicked the framework will call the <strong>buttonClick</strong> method on the server. See <a href="server-side-events.html">Server-side Events</a> for
+more information.</p>
+
+<h4>Dispatching Events via JavaScript</h4>
+
+<p>To programmatically dispatch an event from the client, use can use the <strong>Raxan.dispatchEvent()</strong> method.</p>
+
+<p>Raxan.dispatchEvent Syntax:</p>
+
+<pre><code>Raxan.dispatchEvent(option); - dispatch with an array of options
+Raxan.dispatchEvent(type, fn)
+Raxan.dispatchEvent(type, value, fn)
+</code></pre>
+
+<p>Raxan.dispatchEvent Options:</p>
+
+<ul>
+<li><strong>type</strong> - Event type</li>
+<li><strong>target</strong> - Target element. Defaults to page or durrent document</li>
+<li><strong>view</strong> - Name of the page view to be loaded</li>
+<li><strong>url</strong> - Destination url. Defaults to current page</li>
+<li><strong>serialize</strong> - Selector or DOM elements to be serialized.</li>
+<li><strong>value</strong> - Value to be passed to the event. Can be any JavaScript data type.</li>
+<li><strong>complete</strong> - Callback function</li>
+</ul>
+
+<p>Example:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    Raxan.dispatchEvent('click',value,function(result,success){
+        alert(result);
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>The Raxan.dispatchEvent() method is normally used to invoke a registered event:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init() {
+        // register the add item event
+        $this-&gt;registerEvent('additem','.callbackFunction');
+    }
+?&gt;
+</code></pre>
+
+<p>Dispatch the "<strong>additem</strong>" event from the client:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    Raxan.ready(function() {
+
+        // dispatch event with callback
+        Raxan.dispatchEvent('additem',function(result, success) {
+            if (!success) return false;
+            alert(result);
+        })
+
+        // dispatch event while passing value and callback paramters
+        var eventValue = 'Hello';
+        Raxan.dispatchEvent('additem',eventValue,function(result,success) {
+            if (!success) return false;
+            alert(result);
+        })
+
+        // dispatch with options
+        Raxan.dispatchEvent( {
+            type :  'additem',
+            view : 'form',
+            value : 'some value here',
+            serialize : '#form1',
+            complete: function(result, success) {
+                if (!success) {
+                    alert('Error while connecting to server: ' + result);
+                    return false; // return false to prevent display of error message
+                }
+                // code here
+            }
+        })
+    })
+&lt;/script&gt;
+</code></pre>
+
+<h3>Variables</h3>
+
+<p>Registered variables provide a convenient way to send data to the client from the server. For example, You can send an array of items to the browser
+after the user has triggered an event:</p>
+
+<pre><code class="php">&lt;?php
+    protected function sendData($msg) {
+        // register the variable so that it can be available to the client
+        $this-&gt;regsiterVar('msgVar',$msg);
+    }
+?&gt;
+</code></pre>
+
+<p>You can use the following code to retrieve the content of the "<strong>msgVar</strong>" variable from the client:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    Raxan.ready(function() {
+        var msg;
+
+        // retrieve msgVar
+        msg = Raxan.getVar('msgVar');
+        alert(msg);
+
+        // retrieve and remove msgVar
+        msg = Raxan.getVar('msgVar',true);
+        alert(msg);
+    })
+&lt;/script&gt;
+</code></pre>
+
+<p>The registerVar() method supports the following data types:</p>
+
+<ul>
+<li>Booleans</li>
+<li>Strings</li>
+<li>Integers</li>
+<li>Floats</li>
+<li>Arrays</li>
+<li>Objects</li>
+</ul>
+
+<h3>Functions</h3>
+
+<p>To call a JavaScript function from the sever use the callScriptFn() method as shown below:</p>
+
+<pre><code class="php">&lt;?php
+    protected callback($e) {
+        // call and pass a simple parameter to "some_function" on the client
+        $param1 = 'Test message';
+        $this-&gt;callScriptFn('some_function',$param1);
+
+        // call and pass an  array parameter to "some_function" on the client
+        $param1 = 'Colors';
+        $param2 = array('red','green','blue');
+        $this-&gt;callScriptFn('some_function',$param1,$param2);
+    }
+?&gt;
+</code></pre>
+
+<h3>Conduits (experimental)</h3>
+
+<p>A conduit forms a consistent data link between the client and the server so that data can be asynchronously access when needed.
+Conduits can also be used to download and cache very large dataset that can later be displayed within the browser.</p>
+
+<p>A conduit must first be registered on the server then accessed from the client.</p>
+
+<p>To create a conduit, use the registerConduit method as shown below:</p>
+
+<pre><code class="php">&lt;?php
+
+    protected function _init() {
+        $this-&gt;registerConduit('myDataset','.getData');
+    }
+
+    // data conduit handler
+    protected function getData($offset, $limit, $params, &amp;$rowCount) {
+        $db = $this-&gt;Raxan-&gt;connect('mysql: host=local; dbname=testdb','user','password', true);
+        // get row count
+        if (!$rowCount) {
+            $stmt = $db-&gt;query('select count(*) as total from customers');
+            $rowCount = (int)$stmt-&gt;fetchColumn(0);
+        }
+        // get dataset
+        $ds = $db-&gt;execQuery('select * from customers limit $offset,$limit');
+        return $ds;
+    }
+
+?&gt;
+</code></pre>
+
+<p>To connect to the above conduit use the <strong>Raxan.createConduit()</strong> method. This will return an instance to the Raxan.Conduit object:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    // create connection to conduit
+    var cn = Raxan.createConduit('myDataset');
+
+    // get first record
+    cn.first(function(row,index) {
+        alert('The first customer is ' + row['name']);
+    });
+&lt;/script&gt;
+</code></pre>
+
+<p>See <a href="data-conduits.html">Asynchronous Data Conduits</a> for more information.</p>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="data-conduits.html" title="Asynchronous Data Conduits">Asynchronous Data Conduits</a> </p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
