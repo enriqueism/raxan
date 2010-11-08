@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Employee Search Box</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]><link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        #pre { position:absolute; margin:25px 0 0 195px; }
+        #info label {display:block; float:left}
+        #name {padding-right:10px;}
+        #results {
+            color:#444;
+            background-color:#fff;
+            padding:5px;
+            height: 220px;
+        }
+        #results a {color:#444;}
+        .icon {vertical-align:middle; }
+
+        #searchbar { border: solid 1px #ddd; }
+        #searchbar .rax-background-pal {
+            background-color: #009db5;
+        }
+
+        #contentbar {
+            margin-left:-8px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container c32 prepend-top">
+
+        <!-- panel -->
+        <div id="searchbar" class="rax-backdrop c12 left front">
+            <div class="rax-background-pal rax-glass round">
+                <form id="webform" class="pad r16" method="post">
+                    <h2 class="bottom">Employee Lookup</h2>
+                    <div class="ctrl-group ">
+                        <img class="above hide" id="pre" src="views/images/preloader.gif" width="15" height="15" alt="loading"/>
+                        <label class="bold">Enter employee name</label><br />
+                        <input class="e100 textbox" type="text" id="empName" name="empName" value="" autocomplete="off"  />
+                    </div>
+                    <div id="results" class="round">
+                        <img class="icon" src="views/images/user_gray.png" height="16" width="16">
+                        <a href="#{emp_no}">{first_name} {last_name}</a><br />
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- panel -->
+        <div id="contentbar" class="rax-backdrop left prepend-top c18 r14">
+            <div class="rax-content-pal rax-metalic h100 round clip">
+                <div class="flashmsg"></div>
+                <div id="info" class="prepend1 prepend-top">
+                    <img class="column" src="views/images/{icon}.png" alt="Photo" width="64" height="64" />
+                    <div class="column">
+                        <label class="c3">Name</label>: {first_name} {last_name}<br />
+                        <label class="c3">Hire Date</label>: {hire_date}<br />
+                        <label class="c3">Gender</label>: {gender}<br />
+                        <label class="c3">Birth Date</label>: {birth_date}<br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+id,title,desc,filename,image,html,data,plugin,tip
+ajax-file-upload,Ajax File Upload,,,,,,,
+calculator,Degradable Ajax  Calculator,,,,,,,Enter two numeric values and click the Add button
+client-server,Client-Server Communication,,,,,,,Click one of the following buttons to trigger an event
+clx,Control Client-Side DOM Elements from the Server,,,,,,,Click the buttons to control the display of elements from the server via Ajax
+contactlist,Ajax Contact List,,,,views/contactlist.html,,,Use the form below to add new contacts
+css-bounce,Bouncing Ball,,css-bounce.html,,views/scripts/css-bounce.js,,,Drag and throw the ball around.
+css-buttons,CSS Buttons,,css-buttons.html,,,,,Click on the buttons below to see play start animation.
+css-dragbox,jQuery Drag Box,,css-dragbox.html,,views/scripts/css-dragbox.js,,,Drag and click the yellow box
+css-elastic,Elastic Layouts,,css-elastic.html,,,,,An example showing how to use elastic cells. Resize your browser to see the changes 
+css-elastic-grid,Elastic grid layout,,css-elastic-grid.html,,,,,An example showing the available elastic classes
+css-framework,CSS Framework Classes,,css-framework.html,,,,,Default Theme - Elements and layouts
+css-grid-cell-height,Fixed-Height grid rows,,css-grid-cell-height.html,,,,,A list of fixed-height cell (row) classes. One row = 20px
+css-grid-cells,Fixed-Width grid layout,,css-grid-cells.html,,,,,Grid layout with fixed-width cell classes
+css-grid-cell-width,Fixed-Width grid columns,,css-grid-cell-width.html,,,,,A list of fixed-width cell (column) classes. One column = 20px
+css-raxan-cursor,Raxan JavaScript Cursor Plugin,,css-raxan-cursor.html,,,,,Move your mouse over the boxes to see the cursor change.
+css-raxan-tabstrip,Raxan JavaScript TabStrip Plugin,,css-raxan-tabstrip.html,,views/scripts/css-tabstrip.js,,,
+css-raxan-tabstrip-explorer,Raxan JavaScript TabStrip Explorer,,css-raxan-tabstrip-explorer.html,,views/scripts/css-tabstrip-explorer.js,,,Use the TabStrip settings on the left to modify the look and feel of the tabs 
+css-sample-page,Sample Web Page with default theme,,css-sample-page.html,,,,,
+css-sortable-columns,jQuery Sortable Columns,,css-sortable-columns.html,,views/scripts/css-sortable-columns.js,,,Drag and drop the blocks around to rearrange them
+css-tables,Table with hover effect,,css-tables.html,,,,,Move your mouse over the table rows to see hover effect
+css-textboxes,Web form with Text Input,,css-textboxes.html,,,,,A demo showing textbox inputs with default theme
+css-webform,Web form with CSS Buttons,,css-webform.html,,views/scripts/css-webform.js,,,
+custom-methods,Extending the RaxanElement Class,,,,views/custom-methods.html,,,
+custom-validators,Custom Zip and Phone validators,,,,views/custom-validators.html,,,Enter an invalid zip and phone number and click the submit button
+date-entry,Date Entry,,,,,,,Enter a valid date then click the submit button
+date-time-plugin,Date/Time Plugin,,,,,,plugins/showdate.php,
+dragdrop,Drag and Drop,,,,views/dragdrop.html,,,Drag and drop the items into the shopping cart
+dragresize,Drag and Resize ,,,,,,,Drag the yellow box to update the X and Y coordinates
+echobox,Echo Box,,,,views/echo.html,,,
+editable,Editable List Items,,,,,data/fruits.csv,,
+embedded,ShoutBox inside a web page,,,,,,,
+employees,Employee Directory,,,,views/employees.html,,,Click to selected a record. Press the Ctrl (PC) or Meta (MAC) key to select multiple rows.
+flashmsg,Flash Message,,,,,,,
+form-state,Preserve Web Form Content,,,,,,,Fill out the form and click the submit button
+image-search,Image Search,,,,,,,"Enter  image file name (e.g phone, *phone)"
+inventory,Phone Inventory,,,,,data/phones.csv,,Click  on an item from the list below
+mobile-weather,Mobile Weather (WAP),,,,,,,
+multi-lang,Multilingual Date Display,,,,,,,Click the buttons  to change the locale settings
+notepad,Notepad,,,,views/notepad.index.php,,,
+pageview,Page Views,,,,views/pageview.signup-form.html,,,Click on links to change page view
+popup-box,Popup Box,,,,,,,Click one of the following buttons to display a popup box from the server
+randdiv,Random DIVs,,,,,,,
+rating,Product Rating,,,,,,,Click on a star to change the rating
+searchbox,Employee Search Box,,,,views/searchbox.html,,,Type a name or parts of a name (e.g. ma) inside the box provide then select an record from the results. 
+shoutbox,ShoutBox,,,,views/shoutbox.html,,,Enter your name and message
+slideoutpanel,Slide Out Panel,,,,,,,
+smartphones,Smart Phones with product rating,,,,,data/phones.csv,,
+state,Preserve Element State,,,,,,,
+template-binder,Template Binder,,,,,data/phones.csv,,Click the buttons apply additional template binder option to the table 
+web-page-extractor,Web Page Extractor,,,,,,,

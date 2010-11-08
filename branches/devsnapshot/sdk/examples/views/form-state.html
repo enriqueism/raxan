@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>Web Form</title>
+    </head>
+
+    <body>
+        <div class="container c26 tpm">
+            <h2 class="bottom">Student Profile</h2>
+            <hr />
+            <form id="frmStudent" method="post">
+                <div class="flashmsg"></div>
+                <div class="c26">
+                    <div class="container pad">
+                        <div class="column c12">
+                            <label class="left">First Name:<br /><input class="textbox" id="txtFName" name="txtFName" type="text" size="30"  /></label><br />
+                            <label class="left">Last Name:<br /><input class="textbox" id="txtLName" name="txtLName" type="text" size="30"  /></label><br />
+                            <label class="left">Street:<br /><input class="textbox" id="txtStreet" name="txtStreet" type="text" size="30"  /></label><br />
+                            <label class="left">City:<br /><input class="textbox" id="txtCity" name="txtCity" type="text" size="30"  /></label><br />
+                        </div>
+                        <div class="column c12">
+                            <label>State:<br />
+                                <select name="lstCountry" class="c11">
+                                    <option value="br">Brazil</option>
+                                    <option value="ca">Canada</option>
+                                    <option value="fr">France</option>
+                                    <option value="ja">Jamaica</option>
+                                    <option value="usa">United States</option>
+                                    <option value="uk">United Kingdom</option>
+                                </select></label><br />
+                            <label>State:<br /><input class="textbox" id="txtState" name="txtState" type="text" size="30"  /></label><br />
+                            <label>Zip:<br /><input class="textbox" id="txtZip" name="txtZip" type="text" size="30"  /></label>
+
+                            <div class="tpb tpm">
+                                <strong>Contact Via: </strong><br />
+                                <label><input name="chkFeatures" type="checkbox" value="phone" /> Phone</label>&nbsp;
+                                <label><input name="chkFeatures1" type="checkbox" value="email" /> Email</label>&nbsp;
+                                <label><input name="chkFeatures2" type="checkbox" value="fax" /> Fax</label>&nbsp;
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="rax-inactive-pal hlf-pad" align="right">
+                        <div class="left">The form will retain its values after being submitted.</div>
+                        <input id="btnSave" type="submit" value="Submit" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+    </body>
+
+</html>
