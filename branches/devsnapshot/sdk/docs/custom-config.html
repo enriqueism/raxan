@@ -79,7 +79,7 @@
 
 <p>All path and url settings must have a trailing slash (/)</p>
 
-<p><strong>Path/URL setting</strong></p>
+<h4><strong>Path/URL setting</strong></h4>
 
 <ul>
 <li>base.path     - Absolute path to PDI folder. This path is automatically assigned by the system.</li>
@@ -93,30 +93,41 @@
 <li>site.path     - Absolute folder path to site root. Defaults to the path for the current page</li>
 <li><p>views.path    - Absolute folder path to the views folder. Defaults to {site path}/views/</p></li>
 <li><p>raxan.url     - URL path to raxan folder. Defaults to './raxan/'</p></li>
-<li>raxan.path    - Absolute folder path to the raxan folder. Defaults to {base path}/../</li>
+<li>raxan.path    - Absolute path to the raxan folder. Defaults to {base path}/../</li>
 <li>cache.path    - Not Used. Absolute path to cache folder. Defaults to {raxan path}/cache/</li>
-<li>locale.path   - Absolute path to locale folder. Defaults to {base path}/shared/locale/</li>
+<li><p>locale.path   - Absolute path to locale folder. Defaults to {base path}/shared/locale/</p></li>
+<li><p>plugins.path  - Absolute path to the plugins folder. Defaults to {raxan path}/plugins/</p></li>
+<li>widgets.path  - Absolute path to the widgets folder. Defaults to {raxan path}/ui/widgets/</li>
 </ul>
 
-<p><strong>Session setting</strong></p>
+<h4><strong>Session setting</strong></h4>
 
 <ul>
-<li>session.name - PHP session name.</li>
-<li>session.timeout - PHP cookie session timeout value in muntes. Defaults to 30 minutes</li>
+<li>session.name - PHP session name. Change for each <strong>NEW application</strong> to prevent PHP sessions from being shared across applications. Session name must be short and contains only alphanumeric characters.</li>
+<li>session.timeout - PHP cookie session timeout value in minutes. Defaults to 30 minutes</li>
 <li>session.data.storage - Session data storage class. Defaults to  RaxanSessionStorage</li>
 </ul>
 
-<p>Note: The session data storage class is responsible for generating unique ids for each user. See RaxanSessionStorage for more details.</p>
+<p>Note: The session data storage class is responsible for generating unique Ids for each user. See RaxanSessionStorage for more details.</p>
 
-<p><strong>Database Connection setting</strong></p>
+<h4><strong>Database Connection setting</strong></h4>
 
 <ul>
-<li>db.default     - An array containing default database configuration. See gateway.config.sample.php</li>
+<li><p>db.default     - An array containing default database configuration. See gateway.config.sample.php for more information.</p>
+
+<pre><code>// Database connector example
+$config['db.default'] = array(
+    'dsn'       =&gt; 'mysql: host=localhost; dbname=employees',
+    'user'      =&gt; 'empuser',
+    'password'  =&gt; 'password',
+    'attribs'   =&gt; ''
+);
+</code></pre></li>
 </ul>
 
 <p>Note: Additional databases can be configured by adding the "db." prefix the configuration name. For example "db.mysql"</p>
 
-<p><strong>Logging/Debuging</strong></p>
+<h4><strong>Logging/Debuging</strong></h4>
 
 <ul>
 <li>debug          - Enable/Disable debug mode. Defaults to false.</li>
@@ -126,8 +137,9 @@
 <li>log.file       - Set log file mode. Defaults to PHP logger</li>
 </ul>
 
-<p><strong>Error Page settings</strong><br />
-To display a custom message, add the {message} placeholder inside the html file.</p>
+<h4><strong>Error Page settings</strong><br /></h4>
+
+<p>To display a custom message, add the {message} placeholder inside the html file.</p>
 
 <ul>
 <li>error.400   - File path to 400 error page template.</li>
@@ -136,7 +148,7 @@ To display a custom message, add the {message} placeholder inside the html file.
 <li>error.404  - File path to 404 error message template.</li>
 </ul>
 
-<p><strong>Web Page default settings</strong></p>
+<h4><strong>Web Page default settings</strong></h4>
 
 <ul>
 <li>page.localizeOnResponse     - Loacalize web page content based on the langid attribute</li>
@@ -153,11 +165,14 @@ To display a custom message, add the {message} placeholder inside the html file.
 
 <p>Note: The page data storage class will be passed the data store name of the current page. See RaxanWebPageStorage for more details.</p>
 
-<p><strong>Preload Plugins and UI components</strong></p>
+<h4><strong>Preload Plugins and UI Widgets</strong></h4>
+
+<p>These options provide a convenient way to load multiple plugins and widgets. For example, plugin1, plugin2, plugin3.php, etc
+If the extension .php was specified then the plugin or widget with be loaded relative to <strong>site.path</strong>.</p>
 
 <ul>
-<li>preload.ui                  - Comma (,) delimited list of UI components to be loaded</li>
-<li>preload.plugins             - Comma (,) delimited list of plugins to be loaded</li>
+<li>preload.plugins             - Comma (,) separated list of plugins to be loaded from <strong>plugins.path</strong></li>
+<li>preload.widgets             - Comma (,) delimited list of UI widgets to be loaded from <strong>widgets.path</strong></li>
 </ul>
 </div>
             

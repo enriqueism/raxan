@@ -60,6 +60,7 @@ abstract class RaxanPlugin {
     public static $description = "Plugin description";
     public static $author = "Author's name";
 
+    protected static $lastClassName;
     protected static $shared = array();
 
     protected $events;
@@ -82,8 +83,26 @@ abstract class RaxanPlugin {
     public static function instance($class) {
         $cls = $class;
         if (!isset(self::$shared[$cls])) self::$shared[$cls] = new $cls();
+        self::$lastClassName = $cls;
         return self::$shared[$cls];
     }
+
+    /**
+     * Used internally - Returns the last registered plugin class name
+     * @return string
+     */
+    public static function getLastClassName() {
+        return self::$lastClassName;
+    }
+
+    /**
+     * Used internally - Returns the last registered plugin instance
+     * @return mixed
+     */
+    public static function getLastInstance() {
+        return (self::$lastClassName) ? self::$shared[self::$lastClassName] : null;
+    }
+
 }
 
 /**
@@ -126,6 +145,7 @@ class Raxan {
     private static $configFile;
     private static $sysEvents;
     private static $_timer;
+    private static $pluginFileMap = array();    // stores plugin file name and class
     private static $jsStrng1= array('\\','"',"\r","\n","\x00","\x1a");
     private static $jsStrng2= array('\\\\','\\"','','\n','\x00','\x1a');
     private static $locale = array();
@@ -145,6 +165,7 @@ class Raxan {
         'raxan.path'    => '',
         'views.path'    => '',
         'plugins.path'  => '',
+        'widgets.path'  => '',
         'cache.path'    => '',
         'locale.path'   => '',
         'session.name'  => 'XPDI1000SE',
@@ -169,7 +190,7 @@ class Raxan {
         'page.showRenderTime' => false,
         'page.data.storage' => 'RaxanWebPageStorage',    // default page data storage class
         'preload.plugins' => '',        
-        'preload.ui' => ''
+        'preload.widgets' => ''
     );
 
     /**
@@ -187,7 +208,7 @@ class Raxan {
         // setup defaults
         $base = $config['base.path'];
         if (empty($config['site.host'])) {
-            $port = $_SERVER['SERVER_PORT'];
+            $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : '';
             $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
             if ($host) {
                 $host = explode(':',$host); $host = trim($host[0]);
@@ -216,6 +237,7 @@ class Raxan {
         if (empty($config['locale.path'])) $config['locale.path'] = $base.'shared/locale/';
         if (empty($config['views.path'])) $config['views.path'] = $config['site.path'].'views/';
         if (empty($config['plugins.path'])) $config['plugins.path'] = $config['raxan.path'].'plugins/';
+        if (empty($config['widgets.path'])) $config['widgets.path'] = $config['raxan.path'].'ui/widgets/';
 
         self::$isDebug = $config['debug'];
         self::$isLogging = $config['log.enable'];
@@ -227,7 +249,7 @@ class Raxan {
             $tok = substr(str_shuffle('$*!:;'),-2).rand(1000000,999999999);
             for($i=0;$i<7;$i++) $tok.= chr($i % 2 ? rand(64,90) : rand(97,122));
             self::$postBackToken = str_shuffle($tok);
-            setcookie('_ptok', self::$postBackToken);
+            if (!defined('STDIN')) setcookie('_ptok', self::$postBackToken); // send cookie if not in CLI mode
         }
 
         // set timezone
@@ -237,10 +259,11 @@ class Raxan {
         set_error_handler("raxan_error_handler",error_reporting());
 
         self::$isInit = true;
-        // preload UI from $config
-        if ($config['preload.ui']) {
-            $ui = explode(',',$config['preload.ui']);
-            foreach($ui as $f) self::loadUI($f);
+        // preload widgets from $config
+        if ($config['preload.widgets']) {
+            $ui = explode(',',$config['preload.widgets']);
+            $extrn = substr($pl,-4)=='.php';
+            foreach($ui as $f) self::loadWidget($f,$extrn);
         }
         // preload plugins from $config
         if ($config['preload.plugins']) {
@@ -931,26 +954,35 @@ class Raxan {
     }
 
     /**
-     * Load plugin file.
-     * @param string $file Name of file without the .php extension
+     * Loads a plugin from the plugins folder.
+     * Usage: <p>Raxan::loadPlugin($name,$extrn)</p>
+     * @param string $name Name of plugin file without the .php extension
      * @param boolean $extrn Set to true if plugin will be loaded from a folder that's not relative to {plugins.path}
-     * @return boolean
+     * @return mixed Returns an instance of the plugin
      */
-    public static function loadPlugin($file,$extrn = false) {
+    public static function loadPlugin($name,$extrn = false) {
         if (!self::$isInit) self::init();
-        if (!$extrn) $file = self::$config['plugins.path'].$file.'.php';
-        return require_once($file);
+        if (!$extrn) $name = self::$config['plugins.path'].$name.'.php';
+        $class = isset(self::$pluginFileMap[$name]) ? self::$pluginFileMap[$name] : '';
+        if ($class) $ins = RaxanPlugin::instance($class);
+        else {
+            require_once($name);
+            $class = RaxanPlugin::getLastClassName();
+            $ins = RaxanPlugin::getLastInstance();
+            self::$pluginFileMap[$name] = $class;
+        }
+        return $ins;
     }
 
     /**
-     * Loads a UI file from the Raxan UI folder.
-     * @param string $name Name of ui file without the .php extension
-     * @param boolean $extrn Set to true if ui will be loaded from a folder that's not relative to {raxan.path}/ui/
+     * Loads a widget from the widgets folder.
+     * @param string $name Name of widget file without the .php extension
+     * @param boolean $extrn Set to true if widget will be loaded from a folder that's not relative to {widgets.path}
      * @return boolean
      */
-    public static function loadUI($name, $extrn = false) {
+    public static function loadWidget($name, $extrn = false) {
         if (!self::$isInit) self::init();
-        if (!$extrn) $name = self::$config['raxan.path'].'ui/'.$name.'.php';
+        if (!$extrn) $name = self::$config['widgets.path'].$name.'.php';
         return require_once($name);
     }
 
@@ -1090,11 +1122,6 @@ class Raxan {
      */
     public static function sendError($msg,$code = null) {
         $html = ''; $code = !$code ? $msg: $code;
-        if ($code && !empty(self::$config['error.'.$code])) {
-            $html = is_file(self::$config['error.'.$code]) ?
-                file_get_contents(self::$config['error.'.$code]) : '';
-        }
-        $html = $html ?  str_replace('{message}',$msg,$html) :$msg;
         switch ($code) {
             case 400: header("HTTP/1.0 400 Bad syntax"); break;
             case 401: header("HTTP/1.0 401 Unauthorized"); break;
@@ -1103,11 +1130,14 @@ class Raxan {
         }
 
         if ($msg && !is_numeric($msg)) {
-            if (!isset($_REQUEST['_ajax_call_'])) echo $html;
-            else {                
-                echo self::JSON('encode', array(
-                    '_actions' => 'alert("'.self::escapeText($msg).'");'
-                ));
+            if (isset($_REQUEST['_ajax_call_'])) echo $msg;
+            else {
+                if ($code && !empty(self::$config['error.'.$code])) {
+                    $html = is_file(self::$config['error.'.$code]) ?
+                        file_get_contents(self::$config['error.'.$code]) : '';
+                }
+                $html = $html ?  str_replace('{message}',$msg,$html) :$msg;
+                echo $html;
             }
         }
         exit();
@@ -1143,7 +1173,7 @@ class Raxan {
             $locale['dt._eng_names'] = array(
                 'january','february','march','april','may','june','july',
                 'august','september','october','november','december',
-                'jan','feb','mar','apr','may','jun','jul','aug','sep','oct',
+                'jan','feb','mar','apr','may','june','july','aug','sept','oct',
                 'nov','dec','sunday','monday','tuesday','wednesday','thursday',
                 'friday','saturday','sun','mon','tue','wed','thu','fri','sat'
             );
@@ -1173,6 +1203,8 @@ class Raxan {
 
     /**
      * Triggers a System Event
+     * @param string $name Event type/name
+     * @param mixed $args Optional event argument
      * @return mixed
      */
     public static function triggerSysEvent($name,$args = null) {
@@ -1241,6 +1273,8 @@ abstract class RaxanBase {
 
     /**
      * Triggers an event on the object
+     * @param string $type Event type
+     * @param mixed $args Optional event argument
      * @return RaxanBase
      */
     public function trigger($type,$args = null){

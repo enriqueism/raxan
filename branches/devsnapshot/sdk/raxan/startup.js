@@ -91,7 +91,7 @@ Raxan = {
         return this;
     },
 
-    // document callback handlers: ready, load, unload
+    // document callback handlers: ready, load, unload, error
     loadCallback: function(e){
         var i,l,a=this.collection('load');
         this.arraycol['load'] = null;
@@ -111,6 +111,19 @@ Raxan = {
         a = this.collection('binds');
         this.arraycol['binds'] = null;
         l=a.length;for(i=0; i<l; i++) this.handleEvent(a[i][0],a[i][1],a[i][2]);
+    },
+    iTriggerError: function(txt,code){
+        var i,l,r,a=this.collection('error');
+        l=a.length;for(i=0; i<l; i++) r = a[i](txt, code)||r;
+        return r;
+    },
+    iTriggerPreloader: function(elm, e, mode, result) {
+        var i,l,r,a=this.collection('preloader');
+        e =  e ? e : jQuery.Event('togglepreloader');
+        if (result) e.serverResult = result;
+        if (elm) e.target = e.currentTarget = elm;
+        l=a.length;for(i=0; i<l; i++) r = a[i](e, mode)||r;
+        return r;
     },
 
     // handle event binding
@@ -187,6 +200,18 @@ Raxan = {
         if (!this.loading) return this.initEvents();
     },
 
+    // register raxan error handler - This event is triggered whenever there's a raxan eror
+    error: function(fn) {
+        var a = this.collection('error');
+        a[a.length] = fn;
+    },
+
+    // register raxan togglepreloader event - This event is triggered before and after a client-server request
+    togglePreloader: function(fn) {
+        var a = this.collection('preloader');
+        a[a.length] = fn;
+    },
+
     /**
      * Bind a function to an event
      */
@@ -234,7 +259,7 @@ Raxan = {
                         elm[c].value = data[i][c];
                 }
             }
-                    
+
         }
         f.submit();
         f.removeChild(div); // remove elements after submiting form
@@ -473,12 +498,11 @@ Raxan.iFlashEffect = function(effect,id,exposeOpt) {
 
     elm = jQuery(id + ' .rax-flash-msg');
     if (exposeOpt) elm.expose(exposeOpt).data('rax-flash-expose',true);
-    elm.hide();
+    elm.stop().hide();
     if (effect=='fade') elm.fadeIn();
     else elm.show(effect,opt);
      // trigger flashmsg event - on
-    $(id).trigger('flashmsg','on');      
-
+    $(id).trigger('flashmsg','on');
 }
 
 // Used internally to update client element
@@ -494,7 +518,7 @@ Raxan.iUpdateElement = function(srcElm,targetElm) {
 
     // @todo: this method needs to be optimized and modified to support ui widgets
 
-    // get jQuery expando 
+    // get jQuery expando
     if (jQuery.expando) expando = jQuery.expando;   // jquery 1.4.2
     else if (this.expando) expando = this.expando;
     else {
@@ -548,7 +572,7 @@ Raxan.iTriggerEvent = function(elm, type, data, delegate, serverResult) {
     events = jQuery.data(elm, 'events');
     if (delegate || (events && events[type])) {
         event = jQuery.Event(type);
-        if (serverResult) event.serverResult = serverResult; 
+        if (serverResult) event.serverResult = serverResult;
         jQuery(elm).trigger(event, data);
     }
     return event;
@@ -609,7 +633,8 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
                         if (elm.length > 0) elm.hide();
                     }
                     // trigger event: togglecontent (off) and assign server-side result to the event object
-                    Raxan.iTriggerEvent(me, 'togglecontent', 'off', delegate, result);
+                    ievent = Raxan.iTriggerEvent(me, 'togglecontent', 'off', delegate, result);
+                    Raxan.iTriggerPreloader(me, ievent, 'off', result); // toogle preloader event handlers
 
                     if (after) eval(after);
                 }
@@ -631,11 +656,12 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
                 // trigger event: togglecontent (on)
                 ievent = Raxan.iTriggerEvent(me, 'togglecontent', 'on', delegate);
                 if (ievent && ievent.isDefaultPrevented()) return;
+                Raxan.iTriggerPreloader(me, ievent, 'on'); // toogle preloader event handlers
 
                 // call remote server-event
                 var failed = !Raxan.iTriggerRemote(t,evt,val,serialize,opt);
                 preventDefault = (failed) ? true : preventDefault;
-                
+
                 if (!failed) {
                     // auto-disable element after triggering remote
                     if (disable) {
@@ -647,7 +673,7 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
                 }
 
             }
-            
+
             if (!delay) fn();
             else {
                 clearTimeout($(me).data('clxTimeout')||0)
@@ -704,7 +730,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
 
             // get confirm message from target
             if (!confirmText) confirmText = n.getAttribute('data-event-confirm'); // get confirm text from html5 data attribute
-            
+
             // get vu from target
             if (!vu) vu = n.getAttribute('data-event-view'); // get view from html5 data attribute
 
@@ -835,7 +861,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
        if (ep.draggable) post['_e[uiDraggable]'] = ep.draggable.attr('id');
        if (ep.item) {
            post['_e[uiItem]'] = ep.item.attr('id');
-           if ($(telm).hasClass('ui-sortable')) 
+           if ($(telm).hasClass('ui-sortable'))
                post['_e[uiSortedItemIds]'] = $(telm).sortable('toArray').join(','); // get sorted item ids
        }
     }
@@ -853,21 +879,25 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
                 if (!data && callback) callback(null,false);
                 else if (data) {
                     if (data['_actions']) eval(data['_actions']);
-                    Raxan.ready(function(){ // execute callback when raxan is ready or not loading scripts 
+                    Raxan.ready(function(){ // execute callback when raxan is ready or not loading scripts
                         if (callback) callback(data['_result'],true);   // pass ajax results to callback function
-                    })                    
+                    })
                 }
             },
             error: function(s) {
-                var rt;
-                if (s && s.status==0) {  // ignore when status code is 0
+                var rt, result, httpCode = s.status;
+                if (s && httpCode==0) {  // ignore when status code is 0
                     if (callback) callback(null,false);
                 }
                 else {
-                    if (callback) rt = callback(s.responseText,false); // pass results to callback function
-                    if (rt!==true) { // check if error was handled
-                        var err = "Error Output:\n" + s.responseText;
-                        var friendlyerr = _PDI_AJAX_ERR_MSG+"\n\n"+$('<div>'+ err.substr(0,200)+'</div>').text()+'...'
+                    result = s.responseText;
+                    if (callback) rt = callback(result,false,httpCode); // pass results to callback function
+                    if (rt!==true) rt = Raxan.iTriggerError(result,httpCode); // trigger raxan error event handlers
+                    // check if error was handled
+                    if (rt!==true) { 
+                        var err = "Error Output:\n-------------------\n" + result;
+                        var friendlyerr = (httpCode!=401 && httpCode!=403 ? _PDI_AJAX_ERR_MSG + "\n\n" : '');
+                        friendlyerr+= $('<div>'+ err.substr(0,210)+'</div>').text()+'...';
                         Raxan.log(err); // log to console
                         alert(friendlyerr); // show friendly message
                     }
@@ -976,7 +1006,7 @@ Raxan.Conduit.prototype = {
         }, tms);
         this.lastOffset = offset;
         this.lastTime = new Date();
-    },    
+    },
     eoc: function(){return this.current>=this.length-1 ? true: false;},
     each: function(fn) {
         var total, index = -1,me = this, f = function(d,offset){
@@ -1052,5 +1082,5 @@ Raxan.Conduit.prototype = {
 
 html = Raxan; // deprecate html
 Raxan.init();
- 
+
 

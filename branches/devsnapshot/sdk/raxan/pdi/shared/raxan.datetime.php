@@ -105,7 +105,14 @@ class RaxanDateTime {
             // translate month and day names based on locale
             $a = Raxan::locale('dt._eng_names');
             $b = Raxan::locale('dt._locale_names');
-            if ($a && $b) $dt = str_ireplace($a,$b,$dt);
+            $keys = array('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}',
+                '{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}','{22}','{23}',
+                '{24}','{25}','{26}','{27}','{28}','{29}','{30}','{31}','{32}','{33}','{34}','{35}',
+                '{36}','{37}','{38}');
+            if ($a && $b) {
+                $dt = str_ireplace($a,$keys,$dt);   // use keys to avoid left to right replacement issues
+                $dt = str_ireplace($keys,$b,$dt);   // with abbreviated names such as jan, may, oct, etc.
+            }
         }
         
         return $dt;

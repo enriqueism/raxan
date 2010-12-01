@@ -116,13 +116,17 @@
                         static <span class="var-type">mixed</span>
                         <a href="#$badIdChars" title="details" class="var-name">$badIdChars</a>
                     </div>
-                                                                                <div class="var-title">
-                        static <span class="var-type">mixed</span>
-                        <a href="#$callMethods" title="details" class="var-name">$callMethods</a>
-                    </div>
                                                                                                                         <div class="var-title">
                         static <span class="var-type">mixed</span>
                         <a href="#$cliExtLoaded" title="details" class="var-name">$cliExtLoaded</a>
+                    </div>
+                                                                                <div class="var-title">
+                        static <span class="var-type">mixed</span>
+                        <a href="#$customMethods" title="details" class="var-name">$customMethods</a>
+                    </div>
+                                                                                <div class="var-title">
+                        static <span class="var-type">mixed</span>
+                        <a href="#$customProps" title="details" class="var-name">$customProps</a>
                     </div>
                                                                                                                                                                                                                                                                                         <div class="var-title">
                         static <span class="var-type">mixed</span>
@@ -156,11 +160,11 @@
                         <span class="var-type">mixed</span>
                         <a href="#$autoAppendView" title="details" class="var-name">$autoAppendView</a>
                     </div>
-                                                                                                                                                                                                                                                <div class="var-title">
+                                                                                                                                                                                                        <div class="var-title">
                         <span class="var-type">mixed</span>
                         <a href="#$clientPostbackUrl" title="details" class="var-name">$clientPostbackUrl</a>
                     </div>
-                                                                                                                        <div class="var-title">
+                                                                                                                                                                                                        <div class="var-title">
                         <span class="var-type">mixed</span>
                         <a href="#$defaultBindOptions" title="details" class="var-name">$defaultBindOptions</a>
                     </div>
@@ -373,6 +377,11 @@
                                                 <a href="#addMethod" title="details" class="method-name">addMethod</a>
                                                     (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$callback</span> = <span class="var-default">null</span>])
                                             </div>
+                                                                                <div class="method-definition">
+                        static                             <span class="method-result">void</span>
+                                                <a href="#addProperty" title="details" class="method-name">addProperty</a>
+                                                    (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+                                            </div>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <div class="method-definition">
                         static                             <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
                                                 <a href="#controller" title="details" class="method-name">controller</a>
@@ -393,7 +402,12 @@
                                                 <a href="#loadClientExtension" title="details" class="method-name">loadClientExtension</a>
                                                 ()
                                             </div>
-                                                                                                                                                                                                                                                                                                                                                                        <div class="method-definition">
+                                                                                                                        <div class="method-definition">
+                        static                             <span class="method-result">mixed</span>
+                                                <a href="#loadPlugin" title="details" class="method-name">loadPlugin</a>
+                                                    (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$alias</span> = <span class="var-default">null</span>])
+                                            </div>
+                                                                                                                                                                                                                                                                                                                                <div class="method-definition">
                         static                             <span class="method-result">void</span>
                                                 <a href="#nodeL10n" title="details" class="method-name">nodeL10n</a>
                                                     (<span class="var-type"></span>&nbsp;<span class="var-name">$nodes</span>)
@@ -434,7 +448,7 @@
                                                 <a href="#addHeader" title="details" class="method-name">addHeader</a>
                                                     (<span class="var-type"></span>&nbsp;<span class="var-name">$hdr</span>)
                                             </div>
-                                                                                                                        <div class="method-definition">
+                                                                                                                                                                <div class="method-definition">
                                                     <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
                                                 <a href="#addScript" title="details" class="method-name">addScript</a>
                                                     (<span class="var-type"></span>&nbsp;<span class="var-name">$script</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$startupEvent</span> = <span class="var-default">null</span>])
@@ -621,7 +635,7 @@
                                             </div>
                                                                                 <div class="method-definition">
                                                     <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
-                                                <a href="#initUIElements" title="details" class="method-name">initUIElements</a>
+                                                <a href="#initUIWidgets" title="details" class="method-name">initUIWidgets</a>
                                                 ()
                                             </div>
                                                                                                                         <div class="method-definition">
@@ -629,7 +643,7 @@
                                                 <a href="#loadCSS" title="details" class="method-name">loadCSS</a>
                                                     (<span class="var-type">string</span>&nbsp;<span class="var-name">$css</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
                                             </div>
-                                                                                <div class="method-definition">
+                                                                                                                        <div class="method-definition">
                                                     <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
                                                 <a href="#loadScript" title="details" class="method-name">loadScript</a>
                                                     (<span class="var-type">string</span>&nbsp;<span class="var-name">$js</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>], [<span class="var-type"></span>&nbsp;<span class="var-name">$_priority</span> = <span class="var-default">0</span>])
@@ -640,18 +654,18 @@
                                                     (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
                                             </div>
                                                                                 <div class="method-definition">
-                                                    <span class="method-result">boolean</span>
-                                                <a href="#loadUI" title="details" class="method-name">loadUI</a>
-                                                    (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
-                                            </div>
-                                                                                <div class="method-definition">
                                                     <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
-                                                <a href="#loadUIElements" title="details" class="method-name">loadUIElements</a>
+                                                <a href="#loadUIWidgets" title="details" class="method-name">loadUIWidgets</a>
                                                 ()
                                             </div>
                                                                                 <div class="method-definition">
+                                                    <span class="method-result">boolean</span>
+                                                <a href="#loadWidget" title="details" class="method-name">loadWidget</a>
+                                                    (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
+                                            </div>
+                                                                                <div class="method-definition">
                                                     <span class="method-result">string</span>
-                                                <a href="#masterContentSelecor" title="details" class="method-name">masterContentSelecor</a>
+                                                <a href="#masterContentSelector" title="details" class="method-name">masterContentSelector</a>
                                                 ()
                                             </div>
                                                                                 <div class="method-definition">
@@ -706,8 +720,8 @@
                                             </div>
                                                                                                                         <div class="method-definition">
                                                     <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
-                                                <a href="#registerUIElement" title="details" class="method-name">registerUIElement</a>
-                                                    (<span class="var-type"><a href="RaxanUIElement.html">RaxanUIElement</a></span>&nbsp;<span class="var-name">$ui</span>)
+                                                <a href="#registerUIWidget" title="details" class="method-name">registerUIWidget</a>
+                                                    (<span class="var-type"><a href="RaxanUIWidget.html">RaxanUIWidget</a></span>&nbsp;<span class="var-name">$ui</span>)
                                             </div>
                                                                                 <div class="method-definition">
                                                     <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
@@ -731,7 +745,7 @@
                                             </div>
                                                                                 <div class="method-definition">
                                                     <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
-                                                <a href="#renderUIElements" title="details" class="method-name">renderUIElements</a>
+                                                <a href="#renderUIWidgets" title="details" class="method-name">renderUIWidgets</a>
                                                 ()
                                             </div>
                                                                                 <div class="method-definition">
@@ -914,7 +928,7 @@
         <span class="var-title">
             static <span class="var-type">mixed</span>
             <span class="var-name">$autoId</span>
-                        (line <span class="line-number">85</span>)
+                        (line <span class="line-number">98</span>)
         </span>
     </div>
 
@@ -935,7 +949,7 @@
         <span class="var-title">
             static <span class="var-type">mixed</span>
             <span class="var-name">$autoIdPrefix</span>
-             = <span class="var-default"> 'e0x'</span>            (line <span class="line-number">84</span>)
+             = <span class="var-default"> 'e0x'</span>            (line <span class="line-number">97</span>)
         </span>
     </div>
 
@@ -970,29 +984,8 @@
        
 
 </div>
-<a name="var$callMethods" id="$callMethods"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            static <span class="var-type">mixed</span>
-            <span class="var-name">$callMethods</span>
-                        (line <span class="line-number">104</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
 <a name="var$cliExtLoaded" id="$cliExtLoaded"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
@@ -1012,8 +1005,50 @@
        
 
 </div>
-<a name="var$eventId" id="$eventId"><!-- --></a>
+<a name="var$customMethods" id="$customMethods"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            static <span class="var-type">mixed</span>
+            <span class="var-name">$customMethods</span>
+                        (line <span class="line-number">104</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$customProps" id="$customProps"><!-- --></a>
 <div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            static <span class="var-type">mixed</span>
+            <span class="var-name">$customProps</span>
+                        (line <span class="line-number">105</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$eventId" id="$eventId"><!-- --></a>
+<div class="evenrow">
 
     <div class="var-header">
         <span class="var-title">
@@ -1034,7 +1069,7 @@
 
 </div>
 <a name="var$mPageId" id="$mPageId"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
@@ -1055,7 +1090,7 @@
 
 </div>
 <a name="var$pages" id="$pages"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
     <div class="var-header">
         <span class="var-title">
@@ -1076,13 +1111,13 @@
 
 </div>
 <a name="var$regScripts" id="$regScripts"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
             static <span class="var-type">mixed</span>
             <span class="var-name">$regScripts</span>
-             = <span class="var-default">array()</span>            (line <span class="line-number">105</span>)
+             = <span class="var-default">array()</span>            (line <span class="line-number">106</span>)
         </span>
     </div>
 
@@ -1097,7 +1132,7 @@
 
 </div>
 <a name="var$vars" id="$vars"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
     <div class="var-header">
         <span class="var-title">
@@ -1118,7 +1153,7 @@
 
 </div>
 <a name="var$varsGlobal" id="$varsGlobal"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
@@ -1139,13 +1174,13 @@
 
 </div>
 <a name="var$activeView" id="$activeView"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
             <span class="var-name">$activeView</span>
-                        (line <span class="line-number">123</span>)
+                        (line <span class="line-number">124</span>)
         </span>
     </div>
 
@@ -1160,432 +1195,12 @@
 
 </div>
 <a name="var$autoAppendView" id="$autoAppendView"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
             <span class="var-name">$autoAppendView</span>
-                        (line <span class="line-number">107</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$clientPostbackUrl" id="$clientPostbackUrl"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$clientPostbackUrl</span>
-                        (line <span class="line-number">88</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$defaultBindOptions" id="$defaultBindOptions"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$defaultBindOptions</span>
-             = <span class="var-default">array()</span>            (line <span class="line-number">98</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$degradable" id="$degradable"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$degradable</span>
-                        (line <span class="line-number">115</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$disableInlineEvents" id="$disableInlineEvents"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$disableInlineEvents</span>
-                        (line <span class="line-number">112</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$doc" id="$doc"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$doc</span>
-             = <span class="var-default"> null</span>            (line <span class="line-number">121</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$embedOptions" id="$embedOptions"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$embedOptions</span>
-                        (line <span class="line-number">90</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$initStartupScript" id="$initStartupScript"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$initStartupScript</span>
-                        (line <span class="line-number">109</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isAjaxRequest" id="$isAjaxRequest"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isAjaxRequest</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">91</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isAuthorized" id="$isAuthorized"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isAuthorized</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">93</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isCache" id="$isCache"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isCache</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">94</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isCallback" id="$isCallback"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isCallback</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">92</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isDataStorageLoaded" id="$isDataStorageLoaded"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isDataStorageLoaded</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">94</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isEmbedded" id="$isEmbedded"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isEmbedded</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">90</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isInitialized" id="$isInitialized"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isInitialized</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">89</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isLoaded" id="$isLoaded"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isLoaded</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">89</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isPostBack" id="$isPostBack"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isPostBack</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">91</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isRendering" id="$isRendering"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isRendering</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">96</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isReplying" id="$isReplying"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isReplying</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">96</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$isThemeLoaded" id="$isThemeLoaded"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$isThemeLoaded</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">95</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$localizeOnResponse" id="$localizeOnResponse"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$localizeOnResponse</span>
                         (line <span class="line-number">108</span>)
         </span>
     </div>
@@ -1600,41 +1215,20 @@
        
 
 </div>
-<a name="var$masterContentBlock" id="$masterContentBlock"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$masterContentBlock</span>
-             = <span class="var-default"> '.master-content'</span>            (line <span class="line-number">118</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$masterTemplate" id="$masterTemplate"><!-- --></a>
+<a name="var$clientPostbackUrl" id="$clientPostbackUrl"><!-- --></a>
 <div class="evenrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
-            <span class="var-name">$masterTemplate</span>
-                        (line <span class="line-number">117</span>)
+            <span class="var-name">$clientPostbackUrl</span>
+                        (line <span class="line-number">84</span>)
         </span>
     </div>
 
     <!-- ========== Info from phpDoc block ========= -->
     <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
+                <li><span class="field">access:</span> public</li>
             </ul>
    
     
@@ -1642,20 +1236,20 @@
        
 
 </div>
-<a name="var$pageOutput" id="$pageOutput"><!-- --></a>
+<a name="var$defaultBindOptions" id="$defaultBindOptions"><!-- --></a>
 <div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
-            <span class="var-name">$pageOutput</span>
-                        (line <span class="line-number">122</span>)
+            <span class="var-name">$defaultBindOptions</span>
+             = <span class="var-default">array()</span>            (line <span class="line-number">94</span>)
         </span>
     </div>
 
     <!-- ========== Info from phpDoc block ========= -->
     <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
+                <li><span class="field">access:</span> public</li>
             </ul>
    
     
@@ -1663,34 +1257,13 @@
        
 
 </div>
-<a name="var$preserveFormContent" id="$preserveFormContent"><!-- --></a>
+<a name="var$degradable" id="$degradable"><!-- --></a>
 <div class="evenrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
-            <span class="var-name">$preserveFormContent</span>
-                        (line <span class="line-number">111</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$preventBrowserCache" id="$preventBrowserCache"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$preventBrowserCache</span>
+            <span class="var-name">$degradable</span>
                         (line <span class="line-number">116</span>)
         </span>
     </div>
@@ -1705,97 +1278,13 @@
        
 
 </div>
-<a name="var$Raxan" id="$Raxan"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$Raxan</span>
-                        (line <span class="line-number">87</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$resetDataOnFirstLoad" id="$resetDataOnFirstLoad"><!-- --></a>
+<a name="var$disableInlineEvents" id="$disableInlineEvents"><!-- --></a>
 <div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
-            <span class="var-name">$resetDataOnFirstLoad</span>
-                        (line <span class="line-number">110</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$responseType" id="$responseType"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$responseType</span>
-             = <span class="var-default"> 'html'</span>            (line <span class="line-number">97</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> public</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$serializeOnPostBack" id="$serializeOnPostBack"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$serializeOnPostBack</span>
-                        (line <span class="line-number">114</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$showRenderTime" id="$showRenderTime"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$showRenderTime</span>
+            <span class="var-name">$disableInlineEvents</span>
                         (line <span class="line-number">113</span>)
         </span>
     </div>
@@ -1810,14 +1299,560 @@
        
 
 </div>
-<a name="var$_charset" id="$_charset"><!-- --></a>
+<a name="var$doc" id="$doc"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$doc</span>
+             = <span class="var-default"> null</span>            (line <span class="line-number">122</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$embedOptions" id="$embedOptions"><!-- --></a>
 <div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
+            <span class="var-name">$embedOptions</span>
+                        (line <span class="line-number">86</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$initStartupScript" id="$initStartupScript"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$initStartupScript</span>
+                        (line <span class="line-number">110</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isAjaxRequest" id="$isAjaxRequest"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isAjaxRequest</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">87</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isAuthorized" id="$isAuthorized"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isAuthorized</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">89</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isCache" id="$isCache"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isCache</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">90</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isCallback" id="$isCallback"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isCallback</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">88</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isDataStorageLoaded" id="$isDataStorageLoaded"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isDataStorageLoaded</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">90</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isEmbedded" id="$isEmbedded"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isEmbedded</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">86</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isInitialized" id="$isInitialized"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isInitialized</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">85</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isLoaded" id="$isLoaded"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isLoaded</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">85</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isPostBack" id="$isPostBack"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isPostBack</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">87</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isRendering" id="$isRendering"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isRendering</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">92</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isReplying" id="$isReplying"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isReplying</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">92</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$isThemeLoaded" id="$isThemeLoaded"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$isThemeLoaded</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">91</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$localizeOnResponse" id="$localizeOnResponse"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$localizeOnResponse</span>
+                        (line <span class="line-number">109</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$masterContentBlock" id="$masterContentBlock"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$masterContentBlock</span>
+             = <span class="var-default"> '.master-content'</span>            (line <span class="line-number">119</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$masterTemplate" id="$masterTemplate"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$masterTemplate</span>
+                        (line <span class="line-number">118</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$pageOutput" id="$pageOutput"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$pageOutput</span>
+                        (line <span class="line-number">123</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$preserveFormContent" id="$preserveFormContent"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$preserveFormContent</span>
+                        (line <span class="line-number">112</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$preventBrowserCache" id="$preventBrowserCache"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$preventBrowserCache</span>
+                        (line <span class="line-number">117</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$Raxan" id="$Raxan"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$Raxan</span>
+                        (line <span class="line-number">83</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$resetDataOnFirstLoad" id="$resetDataOnFirstLoad"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$resetDataOnFirstLoad</span>
+                        (line <span class="line-number">111</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$responseType" id="$responseType"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$responseType</span>
+             = <span class="var-default"> 'html'</span>            (line <span class="line-number">93</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$serializeOnPostBack" id="$serializeOnPostBack"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$serializeOnPostBack</span>
+                        (line <span class="line-number">115</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$showRenderTime" id="$showRenderTime"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$showRenderTime</span>
+                        (line <span class="line-number">114</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_charset" id="$_charset"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
             <span class="var-name">$_charset</span>
-                        (line <span class="line-number">125</span>)
+                        (line <span class="line-number">126</span>)
         </span>
     </div>
 
@@ -1832,75 +1867,12 @@
 
 </div>
 <a name="var$_clientElms" id="$_clientElms"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
             <span class="var-name">$_clientElms</span>
-                        (line <span class="line-number">130</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_contentType" id="$_contentType"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_contentType</span>
-                        (line <span class="line-number">125</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_dataReset" id="$_dataReset"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_dataReset</span>
-             = <span class="var-default"> false</span>            (line <span class="line-number">131</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_dataStore" id="$_dataStore"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_dataStore</span>
                         (line <span class="line-number">131</span>)
         </span>
     </div>
@@ -1915,76 +1887,13 @@
        
 
 </div>
-<a name="var$_eCache" id="$_eCache"><!-- --></a>
+<a name="var$_contentType" id="$_contentType"><!-- --></a>
 <div class="evenrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
-            <span class="var-name">$_eCache</span>
-             = <span class="var-default">array()</span>            (line <span class="line-number">128</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_endResponse" id="$_endResponse"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_endResponse</span>
-                        (line <span class="line-number">124</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_flyDOM" id="$_flyDOM"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_flyDOM</span>
-                        (line <span class="line-number">127</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_get" id="$_get"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_get</span>
+            <span class="var-name">$_contentType</span>
                         (line <span class="line-number">126</span>)
         </span>
     </div>
@@ -1999,35 +1908,14 @@
        
 
 </div>
-<a name="var$_hasRegisteredEvents" id="$_hasRegisteredEvents"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_hasRegisteredEvents</span>
-                        (line <span class="line-number">134</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_headers" id="$_headers"><!-- --></a>
+<a name="var$_dataReset" id="$_dataReset"><!-- --></a>
 <div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
-            <span class="var-name">$_headers</span>
-                        (line <span class="line-number">125</span>)
+            <span class="var-name">$_dataReset</span>
+             = <span class="var-default"> false</span>            (line <span class="line-number">132</span>)
         </span>
     </div>
 
@@ -2041,139 +1929,13 @@
        
 
 </div>
-<a name="var$_post" id="$_post"><!-- --></a>
+<a name="var$_dataStore" id="$_dataStore"><!-- --></a>
 <div class="evenrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
-            <span class="var-name">$_post</span>
-                        (line <span class="line-number">126</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_postRqst" id="$_postRqst"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_postRqst</span>
-                        (line <span class="line-number">126</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_preserveElms" id="$_preserveElms"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_preserveElms</span>
-                        (line <span class="line-number">133</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_scripts" id="$_scripts"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_scripts</span>
-             = <span class="var-default">array()</span>            (line <span class="line-number">127</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_startTime" id="$_startTime"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_startTime</span>
-                        (line <span class="line-number">124</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_storeName" id="$_storeName"><!-- --></a>
-<div class="oddrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_storeName</span>
-                        (line <span class="line-number">126</span>)
-        </span>
-    </div>
-
-    <!-- ========== Info from phpDoc block ========= -->
-    <ul class="tags">
-                <li><span class="field">access:</span> protected</li>
-            </ul>
-   
-    
-        
-       
-
-</div>
-<a name="var$_tmpStateData" id="$_tmpStateData"><!-- --></a>
-<div class="evenrow">
-
-    <div class="var-header">
-        <span class="var-title">
-            <span class="var-type">mixed</span>
-            <span class="var-name">$_tmpStateData</span>
+            <span class="var-name">$_dataStore</span>
                         (line <span class="line-number">132</span>)
         </span>
     </div>
@@ -2188,14 +1950,287 @@
        
 
 </div>
-<a name="var$_uiElms" id="$_uiElms"><!-- --></a>
+<a name="var$_eCache" id="$_eCache"><!-- --></a>
 <div class="oddrow">
 
     <div class="var-header">
         <span class="var-title">
             <span class="var-type">mixed</span>
+            <span class="var-name">$_eCache</span>
+             = <span class="var-default">array()</span>            (line <span class="line-number">129</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_endResponse" id="$_endResponse"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_endResponse</span>
+                        (line <span class="line-number">125</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_flyDOM" id="$_flyDOM"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_flyDOM</span>
+                        (line <span class="line-number">128</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_get" id="$_get"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_get</span>
+                        (line <span class="line-number">127</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_hasRegisteredEvents" id="$_hasRegisteredEvents"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_hasRegisteredEvents</span>
+                        (line <span class="line-number">135</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_headers" id="$_headers"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_headers</span>
+                        (line <span class="line-number">126</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_post" id="$_post"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_post</span>
+                        (line <span class="line-number">127</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_postRqst" id="$_postRqst"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_postRqst</span>
+                        (line <span class="line-number">127</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_preserveElms" id="$_preserveElms"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_preserveElms</span>
+                        (line <span class="line-number">134</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_scripts" id="$_scripts"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_scripts</span>
+             = <span class="var-default">array()</span>            (line <span class="line-number">128</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_startTime" id="$_startTime"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_startTime</span>
+                        (line <span class="line-number">125</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_storeName" id="$_storeName"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_storeName</span>
+                        (line <span class="line-number">127</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_tmpStateData" id="$_tmpStateData"><!-- --></a>
+<div class="oddrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
+            <span class="var-name">$_tmpStateData</span>
+                        (line <span class="line-number">133</span>)
+        </span>
+    </div>
+
+    <!-- ========== Info from phpDoc block ========= -->
+    <ul class="tags">
+                <li><span class="field">access:</span> protected</li>
+            </ul>
+   
+    
+        
+       
+
+</div>
+<a name="var$_uiElms" id="$_uiElms"><!-- --></a>
+<div class="evenrow">
+
+    <div class="var-header">
+        <span class="var-title">
+            <span class="var-type">mixed</span>
             <span class="var-name">$_uiElms</span>
-                        (line <span class="line-number">129</span>)
+                        (line <span class="line-number">130</span>)
         </span>
     </div>
 
@@ -2239,10 +2274,10 @@
             <div class="rax-box bmm-body">
                 <a name='method_detail'></a>
 <a name="methodaddMethod" id="addMethod"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">static addMethod</span> (line <span class="line-number">2024</span>)
+        <span class="method-title">static addMethod</span> (line <span class="line-number">2063</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2270,11 +2305,43 @@
         
             
     </div>
+<a name="methodaddProperty" id="addProperty"><!-- --></a>
+<div class="evenrow">
+    
+    <div class="method-header">
+        <span class="method-title">static addProperty</span> (line <span class="line-number">2079</span>)
+    </div> 
+    
+    <!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Adds a custom property to the RaxanWebPage Class.</p>
+    <ul class="tags">
+                <li><span class="field">access:</span> public</li>
+            </ul>
+    
+    <div class="method-signature">
+        static <span class="method-result">void</span>
+        <span class="method-name">
+            addProperty
+        </span>
+                    (<span class="var-type"></span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type"></span>&nbsp;<span class="var-name">$value</span> = <span class="var-default">null</span>])
+            </div>
+    
+            <ul class="parameters">
+                    <li>
+                <span class="var-type"></span>
+                <span class="var-name">$name</span>            </li>
+                    <li>
+                <span class="var-type"></span>
+                <span class="var-name">$value</span>            </li>
+                </ul>
+        
+            
+    </div>
 <a name="methodcontroller" id="controller"><!-- --></a>
 <div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">static controller</span> (line <span class="line-number">2057</span>)
+        <span class="method-title">static controller</span> (line <span class="line-number">2103</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2303,7 +2370,7 @@
 <div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">static createDOM</span> (line <span class="line-number">2041</span>)
+        <span class="method-title">static createDOM</span> (line <span class="line-number">2087</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2338,7 +2405,7 @@
 <div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">static init</span> (line <span class="line-number">2072</span>)
+        <span class="method-title">static init</span> (line <span class="line-number">2118</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2367,7 +2434,7 @@
 <div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">static loadClientExtension</span> (line <span class="line-number">2085</span>)
+        <span class="method-title">static loadClientExtension</span> (line <span class="line-number">2131</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2387,11 +2454,48 @@
         
             
     </div>
-<a name="methodnodeL10n" id="nodeL10n"><!-- --></a>
+<a name="methodloadPlugin" id="loadPlugin"><!-- --></a>
 <div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">static nodeL10n</span> (line <span class="line-number">2094</span>)
+        <span class="method-title">static loadPlugin</span> (line <span class="line-number">1136</span>)
+    </div> 
+    
+    <!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Loads a plugin from the plugins folder.</p>
+<p class="description"><p>Usage: &lt;p&gt;Raxan::loadPlugin($name,$alias)&lt;/p&gt;         &lt;p&gt;Raxan::loadPlugin($name,$extrn,$alias)&lt;/p&gt;</p></p>
+    <ul class="tags">
+                <li><span class="field">return:</span> Returns an instance of the plugin</li>
+                <li><span class="field">access:</span> public</li>
+            </ul>
+    
+    <div class="method-signature">
+        static <span class="method-result">mixed</span>
+        <span class="method-name">
+            loadPlugin
+        </span>
+                    (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$alias</span> = <span class="var-default">null</span>])
+            </div>
+    
+            <ul class="parameters">
+                    <li>
+                <span class="var-type">string</span>
+                <span class="var-name">$name</span><span class="var-description">: Name of plugin file without the .php extension</span>            </li>
+                    <li>
+                <span class="var-type">boolean</span>
+                <span class="var-name">$extrn</span><span class="var-description">: Set to true if plugin will be loaded from a folder that's not relative to {plugins.path}</span>            </li>
+                    <li>
+                <span class="var-type">string</span>
+                <span class="var-name">$alias</span><span class="var-description">: Page propery instance name</span>            </li>
+                </ul>
+        
+            
+    </div>
+<a name="methodnodeL10n" id="nodeL10n"><!-- --></a>
+<div class="evenrow">
+    
+    <div class="method-header">
+        <span class="method-title">static nodeL10n</span> (line <span class="line-number">2140</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2417,10 +2521,10 @@
             
     </div>
 <a name="methodpageCode" id="pageCode"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">static pageCode</span> (line <span class="line-number">2115</span>)
+        <span class="method-title">static pageCode</span> (line <span class="line-number">2161</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2452,10 +2556,10 @@
             
     </div>
 <a name="methodregisterScript" id="registerScript"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">static registerScript</span> (line <span class="line-number">1251</span>)
+        <span class="method-title">static registerScript</span> (line <span class="line-number">1289</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2487,10 +2591,10 @@
             
     </div>
 <a name="methoduniqueElmId" id="uniqueElmId"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">static uniqueElmId</span> (line <span class="line-number">2129</span>)
+        <span class="method-title">static uniqueElmId</span> (line <span class="line-number">2175</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2516,10 +2620,10 @@
             
     </div>
 <a name="method__construct" id="__construct"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">Constructor __construct</span> (line <span class="line-number">150</span>)
+        <span class="method-title">Constructor __construct</span> (line <span class="line-number">151</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2555,10 +2659,10 @@
             
     </div>
 <a name="method__destruct" id="__destruct"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">Destructor __destruct</span> (line <span class="line-number">290</span>)
+        <span class="method-title">Destructor __destruct</span> (line <span class="line-number">294</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2578,10 +2682,10 @@
             
     </div>
 <a name="methodaddCSS" id="addCSS"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">addCSS</span> (line <span class="line-number">340</span>)
+        <span class="method-title">addCSS</span> (line <span class="line-number">343</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2607,10 +2711,10 @@
             
     </div>
 <a name="methodaddHeader" id="addHeader"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">addHeader</span> (line <span class="line-number">330</span>)
+        <span class="method-title">addHeader</span> (line <span class="line-number">333</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2636,10 +2740,10 @@
             
     </div>
 <a name="methodaddScript" id="addScript"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">addScript</span> (line <span class="line-number">349</span>)
+        <span class="method-title">addScript</span> (line <span class="line-number">352</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2668,10 +2772,10 @@
             
     </div>
 <a name="methodappend" id="append"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">append</span> (line <span class="line-number">362</span>)
+        <span class="method-title">append</span> (line <span class="line-number">365</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2697,10 +2801,10 @@
             
     </div>
 <a name="methodappendView" id="appendView"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">appendView</span> (line <span class="line-number">375</span>)
+        <span class="method-title">appendView</span> (line <span class="line-number">378</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2732,10 +2836,10 @@
             
     </div>
 <a name="methodbind" id="bind"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">bind</span> (line <span class="line-number">388</span>)
+        <span class="method-title">bind</span> (line <span class="line-number">391</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2773,10 +2877,10 @@
             
     </div>
 <a name="methodbindElements" id="bindElements"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">bindElements</span> (line <span class="line-number">410</span>)
+        <span class="method-title">bindElements</span> (line <span class="line-number">413</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2817,10 +2921,10 @@
             
     </div>
 <a name="methodbuildActionScripts" id="buildActionScripts"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">buildActionScripts</span> (line <span class="line-number">1777</span>)
+        <span class="method-title">buildActionScripts</span> (line <span class="line-number">1816</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2846,10 +2950,10 @@
             
     </div>
 <a name="methodcallScriptFn" id="callScriptFn"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">callScriptFn</span> (line <span class="line-number">589</span>)
+        <span class="method-title">callScriptFn</span> (line <span class="line-number">592</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2879,10 +2983,10 @@
             
     </div>
 <a name="methodclient" id="client"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">client</span> (line <span class="line-number">605</span>)
+        <span class="method-title">client</span> (line <span class="line-number">608</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2911,10 +3015,10 @@
             
     </div>
 <a name="methodcontent" id="content"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">content</span> (line <span class="line-number">614</span>)
+        <span class="method-title">content</span> (line <span class="line-number">617</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2941,10 +3045,10 @@
             
     </div>
 <a name="methodcontentDisposition" id="contentDisposition"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">contentDisposition</span> (line <span class="line-number">684</span>)
+        <span class="method-title">contentDisposition</span> (line <span class="line-number">687</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -2976,10 +3080,10 @@
             
     </div>
 <a name="methodcontentType" id="contentType"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">contentType</span> (line <span class="line-number">674</span>)
+        <span class="method-title">contentType</span> (line <span class="line-number">677</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3008,10 +3112,10 @@
             
     </div>
 <a name="methodcreateElement" id="createElement"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">createElement</span> (line <span class="line-number">624</span>)
+        <span class="method-title">createElement</span> (line <span class="line-number">627</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3043,10 +3147,10 @@
             
     </div>
 <a name="methodcreateFragment" id="createFragment"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">createFragment</span> (line <span class="line-number">635</span>)
+        <span class="method-title">createFragment</span> (line <span class="line-number">638</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3072,10 +3176,10 @@
             
     </div>
 <a name="methoddata" id="data"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">data</span> (line <span class="line-number">697</span>)
+        <span class="method-title">data</span> (line <span class="line-number">700</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3107,10 +3211,10 @@
             
     </div>
 <a name="methoddataStorage" id="dataStorage"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">dataStorage</span> (line <span class="line-number">724</span>)
+        <span class="method-title">dataStorage</span> (line <span class="line-number">727</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3136,10 +3240,10 @@
             
     </div>
 <a name="methoddelegate" id="delegate"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">delegate</span> (line <span class="line-number">401</span>)
+        <span class="method-title">delegate</span> (line <span class="line-number">404</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3174,10 +3278,10 @@
             
     </div>
 <a name="methoddocument" id="document"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">document</span> (line <span class="line-number">737</span>)
+        <span class="method-title">document</span> (line <span class="line-number">740</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3198,10 +3302,10 @@
             
     </div>
 <a name="methoddownload" id="download"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">download</span> (line <span class="line-number">747</span>)
+        <span class="method-title">download</span> (line <span class="line-number">750</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3233,10 +3337,10 @@
             
     </div>
 <a name="methoddump" id="dump"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">dump</span> (line <span class="line-number">776</span>)
+        <span class="method-title">dump</span> (line <span class="line-number">779</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3265,10 +3369,10 @@
             
     </div>
 <a name="methodendResponse" id="endResponse"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">endResponse</span> (line <span class="line-number">786</span>)
+        <span class="method-title">endResponse</span> (line <span class="line-number">789</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3289,10 +3393,10 @@
             
     </div>
 <a name="methodfind" id="find"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">find</span> (line <span class="line-number">795</span>)
+        <span class="method-title">find</span> (line <span class="line-number">798</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3321,10 +3425,10 @@
             
     </div>
 <a name="methodfindById" id="findById"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">findById</span> (line <span class="line-number">804</span>)
+        <span class="method-title">findById</span> (line <span class="line-number">807</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3350,10 +3454,10 @@
             
     </div>
 <a name="methodfindByXPath" id="findByXPath"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">findByXPath</span> (line <span class="line-number">824</span>)
+        <span class="method-title">findByXPath</span> (line <span class="line-number">827</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3382,10 +3486,10 @@
             
     </div>
 <a name="methodflashmsg" id="flashmsg"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">flashmsg</span> (line <span class="line-number">840</span>)
+        <span class="method-title">flashmsg</span> (line <span class="line-number">843</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3425,10 +3529,10 @@
             
     </div>
 <a name="methodflyDOM" id="flyDOM"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">flyDOM</span> (line <span class="line-number">856</span>)
+        <span class="method-title">flyDOM</span> (line <span class="line-number">859</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3449,10 +3553,10 @@
             
     </div>
 <a name="methodgetElementById" id="getElementById"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">getElementById</span> (line <span class="line-number">869</span>)
+        <span class="method-title">getElementById</span> (line <span class="line-number">872</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3478,10 +3582,10 @@
             
     </div>
 <a name="methodgetStateData" id="getStateData"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">getStateData</span> (line <span class="line-number">1952</span>)
+        <span class="method-title">getStateData</span> (line <span class="line-number">1991</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3507,10 +3611,10 @@
             
     </div>
 <a name="methodgetView" id="getView"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">getView</span> (line <span class="line-number">889</span>)
+        <span class="method-title">getView</span> (line <span class="line-number">892</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3542,10 +3646,10 @@
             
     </div>
 <a name="methodhalt" id="halt"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">halt</span> (line <span class="line-number">1085</span>)
+        <span class="method-title">halt</span> (line <span class="line-number">1108</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3571,10 +3675,10 @@
             
     </div>
 <a name="methodhandleClientEventRequest" id="handleClientEventRequest"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">handleClientEventRequest</span> (line <span class="line-number">907</span>)
+        <span class="method-title">handleClientEventRequest</span> (line <span class="line-number">911</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3600,10 +3704,10 @@
             
     </div>
 <a name="methodhandleClientUpdates" id="handleClientUpdates"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">handleClientUpdates</span> (line <span class="line-number">956</span>)
+        <span class="method-title">handleClientUpdates</span> (line <span class="line-number">960</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3624,10 +3728,10 @@
             
     </div>
 <a name="methodhandleDebugResponse" id="handleDebugResponse"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">handleDebugResponse</span> (line <span class="line-number">998</span>)
+        <span class="method-title">handleDebugResponse</span> (line <span class="line-number">1002</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3648,10 +3752,10 @@
             
     </div>
 <a name="methodhandleNodeL10n" id="handleNodeL10n"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">handleNodeL10n</span> (line <span class="line-number">987</span>)
+        <span class="method-title">handleNodeL10n</span> (line <span class="line-number">991</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3672,10 +3776,10 @@
             
     </div>
 <a name="methodhandleScripts" id="handleScripts"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">handleScripts</span> (line <span class="line-number">1019</span>)
+        <span class="method-title">handleScripts</span> (line <span class="line-number">1023</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3704,10 +3808,10 @@
             
     </div>
 <a name="methodinitDataStorage" id="initDataStorage"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">initDataStorage</span> (line <span class="line-number">1838</span>)
+        <span class="method-title">initDataStorage</span> (line <span class="line-number">1877</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3728,10 +3832,10 @@
             
     </div>
 <a name="methodinitInlineEvents" id="initInlineEvents"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">initInlineEvents</span> (line <span class="line-number">1850</span>)
+        <span class="method-title">initInlineEvents</span> (line <span class="line-number">1889</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3752,10 +3856,10 @@
             
     </div>
 <a name="methodinitPreservedElements" id="initPreservedElements"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">initPreservedElements</span> (line <span class="line-number">1911</span>)
+        <span class="method-title">initPreservedElements</span> (line <span class="line-number">1950</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3775,15 +3879,15 @@
         
             
     </div>
-<a name="methodinitUIElements" id="initUIElements"><!-- --></a>
-<div class="evenrow">
+<a name="methodinitUIWidgets" id="initUIWidgets"><!-- --></a>
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">initUIElements</span> (line <span class="line-number">1930</span>)
+        <span class="method-title">initUIWidgets</span> (line <span class="line-number">1969</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Initialize inline UI elements</p>
+<p class="short-description">Initialize inline UI widgets</p>
     <ul class="tags">
                 <li><span class="field">access:</span> protected</li>
             </ul>
@@ -3791,7 +3895,7 @@
     <div class="method-signature">
         <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
         <span class="method-name">
-            initUIElements
+            initUIWidgets
         </span>
                 ()
             </div>
@@ -3800,10 +3904,10 @@
             
     </div>
 <a name="methodloadCSS" id="loadCSS"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">loadCSS</span> (line <span class="line-number">1095</span>)
+        <span class="method-title">loadCSS</span> (line <span class="line-number">1118</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3832,10 +3936,10 @@
             
     </div>
 <a name="methodloadScript" id="loadScript"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">loadScript</span> (line <span class="line-number">1110</span>)
+        <span class="method-title">loadScript</span> (line <span class="line-number">1148</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3867,10 +3971,10 @@
             
     </div>
 <a name="methodloadTheme" id="loadTheme"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">loadTheme</span> (line <span class="line-number">1138</span>)
+        <span class="method-title">loadTheme</span> (line <span class="line-number">1176</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3898,48 +4002,15 @@
         
             
     </div>
-<a name="methodloadUI" id="loadUI"><!-- --></a>
-<div class="evenrow">
-    
-    <div class="method-header">
-        <span class="method-title">loadUI</span> (line <span class="line-number">1152</span>)
-    </div> 
-    
-    <!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Loads a UI component from the Raxan UI folder</p>
-    <ul class="tags">
-                <li><span class="field">see:</span> <a href="Raxan.html#methodloadUI">Raxan::loadUI()</a></li>
-                <li><span class="field">access:</span> public</li>
-            </ul>
-    
-    <div class="method-signature">
-        <span class="method-result">boolean</span>
-        <span class="method-name">
-            loadUI
-        </span>
-                    (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
-            </div>
-    
-            <ul class="parameters">
-                    <li>
-                <span class="var-type">string</span>
-                <span class="var-name">$name</span><span class="var-description">: Name of ui file without the .php extension</span>            </li>
-                    <li>
-                <span class="var-type">boolean</span>
-                <span class="var-name">$extrn</span><span class="var-description">: Set to true if theme will be loaded from a folder that's not relative to {raxan.path}/ui/css</span>            </li>
-                </ul>
-        
-            
-    </div>
-<a name="methodloadUIElements" id="loadUIElements"><!-- --></a>
+<a name="methodloadUIWidgets" id="loadUIWidgets"><!-- --></a>
 <div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">loadUIElements</span> (line <span class="line-number">1972</span>)
+        <span class="method-title">loadUIWidgets</span> (line <span class="line-number">2011</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Load regsitered UI Elements</p>
+<p class="short-description">Load regsitered UI Widgets</p>
     <ul class="tags">
                 <li><span class="field">access:</span> protected</li>
             </ul>
@@ -3947,7 +4018,7 @@
     <div class="method-signature">
         <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
         <span class="method-name">
-            loadUIElements
+            loadUIWidgets
         </span>
                 ()
             </div>
@@ -3955,11 +4026,44 @@
         
             
     </div>
-<a name="methodmasterContentSelecor" id="masterContentSelecor"><!-- --></a>
+<a name="methodloadWidget" id="loadWidget"><!-- --></a>
 <div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">masterContentSelecor</span> (line <span class="line-number">1962</span>)
+        <span class="method-title">loadWidget</span> (line <span class="line-number">1190</span>)
+    </div> 
+    
+    <!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Loads a widget from the widgets folder</p>
+    <ul class="tags">
+                <li><span class="field">see:</span> Raxan::loadWidtget()</li>
+                <li><span class="field">access:</span> public</li>
+            </ul>
+    
+    <div class="method-signature">
+        <span class="method-result">boolean</span>
+        <span class="method-name">
+            loadWidget
+        </span>
+                    (<span class="var-type">string</span>&nbsp;<span class="var-name">$name</span>, [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$extrn</span> = <span class="var-default">false</span>])
+            </div>
+    
+            <ul class="parameters">
+                    <li>
+                <span class="var-type">string</span>
+                <span class="var-name">$name</span><span class="var-description">: Name of widget file without the .php extension</span>            </li>
+                    <li>
+                <span class="var-type">boolean</span>
+                <span class="var-name">$extrn</span><span class="var-description">: Set to true if theme will be loaded from a folder that's not relative to {widgets.path}</span>            </li>
+                </ul>
+        
+            
+    </div>
+<a name="methodmasterContentSelector" id="masterContentSelector"><!-- --></a>
+<div class="oddrow">
+    
+    <div class="method-header">
+        <span class="method-title">masterContentSelector</span> (line <span class="line-number">2001</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -3971,7 +4075,7 @@
     <div class="method-signature">
         <span class="method-result">string</span>
         <span class="method-name">
-            masterContentSelecor
+            masterContentSelector
         </span>
                 ()
             </div>
@@ -3980,10 +4084,10 @@
             
     </div>
 <a name="methodnodeContent" id="nodeContent"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">nodeContent</span> (line <span class="line-number">1162</span>)
+        <span class="method-title">nodeContent</span> (line <span class="line-number">1200</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4012,10 +4116,10 @@
             
     </div>
 <a name="methodoffsetExists" id="offsetExists"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">offsetExists</span> (line <span class="line-number">1750</span>)
+        <span class="method-title">offsetExists</span> (line <span class="line-number">1789</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4046,10 +4150,10 @@
             
     </div>
 <a name="methodoffsetGet" id="offsetGet"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">offsetGet</span> (line <span class="line-number">1760</span>)
+        <span class="method-title">offsetGet</span> (line <span class="line-number">1799</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4080,10 +4184,10 @@
             
     </div>
 <a name="methodoffsetSet" id="offsetSet"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">offsetSet</span> (line <span class="line-number">1755</span>)
+        <span class="method-title">offsetSet</span> (line <span class="line-number">1794</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4117,10 +4221,10 @@
             
     </div>
 <a name="methodoffsetUnset" id="offsetUnset"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">offsetUnset</span> (line <span class="line-number">1765</span>)
+        <span class="method-title">offsetUnset</span> (line <span class="line-number">1804</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4151,10 +4255,10 @@
             
     </div>
 <a name="methodprepend" id="prepend"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">prepend</span> (line <span class="line-number">1177</span>)
+        <span class="method-title">prepend</span> (line <span class="line-number">1215</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4180,10 +4284,10 @@
             
     </div>
 <a name="methodredirectTo" id="redirectTo"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">redirectTo</span> (line <span class="line-number">1188</span>)
+        <span class="method-title">redirectTo</span> (line <span class="line-number">1226</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4215,10 +4319,10 @@
             
     </div>
 <a name="methodredirectToView" id="redirectToView"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">redirectToView</span> (line <span class="line-number">1199</span>)
+        <span class="method-title">redirectToView</span> (line <span class="line-number">1237</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4253,10 +4357,10 @@
             
     </div>
 <a name="methodregisterConduit" id="registerConduit"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">registerConduit</span> (line <span class="line-number">1210</span>)
+        <span class="method-title">registerConduit</span> (line <span class="line-number">1248</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4285,10 +4389,10 @@
             
     </div>
 <a name="methodregisterEvent" id="registerEvent"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">registerEvent</span> (line <span class="line-number">1220</span>)
+        <span class="method-title">registerEvent</span> (line <span class="line-number">1258</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4320,15 +4424,15 @@
         
             
     </div>
-<a name="methodregisterUIElement" id="registerUIElement"><!-- --></a>
-<div class="oddrow">
+<a name="methodregisterUIWidget" id="registerUIWidget"><!-- --></a>
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">registerUIElement</span> (line <span class="line-number">1237</span>)
+        <span class="method-title">registerUIWidget</span> (line <span class="line-number">1275</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
-<p class="short-description">Used internally to register a UI Element with the current web page.</p>
+<p class="short-description">Used internally to register a UI widget with the current web page.</p>
     <ul class="tags">
                 <li><span class="field">access:</span> public</li>
             </ul>
@@ -4336,24 +4440,24 @@
     <div class="method-signature">
         <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
         <span class="method-name">
-            registerUIElement
+            registerUIWidget
         </span>
-                    (<span class="var-type"><a href="RaxanUIElement.html">RaxanUIElement</a></span>&nbsp;<span class="var-name">$ui</span>)
+                    (<span class="var-type"><a href="RaxanUIWidget.html">RaxanUIWidget</a></span>&nbsp;<span class="var-name">$ui</span>)
             </div>
     
             <ul class="parameters">
                     <li>
-                <span class="var-type"><a href="RaxanUIElement.html">RaxanUIElement</a></span>
+                <span class="var-type"><a href="RaxanUIWidget.html">RaxanUIWidget</a></span>
                 <span class="var-name">$ui</span>            </li>
                 </ul>
         
             
     </div>
 <a name="methodregisterVar" id="registerVar"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">registerVar</span> (line <span class="line-number">1264</span>)
+        <span class="method-title">registerVar</span> (line <span class="line-number">1302</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4383,10 +4487,10 @@
             
     </div>
 <a name="methodremoveData" id="removeData"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">removeData</span> (line <span class="line-number">1476</span>)
+        <span class="method-title">removeData</span> (line <span class="line-number">1515</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4412,10 +4516,10 @@
             
     </div>
 <a name="methodremoveElementState" id="removeElementState"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">removeElementState</span> (line <span class="line-number">1489</span>)
+        <span class="method-title">removeElementState</span> (line <span class="line-number">1528</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4447,10 +4551,10 @@
             
     </div>
 <a name="methodrender" id="render"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">render</span> (line <span class="line-number">1276</span>)
+        <span class="method-title">render</span> (line <span class="line-number">1314</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4475,11 +4579,11 @@
         
             
     </div>
-<a name="methodrenderUIElements" id="renderUIElements"><!-- --></a>
-<div class="evenrow">
+<a name="methodrenderUIWidgets" id="renderUIWidgets"><!-- --></a>
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">renderUIElements</span> (line <span class="line-number">1982</span>)
+        <span class="method-title">renderUIWidgets</span> (line <span class="line-number">2021</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4491,7 +4595,7 @@
     <div class="method-signature">
         <span class="method-result"><a href="RaxanWebPage.html">RaxanWebPage</a></span>
         <span class="method-name">
-            renderUIElements
+            renderUIWidgets
         </span>
                 ()
             </div>
@@ -4500,10 +4604,10 @@
             
     </div>
 <a name="methodreply" id="reply"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">reply</span> (line <span class="line-number">1402</span>)
+        <span class="method-title">reply</span> (line <span class="line-number">1441</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4529,10 +4633,10 @@
             
     </div>
 <a name="methodrestoreElementState" id="restoreElementState"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">restoreElementState</span> (line <span class="line-number">1504</span>)
+        <span class="method-title">restoreElementState</span> (line <span class="line-number">1543</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4564,10 +4668,10 @@
             
     </div>
 <a name="methodsanitizePostBack" id="sanitizePostBack"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">sanitizePostBack</span> (line <span class="line-number">1558</span>)
+        <span class="method-title">sanitizePostBack</span> (line <span class="line-number">1597</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4595,10 +4699,10 @@
             
     </div>
 <a name="methodsaveElementState" id="saveElementState"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">saveElementState</span> (line <span class="line-number">1534</span>)
+        <span class="method-title">saveElementState</span> (line <span class="line-number">1573</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4633,10 +4737,10 @@
             
     </div>
 <a name="methodsendError" id="sendError"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">sendError</span> (line <span class="line-number">1569</span>)
+        <span class="method-title">sendError</span> (line <span class="line-number">1608</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4665,10 +4769,10 @@
             
     </div>
 <a name="methodsource" id="source"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">source</span> (line <span class="line-number">1577</span>)
+        <span class="method-title">source</span> (line <span class="line-number">1616</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4698,10 +4802,10 @@
             
     </div>
 <a name="methodstoreName" id="storeName"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">storeName</span> (line <span class="line-number">1617</span>)
+        <span class="method-title">storeName</span> (line <span class="line-number">1656</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4728,10 +4832,10 @@
             
     </div>
 <a name="methodtitle" id="title"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">title</span> (line <span class="line-number">1672</span>)
+        <span class="method-title">title</span> (line <span class="line-number">1711</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4758,10 +4862,10 @@
             
     </div>
 <a name="methodtransferTo" id="transferTo"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">transferTo</span> (line <span class="line-number">1628</span>)
+        <span class="method-title">transferTo</span> (line <span class="line-number">1667</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4790,10 +4894,10 @@
             
     </div>
 <a name="methodtriggerEvent" id="triggerEvent"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">triggerEvent</span> (line <span class="line-number">1649</span>)
+        <span class="method-title">triggerEvent</span> (line <span class="line-number">1688</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4831,10 +4935,10 @@
             
     </div>
 <a name="methodtriggerHandle" id="triggerHandle"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">triggerHandle</span> (line <span class="line-number">1996</span>)
+        <span class="method-title">triggerHandle</span> (line <span class="line-number">2035</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4870,10 +4974,10 @@
             
     </div>
 <a name="methodunbindElements" id="unbindElements"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">unbindElements</span> (line <span class="line-number">1710</span>)
+        <span class="method-title">unbindElements</span> (line <span class="line-number">1749</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4905,10 +5009,10 @@
             
     </div>
 <a name="methodupdateClient" id="updateClient"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">updateClient</span> (line <span class="line-number">1688</span>)
+        <span class="method-title">updateClient</span> (line <span class="line-number">1727</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4941,10 +5045,10 @@
             
     </div>
 <a name="methodupdateFormFields" id="updateFormFields"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">updateFormFields</span> (line <span class="line-number">1697</span>)
+        <span class="method-title">updateFormFields</span> (line <span class="line-number">1736</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4965,10 +5069,10 @@
             
     </div>
 <a name="methodwrapElement" id="wrapElement"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">wrapElement</span> (line <span class="line-number">1733</span>)
+        <span class="method-title">wrapElement</span> (line <span class="line-number">1772</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -4997,10 +5101,10 @@
             
     </div>
 <a name="method_authorize" id="_authorize"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">_authorize</span> (line <span class="line-number">139</span>)
+        <span class="method-title">_authorize</span> (line <span class="line-number">140</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5020,10 +5124,10 @@
             
     </div>
 <a name="method_config" id="_config"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">_config</span> (line <span class="line-number">137</span>)
+        <span class="method-title">_config</span> (line <span class="line-number">138</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5043,10 +5147,10 @@
             
     </div>
 <a name="method_destroy" id="_destroy"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">_destroy</span> (line <span class="line-number">145</span>)
+        <span class="method-title">_destroy</span> (line <span class="line-number">146</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5066,10 +5170,10 @@
             
     </div>
 <a name="method_indexView" id="_indexView"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">_indexView</span> (line <span class="line-number">140</span>)
+        <span class="method-title">_indexView</span> (line <span class="line-number">141</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5089,10 +5193,10 @@
             
     </div>
 <a name="method_init" id="_init"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">_init</span> (line <span class="line-number">138</span>)
+        <span class="method-title">_init</span> (line <span class="line-number">139</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5112,10 +5216,10 @@
             
     </div>
 <a name="method_load" id="_load"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">_load</span> (line <span class="line-number">141</span>)
+        <span class="method-title">_load</span> (line <span class="line-number">142</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5135,10 +5239,10 @@
             
     </div>
 <a name="method_postrender" id="_postrender"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">_postrender</span> (line <span class="line-number">143</span>)
+        <span class="method-title">_postrender</span> (line <span class="line-number">144</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5158,10 +5262,10 @@
             
     </div>
 <a name="method_prerender" id="_prerender"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">_prerender</span> (line <span class="line-number">142</span>)
+        <span class="method-title">_prerender</span> (line <span class="line-number">143</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5181,10 +5285,10 @@
             
     </div>
 <a name="method_reply" id="_reply"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">_reply</span> (line <span class="line-number">144</span>)
+        <span class="method-title">_reply</span> (line <span class="line-number">145</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5204,10 +5308,10 @@
             
     </div>
 <a name="method_reset" id="_reset"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">_reset</span> (line <span class="line-number">148</span>)
+        <span class="method-title">_reset</span> (line <span class="line-number">149</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5227,10 +5331,10 @@
             
     </div>
 <a name="method__call" id="__call"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
     
     <div class="method-header">
-        <span class="method-title">__call</span> (line <span class="line-number">300</span>)
+        <span class="method-title">__call</span> (line <span class="line-number">304</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->
@@ -5258,10 +5362,10 @@
             
     </div>
 <a name="method__get" id="__get"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
     
     <div class="method-header">
-        <span class="method-title">__get</span> (line <span class="line-number">314</span>)
+        <span class="method-title">__get</span> (line <span class="line-number">318</span>)
     </div> 
     
     <!-- ========== Info from phpDoc block ========= -->

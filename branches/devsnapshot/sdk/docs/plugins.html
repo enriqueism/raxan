@@ -63,6 +63,10 @@ example, you can create a plugin to add a footnote to every page within your web
         protected function myMethodName() {
             // your method code here
         }
+
+        public function doSomething() {
+            // your method code here
+        }
     }
     NewPlugin::register(); // register the plugin
 ?&gt;
@@ -86,6 +90,9 @@ example, you can create a plugin to add a footnote to every page within your web
             // your method code here
         }
 
+        public function doSomething() {
+            // your method code here
+        }
     }
     NewPlugin::register(); // register the plugin
 
@@ -97,14 +104,20 @@ called myplugins (raxan/plugins/myplugins).</p>
 
 <h3>Loading a plugin</h3>
 
-<p>There are two ways to load a plugin with Raxan. You can use either the "preload.plugins" configuration option or the Raxan::loadPlugin() method as shown:</p>
+<p>There are two ways to load a plugin with Raxan. You can use either the "preload.plugins" configuration option or the call the loadPlugin() method as shown:</p>
 
-<h4>Using the Raxan::loadPlugin() method</h4>
+<h4>Using the loadPlugin() method</h4>
 
 <p>To load a plugin you simple make a call to the Raxan::loadPlugin() method:</p>
 
 <pre><code class="php">&lt;?php
-    Raxan::loadPlugin('myplugins/dosomething'); // you don't need the .php extension
+    // load plugin from plugins.path. The .php extension is not needed
+    Raxan::loadPlugin('myplugins/newplugin');
+
+    // get a reference to the loaded plugin instance
+    $instance = Raxan::loadPlugin('myplugins/newplugin');
+    $instance-&gt;doSeomthing(); // call public methods from the plugin
+
 ?&gt;
 </code></pre>
 
@@ -112,7 +125,16 @@ called myplugins (raxan/plugins/myplugins).</p>
 
 <pre><code class="php">&lt;?php
     protected function _init() {
-        $this-&gt;loadPlugin('myplugins/dosomething');
+        // load plugin
+        $this-&gt;loadPlugin('myplugins/newplugin');
+
+        // load and get a reference to the registered plugin instance
+        $instance = $this-&gt;loadPlugin('myplugins/newplugin');
+        $instance-&gt;doSeomthing(); // call public methods from the plugin
+
+        // load plugin and assign an alias to the loaded instance
+        $this-&gt;loadPlugin('myplugins/newplugin','myPlugin');   // load as myPlugin property
+        $this-&gt;myPlugin-&gt;doSomething(); // call public methods from myPlugin
     }
 ?&gt;
 </code></pre>
@@ -123,12 +145,18 @@ have to specify the .php extension for the plugin file.</p>
 <p>To load a plugin that's located inside an alternate folder (not relative to plugins.path):</p>
 
 <pre><code class="php">&lt;?php
-    Raxan::loadPlugin('/path/to/plugin/dosomething.php', true);
+    // load external plugin using Raxan::loadPlugin()
+    Raxan::loadPlugin('/path/to/plugin/newplugin.php', true);
+
+    // load external plugin using RaxanWebPage-&gt;loadPlugin() and assign it to 'myPlugin' alias
+    protected function _init() {
+        $this-&gt;loadPlugin('/path/to/plugin/newplugin.php', true, 'myPlugin');
+    }
 ?&gt;
 </code></pre>
 
 <p>The second parameter will cause the framework to load the plugin based on the specified folder path and filename. Please note that you will have to
-include the .php extension when loading plugins that are external to the assigned 'plugin.path'.</p>
+include the .php extension when loading plugins that are external to the assigned 'plugins.path'.</p>
 
 <h4>Using the preload.plugins configuration option</h4>
 
@@ -151,12 +179,13 @@ create a plugin that adds a userLogin() method to the page.</p>
 
     // ... network-connector plugin ...
 
-    protected function page_init($e, $page){
+    protected function page_config($e, $page){
         // add new method to the page object
         $page-&gt;addMethod('networkUserLogin',array($this,'login'));
 
         // or add it to the RaxanWebPage class
-        RaxanWebPage::addMethod('isUserLogin',array($this,'loginCheck'));
+        RaxanWebPage::addMethod('isUserLogin',array($this,'loginCheck')); // add a custom method to the page
+        RaxanWebPage::addProperty('userAccessPermission','rwd');    // add a custom property to the page
 
         // add method to RaxanElement
         RaxanElement::addMethod('showUserInfo',array($this,'bindUserInfo'));
@@ -176,7 +205,7 @@ create a plugin that adds a userLogin() method to the page.</p>
 ?&gt;
 </code></pre>
 
-<p>To use the new methods you must first load the plugin before calling the methods:</p>
+<p>To use the new methods, you must first load the plugin before calling the methods:</p>
 
 <pre><code class="php">&lt;?php
 
@@ -245,7 +274,17 @@ create a plugin that adds a userLogin() method to the page.</p>
 </code></pre></li>
 <li><p><strong>page_config</strong> - Triggered after web page _config event handler</p></li>
 <li><strong>page_init</strong> - Triggered after web page _init event handler</li>
-<li><strong>page_load</strong> - Triggered after web page _load event handler</li>
+<li><p><strong>page_authorize</strong> - Triggered after web page _authorized event handler.</p>
+
+<pre><code class="php">&lt;?php
+    protected function page_authorize($e,$page){
+        // code to validate user goes here
+        if (!$isLogin) $page-&gt;redirectTo('login.php'); // redirect user to login page
+        else if(!$isAuthorized) return false; // deny access to page
+    }
+?&gt;
+</code></pre></li>
+<li><p><strong>page_load</strong> - Triggered after web page _load event handler</p></li>
 <li><strong>page_prerender</strong> - Triggered after web page _prerender event handler</li>
 <li><strong>page_postrender</strong> - Triggered after web page _postrender event handler</li>
 <li><strong>page_reply</strong> - Triggered after web page _reply event handler</li>

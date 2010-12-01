@@ -21,9 +21,9 @@ $locale['currency.symbol']      = '€';
 $locale['currency.location']    = 'rt';     // lt - left, rt - right
 $locale['money.format']         = '';       // overrides above currency settings. See money_format()
 
-$locale['days.short']           = array('Dimanche','Lundi','Mardi','Mercredi','Jeu','Vendredi','Samedi');
+$locale['days.short']           = array('Dim','Lun','Mar','Mer','Jeu','Ven','Sam');
 $locale['days.full']            = array('Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi');
-$locale['months.short']         = array('Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre');
+$locale['months.short']         = array('Janv','Févr','Mars','Avril','Mai','Juin','Juil','Août','Sept','Oct','Nov','Déc');
 $locale['months.full']          = array('Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre');
 
 // error messages

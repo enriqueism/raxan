@@ -118,7 +118,13 @@ strong, li strong { color:#343434; }
 .color-blue { color:#00A7EA; }
 .color-orange { color:darkorange; }
 
-/* Class Reference styles */
+.vision {
+    font-size: 1.2em;
+}
+
+/* 
+ * Class Reference styles
+ ---------------------------- */
 
 .info-box-body { border: 1px solid #999999; padding: .5em; }
 .nav-bar { font-size: 9pt; white-space: nowrap; text-align: right; padding: .2em; margin: 0em 0em 1em 0em; }

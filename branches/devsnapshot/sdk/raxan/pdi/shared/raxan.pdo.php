@@ -51,7 +51,7 @@ class RaxanPDOProcResult {
 class RaxanPDO extends PDO {
 
     protected $_lastRowsAffected = 0;
-    protected static $_BadFieldNameChars = array('\\','"',"'"," ",";","\r","\n","\x00","\x1a");
+    protected static $_BadFieldNameChars = array('\\','"',"'",";","\r","\n","\x00","\x1a"); //@todo: need to fix this to allow space, ', " in field name as some dbs support it
 
 
     /**
@@ -93,7 +93,7 @@ class RaxanPDO extends PDO {
         $cnt = count($params);
 
         $pl = $cnt ?  array_fill(0,$cnt,'?') : array();
-        $query = '? = call '.$name.' ('.implode(',',$pl).')';
+        $query = '? = call '.$this->_cleanField($name).' ('.implode(',',$pl).')';
         $driver = strtolower($this->getAttribute(PDO::ATTR_DRIVER_NAME));
         if ($driver=='sqlsrv'||$driver=='mssql'||$driver=='odbc') $query ='{'.$query.'}';
         $ds = $this->prepare($query);
@@ -130,7 +130,7 @@ class RaxanPDO extends PDO {
             $fields = substr($name,$p);
             $name = substr($name,0,$p);
         }
-        $sql = 'select '.$fields.' from '.$name;
+        $sql = 'select '.$fields.' from '.$this->_cleanField($name);
         if ($filterClause==null) $ds = $this->query($sql);
         else {
             $sql.= ' where '.$filterClause;
@@ -159,10 +159,10 @@ class RaxanPDO extends PDO {
         if ($keyCnt==0) return 0;
         $values = array_values($data);
         foreach($keys as $i=>$k)
-            $key[$i] = str_replace(self::$_BadFieldNameChars,'',$k);
+            $key[$i] = $this->_cleanField($k);
         $marks = trim(str_repeat(',?',$keyCnt),',');
 
-        $sql = 'insert into '.$name.' ( '.implode(',',$keys).' ) values ( '.$marks.' )';
+        $sql = 'insert into '.$this->_cleanField($name).' ( '.implode(',',$keys).' ) values ( '.$marks.' )';
         $ds = $this->prepare($sql);
         $rt = $ds->execute($values);
         $this->_lastRowsAffected = $ds->rowCount();
@@ -184,12 +184,12 @@ class RaxanPDO extends PDO {
         $prefix = ':fld'.rand(1,20);
         $keys = ''; $values = array();
         foreach($data as $k=>$v) {
-            $key = trim(str_replace(self::$_BadFieldNameChars,'',$k)); // clean field names
+            $key = trim($this->_cleanField($k)); // clean field names
             $keys.= $key.'='.$prefix.$key.',';
             $values[$prefix.$key] = $v;
         }
         
-        $sql = 'update '.$name.' set ' .trim($keys,',');
+        $sql = 'update '.$this->_cleanField($name).' set ' .trim($keys,',');
         if ($filterClause===null) $filterValues = $values;
         else {
             if ($filterValues!==null && !is_array($filterValues))
@@ -222,7 +222,7 @@ class RaxanPDO extends PDO {
      * @return boolean
      */
     public function tableDelete($name,$filterClause = null,$filterValues = null) {
-        $sql = 'delete from '.$name;
+        $sql = 'delete from '.$this->_cleanField($name);
         if ($filterClause!==null) {
             $sql.= ' where '.$filterClause;
             if ($filterValues!==null && !is_array($filterValues))
@@ -232,6 +232,15 @@ class RaxanPDO extends PDO {
         $rt = $ds->execute($filterValues);
         $this->_lastRowsAffected = $ds->rowCount();
         return $rt;
+    }
+
+    /*
+     * Protected function
+     * --------------------------------
+     */
+    
+    protected function _cleanField($name){
+        return str_replace(self::$_BadFieldNameChars,'',$name);
     }
 
 }
