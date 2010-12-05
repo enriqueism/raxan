@@ -727,6 +727,16 @@ class RaxanElement extends RaxanBase {
     public function hide(){ return $this->css('display','none'); }
 
     /**
+     * Hides the match elements from the client's browser.
+     * @return RaxanElement
+     */
+    public function hideFromClient() {
+        foreach($this->elms as $n)
+            $this->page->hideElementFromClient($n,true);
+        return $this;
+    }
+
+    /**
      * Returns or sets the height of the container element
      * @return RaxanElement
      */
@@ -1125,6 +1135,16 @@ class RaxanElement extends RaxanBase {
      * @return RaxanElement
      */
     public function show(){ return $this->css('display','block'); }
+
+    /**
+     * Show the match elements inside the client's browser if it was previously hidden from the client
+     * @return RaxanElement
+     */
+    public function showInClient() {
+        foreach($this->elms as $n)
+            $this->page->hideElementFromClient($n,false);
+        return $this;
+    }
 
     /**
      * Selects the siblings of the matched elements

@@ -42,6 +42,9 @@ Main changes in Raxan CSS framework:
 
 Other changes:
 * Raxan js/css scripts are now loaded before other scripts or stylesheets 
+* Add RaxanElement->hideFromClient() and RaxanElement->showInClient() methods
+* Add xt-hidefromclient attribute
+* Add new RaxanWebPage->registerCSS($name,$src,$dependencies) method
 * Add Raxan.error() and Raxan.togglePreloader() events
 * Raxan Startup script (startup.js) can now be changed or omitted with registerScript()
 * Make current page instance available as $page when loading dynamic views

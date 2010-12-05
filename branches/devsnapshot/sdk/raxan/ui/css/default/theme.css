@@ -78,7 +78,7 @@ a.button:hover { text-decoration: none }
 /* -- form -- */
 fieldset { border:solid 1px #ddd; }
 form legend { font-weight: bold; font-size: 1.2em; }
-form input.textbox {height: 20px }
+form input.textbox { height: 20px; line-height: 20px; }
 form .textbox:focus { border-color:#97BEFF }  /* textbox */
 form .textbox {
     background: #fff  url(images/txt_bg.png) repeat-x;

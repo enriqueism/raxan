@@ -132,6 +132,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     protected $_dataStore, $_dataReset = false;
     protected $_tmpStateData;  //temporarily stores state data
     protected $_preserveElms; // array of elements to be preserved
+    protected $_hiddenElms; // array of elements to hide from client's browser
     protected $_hasRegisteredEvents;
 
     // Page request handlers
@@ -270,6 +271,15 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
             // initialize preserved state
             $this->initPreservedElements();
 
+            // initialize hidden elments
+            $dl = $this->doc->xQuery('//*[@xt-hidefromclient]');
+            if ($dl->length) {
+                foreach ($dl as $node) {
+                    $node->removeAttribute('xt-hidefromclient');
+                    $this->hideElementFromClient($node,true);
+                }
+            }
+
             // load page and widgets
             if (Raxan::$isDebug) Raxan::debug('Page _load()');
             if (!$this->_endResponse) {
@@ -294,8 +304,10 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public function __destruct() {
         $this->_destroy();
         $this->doc = null; // discard dom document object
-        unset($this->_uiElms);
         unset($this->_eCache);
+        unset($this->_uiElms);
+        unset($this->_hiddenElms);
+        unset($this->_clientElms);
         unset($this->events);
         unset(self::$pages[$this->objId]);
     }
@@ -930,13 +942,13 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                     break;
                 }
             }
-            $type = isset($e['type']) ? $e['type'] : 'click';
+            $type = isset($e['type']) ? trim($e['type']) : 'click';
             $tokenMatch = isset($e['tok']) && $e['tok']==Raxan::$postBackToken ? true : false ;
             $hnd = 'e:'.$id.'.'.$type;
             $hndlrs = isset($events[$hnd]) ? $events[$hnd] : null;
             if ($hndlrs) {
                 if (Raxan::$isDebug) Raxan::debug('Raise '.htmlspecialchars($type).' Event For '.htmlspecialchars($id));
-                $conduit = substr($e['type'],0,12)=='rax-conduit-';
+                $conduit = substr($type,0,12)=='rax-conduit-';
                 // check if delegate
                 $delegate = isset($events['selectors'][$id]) ? true : false;
                 if($delegate||$conduit) $e['target'] = null;
@@ -1070,10 +1082,10 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 $pdiVars = '<script type="text/javascript"><![CDATA[ '.$pdiVars." ]]></script>\n";
             }
             if ($inc || $actions || $this->initStartupScript || $this->isEmbedded) {
-                $src = isset(self::$regScripts['startup']) ? self::$regScripts['startup'] : null;
+                $src = isset(self::$regScripts['JSI:startup']) ? self::$regScripts['JSI:startup'] : $url.'startup.js';
                 if ($src===true) $raxan == '';
                 else {
-                    $src = $src && isset($src['src']) ? $src['src'] : $url.'startup.js';
+                    if ($src && is_array($src)) $src = $src['src'];
                     $raxan = '<script type="text/javascript" src="'.$src.'"></script>'."\n";
                 }
                 if ($inc || $actions) {
@@ -1123,6 +1135,16 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
      */
     public function loadCSS($css,$extrn = false) {
         $css = trim($css);
+        if (isset(self::$regScripts['CSS:'.$css])) { // check if stylesheet was registered
+            $src = self::$regScripts['CSS:'.$css];
+            if ($src===true) return; // stylesheet manually loaded by user
+            elseif (is_array($src)) {
+                $deps = $src['deps'];
+                $src = $src['src'];
+                foreach($deps as $i=>$d) $this->loadCSS($d);
+            }
+            if ($css!=$src) { $extrn = true; $css = $src; }
+        }
         $embed = (stripos($css,'<')!==false);
         if (!isset($this->_scripts['CSS:'.$css])) {
             $this->_scripts['CSS:'.$css] = $embed ? 1 : $extrn;
@@ -1155,8 +1177,8 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public function loadScript($js,$extrn = false, $_priority = 0) {
         $js = trim($js);
         $s = & $this->_scripts;
-        if (isset(self::$regScripts[$js])) { // check if script was registered
-            $src = self::$regScripts[$js];
+        if (isset(self::$regScripts['JSI:'.$js])) { // check if script was registered
+            $src = self::$regScripts['JSI:'.$js];
             if ($src===true) return; // script manually loaded by user
             elseif (is_array($src)) {
                 $deps = $src['deps'];
@@ -1287,14 +1309,26 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     }
 
     /**
+     * Registers a CSS stylesheet file by name
+     * Use the loadCSS() method to load the stylesheet by name.
+     * @param string $name - Name of script
+     * @param string $src - Url for the stylesheer. Set to True if the stylesheet was loaded manually.
+     * @param array $dependencies
+     */
+    public static function registerCSS($name,$src, $dependencies = null) {
+        self::$regScripts['CSS:'.$name] = !$dependencies ?
+            $src : array ('src'=> $src, 'deps'=> $dependencies);
+    }
+
+    /**
      * Registers a javascript file by name
      * Use the loadScript() method to load the script by name.
      * @param string $name - Name of script
-     * @param string $src - Url for the script. Set to True to is the script was loaded manually.
+     * @param string $src - Url for the script. Set to True if the script was loaded manually.
      * @param array $dependencies
      */
     public static function registerScript($name,$src, $dependencies = null) {
-        self::$regScripts[$name] = !$dependencies ?
+        self::$regScripts['JSI:'.$name] = !$dependencies ?
             $src : array ('src'=> $src, 'deps'=> $dependencies);
     }
 
@@ -1337,6 +1371,12 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
             $this->_prerender();
             $this->renderUIWidgets();
             Raxan::triggerSysEvent('page_prerender',$this);
+        }
+
+        // handle hidden elements
+        if ($this->_hiddenElms) foreach($this->_hiddenElms as $id=>$node) {
+            $p = $node ? $node->parentNode : null;
+            if($p) $p->removeChild($node);
         }
 
         // handle flash message - endResponse check was added to flashmsg()
@@ -1526,7 +1566,20 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     }
 
     /**
-     * Remove element state. Used internally
+     * Used internally to hide element from client's browser
+     * @param DOMElement $elm
+     * @param boolen $state
+     * @return RaxanWebPage
+     */
+    public function hideElementFromClient($elm,$state){
+        if ($state == true) $this->_hiddenElms[] = $elm;
+        else foreach($this->_hiddenElms as $i=>$n) {
+            if ($n===$elm) unset($this->_hiddenElms[$i]);
+        }
+    }
+
+    /**
+     * Used internally - Remove element state
      * @param DOMElement $elm
      * @param string $id
      * @param string $mode
@@ -2225,8 +2278,6 @@ class RaxanWebPageEvent extends RaxanSysEvent{
 
     public $result, $data;
 
-    /**
-     *  @var $target RaxanWebPage */
     protected $iPage;
 
     public function __construct($type, &$page, $e = null) {
