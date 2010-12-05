@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Page View - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Page-View Pattern</h2>
+
+<p>Raxan Beta 3 introduced a switchboard page handler that was designed to manage actions requested by the client.
+In RC1, the Switchboard Page Handler and Action has been replaced with individual view handlers and view mode.</p>
+
+<p>The Page-View pattern makes it easier for developers to load and display multiple content views while maintaining separation between content and logic.</p>
+
+<ul>
+<li><strong>Page</strong> - The Page controller loads and interacts with the view and the model.</li>
+<li><strong>View</strong> - Stores the content to be displayed. This can be either a be a static or a dynamic page.</li>
+</ul>
+
+<div class="pad" style="text-align: center">
+    <img class="margin pad rtb align-middle append1" src="images/page-view-pattern.png" />
+    <img class="margin  align-middle prepend1" src="images/page-controller.png" />
+</div>
+
+<p>The page controller receives a request from the client to load and display a view. This information is passed to the view handler which
+then loads the requested view and the associated data/model. If a view was not specified, then the page controller will invoke the default <strong>_indexView()</strong>
+handler.</p>
+
+<p>The view name which forms part of the page controller's url is case sensitive and can only contain characters A-Z, 0-9 and _ (underscore).
+For example: items, contacts, book_list, orderItems, etc.</p>
+
+<h3>How to request a view</h3>
+
+<p>To request a view  you simply append the query string "<strong>vu=name</strong>" to the url of the page, where "name" is the name of the view that's being requested. 
+The page controller url  must contain the view name as part of the query sting as shown below:</p>
+
+<blockquote>
+  <p>http://domain.com/page-controller.php?<strong>vu=items</strong></p>
+</blockquote>
+
+<p>The "<strong>vu</strong>" query string parameter is processed internally.</p>
+
+<p>Views can also be requested via an event or method call from the server.</p>
+
+<p>To request a view when a click event is triggered from the browser, use the "<strong>view</strong>" option as shown below:</p>
+
+<pre><code class="php">&lt;?php
+
+protected function _load() {
+    $this-&gt;button1-&gt;bind('click',array(
+        'callback' =&gt; '.myButtonHandler',
+        'view' =&gt; 'newform' // loads the newform view when the event is triggered
+    ));
+}
+?&gt;
+</code></pre>
+
+<p>To redirect to a view from the server-side use either the redirectToView() method as shown below:</p>
+
+<pre><code class="php">&lt;?php
+    protected function saveForm($e) {
+        // do something here
+        $his-&gt;redirectToView('thank-you'); // redirects to the "thank-you" view
+    }
+?&gt;
+</code></pre>
+
+<p>Once the request is received by the page controller, the activeView property is set and the appropriate view handler will be invoked.
+The view handler is a special method that's only invoked when a specific view is requested. The method name consist of an underscore (_),
+the view mode and the suffix "View". For example:</p>
+
+<pre><code class="php">&lt;?php
+    // items view handler
+    protected function _itemsView() {
+        // code here
+    }
+?&gt;
+</code></pre>
+
+<p>Inside the view handler function you can load or initialize other html views or variables.</p>
+
+<p><em>Note: If you attempt to request a view and there's no view handler or file present, then the system will display a "Page or view not found message"</em></p>
+
+<h3>How to load or append a view to a  page</h3>
+
+<p>By defaults views are loaded from the "<strong>views</strong>" folder. The path to this folder can be configured using the "<strong>views.path</strong>" config option.
+The view can be either a <strong>.php</strong> or <strong>.html</strong> file</p>
+
+<p>There are a three ways you can load or append a view to the page. The first is to use the appendView() method. This is method will append a
+view to the web page:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _indexView() {
+        $this-&gt;appendView('dashboard.html');
+    }
+?&gt;
+</code></pre>
+
+<p>The second option is to use the getView() method. This method will load and return the content of a view:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _indexView() {
+        $view = $this-&gt;getView('customer-list.php');
+        $his-&gt;content($view);  // set the content of the page
+
+        // to return a the html of a specific element within
+        // the view use the $selector option
+        $header = $this-&gt;getView('new-form.php','#header');
+    }
+?&gt;
+</code></pre>
+
+<p>The third option is to use the $autoAppendView property to automatically append the active view to the page.</p>
+
+<p>When <strong>$autoAppendView</strong> is set to true the system will append views from the "<strong>views</strong>" folder using the view file name format <strong>{pagename}.{view}.php</strong>, where {pagename}
+is the base name of the current page and <strong>{view}</strong> is the name of the active view.</p>
+
+<p>Developers can change the default view file name by applying a filter string. For example, '<strong>myapp-{view}.html</strong>' will automatically append views that begins with "<strong>myapp-</strong>" and ends with "<strong>.html</strong>".</p>
+
+<pre><code class="php">&lt;?php
+protected function _config() {
+    $this-&gt;autoAppendView = true;   // automantically append view to page
+    $this-&gt;autoAppendView = 'my-app-{view}.html';  // apply a custom filter to the active view
+}
+?&gt;
+</code></pre>
+
+<p>The Page-View pattern allows developers to organize an application or page into Views and Events.
+For example, a blog application can be organized as follows:</p>
+
+<p><em>Blog Page Controller</em></p>
+
+<blockquote>
+  <p><em>Page Views:</em></p>
+  
+  <blockquote>
+    <ul>
+    <li><strong>index</strong> view (default view - list blog entries)</li>
+    <li><strong>detail</strong> view (show blog detail)</li>
+    <li><strong>form</strong> view (create or edit blog)</li>
+    </ul>
+  </blockquote>
+  
+  <p><em>Page Events:</em></p>
+  
+  <blockquote>
+    <ul>
+    <li><strong>save</strong> event</li>
+    <li><strong>delete</strong> event</li>
+    </ul>
+  </blockquote>
+</blockquote>
+
+<p><em>Reminder: HTML views are normally stored in a separate folder. This folder can be configured by setting the <strong>views.path</strong> option
+inside your config file.</em></p>
+
+<h3>Loading partial views</h3>
+
+<p>In addition to loading a full page view, you can use the <strong>appendView()</strong> method to load partial content from a view file. For example, let's say that you
+want to create a web page that allows a user to view additional information when the next button is clicked. Rather than having each view within a
+separate file, you could combine the views into a single file and then use <strong>appendView()</strong> to load each view separately.</p>
+
+<p>The views could be combined and stored as follows:</p>
+
+<pre><code>&lt;div id="part1"&gt;
+    ... Page content goes here ...
+&lt;/div&gt;
+
+&lt;div id="part2"&gt;
+    ... Page content goes here ...
+&lt;/div&gt;
+
+&lt;div id="part3"&gt;
+    ... Page content goes here ...
+&lt;/div&gt;
+</code></pre>
+
+<p>Now you can load each view separately:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _indexView(){
+        // load partial view content from combined-views.html
+        $this-&gt;appendView('combined-views.html','#part1');
+    }
+
+    protected function _part2View(){
+        $this-&gt;appendView('combined-views.html','#part2');
+    }
+
+    protected function _part3View(){
+        $this-&gt;appendView('combined-views.html','#part3');
+    }
+?&gt;
+</code></pre>
+
+<p>When the page is first loaded, Raxan will append the content of the <strong>DIV</strong> that matches the CSS selector <strong>#part1</strong> to the web page.</p>
+
+<h3>Passing values to a view</h3>
+
+<p>To pass data to a view you can either manually call the appendView() or getView() method as shown below:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _indexView() {
+        $data = array(1,2,3,4,5);
+
+        // to pass data to the view for further processing use the $data parameter
+        // the build-list.php view file can now access the $data variable.
+
+        // passing data to appendView
+        $this-&gt;appendView('build-list.php', null, $data);
+
+        // passing data to getView
+        $viewresult = $this-&gt;getView('build-list.php',null,$data);
+
+    }
+?&gt;
+</code></pre>
+
+<p>In addition to having the <strong>$data</strong> variable available you can gain access to the current page byb using the <strong>$page</strong> variable:</p>
+
+<p>Here's an example of the 'build-list.php' view file:</p>
+
+<pre><code class="php">&lt;h2&gt;&lt;?php echo $page-&gt;title(); ?&gt;&lt;/h2&gt;
+&lt;ul&gt;
+    &lt;?php foreach($data as $i=&gt;$value) { ?&gt;
+    &lt;li&gt;&lt;?php echo $value; ?&gt;&lt;/li&gt;
+    &lt;?php } ?&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="server-side-events.html" title="Server-Side Events">Server-Side Events</a> </p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

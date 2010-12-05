@@ -1,0 +1,38 @@
+<style type="text/css">
+    body {
+        background-color: #392c23;
+        font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    }
+    h1 {
+        margin: 10px 0;
+        color: #717107;
+    }
+    label {
+        display:block;
+        margin: 8px 0 5px 0;
+    }
+    #pageContent {
+        margin:30px;
+        width:500px;
+        padding: 20px;
+        color: #000;
+        background-color: #eee;
+        border: 10px solid #676767;
+    }
+    #echoText {
+        margin: 20px;
+        font-size: 25px;
+    }
+    #echoText span { color: #8b0b3b; }
+</style>
+
+<div id="pageContent">
+    <h1>Echo Box</h1>
+    <hr />
+    <form name="form1" action="" method="post">
+        <label>Enter your favorite Word or Phrase:</label>
+        <input type="text" name="text1" id="text1" size="50" value="" />&nbsp;
+        <input type="submit" name="submit1" id="submit1" value="Submit" xt-bind="#click,echoMessage" />
+    </form>
+    <div id="echoText" xt-autoupdate="true"></div>
+</div>
