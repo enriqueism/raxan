@@ -1,6 +1,183 @@
 Raxan Changelog
 -------------------------
 
+
+Release Candidate 1 (The Remix)
+--------------------------------------
+
+Design changes:
+* Add $selector parameter to RaxanElement->delegate()
+* Rename RaxanElement::htmlMarkup to RaxanElement::outerHtml()
+* Refactor RaxanDataSanitizer class
+* Replace the Switchboard and _switchboard() event handler with PageView handlers. See PageView pattern in documentation
+* Rename RaxanWebPage->bindInlineEvents() to RaxanWebPage->initInlineEvents()
+* Change Raxan::data() signature to maintain consistency with RaxanWebPage::data()
+* Add new Raxan::dataBank() method
+
+Main changes in Raxan JavaScript libraries:
+* Move JavaScript files from raxan/plugins to raxan/ui/javascripts.
+* merge tabstrip.js and cursor.js into raxan-ui.js
+* Remove Code-behind script loading feature
+* Rename Raxan.bindRemote to Raxan.iBindRemote
+* Rename Raxan.triggerRemote to Raxan.iTriggerRemote
+* Rename Raxan.triggerEvent to Raxan.iTriggerEvent
+* Rename Raxan.flashEffect to Raxan.iFlashEffect
+* Rename JavaScript Raxan.pluginpath to Raxan.scriptpath
+
+Main changes in Raxan CSS framework:
+* Move stylesheets from raxan/styles to raxan/ui/css.
+* Refactor CSS so that it's easier to create themes.
+* The master.css file contains structural classes. Remove master.layout.css
+* Move all themeable colors, borders and fonts styles to theme.css. This file now contains theme-able classes for colors, borders , etc
+* Merge master-ui.css stylesheet into theme.css.
+* Add jQuery UI icons, Resizable and Selectable classes to theme.css
+* Modify default theme. Move theme images to images folder
+* Remove .shadow and .toolbar classes.
+* Remove ".notice" css class. Use ".rax-box .error" class instead
+* Remove ".fancy" and ".panel" classes
+* Rename ".box" css class to ".rax-box"
+* Rename ".tabstrip" css class to ".rax-tabstrip"
+* The ".alert", ".error" and ".success" classes are now subset classes of the ".rax-box" class
+* Add new ".rax-table" CSS class
+
+Other changes:
+* Raxan js/css scripts are now loaded before other scripts or stylesheets 
+* Add RaxanElement->hideFromClient() and RaxanElement->showInClient() methods
+* Add xt-hidefromclient attribute
+* Add new RaxanWebPage->registerCSS($name,$src,$dependencies) method
+* Add Raxan.error() and Raxan.togglePreloader() events
+* Raxan Startup script (startup.js) can now be changed or omitted with registerScript()
+* Make current page instance available as $page when loading dynamic views
+* Add new page_authorize system event
+* Add new RaxanWebPage::addProperty($name,$value) method
+* Add new RaxanWebPage->loadPlugin($name,$extrn,$alias) method
+* Modified Raxan::loadPlugin() and RaxanWebPage->loadPlugin() to return an instance of the plugin
+* Fix locale date left to right replacement for abbreviated months such as Jan, May, Oct, etc.
+* Add new RaxanPDOProcResult class
+* Add RaxanPDO::execQuery and RaxanPDO::execProc
+* Add widgets.path, preload.plugins, and preload.widgets config options
+* Add matchVal(), alphanumericVal() and dateVal() to RaxanWebPageEvent
+* Add alphanumericVal, dateVal, emailVal, matchVal to RaxanElement
+* Use libxml_use_internal_errors() and libxml_clear_errors() to silence libxml error
+* Modify post back token generator
+* Prevent empty fragments from being returned by RaxanWebPage::createFragement();
+* Add new RaxanDataSanitizer::fileTmpName() method
+* Add new RaxanDataSanitizer::fileUploadError() method
+* Add delegate() method to RaxanWebPage class
+* Remove JavaScript Code-Behind script loading method from client and server
+* Add support for data-event-value, data-event-view and data-event-confirm attributes on elements
+* Add new "confirm" event option to bind() and delegate() methods
+* Modify autostart to detect html/xml content
+* Rename RaxanWebPage restoreElement to restoreElementState and saveElement to saveElementState
+* Add removeElementState to RaxanWebPage 
+* Add new Data Conduit feature to support asynchronous data streams
+* Add "expose" option to flashmsg()
+* Add new client-side events togglecontent, serializecontent, disablecontent for DOM element.
+* Add new client-side flashmsg event to flash message elements
+* Add dispatchEvent() method to Raxan JavaScript Object
+* Modify RaxanWebPage->registerEvent() to support array input
+* Remove dataFilter option from $.ajax call in startup.js. JSON.parse is supported in jQuery 1.4.2+
+* Merge fixes from BluePrint CSS 0.9.1
+* Trigger client-side submit event on serializable objects
+* Add RaxanElment->checkValidity() and RaxanElment->setCustomValidity().  The checkValidity() method supports basic server-side HTML5 validation
+* Add RaxanWebPage->invalidInputs() - Returns an last array of invalid field names and their associated validation message as reported by checkvalidity()
+* Add RaxanWebPage->validInputs() - Returns an array valid field names and their associated values
+* Allow RaxanDataSanitizer to process array values
+* Fix issue when submitting form with multiple checkbox values via startup.js
+* Fix issue by preventing disabled and readonly elements from being updated during postback
+* Add optional min, max parameters to RaxanDataSanitizer->isNumeric()
+* Add support for xt-ui-{property name} attributes. Property names are case-insensitive
+* Add support for master template files with .php extension
+* Add optional $useJavaScript parameter to Raxan::redirectTo() method
+* Add optional $forceAjax parameter to RaxanWebPage->redirectTo()
+* Enable/Disable debugging by allowing a boolean TRUE or FALSE to be passed to Raxan::debug()
+* Add view_not_found locale string to general.php language files
+* Add server-side RaxanWebPage->registerVar() and JavaScript Raxan.getVar()
+* Add RaxanDataSanitizer->filterValues()
+* Add RaxanWebPage->autoAppendView property
+* Add RaxanWebPage->initUIWidgets() and RaxanWebPage->initPreservedElements()
+* Rename switchTo() method to redirectToView() on both RaxanWebPage and RaxanClientExtension
+* Add tableInsert(), tableUpdate(), tableDelete() methods to RaxanPDO
+* Configure Template Binder to remove unused tags by default.
+* Modify template binder to prevent XSS injection by escaping all field values by default. Use the template "format" option to override default behavior
+* Add RaxanWebPage->Raxan propety. A shared instance of the Raxan class
+* Add RaxanWebPage->activeView property
+* Add RaxanElement->inputValues()
+* Add new Raxan->flash() method
+* Add new RaxanWebPage->flashmsg() method
+* Deprecate RaxanWebPage->sanitizePostBack() and remove RaxanWebPage->clientRequest(). Use the new post and get properties
+* Add new RaxanWebPage->post and RaxanWebPage->get properties
+* Add RaxanWebPageEvent->uiSortedItemIds and RaxanWebPageEvent->uiItem properties
+* Add Raxan::getSharedSanitizer()
+* Add Raxan::VERSION, Raxan::REVISION and RAXANPDI constants
+* Refactor RaxanDOMDocument and RaxanElement classes to use page controller id
+* Rename RaxanUIElement to RaxanUIWidget
+* Add contentElement property to RaxanUIWidget
+* Add width(),height(), position(),expose(), resizeable(), draggable(), droppable() and overlay() methods to RaxanElement
+* Add slideUp,  slideDown(), fadeIn() and fadeOut() to RaxanElement
+* Localize ajax error message
+* Add RaxanWebPage->download() method
+* Add RaxanWebPage->dump() method
+* Add RaxanUIWidget->handleEventBinding() . Used internally to capture custom events for UI widgets
+* Add support for @local events when calling the Raxan::trigger() method
+* Add new $selector and $data parameters to RaxanWebPage::appendView()
+* Add RaxanWebPage::getView($view, $selector, $data)
+* Modify client-side event callback error message. Full error message will be sent to the browser console
+* Add special CSS class options (e.g. firstClass, itemClass, etc) to the Template binder API.
+* Refactor RaxanDateTime to use php's built-in DateTime object whenever it's available
+* Rename RaxanDataSanitizer number(), money() and date() methods to formatNumber(), formatMoney(), formatDate() respectively
+* Improve template binder callback feature. Add support for dynamic formating
+* Add lower, upper, html and raw text formats and initRowCount options to Template binder
+* Allow user to disable state by setting attribute xt-preservestate = "false"
+* Format Page Render time display
+* Add preventBrowserCache property  to RaxanWebPage
+* Add locale/language support for element attributes
+* Add browser console integration to RaxanClientExtension. See the RaxanClientExtension->console();
+* Refactor state management API
+* Refactor automatic updates for Ajax requests
+* Rename RaxanWebPage::updateFields() to updateFormFields()
+* Modify dynamic script loading sequence. Remove the need for callback.js in IE
+* Enable dynamic script loading when using the loadScript() and loadCSS() methods during an Ajax request
+* Add RaxanDataSanitizer->enableDirectInput property. This is used to allow values to be directly passed to the sanitizer.
+* Add autostart option to RaxanWebPage::transferTo() method 
+* Add optional context parameter to RaxanWebPage::findByXPath()
+* Add findByXPath() to RaxanElement
+* Modify RaxanElement::preserveState() 
+* Remove RaxanElement::handleSaveState()
+* Remove RaxanWebPage::preserveElementState()
+* Add static $autoIdPrefix to RaxanWebPage
+* Move $autoid and uniqueId() from RaxanElement to RaxanWebPage and rename uniqueId() to uniqueElmId()
+* Change the way in which extended attributes are processed. See RaxanWebPage __construct
+* Add _config(), _init(), _restore(), _save() event handlers to RaxanUIWidget
+* Fix issue with RaxanWebPage::unbindElment() by removing both local and external events
+* Automatically detect raxan url with the Raxan::mapSitePathToUrl() method
+* Modify Raxan::log() to only display an error message if there's an error while writing to the log
+* Format Uncaught Errors for web display
+* Add isInitialized, isRendering and isReplying to RaxanWebPage
+* Remove RaxanElement::sendToClient() method
+* Add page PreRender event to AJAX callback cycle
+* Fix issue subbmitting a form with the autoDisable event option by disabling elements after triggering a call to the server.
+* Modify Raxan::connect() to throw previous Exception
+* Add new system_error system event
+* Modifiy RaxanClientExtension::redirectTo() method end page proceessing and send request to client
+* Add Raxan::loadWidget($name,$extrn)
+* Add RaxanWebPage::loadWidget() wrapper to Raxan::loadWidget
+* Fix issue when making simultaneous Ajax and form post back request within the same page
+* Update jQuery Tools to 1.2.5
+* Update jQuery UI to 1.8.6
+* Upgrade jQuery library to 1.4.4
+* Fix bug when using inline delegates and events that ends with a semicolon (;)
+* Remove raxan/templates folder. 
+* Fix issue when using Raxan::importCSV() with custom delimiters
+* Modify Raxan::triggerSysEvent to return event results
+* Add new data_connection  system event
+* Add page_config system event
+* Add _config() event on RaxanWebPage
+* Rename _finalize() event handler to _destroy() on RaxanWebPage
+* Fixed: Error when connecting to database without user name and password
+* Remove Raxan:getTimer()
+* Modify Raxan::startTimer() to return timer value;
+
 1.0 Beta3
 --------------
 * Refactor Raxan classes and functions. Classes are now prefixed with Raxan

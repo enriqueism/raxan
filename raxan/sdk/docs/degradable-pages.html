@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Degradable Pages - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Degradable Web Pages</h2>
+
+<p>Raxan makes it possible for developers to build degradable AJAX applications and web pages that will remain functional in the absence of JavaScript.
+This type of progressive enhancement allows the page to take advantage of modern browser features while still remaining presentable when such features
+are not present.</p>
+
+<p>To enable the progressive enhancement features of a web page, you must declare and set the property $degradable="true" within the page class:</p>
+
+<pre><code class="php">&lt;?php
+    class NewPage extends RaxanWebPage {
+
+        protected function _config(){
+            $this-&gt;degradable = true;
+        }
+
+        protected function doSomething($e) {
+            ;
+        }
+    }
+
+?&gt;
+</code></pre>
+
+<p>Once the page is made degradable, events can be invoked from the page using hyperlinks, form submit buttons and image maps.</p>
+
+<pre><code class="php">&lt;?php 
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _config(){
+            $this-&gt;degradable = true;
+        }
+
+        protected function doSomething($e) {
+            $this-&gt;divMsgbox-&gt;text('I am working :)');
+            $this-&gt;divMsgbox-&gt;updateClient(); // update client when in ajax mode
+        }
+    }
+
+?&gt;
+
+&lt;a href="#" xt-bind="#click,doSomething"&gt;Click Here&lt;/a&gt;
+&lt;div id="divMsgbox"&gt;&lt;/div&gt;
+</code></pre>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="css-framework.html" title="Quick Intro to the CSS framework">Quick Intro to the CSS framework</a> </p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
