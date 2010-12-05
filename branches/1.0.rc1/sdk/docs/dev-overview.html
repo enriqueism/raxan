@@ -365,6 +365,73 @@ set the second parameter to true:</p>
 </code></pre></li>
 </ol>
 
+<h4><strong>Using registerScript to change or bypass default scripts</strong></h4>
+
+<p>Use the registerScript() method to set or change the location of a script file:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        // set the path to the jquery.js file
+        $this-&gt;registerScript('jquery','/path/to/jquery.min.js');
+
+        // set the path of the raxan startup.js script
+        $this-&gt;registerScript('startup','/path/to/startup.min.js');
+    }
+?&gt;
+</code></pre>
+
+<p>When loadScript() method is called with the name of the script it will be loaded from the registered path:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        $this-&gt;loadScript('jquery'); // jquery will be loaded from the registered path
+    }
+?&gt;
+</code></pre>
+
+<p>To prevent a script from being loaded, you can set the second parameter of the registerScript() method to true. This can be useful when you want to
+manually handle the loading of your JavaScripts:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        // prevent jquery from being loaded .
+        $this-&gt;registerScript('jquery',true);
+
+        // calling loadScript will not load the jQuery library
+        $this-&gt;loadScript('jquery');
+    }
+?&gt;
+</code></pre>
+
+<p>To load a single JavaScript file you will need to manually register the bundled jQuery libraries as shown below:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        $this-&gt;registerScript('startup','/path/to/combine.js'); // the framework will load the combine.js startup file
+        $this-&gt;registerScript('jquery',true);
+        $this-&gt;registerScript('jquery-ui-effects',true);
+        $this-&gt;registerScript('jquery-ui-interactions',true);
+        $this-&gt;registerScript('jquery-ui-utils',true);
+        $this-&gt;registerScript('jquery-tools',true);
+    }
+?&gt;
+</code></pre>
+
+<p>In addition to registering JavaScript files and libraries, you can use the registerCSS() method to set or change the location of a stylesheet:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        // set path to master stylesheet
+        $this-&gt;registerCSS('master','/path/to/master.css');
+        $this-&gt;loadCSS('master');
+
+        // set path for default theme
+        $this-&gt;registerCSS('default/theme','/path/to/combine.css');
+        $this-&gt;loadTheme('default');
+    }
+?&gt;
+</code></pre>
+
 <p>We have only scratch the surface of the framework. There's a lot more information available within the <a href="table-of-contents.html">User Guide</a> and I would like to encourage
 you to have a look at the other documentation and tutorials.</p>
 

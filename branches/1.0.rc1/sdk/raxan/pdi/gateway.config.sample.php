@@ -20,6 +20,12 @@ $config['site.timezone']= '';       // sets the timezone to use by the framework
 
 /** Optional settings ********************/
 
+// Session settings
+$config['session.name']    = 'XPDI1000SE';  // change for each NEW application to prevent PHP sessions from being shared across applications. session name must be short and contains only alphanumeric characters
+$config['session.timeout'] = '30';          // in minutes
+$config['session.data.storage'] = 'RaxanSessionStorage'; // default session data storage class
+// No id value will be to the above session storage class.  The class will have to generate unique ids for each user
+
 // site contact
 $config['site.email']   = '';
 $config['site.phone']   = '';
@@ -43,6 +49,12 @@ $config['locale.path']  = '';
 // cache path. defaults to {raxan path}/cache/
 $config['cache.path']   = '';
 
+// plugins path. defaults to {raxan path}/plugins/
+$config['plugins.path'] = '';
+
+// widgts path. defaults to {raxan path}/ui/widgets/
+$config['widgets.path'] = '';
+
 // Path to error pages. eg. views/404.html
 // To display a custom message, add the {message} placeholder inside the html file
 $config['error.400'] = '';
@@ -62,12 +74,6 @@ $config['page.degradable'] = false;                 // enable accessible mode fo
 $config['page.showRenderTime'] = false;
 $config['page.data.storage'] = 'RaxanWebPageStorage';  // default page data storage class
 // The page class will passed the shared store name or id to the staorage class.
-
-// Session settings
-$config['session.name']    = 'XPDI1000SE';  // change for each new application to prevent PHP sessions from being shared across applications. session name must be short and contains only alphanumeric characters
-$config['session.timeout'] = '30';          // in minutes
-$config['session.data.storage'] = 'RaxanSessionStorage'; // default session data storage class
-// No id value will be to the above session storage class.  The class will have to generate unique ids for each user
 
 // logging & debugging settings
 $config['debug']        = false;
@@ -90,9 +96,9 @@ $config['db.default'] = array(
 // Auto startup setting
 $config['autostart'] = '';  // name of page class to be initialize on startup
 
-// Preload Plugins and UI components
-$config['preload.ui'] = '';         // comma delimited list of UI components to be loaded
-$config['preload.plugins'] = '';    // comma delimited list of plugins to be loaded
+// Preload Plugins and UI Widgets
+$config['preload.plugins'] = '';    // comma separated list of plugins to be loaded from plugins.path -  e.g. plugin1,plugin2,plugin3.php
+$config['preload.widgets'] = '';    // comma separated list of UI widgets  to be loaded from widgets.path - e.g. widget1,widget2,widget3.php
 
 
 ?>

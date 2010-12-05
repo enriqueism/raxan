@@ -23,7 +23,7 @@ $locale['money.format']         = '';       // overrides above currency settings
 
 $locale['days.short']           = array('Sun','Mon','Tue','Wed','Thu','Fri','Sat');
 $locale['days.full']            = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-$locale['months.short']         = array('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec');
+$locale['months.short']         = array('Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec');
 $locale['months.full']          = array('January','February','March','April','May','June','July','August','September','October','November','December');
 
 // error messages

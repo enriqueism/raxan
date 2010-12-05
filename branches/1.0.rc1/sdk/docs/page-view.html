@@ -144,11 +144,6 @@ view to the web page:</p>
         // to return a the html of a specific element within
         // the view use the $selector option
         $header = $this-&gt;getView('new-form.php','#header');
-
-        // to pass data to the view for further processing use the $data parameter
-        $data = array(1,2,3,4,5);
-        $viewresult = $this-&gt;getView('build-list.php',null,$data);
-        // the build-list.php view file can now access the $data variable.
     }
 ?&gt;
 </code></pre>
@@ -199,7 +194,7 @@ inside your config file.</em></p>
 
 <h3>Loading partial views</h3>
 
-<p>In addition to loading a full page view you can use the <strong>appendView()</strong> method to load partial content from a view file. For example, let's say that you
+<p>In addition to loading a full page view, you can use the <strong>appendView()</strong> method to load partial content from a view file. For example, let's say that you
 want to create a web page that allows a user to view additional information when the next button is clicked. Rather than having each view within a
 separate file, you could combine the views into a single file and then use <strong>appendView()</strong> to load each view separately.</p>
 
@@ -237,6 +232,39 @@ separate file, you could combine the views into a single file and then use <stro
 </code></pre>
 
 <p>When the page is first loaded, Raxan will append the content of the <strong>DIV</strong> that matches the CSS selector <strong>#part1</strong> to the web page.</p>
+
+<h3>Passing values to a view</h3>
+
+<p>To pass data to a view you can either manually call the appendView() or getView() method as shown below:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _indexView() {
+        $data = array(1,2,3,4,5);
+
+        // to pass data to the view for further processing use the $data parameter
+        // the build-list.php view file can now access the $data variable.
+
+        // passing data to appendView
+        $this-&gt;appendView('build-list.php', null, $data);
+
+        // passing data to getView
+        $viewresult = $this-&gt;getView('build-list.php',null,$data);
+
+    }
+?&gt;
+</code></pre>
+
+<p>In addition to having the <strong>$data</strong> variable available you can gain access to the current page byb using the <strong>$page</strong> variable:</p>
+
+<p>Here's an example of the 'build-list.php' view file:</p>
+
+<pre><code class="php">&lt;h2&gt;&lt;?php echo $page-&gt;title(); ?&gt;&lt;/h2&gt;
+&lt;ul&gt;
+    &lt;?php foreach($data as $i=&gt;$value) { ?&gt;
+    &lt;li&gt;&lt;?php echo $value; ?&gt;&lt;/li&gt;
+    &lt;?php } ?&gt;
+&lt;/ul&gt;
+</code></pre>
 
 <hr class="clear" />
 

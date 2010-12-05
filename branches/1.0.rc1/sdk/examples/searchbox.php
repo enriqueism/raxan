@@ -74,12 +74,11 @@ class SearchBoxPage extends RaxanWebPage {
             $lname = isset($name[1]) ? trim($name[1]) : '';
             $rows = $this->getEmployees($fname.'%', $lname.'%');
             $this->results->bind($rows);
+            $msg = ($rows ? 'Top 10 results for ': 'No results found for ').$fname.' '.$lname;;
+            $this->results->prepend("<div class=\"bmb bmm\">$msg</div>");
         }
-
-        $msg = ($rows ? 'Top 10 results for ': 'No results found for ').$fname.' '.$lname;;
-        $this->results->prepend("<div class=\"bmb bmm\">$msg</div>");
         $this->results->updateClient();
-        if(!$rows)$this->info->html('')->updateClient(); // clear info panel
+        if (!$rows) $this->info->html('')->updateClient(); // clear info panel
     }
 
     protected function getEmployees($fname,$lname) {

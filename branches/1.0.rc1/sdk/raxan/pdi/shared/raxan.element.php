@@ -274,7 +274,7 @@ class RaxanElement extends RaxanBase {
             else if (!isset($opt['tpl']) && !isset($opt[0])) {
                 $opt['tpl'] = $this->html();
             }
-            if (isset($this->isUIElement) && $this->_bindData($data,$opt)===true)  return $this; // return if handled by ui
+            if (isset($this->isUIWidget) && $this->_bindData($data,$opt)===true)  return $this; // return if handled by ui
             $rt = Raxan::bindTemplate($data, $opt); // pass rows,options to bindTemplate()
             return is_string($rt) ? $this->html($rt) : $rt;
         }               
@@ -619,27 +619,27 @@ class RaxanElement extends RaxanBase {
      */
     public function inputValues($data = null) {
         $this->findByXPath('//*[@name]');
-            if ($data!==null) $this->val($data) ;
-            else {
-                $v = array();
-                $elms = $this->elms; $this->elms = array();
-                foreach($elms as $elm) {
-                    $this->elms[0] = $elm;
-                    $name = $elm->getAttribute('name');
-                    if (($lbPos = strpos($name,'['))!==false) $name = substr($name,0,$lbPos); // remove [] from name
-                    if ($name) {
-                        $val = $this->val();
-                        if ($lbPos && is_array($val)) $lbPos = false;
-                        if (!isset($v[$name])) $v[$name] = $lbPos ? array($val) : $val;  // set single value, supports pphp [] input array
-                        else {
-                            // append multiple values
-                            if (!is_array($v[$name])) $v[$name] = array($v[$name]);
-                            $v[$name][] = $val;
-                        }
+        if ($data!==null) $this->val($data) ;
+        else {
+            $v = array();
+            $elms = $this->elms; $this->elms = array();
+            foreach($elms as $elm) {
+                $this->elms[0] = $elm;
+                $name = $elm->getAttribute('name');
+                if (($lbPos = strpos($name,'['))!==false) $name = substr($name,0,$lbPos); // remove [] from name
+                if ($name) {
+                    $val = $this->val();
+                    if ($lbPos && is_array($val)) $lbPos = false;
+                    if (!isset($v[$name])) $v[$name] = $lbPos ? array($val) : $val;  // set single value, supports php [] input array
+                    else {
+                        // append multiple values
+                        if (!is_array($v[$name])) $v[$name] = array($v[$name]);
+                        $v[$name][] = $val;
                     }
                 }
-                $this->elms = $elms;
             }
+            $this->elms = $elms;
+        }
         $this->end();
         return ($data===null) ? $v : $this;
     }
@@ -727,8 +727,18 @@ class RaxanElement extends RaxanBase {
     public function hide(){ return $this->css('display','none'); }
 
     /**
+     * Hides the match elements from the client's browser.
+     * @return RaxanElement
+     */
+    public function hideFromClient() {
+        foreach($this->elms as $n)
+            $this->page->hideElementFromClient($n,true);
+        return $this;
+    }
+
+    /**
      * Returns or sets the height of the container element
-     * @return RaxanUIContainer
+     * @return RaxanElement
      */
     public function height($h = null) {
         if (is_numeric($h)) $h = $h.'px';
@@ -742,7 +752,7 @@ class RaxanElement extends RaxanBase {
     public function html($html=null) {
         $page = $this->page;
         // check for ui content node
-        $contentNode = (isset($this->isUIElement) && $this->contentElement) ? $this->contentElement  : null;
+        $contentNode = (isset($this->isUIWidget) && $this->contentElement) ? $this->contentElement  : null;
         foreach($this->elms as $i=>$n) {
             if ($contentNode) $n = $contentNode;
             if ($html===null) {
@@ -889,7 +899,7 @@ class RaxanElement extends RaxanBase {
     /**
      * Overlays the matched elements on the screen
      * @param array $opt Optional. See jQuery Tools overlay plugin
-     * @return RaxanUIContainer
+     * @return RaxanElement
      */
     public function overlay($opt = null) {
         $this->page->loadScript('jquery-tools');
@@ -1114,7 +1124,7 @@ class RaxanElement extends RaxanBase {
      *  <p>$elm->setCustomValidity($array);</p>
      *  <p>$elm->setCustomValidity($name,$message);</p>
      */
-    public function setCustomValidity($name,$messgae) {
+    public function setCustomValidity($name,$message) {
         if (!$this->_customValidity) $this->_customValidity = array();
         if (is_array($name)) $this->_customValidity = array_merge($this->_customValidity, $name);
         else $this->_customValidity[$name] = $message;
@@ -1125,6 +1135,16 @@ class RaxanElement extends RaxanBase {
      * @return RaxanElement
      */
     public function show(){ return $this->css('display','block'); }
+
+    /**
+     * Show the match elements inside the client's browser if it was previously hidden from the client
+     * @return RaxanElement
+     */
+    public function showInClient() {
+        foreach($this->elms as $n)
+            $this->page->hideElementFromClient($n,false);
+        return $this;
+    }
 
     /**
      * Selects the siblings of the matched elements
@@ -1203,7 +1223,7 @@ class RaxanElement extends RaxanBase {
      */
     public function text($txt=null) {
         $txt = $txt ? htmlspecialchars($txt.'',null,$this->doc->charset): $txt;
-        $contentNode = (isset($this->isUIElement) && $this->contentElement) ? $this->contentElement  : null;
+        $contentNode = (isset($this->isUIWidget) && $this->contentElement) ? $this->contentElement  : null;
         foreach($this->elms as $i=>$n) {
             if ($contentNode) $n = $contentNode;
             if ($txt===null) return $n->textContent; // read text
@@ -1334,8 +1354,9 @@ class RaxanElement extends RaxanBase {
             $page = $this->page;
             $isa = is_array($v);
             foreach($this->elms as $n) {
-                $nn = $n->nodeName;
                 $fldKey = '';
+                $nn = $n->nodeName;
+                $at = ($nn=='input') ? trim(strtolower($n->getAttribute('type'))) : '';
                 $fldName = $n->getAttribute('name'); // attribute name
                 if (($st = strpos($fldName,'['))!==false) {
                     $fldKey = substr($fldName,$st+1,-1); // get key from name
@@ -1343,6 +1364,7 @@ class RaxanElement extends RaxanBase {
                 }
                 if ($isa && $fldKey && isset($v[$fldName][$fldKey])) $value = $v[$fldName][$fldKey]; // check if field [key] is in array
                 else if ($isa && isset($v[$fldName])) $value = $v[$fldName]; // check if field is in array
+                else if ($isa && ($at=='radio'||$at=='checkbox')) $value = null;
                 else $value = $v;
                 $isValArr = is_array($value); // check if value is an array
                 if ($nn=='textarea' && !$isValArr) {     // textareas
@@ -1353,14 +1375,13 @@ class RaxanElement extends RaxanBase {
                     }
                 }
                 elseif ($nn!='select') {        // inputs
-                    $at = trim(strtolower($n->getAttribute('type')));
                     $av = $n->getAttribute('value');
-                    if (($at=='radio'||$at=='checkbox') && $isValArr) {  // index arrays
+                    if ($isValArr && ($at=='radio'||$at=='checkbox')) {  // index arrays
                         if (in_array($av,$value) || (in_array($fldName,$value))) $n->setAttribute('checked','checked');
                         else $n->removeAttribute('checked');
                     }
-                    else if ($isa && ($at=='radio'||$at=='checkbox')) {          // hash array (name = value)
-                        if ($av==$value) $n->setAttribute('checked','checked');
+                    else if ($isa && ($at=='radio'||$at=='checkbox')) {  // hash array (name = value)
+                        if ($av===$value) $n->setAttribute('checked','checked');
                         else $n->removeAttribute('checked');
                     }
                     else if (!$isValArr){ // button, textbox, etc
@@ -1385,7 +1406,7 @@ class RaxanElement extends RaxanBase {
 
     /**
      * Returns or sets the width of the container element
-     * @return RaxanUIContainer
+     * @return RaxanElement
      */
     public function width($w = null) {
         if (is_numeric($w)) $w = $w.'px';
@@ -1462,7 +1483,7 @@ class RaxanElement extends RaxanBase {
         else return $this;
         if ($retNodes) $newNodes = array();
         // check for ui content node
-        $contentNode = (isset($this->isUIElement) && $this->contentElement) ? $this->contentElement  : null;
+        $contentNode = (isset($this->isUIWidget) && $this->contentElement) ? $this->contentElement  : null;
         foreach($this->elms as $i=>$n){
             if ($contentNode && ($pos=='append'||$pos=='prepend')) $n = $contentNode;
             foreach($content as $c => $node) {

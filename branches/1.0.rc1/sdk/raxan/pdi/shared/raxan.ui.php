@@ -1,32 +1,32 @@
 <?php
 /**
- * Raxan UI Element
- * Classes for building UI components and widgets
+ * Raxan UI Widget
+ * Classes for building UI Widgets
  * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 
 /**
- * Raxan User Interface Element Class
- * This class stores a reference to a single DOM element that is used to render the UI components
+ * Raxan User Interface Widget Class
+ * This class stores a reference to a single DOM element that is used to render the widget
  * @property string $elmId Element id
  * @property string $elmMarkup Default UI html markup
  * @property DOMElement $element
  * @property DOMElement $contentElement Used as a proxy element to display text and html content
  * @property array $properties An array or ui Element properties 
  * @property string $preserveState Default state mode. set to local or session to preserve state within a component
- * @property string $background Set background color or image
- * @property string $foregound Set UI forground color
- * @property string $bordercolor Set UI border color
- * @property int $borderwidth Set UI border width value
- * @property int $borderradius Set UI border radius value
- * @property int $height Sets the height of the UI element
- * @property int $width Sets the width of the UI element
+ * @property string $background Sets background color or image
+ * @property string $foregound Sets forground color
+ * @property string $bordercolor Sets border color
+ * @property int $borderwidth Sets border width value
+ * @property int $borderradius Sets border radius value
+ * @property int $height Sets the height of the widget
+ * @property int $width Sets the width of the widget
  * @property boolean $enableDefaultUIProperties Enables default UI properties such as borderradius, bordercolor, borderwidth, etc
  */
-abstract class RaxanUIElement extends RaxanElement {
+abstract class RaxanUIWidget extends RaxanElement {
 
-    public $isUIElement = true;
+    public $isUIWidget = true;
 
     protected $elmId;
     protected $element;
@@ -90,7 +90,7 @@ abstract class RaxanUIElement extends RaxanElement {
             }
         }
 
-        $page->registerUIElement($this);
+        $page->registerUIWidget($this);
 
     }
 
@@ -160,7 +160,7 @@ abstract class RaxanUIElement extends RaxanElement {
      * Set UI Property value
      * @param string $name Option name
      * @param mixed $value
-     * @return RaxanUIElement
+     * @return RaxanUIWidget
      */
     public function setProperty($name,$value) {
         $this->_property($name,$value,true);
@@ -194,7 +194,7 @@ abstract class RaxanUIElement extends RaxanElement {
 
     /**
      * Triggers the _load event handler to load addition data
-     * @return RaxanUIElement
+     * @return RaxanUIWidget
      */
     public function loadInterface() {
         $this->_load();
@@ -202,8 +202,8 @@ abstract class RaxanUIElement extends RaxanElement {
     }
     
     /**
-     * Triggers the _prerender event handler to render the UI element.
-     * @return RaxanUIElement
+     * Triggers the _prerender event handler to render the UI widget.
+     * @return RaxanUIWidget
      */
     public function renderInterface() {
         if (!$this->isRendered) {
@@ -231,22 +231,10 @@ abstract class RaxanUIElement extends RaxanElement {
         return $this;
     }
 
-    // Protected function
-    // ---------------------------
-    
-
-}
-
-/**
- * Raxan User Interface Container Class
- * This class stores a reference to a single DOM element that is used as a container when rendering UI components
- */
-abstract class RaxanUIContainer extends RaxanUIElement {
-    
     /**
      * Make child elements selectable
      * @param array $opt Optional. See jQuery Selectable plugin
-     * @return RaxanUIContainer
+     * @return RaxanUIWidget
      */
     public function selectable($opt = null) {
         $this->page->loadScript('jquery-ui-interactions');
@@ -257,14 +245,20 @@ abstract class RaxanUIContainer extends RaxanUIElement {
     /**
      * Make child elements sortable
      * @param array $opt Optional. See jQuery Sortable plugin
-     * @return RaxanUIContainer
+     * @return RaxanUIWidget
      */
     public function sortable($opt = null) {
         $this->page->loadScript('jquery-ui-interactions');
         $this->client->sortable($opt);
         return $this;
     }
+    
+    // Protected function
+    // ---------------------------
+    
 
 }
+
+
 
 ?>

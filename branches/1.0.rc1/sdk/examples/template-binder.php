@@ -51,7 +51,7 @@ class NewPage extends RaxanWebPage {
         else if ($row['sku']=='HTC01') {
             // return custom row text
             return '<tr><td colspan="3" style="color:#fff;background-color:#2b2;"><h3 class="bmm">'.
-                '<img src="views/images/'.htmlspecialchars($row['photo']).'" align="left" width="48" width="91" class="rtm" />'.
+                '<img src="views/images/'.htmlspecialchars($row['photo']).'" width="48" width="91" class="left rtm" />'.
                 htmlspecialchars($row['desc']).'</h3>'.
                 htmlspecialchars($row['details']).'</td></tr>'; // custom render
         }

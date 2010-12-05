@@ -78,8 +78,7 @@ a.button:hover { text-decoration: none }
 /* -- form -- */
 fieldset { border:solid 1px #ddd; }
 form legend { font-weight: bold; font-size: 1.2em; }
-form .textbox { border:solid 1px #aaa;}
-form input.textbox {height: 20px }
+form input.textbox { height: 20px; line-height: 20px; }
 form .textbox:focus { border-color:#97BEFF }  /* textbox */
 form .textbox {
     background: #fff  url(images/txt_bg.png) repeat-x;
@@ -91,6 +90,17 @@ form span.required { border-width: 0; }
 /* -- transparent & disabled state -- */
 body .disabled { cursor: default !important; -moz-opacity:0.5; opacity: 0.5; }
 body .transparent { -moz-opacity:0.4; opacity: 0.4; }
+
+/* Round Border radius */
+.round { -moz-border-radius:4px; -webkit-border-radius:4px; border-radius:4px; }
+.round-tl { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; border-top-left-radius: 4px; }
+.round-tr { -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; border-top-right-radius: 4px; }
+.round-bl { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px; }
+.round-br { -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px; }
+.round-top { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; border-top-left-radius: 4px; -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; border-top-right-radius: 4px; }
+.round-bottom { -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px; -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px; }
+.round-right {  -moz-border-radius-topright: 4px; -webkit-border-top-right-radius: 4px; border-top-right-radius: 4px; -moz-border-radius-bottomright: 4px; -webkit-border-bottom-right-radius: 4px; border-bottom-right-radius: 4px; }
+.round-left { -moz-border-radius-topleft: 4px; -webkit-border-top-left-radius: 4px; border-top-left-radius: 4px; -moz-border-radius-bottomleft: 4px; -webkit-border-bottom-left-radius: 4px; border-bottom-left-radius: 4px; }
 
 /* -- backdrop -- */
 .rax-backdrop {

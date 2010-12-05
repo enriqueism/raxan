@@ -223,10 +223,10 @@ exception that stylesheets are loaded from the "ui/css" folder and there is no s
         <tr>
             <td valign="top" colspan="3">
                 <pre><code class="js">
-                Raxan.include("myplugin");
-                Raxan.include("namespace/myplugin");
-                Raxan.include("path/to/folder/myscript.js", true);
-                Raxan.include("path/to/folder/myscript.js", true, function(){
+                Raxan.include(&quot;myplugin&quot;);
+                Raxan.include(&quot;namespace/myplugin&quot;);
+                Raxan.include(&quot;path/to/folder/myscript.js&quot;, true);
+                Raxan.include(&quot;path/to/folder/myscript.js&quot;, true, function(){
                     alert(&quot;File loaded successfully&quot;);
                 });
                 </code></pre>
@@ -298,12 +298,11 @@ exception that stylesheets are loaded from the "ui/css" folder and there is no s
             <td valign="top">See <a href="client-server.html">Client-Server Introduction</a> for more information.</td>
         </tr>
         <tr class="tbl-header tpb">
-            <th valign="top" colspan="3"><strong>Events</strong></th>
+            <th valign="top" colspan="3"><strong>Events &amp; Callbacks</strong></th>
         </tr>
         <tr class="even">
             <td valign="top">ready(fn)</td>
-            <td valign="top">Bind a function to the ready event. This event is triggered when the DOM
-                has be loaded and can be manipulated.<br />
+            <td valign="top">Bind a function to the ready event. This event is triggered when the DOM has been loaded and can be manipulated.<br />
             <br /></td>
             <td></td>
         </tr>
@@ -326,6 +325,40 @@ exception that stylesheets are loaded from the "ui/css" folder and there is no s
             <td valign="top">unload(fn)</td>
             <td valign="top">Bind a function to the browser's unload event.</td>
             <td valign="top"> </td>
+        </tr>
+        <tr>
+            <td valign="top">togglePreloader(fn)</td>
+            <td valign="top">Bind a function to Raxan's preloader event. This event is triggered before and after a client-server request.</td>
+            <td valign="top"> </td>
+        </tr>
+        <tr class="even">
+            <td valign="top" colspan="3">
+                <pre><code class="js">
+                Raxan.togglePreloader(function(e,mode){
+                    if (mode=='on') $('#loader').show();
+                    else if (mode=='off') {
+                        $('#loader').hide();
+                        if (e.serverResult) alert(e.serverResult); // result returned from server
+                    }
+                });
+                </code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">error(fn)</td>
+            <td valign="top">Bind a function to Raxan's error event. This event is only triggered whenever an unhandled client/server error occurs.</td>
+            <td valign="top"> </td>
+        </tr>
+        <tr class="even">
+            <td valign="top" colspan="3">
+                <pre><code class="js">
+                Raxan.error(function(errText,httpCode){
+                    if (httpCode==404) alert('File not found: ' + errText);
+                    else alert('Error: ' + errText);
+                    return true; // let the library know that the error was handled
+                });
+                </code></pre>
+            </td>
         </tr>
 
         <tr>
