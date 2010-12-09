@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>RJO - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Raxan JavaScript Object Quick Reference</h2>
+
+<p>The Raxan JavaScript Object provides a reference to the methods and properties used by the Raxan Framework.</p>
+
+<pre><code class="javascript">&lt;script src="raxan/startup.js" type="text/javascript"&gt;
+    Raxan.include('jquery');
+
+    Raxan.ready(function(){
+        alert('The page is now ready for DOM manipulation');
+    });
+&lt;/script&gt;
+</code></pre>
+
+<h3>Dynamic loading of Style Sheets and Javascript Libraries</h3>
+
+<p>At times, you only want to load a portion of your scripts and/or style sheets when the user completes a specific task. This makes it easier on the
+loading time required at startup and gives you the option of breaking up your very large scripts into smaller and more manageable script files.</p>
+
+<p>Raxan provides two API functions to dynamic load of Javascript and CSS files from the within "ui/javascript" and "ui/css" folders or from any other
+folder location.</p>
+
+<p>To use the include() function, simply pass the name and path to the script file without the .js extension if the file is located inside the plugins
+folder. For example:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    Raxan.include('jquery');
+    Raxan.include('namespace/myscript');
+    // where namespace is a sub-folder within the plugins folder
+&lt;/script&gt;    
+</code></pre>
+
+<p>For script files that are not located inside the ui/javascript folder, use the following syntax:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    Raxan.include('path/to/folder/myscript.js', true);
+&lt;/script&gt;    
+</code></pre>
+
+<p>Note here that the extension of the file must be included and the second parameter set to true.</p>
+
+<p>To receive notification after the file has been loaded you can pass a callback function as the third parameter:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    Raxan.include('path/to/folder/myscript.js', true, function(){
+        alert('File loaded successfully');
+    });
+&lt;/script&gt;    
+</code></pre>
+
+<p>When you want to dynamically load a stylesheet, the css() function must be used. The concept is similar to that of the include() function with the
+exception that stylesheets are loaded from the "ui/css" folder and there is no support for a callback function:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    Raxan.css('master');
+    Raxan.css('name-of-theme/theme');
+
+    // for other stylesheets
+    Raxan.css('path/to/folder/stylesheet.css', true);
+&lt;/script&gt;
+</code></pre>
+
+<h3>RJO Methods &amp; Properties</h3>
+
+<table class="rax-table" border="0" cellspacing="0" cellpadding="0" summary="HTML Object Quick Reference">
+    <tbody>
+        <tr class="tbl-header">
+            <th class="c6" valign="top">Methods/Events</th>
+            <th valign="top">Description</th>
+            <th valign="top">Notes</th>
+
+        </tr>
+        <tr>
+            <td valign="top">version</td>
+            <td valign="top">Return the version number of the framework</td>
+            <td valign="top">alert(html.version);</td>
+        </tr>
+        <tr class="even">
+
+            <td valign="top">path</td>
+            <td valign="top">Path to framework files. This will be detected by default.</td>
+            <td valign="top">
+                <p>To manually set the library path use:</p>
+                <p>html.path = './raxan-changes';</p>
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top">csspath</td>
+            <td valign="top">Path to Raxan sylesheets. This will be detected by default.</td>
+            <td valign="top">
+                <p>To manually set the css path use:</p>
+                <p>html.csspath = './mystyles';</p>
+            </td>
+
+        </tr>
+        <tr class="even">
+            <td valign="top">pluginpath</td>
+            <td valign="top">Path to Raxan plugins. This will be detected by default.</td>
+            <td valign="top">
+                <p>To manually set the plugins path path use:</p>
+                <p>html.pluginpath = './myplugins';</p>
+
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">mainScript</td>
+            <td valign="top">Returns the name of the main startup or code-behind script. If multiple
+            startup scripts were specified then this property will return an array.</td>
+            <td valign="top">alert(html.mainScript)</td>
+        </tr>
+
+        <tr>
+            <td valign="top"><strong>Methods</strong></td>
+            <td valign="top"> </td>
+            <td valign="top"> </td>
+        </tr>
+        <tr class="even">
+            <td valign="top">bind(css,evt,fn)</td>
+
+            <td valign="top">
+                <p>Bind the event of an html element to a function.</p>
+                <ul>
+                    <li>css - Element selector</li>
+                    <li>evt - Name of event</li>
+                    <li>fn - Callback function</li>
+                </ul>
+
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td valign="top" scope="col" colspan="3">
+                <pre><code class="js">
+                Raxan.bind(&quot;#btnsave&quot;, &quot;click&quot;, function(){
+                    alert(&quot;You have clicked me&quot;);
+                });
+                </pre>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">css(src,extrn)</td>
+            <td valign="top">
+                <p>Dynamically load a stylesheet from the server.</p>
+                <ul>
+                    <li>src - Stylesheet URL.</li>
+
+                    <li>extrn -  Set to true when loadig styles that are not located inside styles
+                    folder.</li>
+                </ul>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td valign="top" colspan="3">
+                <pre><code class="js">
+                Raxan.include(&quot;master&quot;);
+                Raxan.include(&quot;name-of-theme/theme&quot;);
+                // for other stylesheets<br />
+                Raxan.include("path/to/folder/stylesheet.css", true);
+                </code></pre>
+            </td>
+        </tr>
+        <tr class="even">
+            <td valign="top">include(src,extrn,fn)</td>
+
+            <td valign="top">
+                <p>Dynamically load a Javascript from the server.</p>
+                <ul>
+                    <li>src - Javscript URL.</li>
+                    <li>extrn -  Set to true when loadig styles that are not located inside plugins
+                    folder.</li>
+                    <li>fn - Calback function to receive notification after the file has loaded.</li>
+                </ul>
+
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td valign="top" colspan="3">
+                <pre><code class="js">
+                Raxan.include(&quot;myplugin&quot;);
+                Raxan.include(&quot;namespace/myplugin&quot;);
+                Raxan.include(&quot;path/to/folder/myscript.js&quot;, true);
+                Raxan.include(&quot;path/to/folder/myscript.js&quot;, true, function(){
+                    alert(&quot;File loaded successfully&quot;);
+                });
+                </code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">urlparams()</td>
+            <td valign="top">Returns an array containing url parameters passed to the page.</td>
+            <td valign="top">var url = Raxan.urlparams();<br />
+
+                alert(url['name']);<br />
+            <br /></td>
+        </tr>
+        <tr class="even">
+            <td valign="top">filename()</td>
+            <td valign="top">Returns the web page file<br /></td>
+            <td valign="top">alert(Raxan.filename());<br />
+
+            <br /></td>
+        </tr>
+        <tr>
+            <td valign="top">post(url, data)</td>
+            <td valign="top">
+                Post data to the server.
+                <ul>
+                    <li>url - URL to post data.</li>
+
+                    <li>data - hash array containing data to be sent to the web server.</li>
+                </ul>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td valign="top" colspan="3">
+                <pre><code class="js">
+                var data = {
+                    name:&quot;value1&quot;,
+                    name2: &quot;value2&quot;
+                }
+                // send data to server
+                Raxan.post(&quot;save.php&quot;,data);
+                </code></pre>
+            </td>
+        </tr>
+        <tr class="even">
+
+            <td valign="top">log(txt)</td>
+            <td valign="top">Log text to window.console or display in status bar. The window.console
+                is used if Firebug is enabled.<br />
+            <br /></td>
+            <td valign="top"> </td>
+        </tr>
+        <tr class="tbl-header tpb">
+            <th valign="top" colspan="3"><strong>Client-Server Methods</strong></th>
+        </tr>
+        <tr>
+            <td valign="top">createConduit(name, option)</td>
+            <td valign="top"></td>
+            <td valign="top">See <a href="data-conduit.html">Asynchronous Data Conduits</a> for more information.</td>
+        </tr>
+        <tr class="even">
+            <td valign="top">dispatchEvent(type,value,fn)</td>
+            <td valign="top"></td>
+            <td valign="top">See <a href="client-server.html">Client-Server Introduction</a> for more information.</td>
+        </tr>
+        <tr>
+            <td valign="top">getVar(name)</td>
+            <td valign="top"></td>
+            <td valign="top">See <a href="client-server.html">Client-Server Introduction</a> for more information.</td>
+        </tr>
+        <tr class="tbl-header tpb">
+            <th valign="top" colspan="3"><strong>Events &amp; Callbacks</strong></th>
+        </tr>
+        <tr class="even">
+            <td valign="top">ready(fn)</td>
+            <td valign="top">Bind a function to the ready event. This event is triggered when the DOM has been loaded and can be manipulated.<br />
+            <br /></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td valign="top" colspan="3">
+                <pre><code class="js">
+                Raxan.ready(function(){
+                    alert(&quot;The DOM is ready&quot;);
+                });
+                </code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">load(fn)</td>
+            <td valign="top">Bind a function to the browser's onload event.</td>
+
+            <td valign="top"> </td>
+        </tr>
+        <tr class="even">
+            <td valign="top">unload(fn)</td>
+            <td valign="top">Bind a function to the browser's unload event.</td>
+            <td valign="top"> </td>
+        </tr>
+        <tr>
+            <td valign="top">togglePreloader(fn)</td>
+            <td valign="top">Bind a function to Raxan's preloader event. This event is triggered before and after a client-server request.</td>
+            <td valign="top"> </td>
+        </tr>
+        <tr class="even">
+            <td valign="top" colspan="3">
+                <pre><code class="js">
+                Raxan.togglePreloader(function(e,mode){
+                    if (mode=='on') $('#loader').show();
+                    else if (mode=='off') {
+                        $('#loader').hide();
+                        if (e.serverResult) alert(e.serverResult); // result returned from server
+                    }
+                });
+                </code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">error(fn)</td>
+            <td valign="top">Bind a function to Raxan's error event. This event is only triggered whenever an unhandled client/server error occurs.</td>
+            <td valign="top"> </td>
+        </tr>
+        <tr class="even">
+            <td valign="top" colspan="3">
+                <pre><code class="js">
+                Raxan.error(function(errText,httpCode){
+                    if (httpCode==404) alert('File not found: ' + errText);
+                    else alert('Error: ' + errText);
+                    return true; // let the library know that the error was handled
+                });
+                </code></pre>
+            </td>
+        </tr>
+
+        <tr>
+            <td valign="top"> </td>
+            <td valign="top"> </td>
+            <td valign="top"> </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

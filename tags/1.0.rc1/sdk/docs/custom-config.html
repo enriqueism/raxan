@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Custom Config - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Loading a Custom Config File</h2>
+
+<p>There might be times when you want to load a custom config file for your application, in order to easily maintain your database login information or override default settings.</p>
+
+<p>There are two main options available to load your custom configuration into the framework. The first option is to create a file called gateway.config.php inside the raxan/pdi folder. This file will be automatically detected and loaded by the framework.</p>
+
+<p>Raxan PDI includes a sample configuration file called <strong>gateway.config.sample.php</strong>, that's also located inside the raxan/pdi folder. You can copy and rename this file to gateway.config.php, then use your favorite text editor to modify the default settings.</p>
+
+<p>The second option is to use the Raxan::loadConfig() method as shown in the example below:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once 'raxan/pdi/gateway.php';
+
+    Raxan::loadConfig('include/myconfig.php');
+
+    // ...your code here...
+
+?&gt;
+</code></pre>
+
+<p>In addition to loading your a config file, you can also make on the fly configuration changes by using the Raxan::config($key, $value) method:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once 'raxan/pdi/gateway.php';
+
+    Raxan::config('views.path','html/views/');
+
+?&gt;
+</code></pre>
+
+<h3>Sample Confiugration Options</h3>
+
+<p>All path and url settings must have a trailing slash (/)</p>
+
+<h4><strong>Path/URL setting</strong></h4>
+
+<ul>
+<li>base.path     - Absolute path to PDI folder. This path is automatically assigned by the system.</li>
+<li>site.locale   - Site locale code. Defaults to 'en-us'   </li>
+<li>site.lang     - Site language code. Defaults to 'en' (English). Must correspond with language folder</li>
+<li>site.charset  - Charset code. Defaults to 'UTF-8'</li>
+<li>site.timezone - sets the timezone to use by the framework. e.g. America/Toronto.</li>
+<li>site.email    - Site email addess</li>
+<li>site.phone    - Site phone number</li>
+<li>site.url      - URL path to website. Defaults to the url for the current page.</li>
+<li>site.path     - Absolute folder path to site root. Defaults to the path for the current page</li>
+<li><p>views.path    - Absolute folder path to the views folder. Defaults to {site path}/views/</p></li>
+<li><p>raxan.url     - URL path to raxan folder. Defaults to './raxan/'</p></li>
+<li>raxan.path    - Absolute path to the raxan folder. Defaults to {base path}/../</li>
+<li>cache.path    - Not Used. Absolute path to cache folder. Defaults to {raxan path}/cache/</li>
+<li><p>locale.path   - Absolute path to locale folder. Defaults to {base path}/shared/locale/</p></li>
+<li><p>plugins.path  - Absolute path to the plugins folder. Defaults to {raxan path}/plugins/</p></li>
+<li>widgets.path  - Absolute path to the widgets folder. Defaults to {raxan path}/ui/widgets/</li>
+</ul>
+
+<h4><strong>Session setting</strong></h4>
+
+<ul>
+<li>session.name - PHP session name. Change for each <strong>NEW application</strong> to prevent PHP sessions from being shared across applications. Session name must be short and contains only alphanumeric characters.</li>
+<li>session.timeout - PHP cookie session timeout value in minutes. Defaults to 30 minutes</li>
+<li>session.data.storage - Session data storage class. Defaults to  RaxanSessionStorage</li>
+</ul>
+
+<p>Note: The session data storage class is responsible for generating unique Ids for each user. See RaxanSessionStorage for more details.</p>
+
+<h4><strong>Database Connection setting</strong></h4>
+
+<ul>
+<li><p>db.default     - An array containing default database configuration. See gateway.config.sample.php for more information.</p>
+
+<pre><code>// Database connector example
+$config['db.default'] = array(
+    'dsn'       =&gt; 'mysql: host=localhost; dbname=employees',
+    'user'      =&gt; 'empuser',
+    'password'  =&gt; 'password',
+    'attribs'   =&gt; ''
+);
+</code></pre></li>
+</ul>
+
+<p>Note: Additional databases can be configured by adding the "db." prefix the configuration name. For example "db.mysql"</p>
+
+<h4><strong>Logging/Debuging</strong></h4>
+
+<ul>
+<li>debug          - Enable/Disable debug mode. Defaults to false.</li>
+<li>debug.log      - Enable/Disable log message to debug window. Defaults to false.</li>
+<li>debug.output   - Set debug output mode. Accepted values: embedded, alert, popup, console. Defauls to embedded.</li>
+<li>log.enable     - Enable/Disable logger. Defaults to false</li>
+<li>log.file       - Set log file mode. Defaults to PHP logger</li>
+</ul>
+
+<h4><strong>Error Page settings</strong><br /></h4>
+
+<p>To display a custom message, add the {message} placeholder inside the html file.</p>
+
+<ul>
+<li>error.400   - File path to 400 error page template.</li>
+<li>error.401   - File path to 401 error page template.</li>
+<li>error.403   - File path to 403 error message template.</li>
+<li>error.404  - File path to 404 error message template.</li>
+</ul>
+
+<h4><strong>Web Page default settings</strong></h4>
+
+<ul>
+<li>page.localizeOnResponse     - Loacalize web page content based on the langid attribute</li>
+<li>page.initStartupScript      - Loads the raxan startup.js script</li>
+<li>page.resetDataOnFirstLoad   - Reset page data on first load</li>
+<li>page.preserveFormContent    - Preserve form content during post back</li>
+<li>page.disableInlineEvents    - Disables the processing of inline events.</li>
+<li>page.masterTemplate         - Page master template - html source or file name</li>
+<li>page.serializeOnPostBack    - Default selector value for matched elements to serialize during post back. e.g. form</li>
+<li>page.degradable             - Enables accessible event binding for links, forms and submit buttons </li>
+<li>page.showRenderTime         - Shows the page render time</li>
+<li>page.data.storage           - Page data storage class. Default to RaxanWebPageStorage</li>
+</ul>
+
+<p>Note: The page data storage class will be passed the data store name of the current page. See RaxanWebPageStorage for more details.</p>
+
+<h4><strong>Preload Plugins and UI Widgets</strong></h4>
+
+<p>These options provide a convenient way to load multiple plugins and widgets. For example, plugin1, plugin2, plugin3.php, etc
+If the extension .php was specified then the plugin or widget with be loaded relative to <strong>site.path</strong>.</p>
+
+<ul>
+<li>preload.plugins             - Comma (,) separated list of plugins to be loaded from <strong>plugins.path</strong></li>
+<li>preload.widgets             - Comma (,) delimited list of UI widgets to be loaded from <strong>widgets.path</strong></li>
+</ul>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

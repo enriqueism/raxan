@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Installation - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Download and Installation Instructions</h2>
+
+<p>If you haven't yet done so, please see the list of "<a href="requirements.html">Software Requirements</a>" before continuing.</p>
+
+<p>To download the latest version of the framework, visit the Raxan Download web page located at <a href="http://raxanpdi.com/downloads.html">http://raxanpdi.com/downloads.html</a> and
+click on the "Download Now" button. Your download should start after a few seconds. If for some reason it failed to start, then
+click on the "Go to download site" hyperlink.</p>
+
+<p>Note: The download package includes the Raxan CSS Framework, PHP/Ajax libraries, examples and documentation.</p>
+
+<h3>Installation</h3>
+
+<p>Extract the contents of the downloaded file (e.g. raxan.1.0.rc1.zip) to a folder on your
+local computer (e.g. c:\downloads\raxansdk), then copy the files and folders to your
+development folder or web server.</p>
+
+<p>If you are deploying to a web server, make sure that the files are placed in a location (e.g. the web root) where they
+can be accessed via a browser.</p>
+
+<p>When <strong>deploying a new application</strong> you're only required to deploy the "raxan" folder (sdk/raxan or minified/raxan) along with your application files.</p>
+
+<h3>Creating a Configuration File</h3>
+
+<p>When a Raxan web page is initialized it automatically configures your application to use it's default folder structure. This behavior can be changed by
+creating a custom configuration file.</p>
+
+<p>This step is optional and only applies to server-side development. To create your custom configuration file, copy (or rename)
+the "raxan/pdi/gateway.config.sample.php" to <strong>gateway.config.php</strong></p>
+
+<p>Using a text editor, edit the content of <strong>gateway.config.php</strong> by adding the necessary folder paths and/or database login information.</p>
+
+<p>On <strong>shared linux systems</strong>, you should chmod your gateway.config.php file to 644 or 600 to prevent others from making changes to your application.
+It's also recommended that your ISP installs the suphp Apache module for added security.</p>
+
+<h4>Changing the default Raxan Path and URL from the server</h4>
+
+<p>To change the default raxan directory path nd url, set the <strong>raxan.url</strong> and <strong>raxan.path</strong> options inside the "gateway.config.php" file.
+For more information see <a href="custom-config.html">Loading A Custom Configuration File</a></p>
+
+<pre><code class="php">&lt;?php
+    $config['raxan.url'] = '/url/address/to/raxan/';
+    $config['raxan.path'] = '/folder/path/to/raxan/';
+    // Note: The new path and url must have a trailing slash (/)
+?&gt;
+</code></pre>
+
+<h3>Changing the default JavaScript include path from within the browser</h3>
+
+<p>You can also change the path from which the framework loads its JavaScript library files by setting the 'path'
+property on the Raxan JavaScript Object.</p>
+
+<p>For example:</p>
+
+<pre><code class="javascript">&lt;script type="text/javascript"&gt;
+    Raxan.path = '/url/to/raxan/';
+    // Note: The new url must have a trailing slash (/)
+&lt;/script&gt;
+</code></pre>
+
+<p>The same can be done for the csspath and scriptpath. See <a href="html-object.html">Raxan JavaScript Object</a> for more information.</p>
+
+<p>To learn more visit the <a href="php-overview.html">Developer Overview</a> web page.</p>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="upgrade.html" title="Raxan New Features">Upgrading from a Previous Version</a></p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

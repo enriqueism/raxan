@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Dev Overview - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Developer Overview</h2>
+
+<p>Raxan is an event driven PHP/Ajax framework that is based on a <strong>Programmable Document Interface (PDI)</strong> design.
+It was created to meet the needs of modern web application development while allowing separation of web application layers,
+re-use of business logic and parallel development by separate teams.</p>
+
+<p>The core functionality of the framework was inspired by the jQuery API. This means that if you're already familiar with basic methodology of jQuery,
+then you can easily adapt to the methodology and concepts of this framework.</p>
+
+<h3>Directory Structure</h3>
+
+<div class="right border margin" style="text-align: center;width:190px;">
+    <img src="images/directory.png"  align="right" alt="Directory Structure" witdh="190" height="258"/>
+    <div class="lightgray hlf-pad">
+        <span class="small">Raxan SDK Folder</span>
+    </div>
+</div>
+
+<p>If you haven't yet done so, please download and install the latest version from the <a href="http://raxanpdi.com">Raxan website</a>.
+See the <a href="installation.html">Downloading and Installation Instructions</a> web page for more information.</p>
+
+<p>The "<strong>sdk/</strong>" folder contains the documentation, source code, tools and examples for the framework.</p>
+
+<ul>
+<li><strong>minified</strong> - Stores minified version of the framework</li>
+<li><strong>sdk/raxan</strong> - Main raxan framework folder.</li>
+<li><strong>sdk/raxan/plugins</strong> - Reusable server-side plugin folder</li>
+<li><strong>sdk/raxan/ui</strong> - Contains CSS stylesheets,  JavaScript libraries and server-side UI components.</li>
+<li><strong>sdk/raxan/pdi</strong> - Contains Raxan server-side PHP classes and configuration files.</li>
+<li><strong>sdk/raxan/pdi/shared/locale</strong> - Stores language definitions files and locale settings.</li>
+</ul>
+
+<p>The "<strong>ui/css</strong>" folder is used for storing cascading style sheets and images. Inside this folder you will find the master.css file which contains
+predefined CSS classes for building web page layouts. In addition, you will also find a "default" folder that contains the default theme for the framework.
+Additional themes can be added and loaded when necessary.</p>
+
+<p>Use the "<strong>ui/javascript</strong>" folder to store reusable JavaScript libraries.</p>
+
+<h3>Understanding the Framework</h3>
+
+<p>As a developer you have the choice to choose how they would like to build and deploy your applications.
+You can choose to use the framework as stand-alone dynamic JavaScript/CSS loader, or go with the built-in CSS framework and jQuery libraries build Rich Ajax/HTML Applications.
+And if you're into building PHP-based web sites or applications then look no further. Raxan has the right tools and APIs that you need to start building your next web application.</p>
+
+<p>Each release includes the latest stable versions of the following JavaScript libraries:</p>
+
+<ul>
+<li>jQuery Core (jquery.js)</li>
+<li>jQuery UI utils (jquery-ui-utils.js)</li>
+<li>jQuery UI Effects (jquery-ui-effects.js)</li>
+<li>jQuery UI Interactions (jquery-ui-interactions.js)</li>
+<li>jQuery Tools (jquery-tools.js)  - includes Tabs, Tooltip, Scrollable, OverLay, Expose, MouseWheel, History</li>
+<li>jQuery Form  Tools (jquery-form-tools.js) DateInput, RangeInput, Validator</li>
+<li>Raxan UI (raxan-ui.js)</li>
+</ul>
+
+<p>You can create your own customized version of the above libraries and add them to the "<strong>raxan/ui/javascripts</strong>" folder.</p>
+
+<div class="c9 right border margin" style="text-align: center">
+    <img src="images/app-folders.png" class="margin" width="134" height="136"/>
+    <div class="lightgray hlf-pad">
+        <span class="small">A typical Raxan application folder structure</span>
+    </div>
+</div>
+
+<h3>Separate Page Content from Logic</h3>
+
+<p>Building on the web design philosophy of the separation of content from logic, Raxan makes it easier for you to separate your <strong>HTML Views</strong> (or content)
+from your <strong>PHP/Ajax</strong> logic by adding them to a "views" folder. This approach makes it possible to load or modify the contents of existing views
+without having to alter the page logic.</p>
+
+<p>In addition to storing HTML content, you can also use the "views" folder to store style sheets, images and JavaScript files. Once you have organized your
+files you can load and process the views using the built-in APIs.</p>
+
+<h3>The Web Page Controller</h3>
+
+<p>A Raxan web page normally includes a reference to the PDI gateway (or auto-start) file and a RaxanWebPage sub-class.
+The gateway file (<strong>raxan/pdi/gateway.php</strong> or <strong>raxan/pdi/autostart.php</strong>) is used to load the main classes that are required by the framework.
+These classes include Raxan, RaxanWebPage, RaxanElement, RaxanPlugin and RaxanDataSanitizer, etc. The RaxanWebPage class is responsible for collecting,
+processing and responding to a client's request as shown below:</p>
+
+<div class="pad" style="text-align: center">
+    <img class="margin pad rtb" src="images/client-server.png" />
+    <img class="margin" src="images/page-controller.png" />
+</div>
+
+<p>When a request is received the page controller automatically initializes the web page class.</p>
+
+<p>Here's quick example:</p>
+
+<pre><code class="php">&lt;?php
+    require_once('raxan/pdi/autostart.php'); // include the auto start file
+
+    class NewPage extends RaxanWebPage {  // extends RaxanWebPage class
+        protected function _load() {
+            $this-&gt;content('My first Raxan Page'); // set the content of the page
+        }    
+    }
+
+?&gt;
+</code></pre>
+
+<p>In the above example the "NewPage" class will be initialized when the page is requested. If there are more than one classes that extends RaxanWebPage
+within the same page, the framework will load the last defined class.
+To prevent this behavior you will have to declare the $autostart property within the startup class:</p>
+
+<pre><code class="php">&lt;?php
+    require_once('raxan/pdi/autostart.php'); // include the auto start file
+
+    class AnotherPage extends RaxanWebPage {  // extend the RaxanWebPage class
+        protected $autostart;   // tells Raxan to initialize this class when the page loads 
+        protected function _load() {
+            $this-&gt;content('My first Raxan Page'); // set the content of the page
+        }    
+    }
+
+?&gt;
+</code></pre>
+
+<p>Another way to automatically initialize a page class is to set the value of the "<strong>autostart</strong>" config option to the name of the class to be initialized:</p>
+
+<pre><code class="php">&lt;?php
+    Raxan::config('autostart','MyDefaultPageClass');
+?&gt;
+</code></pre>
+
+<p>To disable automatic startup, set the above "<strong>autostart</strong>" option to false:</p>
+
+<pre><code class="php">&lt;?php
+    Raxan::config('autostart',false); // disables auto-startup
+?&gt;
+</code></pre>
+
+<p>In addition to the above you can manually initialize a page class by including the reference to the "<strong>gateway.php</strong>" file
+and calling the RaxanWebPage::init() method:</p>
+
+<pre><code class="php">&lt;?php
+    require_once('raxan/pdi/gateway.php'); // include the gateway file
+
+    class NewPage extends RaxanWebPage {  // extend the RaxanWebPage class
+        protected function _load() {
+            $this-&gt;content('My first Raxan Page'); // set the content of the page
+        }    
+    }
+
+    RaxanWebPage::init('NewPage'); // manually initialize the class
+
+?&gt;
+</code></pre>
+
+<p>When the "NewPage" sub-class is initialized it will serve as the Page Controller for the web page.
+To access the page controller from an external class or function, use the RaxanWebPage::controller() method.</p>
+
+<h3>Extending the RaxanWebPage class</h3>
+
+<p>To receive page event notifications when your page is being processed, you will have to extend the RaxanWebPage class and add your page event handlers to the page controller.</p>
+
+<p>For example, the code below will modify the content of the web page when the _load() event is triggered:</p>
+
+<pre><code class="php">&lt;?php
+class MyPage extends RaxanWebPage {
+    protected function _load() {
+        $this['body']-&gt;append('Hello World');
+    }
+}
+?&gt;
+</code></pre>
+
+<p>The following is a list of supported page events:</p>
+
+<ul>
+<li>_config</li>
+<li>_init </li>
+<li>_authorize</li>
+<li>_indexView</li>
+<li>_load</li>
+<li>_prerender</li>
+<li>_postrender</li>
+<li>_reply</li>
+<li>_destroy</li>
+</ul>
+
+<p>For more information about page events, visit the <a href="page-cycle.html">Page Request Cycle</a> documentation page.</p>
+
+<h3>Loading HTML content into the DOM</h3>
+
+<p>By default any HTML content appearing after the "<strong>autostart.php</strong>" has been loaded will be buffered and used as the source for the HTML web page. This is
+useful if you're building a simple web page and want to include both HTML and with logic together:</p>
+
+<pre><code class="php">&lt;?php
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {  
+        protected function _load() {
+            // do something here
+        }
+    }
+
+?&gt;
+
+&lt;div&gt;My First Raxan App&lt;/div&gt;
+&lt;hr /&gt;
+</code></pre>
+
+<p>The above will generate a basic web page with the words "My First Raxan App". In addition to the above you can load content via a master template or view. See <a href="templates.html">Templates and Views</a> for more information</p>
+
+<h3>Accessing DOM Elements</h3>
+
+<p>There are a number of ways to retrieve single or a collection of match elements. Here are a few examples:</p>
+
+<pre><code class="php">&lt;?php
+    class NewPage extends RaxanWebPage {
+        protected function _load() {
+            $elm = $this-&gt;findById('panel1');     // find by element id
+            $elm = $this-&gt;panel1;                 // direct property of page. quick wrapper to findById()
+            $elm = $this-&gt;findByXPath('//div[@id="panel1"]'); // find element using xpath query
+            $elm = $this-&gt;find('.side-panel');    // find element using CSS selectors
+            $elm = $this['.side-panel'];          // wrapper to the above find() method
+        }
+    }
+?&gt;
+
+&lt;div id="panel1" class="side-panel"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>The above functions will return a instance of the RaxanElement class which contains the matched elements.</p>
+
+<p>Where possible you should use an id when retrieving an element from the page. Other useful Tips:</p>
+
+<ul>
+<li>Use ids where possible. See findById(). You can directly access elements using $this->myid, where myid is the id of the element.</li>
+<li>Use XPath queries where possible. See findByXPath().</li>
+<li>Use CSS selectors if necessary. See find(). CSS selectors are a little slower than XPath queries because there’s currently no built-in DOM support for CSS selectors in PHP.</li>
+</ul>
+
+<h3>Modifying DOM Elements</h3>
+
+<p>To modify the content of the match elements you can use one of the following  methods.</p>
+
+<pre><code class="php">&lt;?php
+        protected function _load() {
+            $elm = $this-&gt;findById('panel1');     // find element by id
+
+            $elm-&gt;text('My sample app');    // sets the text content for match elements
+            $elm-&gt;html('Hello &lt;strong&gt;world&lt;/strong&gt;'); // sets the html content
+            $elm-&gt;attr('title','My first Raxan web page');  // sets the title attribute
+
+            $elm-&gt;css('color','#00ff00');// sets the css color
+        }
+?&gt;
+</code></pre>
+
+<p>It's also possible to chain method calls together in one line of code:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _load() {
+        $this-&gt;panel1-&gt;text('My sample app')-&gt;css('color','#00ff00');
+    }
+?&gt;
+</code></pre>
+
+<p>To learn more about the available element properties and methods, visit the <a href="RaxanElement.html">RaxanElement</a> API documentation page.</p>
+
+<h3>Loading external JavaScripts and CSS files</h3>
+
+<p>There are two ways to dynamically load JavaScript and CSS files inside your applications or web pages:</p>
+
+<p>The first approach is to add the link or script tags inside your html views or <a href="templates.html">master template</a> page. You can then assign
+a class or id to the elements so that you can change the url dynamically:</p>
+
+<pre><code class="php">&lt;link id="link1" href="path/to/file/style.css" type="text/css" rel="stylesheet" /&gt;
+&lt;script id="script1" type="text/javascript" src="path/to/file/script.js"&gt;&lt;/script&gt;
+
+&lt;?php
+        protected function _load(){
+            $url = ($this-&gt;dayTime==true) ? 'day.css' : 'night.css';
+            $this-&gt;link1-&gt;attr('href',$url);
+        }
+?&gt;
+</code></pre>
+
+<p>The second approach is to use the loadScript() and loadCSS() methods as shown below:</p>
+
+<pre><code class="php">&lt;?php
+        protected function _load(){
+            $url = ($this-&gt;dayTime==true) ? 'day.css' : 'night.css';
+
+            $this-&gt;loadCSS('path/to/file/'.$url, true);
+            $this-&gt;loadScript('path/to/file/script.js', true);
+        }
+?&gt;
+</code></pre>
+
+<p>A few things to note about loadCSS() and loadScript():</p>
+
+<ol>
+<li>By default the methods will attempt to load CSS and JavaScript files from the raxan/ui/css or raxan/ui/javascript folders respectively.</li>
+<li><p>There is no need to include the .css or .js extension when load files from raxan/ui/css or raxan/ui/javascript folders:</p>
+
+<pre><code class="php">&lt;?php
+    // load the jquery-ui-interaction.js file
+    $this-&gt;loadScript('jquery-ui-interactions');
+
+    // load the myfolder/custom.js file relative to ui/javascript
+    $this-&gt;loadScript('myfolder/mycustom'); 
+?&gt;
+</code></pre></li>
+<li><p>When loading a script or css file that's not stored inside the default raxan folders, you must include the full path and name to the file and
+set the second parameter to true:</p>
+
+<pre><code class="php">&lt;?php
+
+    // load css stylesheet
+    $this-&gt;loadCSS('path/to/file/style.css', true);
+
+    // load scripts
+    $this-&gt;loadScript('path/to/file/main.js', true); // main.js
+    $this-&gt;loadScript('views/scripts/custom.js', true); // path relative to web root
+?&gt;
+</code></pre></li>
+</ol>
+
+<h4><strong>Using registerScript to change or bypass default scripts</strong></h4>
+
+<p>Use the registerScript() method to set or change the location of a script file:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        // set the path to the jquery.js file
+        $this-&gt;registerScript('jquery','/path/to/jquery.min.js');
+
+        // set the path of the raxan startup.js script
+        $this-&gt;registerScript('startup','/path/to/startup.min.js');
+    }
+?&gt;
+</code></pre>
+
+<p>When loadScript() method is called with the name of the script it will be loaded from the registered path:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        $this-&gt;loadScript('jquery'); // jquery will be loaded from the registered path
+    }
+?&gt;
+</code></pre>
+
+<p>To prevent a script from being loaded, you can set the second parameter of the registerScript() method to true. This can be useful when you want to
+manually handle the loading of your JavaScripts:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        // prevent jquery from being loaded .
+        $this-&gt;registerScript('jquery',true);
+
+        // calling loadScript will not load the jQuery library
+        $this-&gt;loadScript('jquery');
+    }
+?&gt;
+</code></pre>
+
+<p>To load a single JavaScript file you will need to manually register the bundled jQuery libraries as shown below:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        $this-&gt;registerScript('startup','/path/to/combine.js'); // the framework will load the combine.js startup file
+        $this-&gt;registerScript('jquery',true);
+        $this-&gt;registerScript('jquery-ui-effects',true);
+        $this-&gt;registerScript('jquery-ui-interactions',true);
+        $this-&gt;registerScript('jquery-ui-utils',true);
+        $this-&gt;registerScript('jquery-tools',true);
+    }
+?&gt;
+</code></pre>
+
+<p>In addition to registering JavaScript files and libraries, you can use the registerCSS() method to set or change the location of a stylesheet:</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init {
+        // set path to master stylesheet
+        $this-&gt;registerCSS('master','/path/to/master.css');
+        $this-&gt;loadCSS('master');
+
+        // set path for default theme
+        $this-&gt;registerCSS('default/theme','/path/to/combine.css');
+        $this-&gt;loadTheme('default');
+    }
+?&gt;
+</code></pre>
+
+<p>We have only scratch the surface of the framework. There's a lot more information available within the <a href="table-of-contents.html">User Guide</a> and I would like to encourage
+you to have a look at the other documentation and tutorials.</p>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="demo-app.html" title="An example of a Web Application">An example of a Web Application</a> </p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
