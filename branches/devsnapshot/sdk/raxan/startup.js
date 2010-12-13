@@ -122,7 +122,7 @@ Raxan = {
         e =  e ? e : jQuery.Event('togglepreloader');
         if (result) e.serverResult = result;
         if (elm) e.target = e.currentTarget = elm;
-        l=a.length;for(i=0; i<l; i++) r = a[i](e, mode)||r;
+        l=a.length; for(i=0; i<l; i++) r = a[i](e, mode)||r;
         return r;
     },
 
@@ -447,12 +447,17 @@ Raxan.dispatchEvent = function(type, value, fn) {
     else if (value && jQuery.isFunction(value)) {fn = value;value = null;}           // dispatchEvent(type,fn)
     type = jQuery.trim(type);
     opt.vu = o.view;
-    opt.callback = o.complete ? o.complete : fn;
     target = (o.target) ? o.target : 'page';
-    url = o.url;if (url) target+= '@'+url;     // setup preferred target
+    url = o.url; if (url) target+= '@'+url;     // setup preferred target
     serialize = (o.serialize) ? o.serialize : null;
     if (value===null) value = o.value;
-    if (opt.callback && type.substr(0,1)!='#') type = '#' + type;
+    fn = o.complete ? o.complete : fn;
+    if (fn && type.substr(0,1)!='#') type = '#' + type;
+    if (fn || type.substr(0,1)=='#') opt.callback = function(result,status) {
+        Raxan.iTriggerPreloader(null, null, 'off', result); // toogle preloader event handlers
+        return fn(result,status);
+    }
+    this.iTriggerPreloader(null, null, 'on'); // toogle preloader event handlers
     this.iTriggerRemote(target,type,value,serialize,opt);
     return this;
 }

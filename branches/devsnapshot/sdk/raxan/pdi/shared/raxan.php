@@ -223,8 +223,10 @@ class Raxan {
             $sf = isset($_SERVER['SCRIPT_FILENAME']) ? $_SERVER['SCRIPT_FILENAME'] : '';
             $ps = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
             if ($sn && $ps!=$sn) $su = $sn; else $su = $ps;
-            $config['site.url'] = $su ? dirname($su).'/' : './';
-            $config['site.path'] = $sf ? dirname(str_replace('\\','/',$sf)).'/' : './';
+            $su = str_replace('\\','/',dirname($su));   // fix issue #10 - bug with "\" path on windows PCs
+            $sf = str_replace('\\','/',dirname($sf));
+            $config['site.url'] = ($su!='/') ? $su.'/': './';
+            $config['site.path'] = ($sf!='/') ? $sf.'/': './';
         }
         if (empty($config['raxan.path'])||empty($config['raxan.url'])) {
             // auto detect raxan path & url
@@ -262,14 +264,20 @@ class Raxan {
         // preload widgets from $config
         if ($config['preload.widgets']) {
             $ui = explode(',',$config['preload.widgets']);
-            $extrn = substr($pl,-4)=='.php';
-            foreach($ui as $f) self::loadWidget($f,$extrn);
+            foreach($ui as $f) {    
+                $f = trim($f);      // fix issue #9
+                $extrn = substr($f,-4)=='.php';
+                self::loadWidget($f,$extrn);
+            }
         }
         // preload plugins from $config
         if ($config['preload.plugins']) {
             $pl = explode(',',$config['preload.plugins']);
-            $extrn = substr($pl,-4)=='.php';
-            foreach($pl as $p) self::loadPlugin($p,$extrn);
+            foreach($pl as $p) {    
+                $f = trim($f);      // fix issue #9
+                $extrn = substr($f,-4)=='.php';
+                self::loadPlugin($p,$extrn);
+            }
         }
 
         // trigger system_init

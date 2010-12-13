@@ -39,17 +39,20 @@ abstract class RaxanUIWidget extends RaxanElement {
 
     // constructor
     public function __construct($id,$properties = null) {
-        $this->_config(); // config ui 
+
+        // configure ui
+        $this->_config();
 
         $autoid = $idIsString = $isArray = false;
 
+        // setup properties
         if ($properties instanceof RaxanDOMDocument) $doc = $properties;
         else if ($properties instanceof RaxanWebPage) $doc = $properties->document();
         else {
             $doc = RaxanWebPage::controller()->document();
             $isArray = is_array($properties);
         }
-        
+
         if ($id instanceof DOMElement) { $elm = $id; $autoid=true; }
         else if (is_string($id)) { $elm = $doc->page->getElementById($id); $idIsString = true;}
         if (!$elm)  { $elm = $this->elmMarkup; $autoid = true; }
