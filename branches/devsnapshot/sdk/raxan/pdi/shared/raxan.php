@@ -273,10 +273,10 @@ class Raxan {
         // preload plugins from $config
         if ($config['preload.plugins']) {
             $pl = explode(',',$config['preload.plugins']);
-            foreach($pl as $p) {    
+            foreach($pl as $f) {
                 $f = trim($f);      // fix issue #9
                 $extrn = substr($f,-4)=='.php';
-                self::loadPlugin($p,$extrn);
+                self::loadPlugin($f,$extrn);
             }
         }
 
