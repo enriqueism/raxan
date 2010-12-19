@@ -1,6 +1,18 @@
 Raxan Changelog
 -------------------------
 
+Devsnapshot - (Release Candidate 2)
+--------------------------------------
+* Fix issue #9 - Preloading multiple plugins at startup
+* Fix issue #10 - Application script executed from webroot has pathing issue
+* Fix issue #12 - mapSitePathToUrl function fails under single subfolder on Windows/Apache
+* Fix issue #13 - RaxanElement->enable() does not remove the disable attribute
+* Modify RJO to trigger preloader event when dispatchEvent is called
+* Fix file uploads for serialized form element
+* Add new cssClass option to Raxan JavaScript Tabstrip plugin.
+* Fix Raxan TabStrip timeout issue then autopilot is enabled.
+* Add support for lastRowsAffected to RaxanPDO->table(), RaxanPDO->execProc, and RaxanPDO->execQuery() methods
+
 
 Release Candidate 1 (The Remix)
 --------------------------------------

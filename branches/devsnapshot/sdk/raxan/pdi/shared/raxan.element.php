@@ -553,7 +553,7 @@ class RaxanElement extends RaxanBase {
      * Enable matched elements
      * @return RaxanElement
      */
-    public function enable(){ $this->attr('disabled',''); }
+    public function enable(){ $this->removeAttr('disabled'); }
 
     /**
      * Revert the currently modified selection to the previously matched selection

@@ -241,7 +241,7 @@ Raxan = {
         if (data) for (i in data) {
             if (!f.elements[i])
                 if (typeof data[i] != 'object') str += '<input name="'+i+'" type="hidden" />';
-                else for(c in data[i]) str += '<input name="'+i+'" type="hidden" />';
+                else for(c in data[i]) str += '<input name="'+i+'" type="hidden" />'; // support for arrays and complex data types
         }
         if (str) {
             div = document.createElement('div');
@@ -455,7 +455,7 @@ Raxan.dispatchEvent = function(type, value, fn) {
     if (fn && type.substr(0,1)!='#') type = '#' + type;
     if (fn || type.substr(0,1)=='#') opt.callback = function(result,status) {
         Raxan.iTriggerPreloader(null, null, 'off', result); // toogle preloader event handlers
-        return fn(result,status);
+        if (fn && typeof fn == 'function') return fn(result,status);
     }
     this.iTriggerPreloader(null, null, 'on'); // toogle preloader event handlers
     this.iTriggerRemote(target,type,value,serialize,opt);
@@ -715,7 +715,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
     var e = opt.event, callback = opt.callback, vu = opt.vu, confirmText = opt.confirm;
     var i, a, s, telm, tname, isupload, form, post = {}, tmp, url, isAjax=false;
     if(!type) type = 'click';  // defaults to click
-    if (type.substr(0,1)=='#') {isAjax  = true;type=type.substr(1)}
+    if (type.substr(0,1)=='#') { isAjax = true; type = type.substr(1) }
     tmp = target.split(/@/); // support for target@url
     target = tmp[0];url = tmp[1] ? tmp[1] : _PDI_URL;
 
@@ -777,7 +777,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
         if (vu && vu!='index') url+= (url.indexOf('?')==-1 ? '?' : '&')+'vu=' + vu;
     }
 
-    // if target is form then serialize the form
+    // check serialization - if target is form then serialize the form
     if (!serialize && tname=='form' && !isupload) serialize = telm;
     else if (!serialize && (tname=='input'||tname=='button') &&  // if target is submit button then serialize form
         (/submit|image/i).test(telm.type) && telm.form) {
@@ -808,6 +808,11 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
                 return false;
             }
             sdata = s.serializeArray(); // serialize data from matched elements
+            var selm = s.get(0); // is serialized object a form?
+            if ((selm.nodeName+'').toLowerCase()=='form'){
+                isupload = (/multipart\/form-data/i).test(selm.encoding); // check form encoding
+                if (isupload) { form = selm; selm = null; }
+            }
         }
     }
 

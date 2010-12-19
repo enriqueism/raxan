@@ -1029,15 +1029,20 @@ class Raxan {
         $surl = self::$config['site.url'];
         $fl = str_replace('\\', '/', realpath($pth));
         $match = false;
-        while (!$match){
-            $flu = str_ireplace($spth, '',$fl); // case-insensitive replace
+        while ($fl && !$match){
+            $flu = str_ireplace(rtrim($spth,'/'), '',$fl); // case-insensitive replace
             if ($fl!=$flu) $match = true;
             else {
-                $spth = dirname($spth).'/'; $surl = dirname($surl).'/';
-                if (strlen($surl)<=3||strlen($spth)<=3) break;
+                $spth = str_replace('\\', '/', dirname($spth));
+                $surl = str_replace('\\', '/', dirname($surl));
+                if (!$spth || !$surl || $surl=='.'|| $surl=='/'|| $surl=='./' || $surl=='http:' || $surl=='https:') break; // check for invalid $surl
             }
        }
-        return $match ? $surl.$flu : null;
+       if(!$match) return null;
+       else {
+           if (substr($surl,-1)!='/') $surl.='/';
+           return $surl.ltrim($flu,'/');
+       }
     }
 
     /**
