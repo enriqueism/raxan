@@ -1028,14 +1028,15 @@ class Raxan {
         $spth = self::$config['site.path'];
         $surl = self::$config['site.url'];
         $fl = str_replace('\\', '/', realpath($pth));
-        $match = false;
+        $match = false; $lpth = $lurl = '';
         while ($fl && !$match){
             $flu = str_ireplace(rtrim($spth,'/'), '',$fl); // case-insensitive replace
             if ($fl!=$flu) $match = true;
             else {
                 $spth = str_replace('\\', '/', dirname($spth));
                 $surl = str_replace('\\', '/', dirname($surl));
-                if (!$spth || !$surl || $surl=='.'|| $surl=='/'|| $surl=='./' || $surl=='http:' || $surl=='https:') break; // check for invalid $surl
+                if (!$spth || !$surl || $lurl == $surl || $lpth == $spth) break; // check for valid url and path
+                $lurl = $surl; $lpth = $spth; // set last url and path
             }
        }
        if(!$match) return null;
