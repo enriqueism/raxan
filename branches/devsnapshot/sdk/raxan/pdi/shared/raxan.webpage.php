@@ -68,7 +68,7 @@ function _var($str, $name = null, $registerGlobal = false){
  * @property RaxanDataSanitizer $post Sanitized Post Request
  * @property RaxanDataSanitizer $get Sanitized Get Request
  * @property mixed $autoAppendView Automatically appends a view to the document. Set to true to append files using the default file name pattern {basename}.{view}.php or enter a customized pattern. For example: 'myapp-{view}.php'
- * @property string $activeView Currently active view
+ * @property string $activeView Active view
  * @property string $masterTemplate Master template file name or html string
  * @property string $masterContentBlock Master template content css selector. Defaults to .master-content
  */
@@ -434,7 +434,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         $e = & $this->events; $type = trim($type);
         $accessible = $extras = $isOpt = false;
         $selector = trim($selector);
-        $local = $global = $ids = $prefTarget = $serialize = $confirmText = $value = $script =  '';
+        $local = $global = $ids = $prefTarget = $serialize = $confirmText = $value = $script =  $targetWindow = '';
         $delay = $autoDisable = $autoToggle = $inputCache = $repeat = $view = $extendedOpt = '';
         if (substr($type,-6)=='@local') {$type = substr($type,0,-6); $local = true; } // check if local access
         elseif (substr($type,-7)=='@global') {$type = substr($type,0,-7); $global = true; } // check if global access
@@ -482,8 +482,9 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 $repeat = isset($opts['repeat']) ? $opts['repeat'] : null;
                 $view = isset($opts['view']) ? $opts['view'] : null;
                 $confirmText = isset($opts['confirm']) ? $opts['confirm'] : null;
+                $targetWindow = isset($opts['targetWindow']) ? $opts['targetWindow'] : null;
                 $data = isset($opts['data']) ? $opts['data'] : null; // get data object
-                $extendedOpt = ($delay||$autoDisable||$autoToggle||$inputCache||$repeat||$view||$confirmText) ? true : false;
+                $extendedOpt = ($delay||$autoDisable||$autoToggle||$inputCache||$repeat||$view||$confirmText||$targetWindow) ? true : false;
                 if ($delay && $delay!==true && $delay < 200) $delay = 200; // make sure delay is not < 200ms
             }
             // assign selector to client-side event options
@@ -501,6 +502,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 'inputCache' => $inputCache,
                 'view' => $view,
                 'confirm' => $confirmText,
+                'targetWindow' => $targetWindow,
                 '_extendedOpt' => $extendedOpt // this will cause the system to append options to last paramater of $bind
             );
         }
@@ -1088,12 +1090,11 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                     if ($src && is_array($src)) $src = $src['src'];
                     $raxan = '<script type="text/javascript" src="'.$src.'"></script>'."\n";
                 }
-                if ($inc || $actions) {
-                    $inc = '<script type="text/javascript"><![CDATA[ '.$inc.str_replace(']]>',']]\>',$actions)." ]]></script>\n"; // prevent nested CDATA tag
-                }
+                if ($inc) $inc = '<script type="text/javascript"><![CDATA[ '.$inc." ]]></script>\n";
+                if ($actions) $actions = '<script type="text/javascript"><![CDATA[ '.str_replace(']]>',']]\>',$actions)." ]]></script>\n"; // prevent nested CDATA tag
             }
 
-            $inc = $css.$raxan.$pdiVars.$inc.$js;
+            $inc = $css.$raxan.$pdiVars.$inc.$actions.$js;
             if ($inc) {
                 $hd = $this->findByXPath('/html/head[1]'); // find first head tag
                 if ($hd->length) { // check for <head> tag.
@@ -1221,7 +1222,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     }
 
     /**
-     * Returns the html content of an elment
+     * Returns the html content of an element
      * @param DOMElement $n
      * @param boolean $outer
      * @return string
@@ -1460,12 +1461,13 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 }
                 $this->pageOutput = $h;
             }
-            if (!$this->_endResponse) {
-                $this->_postrender();        // call _postrender event
-                Raxan::triggerSysEvent('page_postrender',$this);
-            }
         }
 
+        if (!$this->_endResponse) {
+            $this->_postrender();        // call _postrender event
+            Raxan::triggerSysEvent('page_postrender',$this);
+        }
+        
         // save element state
         if ($this->_preserveElms) foreach($this->_preserveElms as $id=>$node) {
             $p = strrpos($id,'|');
@@ -1894,6 +1896,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                             if ($opt['inputCache']) $x[] = 'ic:\''.$opt['inputCache'].'\'';
                             if ($opt['view']) $x[] = 'vu:\''.$opt['view'].'\'';
                             if ($opt['confirm']) $x[] = 'ct:\''.Raxan::escapeText($opt['confirm']).'\'';
+                            if ($opt['targetWindow']) $x[] = 'tw:\''.Raxan::escapeText($opt['targetWindow']).'\'';
                             if ($opt['repeat']) $x[] = 'rpt:'.($opt['repeat']===true ? 'true' : (int)$opt['repeat']).'';
                             $x = ',{'.implode(',',$x).'}';
                         }

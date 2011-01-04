@@ -213,6 +213,32 @@ xt-autoupdate = "#15000,update,true,,#loader"
 &lt;div id="msgbox" xt-autoupdate="true"&gt;&lt;/div&gt;
 </code></pre>
 
+<h3>Setting Target Window</h3>
+
+<p>It's possible to have the browser display your event response within a new window of frame. To do this, you can use the target or formtarget attribute
+to set the window where the results will be displayed when the user triggers an event.</p>
+
+<p>Example:</p>
+
+<pre><code>&lt;a href="#" target="_blank" xt-bind="click,popup"&gt;New Window&lt;/a&gt;
+
+&lt;input type="button" name="button1" id="button1" value="New Window" formtarget="_blank" xt-bind="click,popup" /&gt;
+
+&lt;div target="_blank" xt-bind="click,popup"&gt;New Window&lt;/div&gt;
+</code></pre>
+
+<p>Target values:</p>
+
+<ul>
+<li><strong>_blank</strong> - load event response in a new blank window.</li>
+<li><strong>_parent</strong> - load event response in the immediate parent of current document</li>
+<li><strong>_self</strong> - load event response in the current window</li>
+<li><strong>_top</strong> - load event response in the full body of the window. This useful for breaking out of a nested FRAMESET</li>
+<li><strong>window name</strong> - Name of window or frame to load event response. For example: mywindow</li>
+</ul>
+
+<p><strong>Note:</strong> Target window will only work for full-page events.</p>
+
 <h3>Using the bind() and delegate() methods</h3>
 
 <p>The bind() method provides you with more options when compared to the xt-bind attribute. With the bind method you can use various event
@@ -271,7 +297,7 @@ callback methods:</p>
 ?&gt;
 </code></pre>
 
-<p><strong><strong>Note:</strong> Event bindings must done before or during page load.</strong></p>
+<p><strong>Note:</strong> Event bindings must done before or during page load.</p>
 
 <h4><strong>Bind options for events</strong></h4>
 
@@ -279,6 +305,7 @@ callback methods:</p>
 <li><strong>callback</strong> - Server side callback function</li>
 <li><strong>value</strong> - Value to be passed to the server-side event. This can be assigned from the client-side</li>
 <li><strong>prefTarget</strong> - Sets the preferred target element to be invoked on the server. Format: target@url - @url is optional.</li>
+<li><strong>targetWindow</strong> - Specifies the target window to display full-page event response.</li>
 <li><strong>accessible</strong> - Modify hyperlinks and form action urls to trigger server-side events without the use of javascript</li>
 <li><strong>serialize</strong> - Form elements (CSS selectors) that are to be serialized and posted to the server.</li>
 <li><strong>script</strong> - (String/Array) - Javascript to be executed before event is sent to server. Use an associative array to assigned scripts that are to be executed before and after a callback. Example: array('before' => 'alert("Before Call")', 'after' => 'alert("After Call")')</li>

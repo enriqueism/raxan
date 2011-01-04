@@ -71,9 +71,9 @@ Raxan.UI.tabstrip = function($){    // add to UI namespace
         },
 
         autopilot: function(delay,rand) {
-            delay = (delay===true) ? tab.autodelay : delay;
             return this.each(function() {
                 var me=this, bag = $.data(this,tab.id); // data bag
+                delay = (delay===true) ? (bag.autodelay || tab.autodelay) : delay;
                 if (bag.autoTmr) window.clearTimeout(bag.autoTmr);
                 if (delay===false) bag.autoTmr = 0;
                 else {
@@ -81,6 +81,7 @@ Raxan.UI.tabstrip = function($){    // add to UI namespace
                     bag.autoFn = function(){
                         var li = $('li',me);
                         var i = li.index($('li.selected-tab',me).get(0))+1;
+                        if (bag.autoTmr===0) return;
                         if (rand) i = parseInt(Math.random() * li.length);
                         if (i > li.length-1) i = 0;
                         tab.select.call($(me),i);

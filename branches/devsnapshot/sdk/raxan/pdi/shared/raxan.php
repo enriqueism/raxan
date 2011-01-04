@@ -927,7 +927,8 @@ class Raxan {
         if (!self::$isLocaleLoaded) self::setLocale(self::$config['site.locale']); // init on first use
         if ($key===null) return self::$config['site.locale'];
         $v = isset(self::$locale[$key]) ? self::$locale[$key] : '';
-        return ($v && $arg1!==null) ? sprintf($v,$arg1,$arg2,$arg3,$arg4,$arg5,$arg6) : $v;
+        return ($v && ($arg1!==null||$arg2!==null)) ?
+            sprintf($v,$arg1,$arg2,$arg3,$arg4,$arg5,$arg6) : $v;
     }
 
     /**
