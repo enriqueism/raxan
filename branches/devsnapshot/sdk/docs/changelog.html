@@ -47,6 +47,34 @@
 
 <hr />
 
+<h2>Devsnapshot - (Release Candidate 2)</h2>
+
+<ul>
+<li>Fix issue #9 - Preloading multiple plugins at startup (Damir)</li>
+<li>Fix issue #10 - Application script executed from webroot has pathing issue (Brazos)</li>
+<li>Fix issue #12 - mapSitePathToUrl function fails under single subfolder on Windows/Apache (Brazos)</li>
+<li>Fix issue #13 - RaxanElement->enable() does not remove the disable attribute (Garth)</li>
+<li>Modify RJO to trigger preloader event when dispatchEvent is called</li>
+<li>Fix file uploads for serialized form element</li>
+<li>Add new cssClass option to Raxan JavaScript Tabstrip plugin.</li>
+<li>Fix Raxan TabStrip timeout issue then autopilot is enabled.</li>
+<li>Add support for lastRowsAffected to RaxanPDO->table(), RaxanPDO->execProc, and RaxanPDO->execQuery() methods</li>
+<li>Fix bug in Raxan JavaScript library when checking HTML5 form validity</li>
+<li>Separate JavaScript/CSS includes from RJO action scripts</li>
+<li>Optimize client-side Raxan.iUpdateElement method</li>
+<li>Add support for DOMElement and RaxanElement to RaxanClientExtension</li>
+<li>Rename RaxanWebPage->pageOutput to RaxanWebPage->pageOutputBuffer. Change visibility from protected to public</li>
+<li><p>Change visibility from protected to public for the following RaxanWebPage properties:</p>
+
+<p>autoAppendView, localizeOnResponse, initStartupScript, resetDataOnFirstLoad, preserveFormContent,
+disableInlineEvents, showRenderTime, serializeOnPostBack, degradable, preventBrowserCache,
+masterTemplate, masterContentBlock</p>
+
+<p>With this change Plugins and Widgets will be able to directly update page properties</p></li>
+<li><p>RaxanWebPage->activeView is now public (read-only)</p></li>
+<li>Update jquery UI  to 1.8.7</li>
+</ul>
+
 <h2>Release Candidate 1 (The Remix)</h2>
 
 <h4><strong>Design changes:</strong></h4>
