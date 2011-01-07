@@ -68,9 +68,10 @@ function _var($str, $name = null, $registerGlobal = false){
  * @property RaxanDataSanitizer $post Sanitized Post Request
  * @property RaxanDataSanitizer $get Sanitized Get Request
  * @property mixed $autoAppendView Automatically appends a view to the document. Set to true to append files using the default file name pattern {basename}.{view}.php or enter a customized pattern. For example: 'myapp-{view}.php'
- * @property string $activeView Active view
+ * @property-read string $activeView Active view
  * @property string $masterTemplate Master template file name or html string
  * @property string $masterContentBlock Master template content css selector. Defaults to .master-content
+ * @property string $pageOutputBuffer output buffer
  */
 class RaxanWebPage extends RaxanBase implements ArrayAccess  {
 
@@ -93,6 +94,21 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public $responseType = 'html';          // html,xhtml,xhtml/html,xml,wml
     public $defaultBindOptions = array();   // default bind options
 
+    public $autoAppendView;
+    public $localizeOnResponse;      // Automatically insert language strings into element with the langid attribute set to valid locale key/value pair
+    public $initStartupScript;       // loads the raxan startup.js script
+    public $resetDataOnFirstLoad;    // reset page data on first load
+    public $preserveFormContent;     // preserve form values on post back
+    public $disableInlineEvents;     // disables the processing on inline events
+    public $showRenderTime;          // shows the render time of the page
+    public $serializeOnPostBack;     // default selector value for matched elements to be serialize on postback
+    public $degradable;              // enable accessible mode for links, forms and submit buttons when binding to an event
+    public $preventBrowserCache;     // send headers to prevent client-side browser or proxy caching
+    public $masterTemplate;
+    public $masterContentBlock = '.master-content';
+
+    public $pageOutputBuffer;         // page output buffer
+
     // auto id properties
     protected static $autoIdPrefix = 'e0x'; // auto id prefix for elements.
     protected static $autoId;               // auto id for elements.
@@ -105,22 +121,8 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     protected static $customProps;      // stores custom (extended) propeties
     protected static $regScripts = array();       // stores registered scripts
 
-    protected $autoAppendView;
-    protected $localizeOnResponse;      // Automatically insert language strings into element with the langid attribute set to valid locale key/value pair
-    protected $initStartupScript;       // loads the raxan startup.js script
-    protected $resetDataOnFirstLoad;    // reset page data on first load
-    protected $preserveFormContent;     // preserve form values on post back
-    protected $disableInlineEvents;     // disables the processing on inline events
-    protected $showRenderTime;          // shows the render time of the page
-    protected $serializeOnPostBack;     // default selector value for matched elements to be serialize on postback
-    protected $degradable;              // enable accessible mode for links, forms and submit buttons when binding to an event
-    protected $preventBrowserCache;     // send headers to prevent client-side browser or proxy caching
-    protected $masterTemplate;
-    protected $masterContentBlock = '.master-content';
-
 
     protected $doc = null;   // document
-    protected $pageOutput;   // output buffer
     protected $activeView;
     protected $_startTime, $_endResponse;
     protected $_charset, $_headers, $_contentType;
@@ -330,6 +332,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public function __get($name) {
         if ($name=='post') return $this->_post ? $this->_post: $this->_post = Raxan::dataSanitizer($_POST);
         else if ($name=='get') return $this->_get ? $this->_get: $this->_get = Raxan::dataSanitizer($_GET);
+        else if ($name=='activeView') return $this->activeView; // return protected value
         else {            
             if (isset(self::$customProps[$name])) return self::$customProps[$name];   // custom property lookup
             else if (($e = $this->findById($name)) && $e->length) return $e;        // element lookup
@@ -1355,7 +1358,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
      */
     public function render($type = 'html') {
 
-        $this->pageOutput = $result = '';
+        $this->pageOutputBuffer = $result = '';
 
         // handle client events request
         if (!$this->_endResponse) {
@@ -1425,18 +1428,18 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
             $a = iconv($charset,$charset.'//IGNORE',$actionScripts);  // clean up action scripts charset encoding
             if (isset($result)) $rt = is_string($result) ? iconv($charset,$charset.'//IGNORE',$result) : $result;
             $json =  Raxan::JSON('encode',array( '_result' => $rt, '_actions' => $a ));
-            if ($_POST['_ajax_call_']!='iframe') $this->pageOutput = $json;
+            if ($_POST['_ajax_call_']!='iframe') $this->pageOutputBuffer = $json;
             else {
                 $html = '<form><textarea>'.htmlspecialchars($json).'</textarea></form>';
                 $html = self::pageCode('html',$this->_charset,$html);
-                $this->pageOutput = $html;
+                $this->pageOutputBuffer = $html;
             }
             
         }
         elseif (!$this->isAjaxRequest) {   // response to standard postback
             // check if is embedded
             if (!$this->isEmbedded) {
-                $this->pageOutput = $this->doc->source(null,$type);
+                $this->pageOutputBuffer = $this->doc->source(null,$type);
             }
             else {
                 // handle embedded mode
@@ -1459,7 +1462,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                     $h.= 'if (!self.Raxan) document.write("'.$a[0].'<\/script>");'; // load the raxan startup script
                     $h.= 'else RaxanPreInit[RaxanPreInit.length-1]();';
                 }
-                $this->pageOutput = $h;
+                $this->pageOutputBuffer = $h;
             }
         }
 
@@ -1479,7 +1482,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         $this->isRendering = false;
 
         // return html or json string
-        return $this->pageOutput;
+        return $this->pageOutputBuffer;
     }
 
     /**

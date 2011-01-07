@@ -53,8 +53,9 @@ class RaxanClientExtension {
         if ($ss===''||$ss===null) $ss = '';
         else if ($ss=='this') $ss='_ctarget_';
         else if ($ss=='target') $ss='_target_';
-        else $ss = ($ss=='document'||$ss=='window') ? $ss :
-             self::encodeVar($ss);
+        else if ($ss instanceof DOMElement) $ss = self::encodeVar(RaxanWebPage::controller()->find($ss)->matchSelector(true));
+        else if ($ss instanceof RaxanElement) $ss = self::encodeVar($ss->matchSelector(true));
+        else $ss = ($ss=='document'||$ss=='window') ? $ss : self::encodeVar($ss);
         if ($context!==null) {
             if ($context=='this') $context='_ctarget_';
             else if ($context=='target') $context='_target_';

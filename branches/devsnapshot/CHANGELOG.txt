@@ -1,17 +1,32 @@
 Raxan Changelog
 -------------------------
 
+
 Devsnapshot - (Release Candidate 2)
 --------------------------------------
-* Fix issue #9 - Preloading multiple plugins at startup
-* Fix issue #10 - Application script executed from webroot has pathing issue
-* Fix issue #12 - mapSitePathToUrl function fails under single subfolder on Windows/Apache
-* Fix issue #13 - RaxanElement->enable() does not remove the disable attribute
-* Modify RJO to trigger preloader event when dispatchEvent is called
+* Fix issue #9 - Preloading multiple plugins at startup (Damir)
+* Fix issue #10 - Application script executed from webroot has pathing issue (Brazos)
+* Fix issue #12 - mapSitePathToUrl function fails under single subfolder on Windows/Apache (Brazos)
+* Fix issue #13 - RaxanElement->enable() does not remove the disable attribute (Garth)
+* Modify RJO to trigger preloader event when dispatchEvent is called 
 * Fix file uploads for serialized form element
 * Add new cssClass option to Raxan JavaScript Tabstrip plugin.
 * Fix Raxan TabStrip timeout issue then autopilot is enabled.
 * Add support for lastRowsAffected to RaxanPDO->table(), RaxanPDO->execProc, and RaxanPDO->execQuery() methods
+* Fix bug in Raxan JavaScript library when checking HTML5 form validity
+* Separate JavaScript/CSS includes from RJO action scripts
+* Optimize client-side Raxan.iUpdateElement method
+* Add support for DOMElement and RaxanElement to RaxanClientExtension
+* Rename RaxanWebPage->pageOutput to RaxanWebPage->pageOutputBuffer. Change visibility from protected to public
+* Change visibility from protected to public for the following RaxanWebPage properties:
+
+    autoAppendView, localizeOnResponse, initStartupScript, resetDataOnFirstLoad, preserveFormContent,
+    disableInlineEvents, showRenderTime, serializeOnPostBack, degradable, preventBrowserCache,
+    masterTemplate, masterContentBlock
+
+    With this change Plugins and Widgets will be able to directly update page properties
+
+* RaxanWebPage->activeView is now public (read-only)
 
 
 Release Candidate 1 (The Remix)

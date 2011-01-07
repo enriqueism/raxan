@@ -256,13 +256,20 @@ callback methods:</p>
 <pre><code class="php">&lt;?php
     $this-&gt;button1-&gt;bind('click', '.My_Page_Method');
 ?&gt;
-</code></pre></li>
+</code></pre>
+
+<p>Event callbacks are handled from the Page controller. When you bind an event using '.callback' the framework will automatically look
+for the method on the page controller instance. In this case the method can be protected or public. The '.callback' format is only a shortcut to
+array($this, 'callback').</p></li>
 <li><p>Bind <strong>Object method</strong> to event:</p>
 
 <pre><code class="php">&lt;?php
     $this-&gt;button1-&gt;bind('click',array($object, 'method_name'));
 ?&gt;
-</code></pre></li>
+</code></pre>
+
+<p>When binding to a method that's external to the page controller, you will have to use the array($object, 'method_name') format. In this
+case the callback method must be a public method since it will be called from the page controller.</p></li>
 <li><p>Bind <strong>Anonymous functions</strong> to event. This only works on <strong>PHP 5.3 and higher</strong>:</p>
 
 <pre><code class="php">&lt;?php
