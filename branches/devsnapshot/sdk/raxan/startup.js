@@ -13,7 +13,7 @@
  */
 Raxan = {
     version: '1.0',         //@todo: update version number
-    revision: 'rc1',
+    revision: '0',
     path:'',
     scriptpath:'',
     csspath:'',
@@ -664,8 +664,8 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
 
             if (!delay) fn();
             else {
-                clearTimeout($(me).data('clxTimeout')||0)
-                $(me).data('clxTimeout',setTimeout(fn,delay));
+                clearTimeout($(this).data('clxTimeout')||0)
+                $(this).data('clxTimeout',setTimeout(fn,delay));
             }
         }
         if (preventDefault) e.preventDefault();

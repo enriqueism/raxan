@@ -2,7 +2,7 @@
 /**
  * Raxan Framework
  * This file includes Raxan, RaxanBase, RaxanDataStorage, RaxanSessionStorage, RaxanPlugin
- * Copyright (c) 2008-2010 Raymond Irving 
+ * Copyright (c) 2008-2011 Raymond Irving
  * @license GPL/MIT
  * @date 10-Dec-2008
  * @package Raxan
@@ -113,7 +113,7 @@ class Raxan {
     // set raxan version
     // @todo: Update API version/revision
     const VERSION = 1.0;
-    const REVISION = 'rc1';
+    const REVISION = '0';
 
     // template binder constants
     const TPL_FIRST     = 1;

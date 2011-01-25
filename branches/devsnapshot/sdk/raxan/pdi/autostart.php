@@ -74,7 +74,7 @@ function raxan_auto_create($page,$content = null) {
         $rt = Raxan::triggerSysEvent('system_error', $e);
         if (!$rt) {
             $err = $e->getMessage().'  Line '.$e->getLine().' in '.
-                $e->getFile()."\n".$e->getTraceAsString();
+                $e->getFile()."\n".$e->getTraceAsString()."\n";
             if (ini_get('display_errors')==1) echo "Uncaught Error: ".nl2br($err);
             Raxan::log($err, 'ERROR', 'Uncaught Error');
         }
