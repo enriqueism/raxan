@@ -47,7 +47,7 @@
 
 <hr />
 
-<h2>Devsnapshot - (Release Candidate 2)</h2>
+<h2>Devsnapshot - (1.0 Final)</h2>
 
 <ul>
 <li>Fix issue #9 - Preloading multiple plugins at startup (Damir)</li>
@@ -57,7 +57,7 @@
 <li>Modify RJO to trigger preloader event when dispatchEvent is called</li>
 <li>Fix file uploads for serialized form element</li>
 <li>Add new cssClass option to Raxan JavaScript Tabstrip plugin.</li>
-<li>Fix Raxan TabStrip timeout issue then autopilot is enabled.</li>
+<li>Fix Raxan TabStrip timeout issue when autopilot is enabled.</li>
 <li>Add support for lastRowsAffected to RaxanPDO->table(), RaxanPDO->execProc, and RaxanPDO->execQuery() methods</li>
 <li>Fix bug in Raxan JavaScript library when checking HTML5 form validity</li>
 <li>Separate JavaScript/CSS includes from RJO action scripts</li>
@@ -72,7 +72,11 @@ masterTemplate, masterContentBlock</p>
 
 <p>With this change Plugins and Widgets will be able to directly update page properties</p></li>
 <li><p>RaxanWebPage->activeView is now public (read-only)</p></li>
-<li>Update jquery UI  to 1.8.7</li>
+<li>Update jQuery UI  to 1.8.9</li>
+<li>Add '\n' to stack trace in the raxan_auto_create() function</li>
+<li>Modify the system to display error messages and non-html content at startup.</li>
+<li>Modify the RaxanUIWidget Class to use case-sensitive property names. The xt-ui attributes (or properties) will remain case-insensitive</li>
+<li>Update User Guide</li>
 </ul>
 
 <h2>Release Candidate 1 (The Remix)</h2>

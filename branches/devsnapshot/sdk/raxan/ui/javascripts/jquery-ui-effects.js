@@ -1,7 +1,7 @@
 /*
- * jQuery UI Position 1.8.7
+ * jQuery UI Position 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -83,7 +83,7 @@ $.fn.position = function( options ) {
 
 	if ( options.at[0] === "right" ) {
 		basePosition.left += targetWidth;
-	} else if (options.at[0] === center ) {
+	} else if ( options.at[0] === center ) {
 		basePosition.left += targetWidth / 2;
 	}
 
@@ -103,9 +103,9 @@ $.fn.position = function( options ) {
 			marginLeft = parseInt( $.curCSS( this, "marginLeft", true ) ) || 0,
 			marginTop = parseInt( $.curCSS( this, "marginTop", true ) ) || 0,
 			collisionWidth = elemWidth + marginLeft +
-				parseInt( $.curCSS( this, "marginRight", true ) ) || 0,
+				( parseInt( $.curCSS( this, "marginRight", true ) ) || 0 ),
 			collisionHeight = elemHeight + marginTop +
-				parseInt( $.curCSS( this, "marginBottom", true ) ) || 0,
+				( parseInt( $.curCSS( this, "marginBottom", true ) ) || 0 ),
 			position = $.extend( {}, basePosition ),
 			collisionPosition;
 
@@ -251,9 +251,9 @@ if ( !$.offset.setOffset ) {
 
 }( jQuery ));
 /*
- * jQuery UI Effects 1.8.7
+ * jQuery UI Effects 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -483,43 +483,41 @@ $.effects.animateClass = function(value, duration, easing, callback) {
 		easing = null;
 	}
 
-	return this.each(function() {
-		$.queue(this, 'fx', function() {
-			var that = $(this),
-				originalStyleAttr = that.attr('style') || ' ',
-				originalStyle = filterStyles(getElementStyles.call(this)),
-				newStyle,
-				className = that.attr('className');
+	return this.queue('fx', function() {
+		var that = $(this),
+			originalStyleAttr = that.attr('style') || ' ',
+			originalStyle = filterStyles(getElementStyles.call(this)),
+			newStyle,
+			className = that.attr('className');
 
-			$.each(classAnimationActions, function(i, action) {
-				if (value[action]) {
-					that[action + 'Class'](value[action]);
-				}
-			});
-			newStyle = filterStyles(getElementStyles.call(this));
-			that.attr('className', className);
-
-			that.animate(styleDifference(originalStyle, newStyle), duration, easing, function() {
-				$.each(classAnimationActions, function(i, action) {
-					if (value[action]) { that[action + 'Class'](value[action]); }
-				});
-				// work around bug in IE by clearing the cssText before setting it
-				if (typeof that.attr('style') == 'object') {
-					that.attr('style').cssText = '';
-					that.attr('style').cssText = originalStyleAttr;
-				} else {
-					that.attr('style', originalStyleAttr);
-				}
-				if (callback) { callback.apply(this, arguments); }
-			});
-
-			// $.animate adds a function to the end of the queue
-			// but we want it at the front
-			var queue = $.queue(this),
-				anim = queue.splice(queue.length - 1, 1)[0];
-			queue.splice(1, 0, anim);
-			$.dequeue(this);
+		$.each(classAnimationActions, function(i, action) {
+			if (value[action]) {
+				that[action + 'Class'](value[action]);
+			}
 		});
+		newStyle = filterStyles(getElementStyles.call(this));
+		that.attr('className', className);
+
+		that.animate(styleDifference(originalStyle, newStyle), duration, easing, function() {
+			$.each(classAnimationActions, function(i, action) {
+				if (value[action]) { that[action + 'Class'](value[action]); }
+			});
+			// work around bug in IE by clearing the cssText before setting it
+			if (typeof that.attr('style') == 'object') {
+				that.attr('style').cssText = '';
+				that.attr('style').cssText = originalStyleAttr;
+			} else {
+				that.attr('style', originalStyleAttr);
+			}
+			if (callback) { callback.apply(this, arguments); }
+		});
+
+		// $.animate adds a function to the end of the queue
+		// but we want it at the front
+		var queue = $.queue(this),
+			anim = queue.splice(queue.length - 1, 1)[0];
+		queue.splice(1, 0, anim);
+		$.dequeue(this);
 	});
 };
 
@@ -561,7 +559,7 @@ $.fn.extend({
 /******************************************************************************/
 
 $.extend($.effects, {
-	version: "1.8.7",
+	version: "1.8.9",
 
 	// Saves a set of properties in a data storage
 	save: function(element, set) {
@@ -642,7 +640,7 @@ $.extend($.effects, {
 					props[pos] = 'auto';
 				}
 			});
-			element.css({position: 'relative', top: 0, left: 0 });
+			element.css({position: 'relative', top: 0, left: 0, right: 'auto', bottom: 'auto' });
 		}
 
 		return wrapper.css(props).show();
@@ -1000,9 +998,9 @@ $.extend($.easing,
 
 })(jQuery);
 /*
- * jQuery UI Effects Blind 1.8.7
+ * jQuery UI Effects Blind 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1018,7 +1016,7 @@ $.effects.blind = function(o) {
 	return this.queue(function() {
 
 		// Create element
-		var el = $(this), props = ['position','top','left'];
+		var el = $(this), props = ['position','top','bottom','left','right'];
 
 		// Set options
 		var mode = $.effects.setMode(el, o.options.mode || 'hide'); // Set Mode
@@ -1049,9 +1047,9 @@ $.effects.blind = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Bounce 1.8.7
+ * jQuery UI Effects Bounce 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1067,7 +1065,7 @@ $.effects.bounce = function(o) {
 	return this.queue(function() {
 
 		// Create element
-		var el = $(this), props = ['position','top','left'];
+		var el = $(this), props = ['position','top','bottom','left','right'];
 
 		// Set options
 		var mode = $.effects.setMode(el, o.options.mode || 'effect'); // Set Mode
@@ -1127,9 +1125,9 @@ $.effects.bounce = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Clip 1.8.7
+ * jQuery UI Effects Clip 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1145,7 +1143,7 @@ $.effects.clip = function(o) {
 	return this.queue(function() {
 
 		// Create element
-		var el = $(this), props = ['position','top','left','height','width'];
+		var el = $(this), props = ['position','top','bottom','left','right','height','width'];
 
 		// Set options
 		var mode = $.effects.setMode(el, o.options.mode || 'hide'); // Set Mode
@@ -1181,9 +1179,9 @@ $.effects.clip = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Drop 1.8.7
+ * jQuery UI Effects Drop 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1199,7 +1197,7 @@ $.effects.drop = function(o) {
 	return this.queue(function() {
 
 		// Create element
-		var el = $(this), props = ['position','top','left','opacity'];
+		var el = $(this), props = ['position','top','bottom','left','right','opacity'];
 
 		// Set options
 		var mode = $.effects.setMode(el, o.options.mode || 'hide'); // Set Mode
@@ -1231,9 +1229,9 @@ $.effects.drop = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Explode 1.8.7
+ * jQuery UI Effects Explode 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1310,9 +1308,9 @@ $.effects.explode = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Fade 1.8.7
+ * jQuery UI Effects Fade 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1342,9 +1340,9 @@ $.effects.fade = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Fold 1.8.7
+ * jQuery UI Effects Fold 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1360,7 +1358,7 @@ $.effects.fold = function(o) {
 	return this.queue(function() {
 
 		// Create element
-		var el = $(this), props = ['position','top','left'];
+		var el = $(this), props = ['position','top','bottom','left','right'];
 
 		// Set options
 		var mode = $.effects.setMode(el, o.options.mode || 'hide'); // Set Mode
@@ -1398,9 +1396,9 @@ $.effects.fold = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Highlight 1.8.7
+ * jQuery UI Effects Highlight 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1448,9 +1446,9 @@ $.effects.highlight = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Pulsate 1.8.7
+ * jQuery UI Effects Pulsate 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1499,9 +1497,9 @@ $.effects.pulsate = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Scale 1.8.7
+ * jQuery UI Effects Scale 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1584,8 +1582,8 @@ $.effects.size = function(o) {
 	return this.queue(function() {
 
 		// Create element
-		var el = $(this), props = ['position','top','left','width','height','overflow','opacity'];
-		var props1 = ['position','top','left','overflow','opacity']; // Always restore
+		var el = $(this), props = ['position','top','bottom','left','right','width','height','overflow','opacity'];
+		var props1 = ['position','top','bottom','left','right','overflow','opacity']; // Always restore
 		var props2 = ['width','height','overflow']; // Copy for children
 		var cProps = ['fontSize'];
 		var vProps = ['borderTopWidth', 'borderBottomWidth', 'paddingTop', 'paddingBottom'];
@@ -1677,9 +1675,9 @@ $.effects.size = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Shake 1.8.7
+ * jQuery UI Effects Shake 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1695,7 +1693,7 @@ $.effects.shake = function(o) {
 	return this.queue(function() {
 
 		// Create element
-		var el = $(this), props = ['position','top','left'];
+		var el = $(this), props = ['position','top','bottom','left','right'];
 
 		// Set options
 		var mode = $.effects.setMode(el, o.options.mode || 'effect'); // Set Mode
@@ -1734,9 +1732,9 @@ $.effects.shake = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Slide 1.8.7
+ * jQuery UI Effects Slide 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
@@ -1752,7 +1750,7 @@ $.effects.slide = function(o) {
 	return this.queue(function() {
 
 		// Create element
-		var el = $(this), props = ['position','top','left'];
+		var el = $(this), props = ['position','top','bottom','left','right'];
 
 		// Set options
 		var mode = $.effects.setMode(el, o.options.mode || 'show'); // Set Mode
@@ -1784,9 +1782,9 @@ $.effects.slide = function(o) {
 
 })(jQuery);
 /*
- * jQuery UI Effects Transfer 1.8.7
+ * jQuery UI Effects Transfer 1.8.9
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
+ * Copyright 2011, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *

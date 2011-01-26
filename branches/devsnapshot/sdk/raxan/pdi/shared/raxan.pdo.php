@@ -2,6 +2,7 @@
 /**
  * Raxan PHP Data Objects
  * Extends standard PDO class to provide additional functionality
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 

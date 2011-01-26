@@ -312,9 +312,9 @@ case method_name() must be a public method since it will be called from the page
 <li><strong>callback</strong> - Server side callback function</li>
 <li><strong>value</strong> - Value to be passed to the server-side event. This can be assigned from the client-side</li>
 <li><strong>prefTarget</strong> - Sets the preferred target element to be invoked on the server. Format: target@url - @url is optional.</li>
-<li><strong>targetWindow</strong> - Specifies the target window to display full-page event response.</li>
+<li><strong>targetWindow</strong> - Sets the target window to display full-page event response.</li>
 <li><strong>accessible</strong> - Modify hyperlinks and form action urls to trigger server-side events without the use of javascript</li>
-<li><strong>serialize</strong> - Form elements (CSS selectors) that are to be serialized and posted to the server.</li>
+<li><strong>serialize</strong> - Form input CSS selector - sets the form or input elements to be submitted to the server when the event is trigger.</li>
 <li><strong>script</strong> - (String/Array) - Javascript to be executed before event is sent to server. Use an associative array to assigned scripts that are to be executed before and after a callback. Example: array('before' => 'alert("Before Call")', 'after' => 'alert("After Call")')</li>
 <li><strong>data</strong> - Data to be passed the to server-side event. This data is only passed to the event handler when the event is triggered. It is not sent to the client.</li>
 <li><strong>autoDisable</strong> - Disables the selected elements during event transmission. Accepted values: TRUE | CSS Selectors. If TRUE is specified then the current element will be toggled</li>

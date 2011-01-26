@@ -11,7 +11,7 @@ Devsnapshot - (1.0 Final)
 * Modify RJO to trigger preloader event when dispatchEvent is called 
 * Fix file uploads for serialized form element
 * Add new cssClass option to Raxan JavaScript Tabstrip plugin.
-* Fix Raxan TabStrip timeout issue then autopilot is enabled.
+* Fix Raxan TabStrip timeout issue when autopilot is enabled.
 * Add support for lastRowsAffected to RaxanPDO->table(), RaxanPDO->execProc, and RaxanPDO->execQuery() methods
 * Fix bug in Raxan JavaScript library when checking HTML5 form validity
 * Separate JavaScript/CSS includes from RJO action scripts
@@ -27,8 +27,11 @@ Devsnapshot - (1.0 Final)
     With this change Plugins and Widgets will be able to directly update page properties
 
 * RaxanWebPage->activeView is now public (read-only)
-* Update jquery UI  to 1.8.7
-* Add \n to stack trace
+* Update jquery UI  to 1.8.9
+* Add '\n' to stack trace in the raxan_auto_create() function
+* Modify the system to display error messages and non-html content at startup.
+* Modify the RaxanUIWidget Class to use case-sensitive property names. The xt-ui attributes (or properties) will remain case-insensitive
+* Update User Guide
 
 Release Candidate 1 (The Remix)
 --------------------------------------

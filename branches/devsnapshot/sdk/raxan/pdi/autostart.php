@@ -1,12 +1,17 @@
 <?php
 /**
  * Raxan Autostart
+ * Automatically initializes Web Page
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
+ * License: GPL, MIT
+ * @package Raxan
  */
 
 require_once dirname(__FILE__).'/gateway.php';
 
 ob_start();
 register_shutdown_function('raxan_auto_startup',getcwd());
+
 /**
  * Automatically initializes a Raxan Web Page
  * This function will initialize either the last declared subclass of RaxanWebPage
@@ -53,9 +58,8 @@ function raxan_auto_startup($pth){
             }
         }
     }
-
+    // create page
     raxan_auto_create($page,$src);
-
 }
 
 /**

@@ -1,6 +1,6 @@
 /**
  * Raxan (Rich Ajax Application) JavaScript Object / Startup script
- * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  *
  * Dual licensed under the MIT and GPL licenses.
  * See the LICENSE.txt file

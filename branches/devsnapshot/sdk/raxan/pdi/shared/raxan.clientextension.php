@@ -1,7 +1,7 @@
 <?php
 /**
  * Raxan Client Extension
- * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 

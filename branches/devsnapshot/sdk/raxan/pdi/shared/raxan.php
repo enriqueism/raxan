@@ -2,7 +2,7 @@
 /**
  * Raxan Framework
  * This file includes Raxan, RaxanBase, RaxanDataStorage, RaxanSessionStorage, RaxanPlugin
- * Copyright (c) 2008-2011 Raymond Irving
+ * Copyright (c) 2011 Raymond Irving
  * @license GPL/MIT
  * @date 10-Dec-2008
  * @package Raxan
@@ -23,10 +23,12 @@ if(!defined('PHP_VERSION_ID')) {
  */
 function raxan_error_handler($errno, $errstr, $errfile, $errline ) {
     if (error_reporting()===0) return;
-    if (error_reporting() & $errno){    // repect error reporting level
+    if (error_reporting() & $errno){    // respect error reporting level
         throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 }
+// Setup raxan error handler
+set_error_handler("raxan_error_handler",error_reporting());
 
 /**
  * Abstract Data Storage Class
@@ -256,9 +258,6 @@ class Raxan {
 
         // set timezone
         if ($config['site.timezone']) date_default_timezone_set($config['site.timezone']);
-
-        // set error handler
-        set_error_handler("raxan_error_handler",error_reporting());
 
         self::$isInit = true;
         // preload widgets from $config

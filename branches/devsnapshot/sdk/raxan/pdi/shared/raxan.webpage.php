@@ -1,7 +1,7 @@
 <?php
 /**
  * Raxan Web Page Classes
- * Copyright (c) 2008-2011 Raymond Irving (http://raxanpdi.com)
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 
@@ -165,6 +165,10 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         // initialize Raxan
         if (!Raxan::$isInit) Raxan::init();
 
+        // add page to page controller array
+        self::$pages[$this->objId] = $this;
+        if (self::$mPageId==null) self::$mPageId = $this->objId;
+
         // script dependencies
         $dep = array('jquery');
         $this->registerScript('jquery-ui','jquery-ui',$dep);
@@ -197,9 +201,6 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         $this->_charset = $charset ? $charset : $c['site.charset'];
         $this->doc = self::createDOM(null, $this->_charset);
         $this->doc->initPageController($this->objId);
-
-        self::$pages[$this->objId] = $this;
-        if (self::$mPageId==null) self::$mPageId = $this->objId;
         $this->source($xhtml,$type); // set document source
 
         // init postback variables
@@ -1681,35 +1682,43 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public function source($src = null,$srcType = 'html') {
         $mTpl = trim($this->masterTemplate);
         if ($src===null) return $this->doc->source(null,$srcType);
-        else if ($mTpl) { // set master template
-            if (substr($mTpl,-4)=='.php' && strpos($mTpl,'://')===false) { // handle php files
-                ob_start(); include $mTpl; $mTpl = ob_get_clean();
-            }
-            $this->doc->source($mTpl,$srcType);
+        else {
             $src = trim($src);
-            if ($src) { // fix for issue #6
-                $isFile = (substr($src,0,1)!='<') && is_file($src) ? true : false;
-                if ($isFile || ($p = substr($src,0,7))=='http://' || $p=='https:/') {
-                    $src = file_get_contents($src);
+            $isHTML = $src && substr($src,0,1)=='<';
+            $isFile = (!$isHTML) && is_file($src) ? true : false;
+            if ($mTpl) { // set master template
+                if (substr($mTpl,-4)=='.php' && strpos($mTpl,'://')===false) { // handle php files
+                    ob_start(); include $mTpl; $mTpl = ob_get_clean();
+                }
+                $this->doc->source($mTpl,$srcType);
+                if ($src) { // fix for issue #6
+                    if ($isFile || ($p = substr($src,0,7))=='http://' || $p=='https:/') {
+                        $src = file_get_contents($src);
+                    }
+                }
+                $this->content($src);
+            }
+            else {
+                if ($src=='wml:page') { // set wml page source
+                    $src = self::pageCode('wml'); $isHTML = true;
+                    $this->responseType = 'wml'; $srcType = 'xml';
+                }
+                else if (!$src || $src=='html:page') {  // set html page source
+                    $src = self::pageCode('html'); $isHTML = true;
+                    $this->responseType = $srcType = 'html';
+                }
+                else if ($srcType!='xml' && $srcType!='html')
+                    $srcType = ($src && substr($src,-4)=='.xml') ? 'xml' : 'html';
+
+                if ($isHTML || $isFile || ($p = substr($src,0,7))=='http://' || $p=='https:/')
+                    $this->doc->source($src,$srcType); // load html file or content
+                else {
+                    // load non-html content
+                    $this->doc->source(self::pageCode('html'));
+                    $this->content($src);
                 }
             }
-            $this->content($src);
         }
-        else {
-            if ($src=='wml:page') { // set page source
-                $src = self::pageCode('wml');
-                $this->responseType = 'wml'; $srcType = 'xml';
-            }
-            elseif (!$src || $src=='html:page') {
-                $src = self::pageCode('html');
-                $this->responseType = $srcType = 'html';
-            }
-            else if ($srcType!='xml' && $srcType!='html')
-                $srcType = ($src && substr($src,-4)=='.xml') ? 'xml' : 'html';
-
-            $this->doc->source($src,$srcType);
-        }
-
         return $this;
 
     }
