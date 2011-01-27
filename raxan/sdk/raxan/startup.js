@@ -1,6 +1,6 @@
 /**
  * Raxan (Rich Ajax Application) JavaScript Object / Startup script
- * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  *
  * Dual licensed under the MIT and GPL licenses.
  * See the LICENSE.txt file
@@ -13,7 +13,7 @@
  */
 Raxan = {
     version: '1.0',         //@todo: update version number
-    revision: 'rc1',
+    revision: '0',
     path:'',
     scriptpath:'',
     csspath:'',
@@ -48,30 +48,8 @@ Raxan = {
             pth = this.path = src.substr(0,st);
             this.csspath = pth + 'ui/css/';
             this.scriptpath = pth + 'ui/javascripts/';
-// remove code-behind logic
-//            code = this.msie ? tag.text : tag.innerHTML;
-//            if (code && code.indexOf("\n")<0) { // check if script block is multi-line
-//                m = (new RegExp("\/(.*)\/")).exec(code);
-//                if (m) { // setup main js file
-//                    if (m[1] && m[1].substr(m[1].length-2)=='/-') {    // support for path/-
-//                        js = this.filename().split(/\./);
-//                        js[js.length-1] = 'js';
-//                        js = m[1].replace(/\/-/,'/') + js.join('.');
-//                    }
-//                    else if (m[1] && m[1]!='-') {   //support for multiple comma saparated files
-//                        js = m[1].split(/,/);
-//                    }
-//                    else if(m[0] == '/-/'){
-//                        js = this.filename().split(/\./);
-//                        js[js.length-1] = 'js';
-//                        js = js.join('.');
-//                    }
-//                    this.mainScript = typeof js != 'string' ? js[0] : js;
-//                }
-//            }
         }
-//        if (js) this.include(js,true);
-//        else if (src && code) eval(code);
+
         // invoke pre init functions
         if (self.RaxanPreInit)
             for(i in RaxanPreInit)
@@ -122,7 +100,7 @@ Raxan = {
         e =  e ? e : jQuery.Event('togglepreloader');
         if (result) e.serverResult = result;
         if (elm) e.target = e.currentTarget = elm;
-        l=a.length;for(i=0; i<l; i++) r = a[i](e, mode)||r;
+        l=a.length; for(i=0; i<l; i++) r = a[i](e, mode)||r;
         return r;
     },
 
@@ -241,7 +219,7 @@ Raxan = {
         if (data) for (i in data) {
             if (!f.elements[i])
                 if (typeof data[i] != 'object') str += '<input name="'+i+'" type="hidden" />';
-                else for(c in data[i]) str += '<input name="'+i+'" type="hidden" />';
+                else for(c in data[i]) str += '<input name="'+i+'" type="hidden" />'; // support for arrays and complex data types
         }
         if (str) {
             div = document.createElement('div');
@@ -446,13 +424,18 @@ Raxan.dispatchEvent = function(type, value, fn) {
     if (typeof type == 'object') {o = type;type = o.type;fn = null;value = null;}  // dispatchEvent(option)
     else if (value && jQuery.isFunction(value)) {fn = value;value = null;}           // dispatchEvent(type,fn)
     type = jQuery.trim(type);
-    opt.vu = o.view;
-    opt.callback = o.complete ? o.complete : fn;
+    opt.vu = o.view;opt.targetWindow = o.targetWindow;
     target = (o.target) ? o.target : 'page';
-    url = o.url;if (url) target+= '@'+url;     // setup preferred target
+    url = o.url; if (url) target+= '@'+url;     // setup preferred target
     serialize = (o.serialize) ? o.serialize : null;
     if (value===null) value = o.value;
-    if (opt.callback && type.substr(0,1)!='#') type = '#' + type;
+    fn = o.complete ? o.complete : fn;
+    if (fn && type.substr(0,1)!='#') type = '#' + type;
+    if (fn || type.substr(0,1)=='#') opt.callback = function(result,status) {
+        Raxan.iTriggerPreloader(null, null, 'off', result); // toogle preloader event handlers
+        if (fn && typeof fn == 'function') return fn(result,status);
+    }
+    this.iTriggerPreloader(null, null, 'on'); // toogle preloader event handlers
     this.iTriggerRemote(target,type,value,serialize,opt);
     return this;
 }
@@ -509,7 +492,8 @@ Raxan.iFlashEffect = function(effect,id,exposeOpt) {
 Raxan.iUpdateClient = function(selectors,source,sourceDelim) {
     var $ = jQuery;source = source.split(sourceDelim);
     $(selectors).each(function(i) {
-        Raxan.iUpdateElement(this,$(source[i]).get(0));
+        var elm = $(source[i]).get(0);
+        Raxan.iUpdateElement(this,elm);
     });
 }
 // Used internally
@@ -547,6 +531,8 @@ Raxan.iUpdateElement = function(srcElm,targetElm) {
                 }
             }
         }
+        var nm = (elm.nodeName+'').toLowerCase();
+        if (nm=='select') return; // no need to clone <option> tags
         l = elm.childNodes.length;
         if(l) for(i=0; i<l; i++) {
             e = elm.childNodes[i];
@@ -585,13 +571,14 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
     evt = $.trim(evt);
     if (!evt) evt = 'click';
     var type = evt.substr(0,1)=='#' ? evt.substr(1) : evt;
-    var delay,confirm,delegate,disable,toggle,icache,before,after,vu,repeat=1,o = options;
+    var delay,confirm,targetWin,delegate,disable,toggle,icache,before,after,vu,repeat=1,o = options;
     if (o===true) delegate = true; // last param can be true (for delegates) or an array of options
     else if (o) {
-        delegate = (o['dt']) ? o['dt'] : false;confirm = o['ct'] ? o['ct'] : ''
+        delegate = (o['dt']) ? o['dt'] : false;confirm = o['ct'] ? o['ct'] : '';
         delay = o['dl'] ? o['dl'] : 0;disable = o['ad'] ? o['ad'] : '';
         toggle = o['at'] ? o['at'] : '';icache = o['ic'] ? o['ic'] : '';
         repeat = o['rpt'] ? o['rpt'] : repeat;vu = o['vu'] ? o['vu'] : ''
+        targetWin = o['tw'] ? o['tw'] : '';
     }
     var cb = function(e,eventParam) {
         var ievent;
@@ -619,6 +606,7 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
                 vu : vu,  // page view name
                 delegate : delegate,
                 confirm: confirm,   // message to be displayed before event
+                targetWindow : targetWin,
                 callback: function(result, status){
                     var elm;
                     if (disable) {
@@ -676,8 +664,8 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
 
             if (!delay) fn();
             else {
-                clearTimeout($(me).data('clxTimeout')||0)
-                $(me).data('clxTimeout',setTimeout(fn,delay));
+                clearTimeout($(this).data('clxTimeout')||0)
+                $(this).data('clxTimeout',setTimeout(fn,delay));
             }
         }
         if (preventDefault) e.preventDefault();
@@ -707,10 +695,11 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
 Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
     var $ = jQuery, sdata, ievent;
     opt = opt || {};
-    var e = opt.event, callback = opt.callback, vu = opt.vu, confirmText = opt.confirm;
+    var e = opt.event, callback = opt.callback, vu = opt.vu, 
+        confirmText = opt.confirm, targetWindow = opt.targetWindow;
     var i, a, s, telm, tname, isupload, form, post = {}, tmp, url, isAjax=false;
     if(!type) type = 'click';  // defaults to click
-    if (type.substr(0,1)=='#') {isAjax  = true;type=type.substr(1)}
+    if (type.substr(0,1)=='#') {isAjax = true;type = type.substr(1)}
     tmp = target.split(/@/); // support for target@url
     target = tmp[0];url = tmp[1] ? tmp[1] : _PDI_URL;
 
@@ -718,6 +707,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
     if (e && (e.currentTarget||e.target)) {
         telm = e.currentTarget || e.target;
         tname = (telm.nodeName+'').toLowerCase();
+        targetWindow = targetWindow || telm.getAttribute('target') || telm.getAttribute('formTarget'); // get target window
         isupload = (tname=='form' && (/multipart\/form-data/i).test(telm.encoding)); // check form encoding
         if (isupload) form = telm;
     }
@@ -772,7 +762,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
         if (vu && vu!='index') url+= (url.indexOf('?')==-1 ? '?' : '&')+'vu=' + vu;
     }
 
-    // if target is form then serialize the form
+    // check serialization - if target is form then serialize the form
     if (!serialize && tname=='form' && !isupload) serialize = telm;
     else if (!serialize && (tname=='input'||tname=='button') &&  // if target is submit button then serialize form
         (/submit|image/i).test(telm.type) && telm.form) {
@@ -793,8 +783,8 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
                         if (!valid) this.focus();
                     }
                     else for(i=0; i<this.elements.length; i++){
-                        valid = this.elements(i).checkValidity();
-                        if (!valid) {this.elements(i).focus();break;}
+                        valid = this.elements[i].checkValidity();
+                        if (!valid) {this.elements[i].focus();break;}
                     }
                 }
             })
@@ -803,6 +793,11 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
                 return false;
             }
             sdata = s.serializeArray(); // serialize data from matched elements
+            var selm = s.get(0); // is serialized object a form?
+            if ((selm.nodeName+'').toLowerCase()=='form'){
+                isupload = (/multipart\/form-data/i).test(selm.encoding); // check form encoding
+                if (isupload) {form = selm;selm = null;}
+            }
         }
     }
 
@@ -867,7 +862,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
     }
 
     // post data to server
-    if (!isAjax) Raxan.post(url, post, (isupload ? form : null));
+    if (!isAjax) Raxan.post(url, post, (isupload ? form : null), targetWindow);
     else {
         post['_ajax_call_'] = 'on';  // let server know this is ajax
         $.ajax({

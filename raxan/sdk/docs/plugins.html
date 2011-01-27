@@ -149,7 +149,7 @@ have to specify the .php extension for the plugin file.</p>
     Raxan::loadPlugin('/path/to/plugin/newplugin.php', true);
 
     // load external plugin using RaxanWebPage-&gt;loadPlugin() and assign it to 'myPlugin' alias
-    protected function _init() {
+    protected function _config() {
         $this-&gt;loadPlugin('/path/to/plugin/newplugin.php', true, 'myPlugin');
     }
 ?&gt;
@@ -211,7 +211,7 @@ create a plugin that adds a userLogin() method to the page.</p>
 
     // ... web page ...
 
-    protected function _init() {
+    protected function _config() {
         $this-&gt;loadPlugin('network-connector'); // load plugin
     }
 

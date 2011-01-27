@@ -13,7 +13,7 @@ Raxan.UI.tabstrip = function($){    // add to UI namespace
     var tab;
     return tab = {
         id: 'raxTabStrip',
-        autodelay: 3500,
+        autodelay: 4500,
         allowed: 'select;autopilot;',
         options: {animate:true, theme:null, tabclick:null},
         init: function(){
@@ -36,7 +36,9 @@ Raxan.UI.tabstrip = function($){    // add to UI namespace
         },
 
         construct: function(o){
-            this.addClass('rax-tabstrip');
+            var me = this;
+            var cssClass = o && o.cssClass ? o.cssClass : 'rax-tabstrip';
+            this.addClass(cssClass);
             if (o.theme) this.addClass(o.theme);
             return this.each(function(){
                  var bag = $.data(this,tab.id); // check for previous bag
@@ -50,7 +52,7 @@ Raxan.UI.tabstrip = function($){    // add to UI namespace
                 // setup tab containers
                 $('li > a',this)
                 .unbind('.'+tab.id) // clean up
-                .bind('click.'+tab.id, function(e){ e.preventDefault(); })// prevent clicking from <a> tag
+                .bind('click.'+tab.id, function(e){e.preventDefault();})// prevent clicking from <a> tag
                 .each(function(){
                     var a,u = tab.parseTag(this);
                     if (!u.id) return;
@@ -61,23 +63,31 @@ Raxan.UI.tabstrip = function($){    // add to UI namespace
                         bag.current = u.id;
                     }
                 });
+                // select default tab
+                if (o && o.selected!==undefined) tab.select.apply(me,[o.selected]);
+                // enable autopilot
+                if (o && o.autopilot!==undefined) tab.autopilot.apply(me,[o.autopilot]);
             })
         },
 
         autopilot: function(delay,rand) {
-            delay = (delay===true) ? tab.autodelay : delay;
             return this.each(function() {
                 var me=this, bag = $.data(this,tab.id); // data bag
-                if (bag.autoid) window.clearTimeout(bag.autoid);
-                if (delay===false) bag.autoid = 0;
+                delay = (delay===true) ? (bag.autodelay || tab.autodelay) : delay;
+                if (bag.autoTmr) window.clearTimeout(bag.autoTmr);
+                if (delay===false) bag.autoTmr = 0;
                 else {
-                    bag.autoid = window.setInterval(function(){
+                    bag.autodelay = delay;
+                    bag.autoFn = function(){
                         var li = $('li',me);
                         var i = li.index($('li.selected-tab',me).get(0))+1;
+                        if (bag.autoTmr===0) return;
                         if (rand) i = parseInt(Math.random() * li.length);
                         if (i > li.length-1) i = 0;
                         tab.select.call($(me),i);
-                    }, delay);
+                        bag.autoTmr = window.setTimeout(bag.autoFn,delay);
+                    }
+                    bag.autoTmr = window.setTimeout(bag.autoFn, delay);
                 }
             })
         },
@@ -85,9 +95,9 @@ Raxan.UI.tabstrip = function($){    // add to UI namespace
         // returns the id, url and selector from <a> tag
         parseTag: function(a) {
             var s,i,u,l = (a ? a.href : '').split('#');
-            u = l.shift(); i = l.join('#');
+            u = l.shift();i = l.join('#');
             if (i && i.indexOf(';')>=0) {
-                l = i.split(';'); i = l[0]; s = unescape(l[1]);
+                l = i.split(';');i = l[0];s = unescape(l[1]);
             }
             return {id:i, url:u, css:s};
         },
@@ -105,6 +115,12 @@ Raxan.UI.tabstrip = function($){    // add to UI namespace
             var ul = $(this).parent().get(0);
             var bag = $.data(ul,tab.id); // data bag
             var o = bag.options;
+
+            // reset autopilot timer if enabled
+            if (bag.autoTmr) {
+                window.clearTimeout(bag.autoTmr);
+                bag.autoTmr = window.setTimeout(bag.autoFn, bag.autodelay);
+            }
 
             var li = $('li',ul).removeClass('selected-tab');
             $(this).addClass('selected-tab');

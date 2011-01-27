@@ -2,7 +2,7 @@
 /**
  *  RaxanDateTime Class for handling dates beyond the 1970 and 2038
  *  Requires ADODB_Date library file to be in the same path as this library
- *  Copyright (c) 2008-2010 Raymond Irving
+ *  Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  *
  *  This Class Library is distributed under the terms of the GNU GPL and MIT license with
  *  the exception of the ADOdb Date Library which is distributed under it's respective license(s). 
