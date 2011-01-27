@@ -2,6 +2,7 @@
 /**
  * Raxan PHP Data Objects
  * Extends standard PDO class to provide additional functionality
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 
@@ -78,8 +79,12 @@ class RaxanPDO extends PDO {
             $ds->execute($param);
         }
 
+        $this->_lastRowsAffected = 0;
         if ($ds===false) return false;
-        else return $ds->fetchAll(PDO::FETCH_ASSOC);
+        else {
+            $this->_lastRowsAffected = $ds->rowCount();
+            return $ds->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
     /**
@@ -107,7 +112,7 @@ class RaxanPDO extends PDO {
             }
         }
         $ds->execute();
-
+        $this->_lastRowsAffected = $ds->rowCount();
         $rt = new RaxanPDOProcResult($ds, $params, $return);
         return $rt;
         
@@ -140,8 +145,12 @@ class RaxanPDO extends PDO {
             $ds->execute($filterValues);
         }
 
+        $this->_lastRowsAffected = 0;
         if ($ds===false) return false;
-        else return $ds->fetchAll(PDO::FETCH_ASSOC);
+        else {
+            $this->_lastRowsAffected = $ds->rowCount();
+            return $ds->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
     /**

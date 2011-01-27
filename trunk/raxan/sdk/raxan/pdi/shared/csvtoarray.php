@@ -1,7 +1,7 @@
 <?php
 /**
  * Converts CSV to array. Used internally by the Raxan class
- * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  *
  */
 function raxan_csv_to_array($csv, $delimiter = ',', $enclosure = '"', $escape = '\\', $terminator = "\n") {

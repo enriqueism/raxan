@@ -2,7 +2,7 @@
 /**
  * Raxan UI Widget
  * Classes for building UI Widgets
- * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 
@@ -39,17 +39,20 @@ abstract class RaxanUIWidget extends RaxanElement {
 
     // constructor
     public function __construct($id,$properties = null) {
-        $this->_config(); // config ui 
+
+        // configure ui
+        $this->_config();
 
         $autoid = $idIsString = $isArray = false;
 
+        // setup properties
         if ($properties instanceof RaxanDOMDocument) $doc = $properties;
         else if ($properties instanceof RaxanWebPage) $doc = $properties->document();
         else {
             $doc = RaxanWebPage::controller()->document();
             $isArray = is_array($properties);
         }
-        
+
         if ($id instanceof DOMElement) { $elm = $id; $autoid=true; }
         else if (is_string($id)) { $elm = $doc->page->getElementById($id); $idIsString = true;}
         if (!$elm)  { $elm = $this->elmMarkup; $autoid = true; }
@@ -67,9 +70,16 @@ abstract class RaxanUIWidget extends RaxanElement {
 
         // import properties from element attributes
         $xtAttrs = array();
+        $propkeys = null;
         foreach($this->element->attributes as $attr) {
             if (substr($attr->name,0,6)=='xt-ui-') {
-                $this->properties[substr($attr->name,6)] = $attr->value;
+                if ($propkeys==null) {  // // make properrty names case-insensitive for xt-ui attributes
+                    $propkeys = array_keys($this->properties);
+                    $propkeys = array_combine($propkeys,$propkeys);
+                    $propkeys = array_change_key_case($propkeys);
+                }
+                $xtKey = substr($attr->name,6);
+                if (isset($propkeys[$xtKey])) $this->properties[$propkeys[$xtKey]] = $attr->value;
                 $xtAttrs[] = $attr->name;
             }
         }
@@ -141,7 +151,6 @@ abstract class RaxanUIWidget extends RaxanElement {
      * @return mixed
      */
     protected function _property($name,$value = null,$writeMode = false) {
-        $name = strtolower($name); //  make properrty names case-insensitive so that they can be used as xt-ui attributes
         if ($writeMode) $this->properties[$name] = $value;
         else return ($name && isset($this->properties[$name])) ?
             $this->properties[$name] : null;

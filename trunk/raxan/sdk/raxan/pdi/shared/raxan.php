@@ -2,7 +2,7 @@
 /**
  * Raxan Framework
  * This file includes Raxan, RaxanBase, RaxanDataStorage, RaxanSessionStorage, RaxanPlugin
- * Copyright (c) 2008-2010 Raymond Irving 
+ * Copyright (c) 2011 Raymond Irving
  * @license GPL/MIT
  * @date 10-Dec-2008
  * @package Raxan
@@ -23,10 +23,12 @@ if(!defined('PHP_VERSION_ID')) {
  */
 function raxan_error_handler($errno, $errstr, $errfile, $errline ) {
     if (error_reporting()===0) return;
-    if (error_reporting() & $errno){    // repect error reporting level
+    if (error_reporting() & $errno){    // respect error reporting level
         throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
     }
 }
+// Setup raxan error handler
+set_error_handler("raxan_error_handler",error_reporting());
 
 /**
  * Abstract Data Storage Class
@@ -113,7 +115,7 @@ class Raxan {
     // set raxan version
     // @todo: Update API version/revision
     const VERSION = 1.0;
-    const REVISION = 'rc1';
+    const REVISION = '0';
 
     // template binder constants
     const TPL_FIRST     = 1;
@@ -223,8 +225,10 @@ class Raxan {
             $sf = isset($_SERVER['SCRIPT_FILENAME']) ? $_SERVER['SCRIPT_FILENAME'] : '';
             $ps = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
             if ($sn && $ps!=$sn) $su = $sn; else $su = $ps;
-            $config['site.url'] = $su ? dirname($su).'/' : './';
-            $config['site.path'] = $sf ? dirname(str_replace('\\','/',$sf)).'/' : './';
+            $su = str_replace('\\','/',dirname($su));   // fix issue #10 - bug with "\" path on windows PCs
+            $sf = str_replace('\\','/',dirname($sf));
+            $config['site.url'] = ($su!='/') ? $su.'/': './';
+            $config['site.path'] = ($sf!='/') ? $sf.'/': './';
         }
         if (empty($config['raxan.path'])||empty($config['raxan.url'])) {
             // auto detect raxan path & url
@@ -255,21 +259,24 @@ class Raxan {
         // set timezone
         if ($config['site.timezone']) date_default_timezone_set($config['site.timezone']);
 
-        // set error handler
-        set_error_handler("raxan_error_handler",error_reporting());
-
         self::$isInit = true;
         // preload widgets from $config
         if ($config['preload.widgets']) {
             $ui = explode(',',$config['preload.widgets']);
-            $extrn = substr($pl,-4)=='.php';
-            foreach($ui as $f) self::loadWidget($f,$extrn);
+            foreach($ui as $f) {    
+                $f = trim($f);      // fix issue #9
+                $extrn = substr($f,-4)=='.php';
+                self::loadWidget($f,$extrn);
+            }
         }
         // preload plugins from $config
         if ($config['preload.plugins']) {
             $pl = explode(',',$config['preload.plugins']);
-            $extrn = substr($pl,-4)=='.php';
-            foreach($pl as $p) self::loadPlugin($p,$extrn);
+            foreach($pl as $f) {
+                $f = trim($f);      // fix issue #9
+                $extrn = substr($f,-4)=='.php';
+                self::loadPlugin($f,$extrn);
+            }
         }
 
         // trigger system_init
@@ -919,7 +926,8 @@ class Raxan {
         if (!self::$isLocaleLoaded) self::setLocale(self::$config['site.locale']); // init on first use
         if ($key===null) return self::$config['site.locale'];
         $v = isset(self::$locale[$key]) ? self::$locale[$key] : '';
-        return ($v && $arg1!==null) ? sprintf($v,$arg1,$arg2,$arg3,$arg4,$arg5,$arg6) : $v;
+        return ($v && ($arg1!==null||$arg2!==null)) ?
+            sprintf($v,$arg1,$arg2,$arg3,$arg4,$arg5,$arg6) : $v;
     }
 
     /**
@@ -1020,16 +1028,22 @@ class Raxan {
         $spth = self::$config['site.path'];
         $surl = self::$config['site.url'];
         $fl = str_replace('\\', '/', realpath($pth));
-        $match = false;
-        while (!$match){
-            $flu = str_ireplace($spth, '',$fl); // case-insensitive replace
+        $match = false; $lpth = $lurl = '';
+        while ($fl && !$match){
+            $flu = str_ireplace(rtrim($spth,'/'), '',$fl); // case-insensitive replace
             if ($fl!=$flu) $match = true;
             else {
-                $spth = dirname($spth).'/'; $surl = dirname($surl).'/';
-                if (strlen($surl)<=3||strlen($spth)<=3) break;
+                $spth = str_replace('\\', '/', dirname($spth));
+                $surl = str_replace('\\', '/', dirname($surl));
+                if (!$spth || !$surl || $lurl == $surl || $lpth == $spth) break; // check for valid url and path
+                $lurl = $surl; $lpth = $spth; // set last url and path
             }
        }
-        return $match ? $surl.$flu : null;
+       if(!$match) return null;
+       else {
+           if (substr($surl,-1)!='/') $surl.='/';
+           return $surl.ltrim($flu,'/');
+       }
     }
 
     /**

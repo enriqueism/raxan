@@ -111,6 +111,7 @@ Raxan.dispatchEvent(type, value, fn)
 <ul>
 <li><strong>type</strong> - Event type</li>
 <li><strong>target</strong> - Target element. Defaults to page or durrent document</li>
+<li><strong>targetWindow</strong> - Specifies the target window to display full-page event response.</li>
 <li><strong>view</strong> - Name of the page view to be loaded</li>
 <li><strong>url</strong> - Destination url. Defaults to current page</li>
 <li><strong>serialize</strong> - Selector or DOM elements to be serialized.</li>
@@ -182,7 +183,7 @@ after the user has triggered an event:</p>
 <pre><code class="php">&lt;?php
     protected function sendData($msg) {
         // register the variable so that it can be available to the client
-        $this-&gt;regsiterVar('msgVar',$msg);
+        $this-&gt;registerVar('msgVar',$msg);
     }
 ?&gt;
 </code></pre>

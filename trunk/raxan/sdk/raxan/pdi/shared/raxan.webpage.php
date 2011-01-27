@@ -1,7 +1,7 @@
 <?php
 /**
  * Raxan Web Page Classes
- * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 
@@ -68,9 +68,10 @@ function _var($str, $name = null, $registerGlobal = false){
  * @property RaxanDataSanitizer $post Sanitized Post Request
  * @property RaxanDataSanitizer $get Sanitized Get Request
  * @property mixed $autoAppendView Automatically appends a view to the document. Set to true to append files using the default file name pattern {basename}.{view}.php or enter a customized pattern. For example: 'myapp-{view}.php'
- * @property string $activeView Currently active view
+ * @property-read string $activeView Active view
  * @property string $masterTemplate Master template file name or html string
  * @property string $masterContentBlock Master template content css selector. Defaults to .master-content
+ * @property string $pageOutputBuffer output buffer
  */
 class RaxanWebPage extends RaxanBase implements ArrayAccess  {
 
@@ -93,6 +94,21 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public $responseType = 'html';          // html,xhtml,xhtml/html,xml,wml
     public $defaultBindOptions = array();   // default bind options
 
+    public $autoAppendView;
+    public $localizeOnResponse;      // Automatically insert language strings into element with the langid attribute set to valid locale key/value pair
+    public $initStartupScript;       // loads the raxan startup.js script
+    public $resetDataOnFirstLoad;    // reset page data on first load
+    public $preserveFormContent;     // preserve form values on post back
+    public $disableInlineEvents;     // disables the processing on inline events
+    public $showRenderTime;          // shows the render time of the page
+    public $serializeOnPostBack;     // default selector value for matched elements to be serialize on postback
+    public $degradable;              // enable accessible mode for links, forms and submit buttons when binding to an event
+    public $preventBrowserCache;     // send headers to prevent client-side browser or proxy caching
+    public $masterTemplate;
+    public $masterContentBlock = '.master-content';
+
+    public $pageOutputBuffer;         // page output buffer
+
     // auto id properties
     protected static $autoIdPrefix = 'e0x'; // auto id prefix for elements.
     protected static $autoId;               // auto id for elements.
@@ -105,22 +121,8 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     protected static $customProps;      // stores custom (extended) propeties
     protected static $regScripts = array();       // stores registered scripts
 
-    protected $autoAppendView;
-    protected $localizeOnResponse;      // Automatically insert language strings into element with the langid attribute set to valid locale key/value pair
-    protected $initStartupScript;       // loads the raxan startup.js script
-    protected $resetDataOnFirstLoad;    // reset page data on first load
-    protected $preserveFormContent;     // preserve form values on post back
-    protected $disableInlineEvents;     // disables the processing on inline events
-    protected $showRenderTime;          // shows the render time of the page
-    protected $serializeOnPostBack;     // default selector value for matched elements to be serialize on postback
-    protected $degradable;              // enable accessible mode for links, forms and submit buttons when binding to an event
-    protected $preventBrowserCache;     // send headers to prevent client-side browser or proxy caching
-    protected $masterTemplate;
-    protected $masterContentBlock = '.master-content';
-
 
     protected $doc = null;   // document
-    protected $pageOutput;   // output buffer
     protected $activeView;
     protected $_startTime, $_endResponse;
     protected $_charset, $_headers, $_contentType;
@@ -163,6 +165,10 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         // initialize Raxan
         if (!Raxan::$isInit) Raxan::init();
 
+        // add page to page controller array
+        self::$pages[$this->objId] = $this;
+        if (self::$mPageId==null) self::$mPageId = $this->objId;
+
         // script dependencies
         $dep = array('jquery');
         $this->registerScript('jquery-ui','jquery-ui',$dep);
@@ -195,9 +201,6 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         $this->_charset = $charset ? $charset : $c['site.charset'];
         $this->doc = self::createDOM(null, $this->_charset);
         $this->doc->initPageController($this->objId);
-
-        self::$pages[$this->objId] = $this;
-        if (self::$mPageId==null) self::$mPageId = $this->objId;
         $this->source($xhtml,$type); // set document source
 
         // init postback variables
@@ -330,6 +333,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public function __get($name) {
         if ($name=='post') return $this->_post ? $this->_post: $this->_post = Raxan::dataSanitizer($_POST);
         else if ($name=='get') return $this->_get ? $this->_get: $this->_get = Raxan::dataSanitizer($_GET);
+        else if ($name=='activeView') return $this->activeView; // return protected value
         else {            
             if (isset(self::$customProps[$name])) return self::$customProps[$name];   // custom property lookup
             else if (($e = $this->findById($name)) && $e->length) return $e;        // element lookup
@@ -434,7 +438,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         $e = & $this->events; $type = trim($type);
         $accessible = $extras = $isOpt = false;
         $selector = trim($selector);
-        $local = $global = $ids = $prefTarget = $serialize = $confirmText = $value = $script =  '';
+        $local = $global = $ids = $prefTarget = $serialize = $confirmText = $value = $script =  $targetWindow = '';
         $delay = $autoDisable = $autoToggle = $inputCache = $repeat = $view = $extendedOpt = '';
         if (substr($type,-6)=='@local') {$type = substr($type,0,-6); $local = true; } // check if local access
         elseif (substr($type,-7)=='@global') {$type = substr($type,0,-7); $global = true; } // check if global access
@@ -482,8 +486,9 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 $repeat = isset($opts['repeat']) ? $opts['repeat'] : null;
                 $view = isset($opts['view']) ? $opts['view'] : null;
                 $confirmText = isset($opts['confirm']) ? $opts['confirm'] : null;
+                $targetWindow = isset($opts['targetWindow']) ? $opts['targetWindow'] : null;
                 $data = isset($opts['data']) ? $opts['data'] : null; // get data object
-                $extendedOpt = ($delay||$autoDisable||$autoToggle||$inputCache||$repeat||$view||$confirmText) ? true : false;
+                $extendedOpt = ($delay||$autoDisable||$autoToggle||$inputCache||$repeat||$view||$confirmText||$targetWindow) ? true : false;
                 if ($delay && $delay!==true && $delay < 200) $delay = 200; // make sure delay is not < 200ms
             }
             // assign selector to client-side event options
@@ -501,6 +506,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 'inputCache' => $inputCache,
                 'view' => $view,
                 'confirm' => $confirmText,
+                'targetWindow' => $targetWindow,
                 '_extendedOpt' => $extendedOpt // this will cause the system to append options to last paramater of $bind
             );
         }
@@ -1088,12 +1094,11 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                     if ($src && is_array($src)) $src = $src['src'];
                     $raxan = '<script type="text/javascript" src="'.$src.'"></script>'."\n";
                 }
-                if ($inc || $actions) {
-                    $inc = '<script type="text/javascript"><![CDATA[ '.$inc.str_replace(']]>',']]\>',$actions)." ]]></script>\n"; // prevent nested CDATA tag
-                }
+                if ($inc) $inc = '<script type="text/javascript"><![CDATA[ '.$inc." ]]></script>\n";
+                if ($actions) $actions = '<script type="text/javascript"><![CDATA[ '.str_replace(']]>',']]\>',$actions)." ]]></script>\n"; // prevent nested CDATA tag
             }
 
-            $inc = $css.$raxan.$pdiVars.$inc.$js;
+            $inc = $css.$raxan.$pdiVars.$inc.$actions.$js;
             if ($inc) {
                 $hd = $this->findByXPath('/html/head[1]'); // find first head tag
                 if ($hd->length) { // check for <head> tag.
@@ -1221,7 +1226,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     }
 
     /**
-     * Returns the html content of an elment
+     * Returns the html content of an element
      * @param DOMElement $n
      * @param boolean $outer
      * @return string
@@ -1354,7 +1359,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
      */
     public function render($type = 'html') {
 
-        $this->pageOutput = $result = '';
+        $this->pageOutputBuffer = $result = '';
 
         // handle client events request
         if (!$this->_endResponse) {
@@ -1424,18 +1429,18 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
             $a = iconv($charset,$charset.'//IGNORE',$actionScripts);  // clean up action scripts charset encoding
             if (isset($result)) $rt = is_string($result) ? iconv($charset,$charset.'//IGNORE',$result) : $result;
             $json =  Raxan::JSON('encode',array( '_result' => $rt, '_actions' => $a ));
-            if ($_POST['_ajax_call_']!='iframe') $this->pageOutput = $json;
+            if ($_POST['_ajax_call_']!='iframe') $this->pageOutputBuffer = $json;
             else {
                 $html = '<form><textarea>'.htmlspecialchars($json).'</textarea></form>';
                 $html = self::pageCode('html',$this->_charset,$html);
-                $this->pageOutput = $html;
+                $this->pageOutputBuffer = $html;
             }
             
         }
         elseif (!$this->isAjaxRequest) {   // response to standard postback
             // check if is embedded
             if (!$this->isEmbedded) {
-                $this->pageOutput = $this->doc->source(null,$type);
+                $this->pageOutputBuffer = $this->doc->source(null,$type);
             }
             else {
                 // handle embedded mode
@@ -1458,14 +1463,15 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                     $h.= 'if (!self.Raxan) document.write("'.$a[0].'<\/script>");'; // load the raxan startup script
                     $h.= 'else RaxanPreInit[RaxanPreInit.length-1]();';
                 }
-                $this->pageOutput = $h;
-            }
-            if (!$this->_endResponse) {
-                $this->_postrender();        // call _postrender event
-                Raxan::triggerSysEvent('page_postrender',$this);
+                $this->pageOutputBuffer = $h;
             }
         }
 
+        if (!$this->_endResponse) {
+            $this->_postrender();        // call _postrender event
+            Raxan::triggerSysEvent('page_postrender',$this);
+        }
+        
         // save element state
         if ($this->_preserveElms) foreach($this->_preserveElms as $id=>$node) {
             $p = strrpos($id,'|');
@@ -1477,7 +1483,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         $this->isRendering = false;
 
         // return html or json string
-        return $this->pageOutput;
+        return $this->pageOutputBuffer;
     }
 
     /**
@@ -1676,35 +1682,43 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public function source($src = null,$srcType = 'html') {
         $mTpl = trim($this->masterTemplate);
         if ($src===null) return $this->doc->source(null,$srcType);
-        else if ($mTpl) { // set master template
-            if (substr($mTpl,-4)=='.php' && strpos($mTpl,'://')===false) { // handle php files
-                ob_start(); include $mTpl; $mTpl = ob_get_clean();
-            }
-            $this->doc->source($mTpl,$srcType);
+        else {
             $src = trim($src);
-            if ($src) { // fix for issue #6
-                $isFile = (substr($src,0,1)!='<') && is_file($src) ? true : false;
-                if ($isFile || ($p = substr($src,0,7))=='http://' || $p=='https:/') {
-                    $src = file_get_contents($src);
+            $isHTML = $src && substr($src,0,1)=='<';
+            $isFile = (!$isHTML) && is_file($src) ? true : false;
+            if ($mTpl) { // set master template
+                if (substr($mTpl,-4)=='.php' && strpos($mTpl,'://')===false) { // handle php files
+                    ob_start(); include $mTpl; $mTpl = ob_get_clean();
+                }
+                $this->doc->source($mTpl,$srcType);
+                if ($src) { // fix for issue #6
+                    if ($isFile || ($p = substr($src,0,7))=='http://' || $p=='https:/') {
+                        $src = file_get_contents($src);
+                    }
+                }
+                $this->content($src);
+            }
+            else {
+                if ($src=='wml:page') { // set wml page source
+                    $src = self::pageCode('wml'); $isHTML = true;
+                    $this->responseType = 'wml'; $srcType = 'xml';
+                }
+                else if (!$src || $src=='html:page') {  // set html page source
+                    $src = self::pageCode('html'); $isHTML = true;
+                    $this->responseType = $srcType = 'html';
+                }
+                else if ($srcType!='xml' && $srcType!='html')
+                    $srcType = ($src && substr($src,-4)=='.xml') ? 'xml' : 'html';
+
+                if ($isHTML || $isFile || ($p = substr($src,0,7))=='http://' || $p=='https:/')
+                    $this->doc->source($src,$srcType); // load html file or content
+                else {
+                    // load non-html content
+                    $this->doc->source(self::pageCode('html'));
+                    $this->content($src);
                 }
             }
-            $this->content($src);
         }
-        else {
-            if ($src=='wml:page') { // set page source
-                $src = self::pageCode('wml');
-                $this->responseType = 'wml'; $srcType = 'xml';
-            }
-            elseif (!$src || $src=='html:page') {
-                $src = self::pageCode('html');
-                $this->responseType = $srcType = 'html';
-            }
-            else if ($srcType!='xml' && $srcType!='html')
-                $srcType = ($src && substr($src,-4)=='.xml') ? 'xml' : 'html';
-
-            $this->doc->source($src,$srcType);
-        }
-
         return $this;
 
     }
@@ -1894,6 +1908,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                             if ($opt['inputCache']) $x[] = 'ic:\''.$opt['inputCache'].'\'';
                             if ($opt['view']) $x[] = 'vu:\''.$opt['view'].'\'';
                             if ($opt['confirm']) $x[] = 'ct:\''.Raxan::escapeText($opt['confirm']).'\'';
+                            if ($opt['targetWindow']) $x[] = 'tw:\''.Raxan::escapeText($opt['targetWindow']).'\'';
                             if ($opt['repeat']) $x[] = 'rpt:'.($opt['repeat']===true ? 'true' : (int)$opt['repeat']).'';
                             $x = ',{'.implode(',',$x).'}';
                         }

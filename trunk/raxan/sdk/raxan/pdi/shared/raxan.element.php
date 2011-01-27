@@ -1,7 +1,7 @@
 <?php
 /**
  * Raxan Element
- * Copyright (c) 2008-2010 Raymond Irving (http://raxanpdi.com)
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  * @package Raxan
  */
 
@@ -553,7 +553,7 @@ class RaxanElement extends RaxanBase {
      * Enable matched elements
      * @return RaxanElement
      */
-    public function enable(){ $this->attr('disabled',''); }
+    public function enable(){ $this->removeAttr('disabled'); }
 
     /**
      * Revert the currently modified selection to the previously matched selection

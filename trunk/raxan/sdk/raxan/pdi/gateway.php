@@ -1,7 +1,7 @@
 <?php
 /**
- * Raxan PDI Gateway file
- * Coptyright Raymmond Irving 2008-2009.
+ * Raxan Gateway file
+ * Copyright (c) 2011 Raymond Irving (http://raxanpdi.com)
  * License: GPL, MIT
  * @package Raxan
  */
