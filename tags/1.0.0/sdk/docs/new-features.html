@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>New Features - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>What's New</h2>
+
+<h3>Page-View Design Pattern</h3>
+
+<p>Raxan Beta 3 introduced a switchboard page handler that was designed to manage actions requested by the client.
+In RC1, the Switchboard Page Handler and Action has been replaced with individual Page view handlers and view mode. Learn more about <a href="page-view.html">Page Views</a>.</p>
+
+<h3>Flash Messages</h3>
+
+<p>With the new flash message API, developers will be able to quickly display messages within a web page.</p>
+
+<pre><code class="php">&lt;?php
+    protected function speak($word){
+        if ( !$word) {
+            $this-&gt;flashmsg('I have nothing to say.');
+        }
+    }
+?&gt;
+</code></pre>
+
+<p>To display flash messages within the page, you only need to insert an HTML element with the class attribute set to flash-message:</p>
+
+<pre><code>&lt;div class="flash-message"&gt;&lt;/div&gt;
+</code></pre>
+
+<h3>Server-Side HTML5 Validation</h3>
+
+<p>Basic HTML5 validation has been added to the framework to make it easier to validate client inputs.  With just a few line of code, you can check for valid inputs:</p>
+
+<pre><code class="php">&lt;?php
+    protected function addItem($e){
+        $frm = $this-&gt;webForm;
+        if ( !$frm-&gt;checkValidity(true,'required') ) {
+            $this-&gt;flashmsg('Invalid input values');
+        } else {
+            $v = $frm-&gt;validValues();
+            // some code here....
+            $this-&gt;flashmsg('New item added');
+        }
+    }
+?&gt;
+</code></pre>
+
+<p>Since we're doing HTML5 Form validation on the server-side you only need to type the HTML once:</p>
+
+<pre><code>&lt;input type="text" name="itemname" id="itemname" value="" maxlength="50" required /&gt;
+&lt;textarea name="description" id="description" cols="10" rows="5" maxlength="250" required&gt;&lt;/textarea&gt;
+&lt;input type="submit" name="submit1" id="submit1" value="Submit" /&gt;
+</code></pre>
+
+<p><em>Supported HTML5 Validation constraints:</em></p>
+
+<pre><code>• Maxlength
+• Required
+• Min / Max (only works with type=number )
+• Email
+• URL
+• Number
+• Date
+• Month
+• Pattern
+</code></pre>
+
+<h3>Improved CSS theme</h3>
+
+<p>Designing  great looking web pages and applications has been made easier with the new integrated jQuery UI CSS theme-able classes. Just include the default theme or create your own and you're ready to go.</p>
+
+<h3>Improved Sanitizer</h3>
+
+<p>The new web page "post" and "get" properties makes it easier to get access to all your HTTP POST and GET values while being able to filter and sanitize values.</p>
+
+<pre><code class="php">&lt;?php
+    protected function saveData() {
+        $id = $this-&gt;post-&gt;intVal('id');
+        $name = $this-&gt;post-&gt;textVal('name');
+        $email = $this-&gt;post-&gt;emailVal('email');
+        $age = $this-&gt;post-&gt;intVal('age');
+        // code to save data...
+    }
+?&gt;
+</code></pre>
+
+<h3>Improved Template Binder</h3>
+
+<p>New Template Binder optional make it possible to add CSS classes while rendering a template. It's also possible to dynamically format display values from a callback function.</p>
+
+<h3>New UI API</h3>
+
+<p>The UI support for Raxan has been overhauled to support new components and widgets.  New features include support for inline properties (e.g. xt-ui-background,  etc), new event handlers and a  new RaxanUIContainer class.</p>
+
+<h3>Asynchronous Data Conduits (experimental)</h3>
+
+<p>Data Conduits are special data links between the client and the server. With these data links you can easily control the flow of data from a
+web page on the server. Learn more about <a href="data-conduits.html">Data Conduits</a>.</p>
+
+<hr class="clear" />
+
+<p align="right">Up Next <a href="changelog.html">Change log</a></p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

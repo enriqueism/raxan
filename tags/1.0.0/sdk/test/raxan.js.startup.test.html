@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Raxan Test - Startup scripts</title>
+    <style>
+        .p { color:green }
+        .f { color:red }
+    </style>
+    <script src="../raxan/startup.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        Raxan.include(['file1.js','file2.js','file3.js'],true);
+
+        Raxan.ready(function() {
+            assert(true,'Test Ready Event 1 or 2 ')
+        })
+
+        Raxan.ready(function() {
+
+            assert(true,'Test Ready Event 2 or 2 ')
+            // test multi-file include
+            assert(window.file1=='file1.js' && window.file2=='file2.js' && window.file3=='file3.js',
+                'Test for multiple Startup files');
+
+        })
+
+        Raxan.load(function() {
+            assert(true,'Test Load Event')
+        })
+
+        Raxan.unload(function() {
+            alert('About to unload: Pass!')
+        })
+
+        function assert(cond,desc) {
+            var c = document.getElementById('container');
+            assert.cnt++;
+            desc+= (cond==true) ?  ': <spa class="p">PASS</span>' : ': <spa class="f">FAIL</span>';
+            c.innerHTML += '<div>' + assert.cnt + '. '+ desc +'</div>'
+        }
+        assert.cnt = 0;
+    </script>
+</head>
+
+<body>
+    <h3>Test #2</h3>
+    <hr />
+    <div id="container"></div>
+
+</body>
+
+</html>

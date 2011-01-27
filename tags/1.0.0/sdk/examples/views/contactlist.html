@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Contact List</title>
+</head>
+
+<body>
+    <div class="container c25">
+        <h2 class="rax-header-pal rax-glass round-top pad bottom border2"><img src="views/images/users.png" width="24" height="24" />&nbsp;Contact Form</h2>
+        <div class="rax-box prepend1 pad" >
+            <form id="contact" method="post">
+                <input type="hidden" name="rowid" id="rowid" value="" />
+                <div class="ctrl-group">
+                    <label class="column c4">Name:</label><input class="textbox" id="name" name="name" size="65" />
+                </div>
+                <div class="ctrl-group">
+                    <label class="column c4">Address:</label><input class="textbox" id="address" name="address" size="65" /><br />
+                </div>
+                <div class="ctrl-group">
+                    <label class="column c4">Phone:</label><input class="textbox" id="phone" name="phone" size="65" /><br />
+                </div>
+                <hr />
+                <div id="btnbar" class="container" xt-preservestate>
+                    <input id="cmdsave" type="submit" class="left button rtm " value="Add Contact" xt-bind="#click,saveContact,,true" />
+                    <input id="cmdcancel" type="submit" class="left button cancel hide" value="Cancel" xt-bind="#click,cancelEdit" /><br />
+                </div>
+            </form>
+        </div>
+        <div class="flashmsg tpm" xt-autoupdate></div>
+        <div id="list1" xt-delegate="a.edit #click,editContact; a.remove #click,removeContact">
+            <div class="pad bmb">
+                <span class="right">
+                    <a class="edit" href="#{id}">Edit</a>&nbsp;/&nbsp;
+                    <a class="remove" href="#{id}" data-event-confirm="Are you sure you want to remove this record?">Remove</a>
+                </span>
+                <h3 class="bottom"><img src="views/images/user.png" width="16" height="16" /> {name}</h3>
+                Address:{address} / Phone: {phone}
+            </div>
+        </div>
+        <p>&nbsp;</p>
+    </div>
+</body>
+
+</html>
