@@ -2,7 +2,7 @@ Raxan Changelog
 -------------------------
 
 
-Devsnapshot - (1.0 Final)
+1.0 Final Release
 --------------------------------------
 * Fix issue #9 - Preloading multiple plugins at startup (Damir)
 * Fix issue #10 - Application script executed from webroot has pathing issue (Brazos)
@@ -27,7 +27,7 @@ Devsnapshot - (1.0 Final)
     With this change Plugins and Widgets will be able to directly update page properties
 
 * RaxanWebPage->activeView is now public (read-only)
-* Update jquery UI  to 1.8.9
+* Update jQuery UI  to 1.8.9
 * Add '\n' to stack trace in the raxan_auto_create() function
 * Modify the system to display error messages and non-html content at startup.
 * Modify the RaxanUIWidget Class to use case-sensitive property names. The xt-ui attributes (or properties) will remain case-insensitive
