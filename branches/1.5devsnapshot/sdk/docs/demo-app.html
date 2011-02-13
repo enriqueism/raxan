@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Demo App - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>An example of a Raxan Web Application</h2>
+
+<div class="margin silver" style="text-align: center;">
+    <img width="628" height="253" class="align-middle" src="images/echobox.png" alt="Echo Box" />
+</div>
+
+<hr class="space" />
+
+<p>In this tutorial, we will use the Raxan framework to create a simple web form that will echo the content of a Textbox when the submit button is clicked.</p>
+
+<p><em>Note: This tutorial assumes that you're already familiar with the basic php programming concepts. If you're new to php
+please visit the <a href="http://www.php.net/getting-started">Getting started with PHP</a> web page to learn about the basics of the language.</em></p>
+
+<p>To get started with Raxan, we will explore what it takes to create a basic web page with a few interactive elements.
+Make sure you have properly <a href="installation.html">downloaded and configured</a> the Raxan framework.</p>
+
+<div class="c9 right border margin" style="text-align: center">
+    <img src="images/app-folders.png" class="margin" alt="Folder structure" />
+    <div class="lightgray hlf-pad">
+        <span class="small">Application folder structure</span>
+    </div>
+</div>
+
+<h3>Getting started</h3>
+
+<p>To begin, follow the steps outline below:</p>
+
+<ol>
+<li>Create a folder called <strong>myapp</strong> inside your web root (for example: c:\wwwwroot\myapp&#41;</li>
+<li>Copy the <strong>sdk/raxan</strong> folder to <strong>myapp</strong></li>
+<li>Create a "<strong>views</strong>" folder for storing the your view files</li>
+</ol>
+
+<h3>Writing the code</h3>
+
+<p>Save the following HTML code to "<strong>views/echo.html</strong>":</p>
+
+<pre><code>&lt;div id="pageContent"&gt;
+    &lt;h1&gt;Echo Box&lt;/h1&gt;
+    &lt;hr /&gt;
+    &lt;form name="form1" action="" method="post"&gt;
+        &lt;label&gt;Enter your favorite Word or Phrase:&lt;/label&gt;
+        &lt;input type="text" name="text1" id="text1" size="50" value="" /&gt;&amp;nbsp;
+        &lt;input type="submit" name="submit1" id="submit1" value="Submit" xt-bind="click,echoMessage" /&gt;
+    &lt;/form&gt;
+    &lt;div id="echoText"&gt;&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>The "echo.html" page will be used to display a form with a Textbox and a submit Button.</p>
+
+<p>Now add a little CSS goodness to the top of the "echo.html" page</p>
+
+<pre><code class="css">&lt;style type="text/css"&gt;
+    body {
+        background-color: #392c23;
+        font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    }
+    h1 {
+        margin: 10px 0;
+        color: #717107;
+    }
+    label {
+        display:block;
+        margin: 8px 0 5px 0;
+    }
+    #pageContent {
+        margin:30px;
+        width:500px;
+        padding: 20px;
+        color: #000;
+        background-color: #eee;
+        border: 10px solid #676767;
+    }
+    #echoText {
+        margin: 20px;
+        font-size: 25px;
+    }
+    #echoText span { color: #8b0b3b; }
+&lt;/style&gt;
+</code></pre>
+
+<p>Next, <strong>create an index page</strong> (example index.php) inside the your myapp folder.
+Edit the page and include the "raxan/pdi/autostart.php" file at the top. Make sure there are no leading white-spaces before the "php" tag.</p>
+
+<pre><code class="php">&lt;?php 
+    require_once('raxan/pdi/autostart.php');
+?&gt;
+</code></pre>
+
+<p><em>The "<strong>autostart.php</strong>" file will load all the necessary classes and functions that we need for our web page.</em></p>
+
+<p>Add a page controller class to receive and handle our page request. To do this we will create a class called EchoPage
+that extends the RaxanWebPage class as shown below:</p>
+
+<pre><code class="php">&lt;?php
+    class EchoPage extends RaxanWebPage {
+
+    }
+?&gt;
+</code></pre>
+
+<p>Inside the EchoPage class we need to add an event listener to echo the content of the form the the page.
+To do this will we need to load out "echo.html" view and create the event handler to listen to click events from the "submit" button.</p>
+
+<pre><code class="php">&lt;?php
+    protected function _init() {
+        $this-&gt;appendView('echo.html'); // append the echo.html view to the page
+    }
+
+    protected function echoMessage($e) {
+        $message = $this-&gt;post-&gt;textVal('text1'); // sanitize input text
+        $message = 'You have entered &lt;span&gt;&amp;quot;'.$message.'&amp;quot;&lt;/span&gt;';
+        $this-&gt;echoText-&gt;html($message); // echo message to page
+    }
+?&gt;
+</code></pre>
+
+<p>To bind the echoMessage event handler to the submit1 button we need to edit the echo.html view and add the following xt-bind attribute to
+the submit button:</p>
+
+<pre><code>&lt;input type="submit" name="submit1" id="submit1" value="Submit" xt-bind="click,echoMessage" /&gt;
+</code></pre>
+
+<p><em>The above will tell Raxan to bind the submit button "click" event to the <strong>echoMessage</strong> method of the ParrotPage controller class.</em></p>
+
+<p>That's it! Try running the script inside your browser to view the results.</p>
+
+<p>Here's the complete code for the index page:</p>
+
+<pre><code class="php">&lt;?php
+    require_once 'raxan/pdi/autostart.php';
+
+    class EchoPage extends RaxanWebPage {
+
+        protected function _init() {
+            $this-&gt;appendView('echo.html'); // append the echo.html view to the page
+        }
+
+        protected function echoMessage($e) {
+            $message = $this-&gt;post-&gt;textVal('text1'); // sanitize input text
+            $message = 'You have entered &lt;span&gt;&amp;quot;'.$message.'&amp;quot;&lt;/span&gt;';
+            $this-&gt;echoText-&gt;html($message); // echo message to page
+       }
+
+    }
+?&gt;    
+</code></pre>
+
+<h3>Using Ajax Events and auto updates</h3>
+
+<p>The above example sends a full page post back to the server every time you click the submit button. But if you would like to
+submit the page via Ajax, how would you do this?</p>
+
+<p>You're probably thinking that you might have to write a JavaScript function to handle the Ajax request and updates, correct? Well that's not necessary.</p>
+
+<p>To do this, edit the echo.html file and modify the "xt-bind" attribute on the submit button as shown below:</p>
+
+<pre><code>&lt;input type="submit" name="submit1" id="submit1" value="Submit" xt-bind="#click,echoMessage" /&gt;
+</code></pre>
+
+<p>Notice that we have only added the "<strong>#</strong>" character before the "click" event. This will cause the server-side event to be triggered via Ajax.</p>
+
+<p>Next, modify the "echoText" div element by adding the <strong>xt-autoupdate</strong>" attribute as shown below</p>
+
+<pre><code>&lt;div id="echoText" xt-autoupdate="true"&gt;&lt;/div&gt;
+</code></pre>
+
+<p>Refresh the web page and click the submit and you should see the updates without the page reloading its's entire content.</p>
+
+<p>Wasn't that quick and easy? That's all there is to it.</p>
+
+<p>To learn more about page event handlers and other features, see <a href="page-cycle.html">Page Request Cycle</a> and <a href="connecting-dots.html">Connecting the Dots</a>.</p>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="page-cycle.html" title="Page Request Cycle">Page Request Cycle</a> </p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

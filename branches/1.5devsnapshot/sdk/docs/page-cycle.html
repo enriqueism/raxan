@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>The Page Request Cycle - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>The Page Request Cycle</h2>
+
+<div align="center" class="pad">
+    <img src="images/pdi-request.gif" />
+</div>
+
+<p>When a client makes a request to view a web page, the framework will load your Page-Controller logic and allow you to load and process
+your html views using simple css selectors (for example #id, .classname, etc). Once processing is completed, a reply is sent back to the client
+that made the request. The replied text contains your html code and may include embedded JavaScript/CSS stylesheet.</p>
+
+<p>If a request was made via an Ajax call, then a JSON object is returned to the client. The returned JSON object may include the action
+scripts (a mixed of jQuery and JavaScripts) needed to carry out a specific task within the client's web browser.</p>
+
+<p>Page event handler are prefixed with an "_" as shown in the example below:</p>
+
+<pre><code class="php">&lt;?php
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _init() {
+            $this-&gt;append('* This is the init handler &lt;br /&gt;');
+        }
+
+        protected function _load() {
+            $this-&gt;append('* This is the load handler &lt;br /&gt;');
+        }
+
+        protected function _prerender() {
+            $this-&gt;append('* This is the prerender handler &lt;br /&gt;');
+        }
+
+    }
+?&gt;
+</code></pre>
+
+<h3>Asynchronous/Synchronous Page Request Execution</h3>
+
+<ul>
+<li>Config - Called before the page is initialized. Used for configuring page properties</li>
+<li>Init - Called after the page object is created. Used for initializing connections and loading page source</li>
+<li>Authorize - Used to secure or grant access to the page. Returns true or false to grant or deny access to the page</li>
+<li>View Handler - Called when a view is requested. Defaults to _indexView.</li>
+<li>Load - Used for loading additional views/content into web page.</li>
+<li>Custom Event Request Handler - Triggers the event raised by client</li>
+<li>PreRender - Used for making final modifications to page just before html is extracted from the DOM</li>
+<li>PostRender - Called after the HTML is extracted from the DOM and all external and internal processing have been completed</li>
+<li>Reply - Called just after the HTML/JSON content is sent back to the client.</li>
+<li>Destroy - Called before the page object is destroyed; Can be used to close open connections etc</li>
+</ul>
+
+<h4>Data Reset handler</h4>
+
+<ul>
+<li>Reset - This handler is called before the page data storage is reset. The <strong>resetOnFirstLoad</strong> page property must be set to
+true in order for the data to be reset on first load. To prevent the data from being reset the handler must return false.</li>
+</ul>
+
+<p>For example:</p>
+
+<pre><code class="php">&lt;?php
+class MainPage extends RaxanWebPage {
+
+    protected function _reset() {
+        if ($this-&gt;someProperty == true) {
+            return false; // tell the framework not to reset page data
+        }
+    }
+}
+?&gt;
+</code></pre>
+
+<h3>Using the Authorize event handler</h3>
+
+<p>The authorize event handler can be used to grant or deny access to a web page by returning either a true or false value when invoked.</p>
+
+<pre><code class="php">&lt;?php
+class LoginPage extends RaxanWebPage {
+
+    protected function _authorize() {
+        $isLogin = $this-&gt;Raxan-&gt;data('user-login');
+        if ($isLogin) $this-&gt;redirectTo('mainaccess.php'); // redirect to main page
+        return true; // tell the framework to continue
+    }
+}
+?&gt;
+</code></pre>
+
+<p>A developer can use the event to validate a user's permission before granting access to the web.</p>
+
+<pre><code class="php">&lt;?php
+class AdminPage extends RaxanWebPage {
+
+    protected function _authorize() {
+        $level = $this-&gt;Raxan-&gt;data('user-level');
+        if (!$level) $this-&gt;redirectTo('login.php'); // redirect to login page
+        else if($level=='admin') return true; // tell the framework to continue
+        else {
+            return false; // display (403 - forbidden access) error page
+           // or redirect to an access denied page
+           // $this-&gt;redirectTo('no-access.php'); // redirect to access denied page
+        }
+    }
+}
+?&gt;
+</code></pre>
+
+<p>The framework will by default return and display a 403 error page. This can be customized by setting the "<strong>error.403</strong>" config option.
+See "<strong>Error Page settings</strong>" in <a href="custom-config.html">Loading a Custom Config File</a>.</p>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="page-view.html" title="Page View Design">Page View Design</a> </p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
