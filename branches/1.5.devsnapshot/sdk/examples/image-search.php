@@ -47,6 +47,7 @@ class ImageSearchPage extends RaxanWebPage {
     Raxan.ready(function(){
         $('#button1').click(function(){
             var query = $('#txtquery').val();
+            query = $('<div/>').text(query).html();
             $('#result').html('Searching...');
             Raxan.dispatchEvent('search',query,function(result,success){
                 if (!success) return;

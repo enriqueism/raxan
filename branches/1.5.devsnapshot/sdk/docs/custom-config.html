@@ -45,13 +45,34 @@
         <div class="master-content-wrapper">
             <div class="container prepend-top c48 master-content"><h2>Loading a Custom Config File</h2>
 
-<p>There might be times when you want to load a custom config file for your application, in order to easily maintain your database login information or override default settings.</p>
+<p>There might be times when you want to load a custom config file for your application, in order to easily maintain your database login information or
+override default settings.</p>
 
-<p>There are two main options available to load your custom configuration into the framework. The first option is to create a file called gateway.config.php inside the raxan/pdi folder. This file will be automatically detected and loaded by the framework.</p>
+<p>Beginning with version 1.5 (development), there are now three methods available for loading your custom configuration into the framework:</p>
 
-<p>Raxan PDI includes a sample configuration file called <strong>gateway.config.sample.php</strong>, that's also located inside the raxan/pdi folder. You can copy and rename this file to gateway.config.php, then use your favorite text editor to modify the default settings.</p>
+<h4><strong>Gateway Configuration</strong></h4>
 
-<p>The second option is to use the Raxan::loadConfig() method as shown in the example below:</p>
+<p>The first option is to create a file called <strong>gateway.config.php</strong> inside the <strong>raxan/pdi</strong> folder. This file will be automatically detected and loaded
+by the framework.</p>
+
+<p>Inside the <strong>raxan/pdi</strong> folder you will also find a sample configuration file called <strong>gateway.config.sample.php</strong> that you can copy and rename to
+gateway.config.php, then use your favorite text editor to modify the default settings.</p>
+
+<p>The gateway configuration will loaded for all application or web sites that loads current <strong>raxan/pdi/autostart.php</strong> file.</p>
+
+<h4><strong>Application Configuration</strong></h4>
+
+<p>The second option is to create an application specific configuration file called <strong>app.config.php</strong> inside the application folder. This file will be
+automatically loaded by the framework:</p>
+
+<pre><code>/home/www/myapp/app.config.php
+</code></pre>
+
+<p>You can use the <strong>app.config.php</strong> file to override system default and gateway configurations.</p>
+
+<h4><strong>Manual Configuration</strong></h4>
+
+<p>The the third option is to use the <strong>Raxan::loadConfig()</strong> method as shown in the example below:</p>
 
 <pre><code class="php">&lt;?php
 
@@ -77,7 +98,7 @@
 
 <h3>Sample Confiugration Options</h3>
 
-<p>All path and url settings must have a trailing slash (/)</p>
+<p><strong>Note:</strong> All <strong>Path and URL</strong> settings must have a trailing slash (<strong>/</strong>). For example: $config['site.url'] = "http://domain.com/myapp/";</p>
 
 <h4><strong>Path/URL setting</strong></h4>
 

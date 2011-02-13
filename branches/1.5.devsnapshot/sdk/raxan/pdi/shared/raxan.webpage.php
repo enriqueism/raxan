@@ -1094,11 +1094,12 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                     if ($src && is_array($src)) $src = $src['src'];
                     $raxan = '<script type="text/javascript" src="'.$src.'"></script>'."\n";
                 }
-                if ($inc) $inc = '<script type="text/javascript"><![CDATA[ '.$inc." ]]></script>\n";
-                if ($actions) $actions = '<script type="text/javascript"><![CDATA[ '.str_replace(']]>',']]\>',$actions)." ]]></script>\n"; // prevent nested CDATA tag
+                $inc = '<script type="text/javascript"><![CDATA[ '.$inc.
+                       str_replace(']]>',']]\>',$actions). // prevent nested CDATA tag
+                       " ]]></script>\n";
             }
 
-            $inc = $css.$raxan.$pdiVars.$inc.$actions.$js;
+            $inc = $css.$raxan.$pdiVars.$inc.$js;
             if ($inc) {
                 $hd = $this->findByXPath('/html/head[1]'); // find first head tag
                 if ($hd->length) { // check for <head> tag.
