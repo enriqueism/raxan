@@ -204,7 +204,7 @@ class Raxan {
         $file  = self::$configFile ? self::$configFile :
                  $config['base.path'].'gateway.config.php';
                  
-        // load config file if available.
+        // load gateway config file if available.
         $rt = is_file($file) ? include_once($file) : false;
 
         // setup defaults
@@ -219,23 +219,34 @@ class Raxan {
                 $config['site.host'] = $schema.$host.(($port==80||$port==443) ? '' : ':'.$port);
             }
         }
-        if (empty($config['site.path'])||empty($config['site.url'])) {
-            // auto detect site path & url
-            $sn = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
+        // auto detect site path
+        if (empty($config['site.path'])) {
             $sf = isset($_SERVER['SCRIPT_FILENAME']) ? $_SERVER['SCRIPT_FILENAME'] : '';
+            $sf = str_replace('\\','/',dirname($sf));
+            $config['site.path'] = ($sf!='/') ? $sf.'/': './';
+        }
+
+        // load application config file if available.
+        $file = $config['site.path'].'app.config.php';
+        $rt = is_file($file) ? include_once($file) : $rt;
+
+        // auto detect site url
+        if (empty($config['site.url'])) {
+            $sn = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
             $ps = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : '';
             if ($sn && $ps!=$sn) $su = $sn; else $su = $ps;
             $su = str_replace('\\','/',dirname($su));   // fix issue #10 - bug with "\" path on windows PCs
-            $sf = str_replace('\\','/',dirname($sf));
-            $config['site.url'] = ($su!='/') ? $su.'/': './';
-            $config['site.path'] = ($sf!='/') ? $sf.'/': './';
+            $config['site.url'] = ($su!='/') ? $su.'/': '/'; // falls back to / instead of ./ - by Damir
         }
-        if (empty($config['raxan.path'])||empty($config['raxan.url'])) {
-            // auto detect raxan path & url
+        // auto detect raxan path
+        if (empty($config['raxan.path'])) {
             $pth = implode('/',array_slice(explode('/',$base),0,-2));
             $config['raxan.path'] = $pth.'/';
-            $url = Raxan::mapSitePathToUrl($pth);
-            $config['raxan.url'] = $url ? $url.'/' : './raxan/';
+        }
+        // auto detect raxan url
+        if (empty($config['raxan.url'])) {
+            $url = Raxan::mapSitePathToUrl($config['raxan.path']);
+            $config['raxan.url'] = $url ? $url.'/' : $config['site.url'].'raxan/';
         }
         if (empty($config['cache.path'])) $config['cache.path'] = $config['raxan.path'].'cache/';
         if (empty($config['locale.path'])) $config['locale.path'] = $base.'shared/locale/';

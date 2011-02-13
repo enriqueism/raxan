@@ -35,7 +35,6 @@ abstract class RaxanUIWidget extends RaxanElement {
     protected $isRendered = false;
     protected $elmMarkup = '<div />';
     protected $properties = array();
-    protected $enableDefaultUIProperties = true;
 
     // constructor
     public function __construct($id,$properties = null) {
@@ -72,14 +71,14 @@ abstract class RaxanUIWidget extends RaxanElement {
         $xtAttrs = array();
         $propkeys = null;
         foreach($this->element->attributes as $attr) {
-            if (substr($attr->name,0,6)=='xt-ui-') {
-                if ($propkeys==null) {  // // make properrty names case-insensitive for xt-ui attributes
+            if (substr($attr->name,0,6)=='xt-ui-') { // check if attribute is xt-ui property
+                if ($propkeys==null) {  // setup property keys for the first time
                     $propkeys = array_keys($this->properties);
                     $propkeys = array_combine($propkeys,$propkeys);
-                    $propkeys = array_change_key_case($propkeys);
+                    $propkeys = array_change_key_case($propkeys); // use case-insensitive keys
                 }
                 $xtKey = substr($attr->name,6);
-                if (isset($propkeys[$xtKey])) $this->properties[$propkeys[$xtKey]] = $attr->value;
+                if ($xtKey && isset($propkeys[$xtKey])) $this->properties[$propkeys[$xtKey]] = $attr->value;
                 $xtAttrs[] = $attr->name;
             }
         }
@@ -216,24 +215,6 @@ abstract class RaxanUIWidget extends RaxanElement {
      */
     public function renderInterface() {
         if (!$this->isRendered) {
-            if ($this->enableDefaultUIProperties) {
-                $css = array();
-                $prop = & $this->properties;
-                if (isset($prop['background'])) $css['background'] = $prop['background'];
-                if (isset($prop['foreground'])) $css['color'] = $prop['foreground'];
-                if (isset($prop['height'])) $css['height'] = is_numeric($prop['height']) ? trim($prop['height']).'px' : $prop['height'];
-                if (isset($prop['width'])) $css['width'] = is_numeric($prop['width']) ? trim($prop['width']).'px' : $prop['width'];;
-                // border
-                $bw = (isset($prop['borderwidth'])) ? $prop['borderwidth'] : null;
-                $bc = (isset($prop['bordercolor'])) ? $prop['bordercolor'] : null;
-                if ($bw||$bc) $css['border'] = ($bw ? $bw : 1).'px solid '.($bc ? $bc : '#000');
-                if (isset($prop['borderradius'])) {
-                    $css['border-radius'] =
-                    $css['-moz-border-radius'] =
-                    $css['-webkit-border-radius'] = $prop['borderradius'].'px';
-                }
-                if ($css) $this->css($css);
-            }
             $this->_prerender();
         }
         $this->isRendered = true;

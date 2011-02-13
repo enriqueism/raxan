@@ -23,7 +23,7 @@ Raxan = {
     UI: {},   // UI namespace
     regvar: {}, // registered variables - for usewith service-side registerVar() method
     loading: 0,
-    isReady: false, isLoad: false,
+    isBeforeReady: false, isReady: false, isLoad: false,
     supportReadyState: false,
     hasFlashEvent: {},
 
@@ -59,8 +59,9 @@ Raxan = {
     // initialize event handling after main scrips have been loaded
     initEvents: function() {
         var me = this;
-        if (this.pcbk) return this;
-        this.pcbk = true;
+        if (this.hasInitEvents) return this;
+        this.hasInitEvents = true;
+        this.beforeReadyCallback(window.jQuery); // trigger before ready
         this.handlePageEvents(
             function(e) {me.readyCallback(e)},
             function(e) {me.loadCallback(e)},
@@ -81,6 +82,12 @@ Raxan = {
         this.arraycol['unload'] = null;
         l=a.length;for(i=0; i<l; i++) a[i](e);
     },
+    beforeReadyCallback: function(e){
+        var i, l, a = this.collection('beforeReady');
+        this.arraycol['beforeReady'] = null;
+        this.isBeforeReady = true;
+        l = a.length;for(i=0; i<l; i++) a[i](e);
+    },
     readyCallback: function(e){
         var i,l,a = this.collection('ready');
         this.arraycol['ready'] = null;
@@ -100,7 +107,7 @@ Raxan = {
         e =  e ? e : jQuery.Event('togglepreloader');
         if (result) e.serverResult = result;
         if (elm) e.target = e.currentTarget = elm;
-        l=a.length; for(i=0; i<l; i++) r = a[i](e, mode)||r;
+        l=a.length;for(i=0; i<l; i++) r = a[i](e, mode)||r;
         return r;
     },
 
@@ -155,27 +162,41 @@ Raxan = {
         return  !c[name] ? c[name] = [] : c[name];
     },
 
-    // register ready event. This is event normally triggered before onload
-    ready: function(fn){
+    // register beforeReady event. This event is normally triggered before the ready event but after external scripts have be loaded
+    beforeReady: function(fn,index){
+        var a = this.collection('beforeReady');
+        if (this.isBeforeReady || !this.loading) fn(jQuery);
+        else if(index >= 0) a.splice(index,0,fn);
+        else a[a.length] = fn;
+        return this;
+    },
+
+    // register ready event. This event is normally triggered before onload
+    ready: function(fn,index){
         var a = this.collection('ready');
         if (this.isReady && !this.loading) fn(jQuery);
+        else if(index >= 0) a.splice(index,0,fn);
         else a[a.length] = fn;
-        if (!this.loading) return this.initEvents();
+        if (!this.loading) this.initEvents();
+        return this;
     },
 
     // register page load event
-    load: function(fn){
+    load: function(fn,index){
         var a = this.collection('load');
         if (this.isLoad && !this.loading) fn(jQuery);
+        else if(index >= 0) a.splice(index,0,fn);
         else a[a.length] = fn;
-        if (!this.loading) return this.initEvents();
+        if (!this.loading) this.initEvents();
+        return this;
      },
 
     // register page unload event
-    unload: function(fn){
+    unload: function(fn,index){
         var a = this.collection('unload');
-        a[a.length] = fn;
-        if (!this.loading) return this.initEvents();
+        if(index >= 0) a.splice(index,0,fn);
+        else a[a.length] = fn;
+        if (!this.loading) this.initEvents();
     },
 
     // register raxan error handler - This event is triggered whenever there's a raxan eror
@@ -270,9 +291,10 @@ Raxan = {
             Raxan.loading--;    // decrement load counter
             if (typeof fn == 'function') fn();
             if (Raxan.loading==0) {
-                if (Raxan.isReady) Raxan.readyCallback(window.jQuery);
+                if (Raxan.isBeforeReady) Raxan.beforeReadyCallback(window.jQuery);
+                if (!Raxan.isReady)  Raxan.initEvents(); // initialize events if page not ready
+                else Raxan.readyCallback(window.jQuery);
                 if (Raxan.isLoaded) Raxan.loadCallback();
-                if (!Raxan.isReady)  Raxan.initEvents();
             }
             Raxan.inc[Raxan.inc[n]] = true; // script loaded
         }
@@ -426,7 +448,7 @@ Raxan.dispatchEvent = function(type, value, fn) {
     type = jQuery.trim(type);
     opt.vu = o.view;opt.targetWindow = o.targetWindow;
     target = (o.target) ? o.target : 'page';
-    url = o.url; if (url) target+= '@'+url;     // setup preferred target
+    url = o.url;if (url) target+= '@'+url;     // setup preferred target
     serialize = (o.serialize) ? o.serialize : null;
     if (value===null) value = o.value;
     fn = o.complete ? o.complete : fn;
