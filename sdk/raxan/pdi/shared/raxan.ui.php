@@ -99,7 +99,7 @@ abstract class RaxanUIWidget extends RaxanElement {
             }
         }
 
-        $page->registerUIWidget($this);
+        $page->registerUIWidget($this, $this->elmId);
 
     }
 

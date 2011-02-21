@@ -840,7 +840,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         $elm = $this->getElementById($id);
         $ui = $elm ? $elm->getAttribute('xt-ui') : '';
         $e = $this->wrapElement($elm, $ui);
-        if ($e->length) $ec[$id] = $e;
+        if ($ui=='' && $e->length) $ec[$id] = $e; // ui widgets will be added to _eCache via registerUIWidget()
         return $e;
     }
 
@@ -1305,11 +1305,13 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     /**
      * Used internally to register a UI widget with the current web page.
      * @param RaxanUIWidget $ui
+     * @param string $elmId Element Id
      * @return RaxanWebPage
      */
-    public function registerUIWidget(RaxanUIWidget $ui) {
+    public function registerUIWidget(RaxanUIWidget $ui, $elmId) {
         if (!isset($this->_uiElms)) $this->_uiElms = array();
         $this->_uiElms[$ui->objectId()] = $ui;
+        if ($elmId) $this->_eCache[$elmId] = $ui;
         if ($this->isLoaded) $ui->loadInterface();
         return $this;
     }
@@ -2051,8 +2053,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 if (!$id) $node->setAttribute('id',$id = self::uniqueElmId());
                 if (!isset($this->_eCache[$id])) {
                     $ui = $node->getAttribute('xt-ui');
-                    $e = $this->wrapElement($node, $ui);    // create an instance of the element
-                    $this->_eCache[$id] = $e;               // cache instance
+                    $this->wrapElement($node, $ui);    // create an instance of the widget. The new widget will be added to the _eCache via registerUIWidget()
                 }
                 $node->removeAttribute('xt-ui');
             }
