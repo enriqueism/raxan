@@ -37,23 +37,23 @@ function raxan_auto_startup($pth){
     // fix php CWD path bug when running under apache
     if ($pth!=getcwd()) chdir($pth);
 
-    $i = 0; $ok = false; $page = 'RaxanWebPage';
     $autostart = Raxan::config('autostart');
     if ($autostart===false) return; // stop here if autostart is set to false
 
+    $i = 0; $ok = false;
     $src = trim(ob_get_clean());
-    $class = 'RaxanWebPage';
+    $class = $page = 'RaxanWebPage';
 
-    if ($autostart && is_subclass_of($autostart,$class)) $page = $autostart;
-    else {
-        // find page classes
+    if ($autostart && is_subclass_of($autostart,$class)) $page = $autostart;    // use autotstart class name
+    if (class_exists('_Page')) $page = '_Page'; // use _Page class
+    else { // find page from declared classes
         $cls = get_declared_classes();
         foreach ($cls as $cn) {
             if ($cn==$class) { $ok=true; continue; }
             if (!$ok) continue;
-            if (is_subclass_of($cn, $class)) {  // only init classes that extends RaxanWebPage
-                $page = $cn;
+            if (is_subclass_of($cn, $class)) {  // only init classes that extends RaxanWebPage                
                 $r = new ReflectionClass($cn);
+                if ($r->isAbstract()) continue; else $page = $cn;
                 if ($r->hasProperty('autostart')) break;
             }
         }
