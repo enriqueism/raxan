@@ -6,11 +6,12 @@ Raxan Changelog
 --------------------------------------
 * Add new beforeReady() method to the Raxan JavaScript Object and modify the way in which ready() event is called
 * Add new index parameter to the ready(), load() and unload() methods of the Raxan JavaScript Object
-* Default widgets properties are now case-sensitive
+* Remove default widget properties from RaxanUIWidget class.
 * Separate site.path and site.url auto detection code so that it's possible to set site.url without setting site.path
 * Separate raxan.path and raxan.url auto-detection code so that it's possible to set raxan.url without setting raxan.path
 * Default raxan.url config option to {site.url}/raxan/. This will make it easier to configure applications by only setting the site.url option
-* Remove default RaxanUIWidget properties.
+* Add $elmdId to RaxaWebPage->registerUIWidget() and modify the method to add the widget to the element cache
+* Add support for a default page controller class callled _Page. The autostart script will now initialize _Page class if it's available.
 
 1.0 Final Release
 --------------------------------------
