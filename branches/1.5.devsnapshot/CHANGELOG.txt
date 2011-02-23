@@ -12,6 +12,7 @@ Raxan Changelog
 * Default raxan.url config option to {site.url}/raxan/. This will make it easier to configure applications by only setting the site.url option
 * Add $elmdId to RaxaWebPage->registerUIWidget() and modify the method to add the widget to the element cache
 * Add support for a default page controller class callled _Page. The autostart script will now initialize _Page class if it's available.
+* Escape template binder class names
 
 1.0 Final Release
 --------------------------------------

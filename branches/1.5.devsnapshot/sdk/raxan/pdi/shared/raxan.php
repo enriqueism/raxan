@@ -571,7 +571,7 @@ class Raxan {
             $keys = !isset($keys) ? explode(',','{'.implode('},{',array_keys($row)).'},{ROWCOUNT},{ROWCLASS}') : $keys;
             $values = array_values($row);
             $values[] = $rc; // assign row count
-            $values[] = $cssClass; // assign row css class
+            $values[] = htmlspecialchars($cssClass); // assign row css class
 
             $rt[] = str_replace($keys,$values,$t); // replace template fields {name:integer}
         }
