@@ -129,6 +129,10 @@ class RaxanElement extends RaxanBase {
             $sel = $this->matchSelector(true);
             return $this->doc->page->client($sel);
         }
+        else {
+            $err = 'Element property \''.$name.'\' not found';
+            throw new Exception($err);
+        }
     }
 
     /**
@@ -461,7 +465,7 @@ class RaxanElement extends RaxanBase {
             $s = $n->getAttribute('style');
             $s = str_replace($a,$b,$s);
             $c = array(); parse_str($s,$c);
-            if ($retFirst) return $c[$name]; // return value for first node
+            if ($retFirst) return isset($c[$name]) ? $c[$name] : ''; // return value for first node
             else {
                 if ($isA) $c = array_merge($c, $name);
                 else if ($val==='') unset($c[$name]);   // remove css value
@@ -732,7 +736,7 @@ class RaxanElement extends RaxanBase {
      */
     public function hideFromClient() {
         foreach($this->elms as $n)
-            $this->page->hideElementFromClient($n,true);
+            if ($n) $this->page->hideElementFromClient($n,true);
         return $this;
     }
 
