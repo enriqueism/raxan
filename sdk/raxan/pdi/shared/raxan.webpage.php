@@ -71,7 +71,9 @@ function _var($str, $name = null, $registerGlobal = false){
  * @property-read string $activeView Active view
  * @property string $masterTemplate Master template file name or html string
  * @property string $masterContentBlock Master template content css selector. Defaults to .master-content
- * @property string $pageOutputBuffer output buffer
+ * @property string $catchAllView Name of view handler to be called if the requested view was not found
+ * @property string $viewErrCode HTTP error code (e.g. 404) to be sent if the requested view was not found
+ * @property string $pageOutputBuffer Output buffer
  */
 class RaxanWebPage extends RaxanBase implements ArrayAccess  {
 
@@ -107,6 +109,10 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public $masterTemplate;
     public $masterContentBlock = '.master-content';
 
+    public $viewErrCode;             // page view HTTP error code
+    public $catchAllView;            // catch all page view
+
+
     public $pageOutputBuffer;         // page output buffer
 
     // auto id properties
@@ -134,7 +140,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     protected $_dataStore, $_dataReset = false;
     protected $_tmpStateData;  //temporarily stores state data
     protected $_preserveElms; // array of elements to be preserved
-    protected $_hiddenElms; // array of elements to hide from client's browser
+    protected $_hiddenElms = array(); // array of elements to hide from client's browser
     protected $_hasRegisteredEvents;
 
     // Page request handlers
@@ -142,6 +148,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     protected function _init() {}
     protected function _authorize() { return true; }
     protected function _indexView() {}
+    protected function _indexViewPreRender() {}
     protected function _load() {}
     protected function _prerender() {}
     protected function _postrender() {}
@@ -183,7 +190,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         Raxan::triggerSysEvent('page_config',$this);
 
         // apply default page settings to the specified page object
-        $c = Raxan::config();
+        $c = & Raxan::config();
         if (!isset($this->localizeOnResponse)) $this->localizeOnResponse = $c['page.localizeOnResponse'];
         if (!isset($this->showRenderTime)) $this->showRenderTime = $c['page.showRenderTime'];
         if (!isset($this->initStartupScript)) $this->initStartupScript = $c['page.initStartupScript'];
@@ -255,13 +262,19 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                         $this->appendView($vuFile);
                     }
                 }
+
                 if ($vu != 'index') $hasVuHandler = method_exists($this,$vuHandler);
+                if (!$hasVuHandler && $this->catchAllView) {    // check catch all view handler
+                    $vuHandler = '_'.trim($this->catchAllView).'View';
+                    $hasVuHandler = method_exists($this,$vuHandler);
+                }
+
                 if ($hasVuHandler || $vu == 'index') {
                     if (Raxan::$isDebug) Raxan::debug('Page '.$vuHandler.'()');
                     $this->{$vuHandler}();  // call view handler
                 }
                 else if(!$hasVuFile) {      // view handler or file not found
-                    Raxan::sendError(Raxan::locale('view_not_found'));
+                    Raxan::sendError(Raxan::locale('view_not_found'),$this->viewErrCode);
                 }
             }
 
@@ -469,7 +482,12 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
 
         // setup event options
         $hndPrefix = 'e:'; // flag events handlers as external (client or global access)
-        if ($local) $hndPrefix = 'l:'; // flag event as local (private)
+        if ($local) {
+            $hndPrefix = 'l:'; // flag event as local (private)
+            // get callback and data object
+            $fn = isset($opts['callback']) ? $opts['callback'] : null;
+            $data = isset($opts['data']) ? $opts['data'] : null; 
+        }
         else {
             if ($isOpt) {
                 $extras = $delegate ? true : $extras;
@@ -1001,9 +1019,9 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
             else if ($mode=='replace') C($selector)->replaceWith($h);
             else if ($mode=='update') { // setup custom action
                 $a = 'Raxan.iUpdateClient('._var($selector).','._var($h).',"'.$delim.'");';
-                array_unshift(RaxanWebPage::$actions,$a);
+                array_unshift(RaxanWebPage::$actions,$a); // load at front of action list
             }
-            else C($selector)->html($h);
+            else c($selector)->html($h);
         }
         return $this;
     }
@@ -1257,10 +1275,11 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
      * Redirect client to the specified url
      * @param string $url
      * @param boolean $ajaxEnabled Optional. Force page redirection during an Ajax request
+     * @param boolean $permanent Sends a permanent redirect header to the client when not in AJAX mode
      */
-    public function redirectTo($url, $forceAjax = true){
+    public function redirectTo($url, $forceAjax = true, $permanent = false){
         $useJavaScript = $forceAjax && $this->isAjaxRequest;
-        Raxan::redirectTo($url, $useJavaScript);
+        Raxan::redirectTo($url, $useJavaScript, $permanent);
     }
 
     /**
@@ -1269,9 +1288,9 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
      * @param string $url Optional page url
      * @param boolean $ajaxEnabled Optional. Force page redirection during an Ajax request
      */
-    public function redirectToView($view,$url = null,$forceAjax = true){
+    public function redirectToView($view,$url = null,$forceAjax = true, $permanent = false){
         $useJavaScript = $forceAjax && $this->isAjaxRequest;
-        Raxan::redirectToView($view, $url, $useJavaScript);
+        Raxan::redirectToView($view, $url, $useJavaScript, $permanent);
     }
 
     /**
@@ -1288,6 +1307,9 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     /**
      * Registers an event to be triggered from the client using page as the target id
      * Client-side Example: Raxan.dispatchEvent('customevent',function(result,state){ some code here });
+     * @param string $type
+     * @param mixed $data Event Data
+     * @param mixed $fn Callback
      * @return RaxanWebPage
      */
     public function registerEvent($type,$data = null,$fn = null){
@@ -1351,7 +1373,8 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
     public function registerVar($name,$value) {
         self::loadClientExtension();
         $name = Raxan::escapeText($name);
-        self::$actions[] = 'Raxan.regvar[\''.$name.'\']='.RaxanClientExtension::encodeVar($value);
+        $scr = 'Raxan.regvar[\''.$name.'\']='.RaxanClientExtension::encodeVar($value);
+        array_unshift(self::$actions, $scr); // load at front of action list
         return $this;
     }
 
@@ -1374,11 +1397,21 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
 
         // render page and widgets
         if (!$this->_endResponse) {
-            // call _prerender event and render registered ui elements
+            // call page _prerender event handler
             if (Raxan::$isDebug) Raxan::debug('Page _prerender()');
             $this->_prerender();
+            // call page view prerender
+            $vu = $this->activeView;
+            $hasVuPreRender = false;
+            $vuHandler = '_'.$vu.'ViewPreRender';
+            if ($vu && $vu != 'index') $hasVuPreRender = method_exists($this,$vuHandler);
+            if ($hasVuPreRender || $vu=='index') {
+                if (Raxan::$isDebug) Raxan::debug('Page '.$vuHandler.'()');
+                $this->{$vuHandler}();
+            }
+            // render registered ui elements
             $this->renderUIWidgets();
-            Raxan::triggerSysEvent('page_prerender',$this);
+            Raxan::triggerSysEvent('page_prerender',$this); // trigger system event
         }
 
         // handle hidden elements
@@ -1391,7 +1424,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
         $flElm = $this->findByXPath(".//*[contains(concat(' ',@class,' '), concat(' ','flashmsg',' '))][1] ");
         if ($flElm->length > 0) {
             $flash = $this->flashmsg();
-            if (!$flash) $msg = $effect = $id ='';
+            if (!$flash) $msg = $effect = $id = $params = '';
             else {
                 $msg = $flash[0]; $effect = $flash[1];
                 $id = $flash[2]; $expose = $flash[3];
@@ -1400,13 +1433,13 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 $params[] = "'".Raxan::escapeText($id)."'";
                 if ($expose) $params[] = Raxan::JSON('encode',$expose);
                 $params = $id||$effect||$expose ? implode(',',$params) : '';
-                self::$actions[]='Raxan.iFlashEffect('.$params.')';
                 if ($effect) $this->loadScript('jquery-ui-effects');
                 if ($expose) $this->loadScript('jquery-tools');
             }
-            if (!$id) $elm = $flElm->autoId()->html($msg);
-            else $elm = $this->findById($id)->html($msg);
-            if ($msg) $elm->updateClient(); // update client if in ajax mode and $msg contains a valid message
+            $elm = (!$id) ? $flElm->autoId() : $this->findById($id);
+            if ($msg && $elm->length == 0) c($id ? "#$id" : ".flashmsg")->html($msg);
+            elseif ($msg) $elm->html($msg)->updateClient(); // update client if in ajax mode and $msg contains a valid message
+            if ($params) self::$actions[]='Raxan.iFlashEffect('.$params.')';
         }
 
         // handle language tags - proccess tags with langid
@@ -1431,7 +1464,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
             $charset = $this->_charset; $rt = '';
             $a = iconv($charset,$charset.'//IGNORE',$actionScripts);  // clean up action scripts charset encoding
             if (isset($result)) $rt = is_string($result) ? iconv($charset,$charset.'//IGNORE',$result) : $result;
-            $json =  Raxan::JSON('encode',array( '_result' => $rt, '_actions' => $a ));
+            $json = Raxan::JSON('encode',array( '_result' => $rt, '_actions' => $a ));
             if ($_POST['_ajax_call_']!='iframe') $this->pageOutputBuffer = $json;
             else {
                 $html = '<form><textarea>'.htmlspecialchars($json).'</textarea></form>';
@@ -1523,7 +1556,7 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
             default: //html
                 $content = $this->render('html');
                 if (!$this->_contentType) $this->contentType( $this->isEmbedded ? 'text/javascript' : 'text/html');
-                if ($rt=='html') { // change existing doctype to HTML5 Doctype
+                if ($rt=='html' && !$this->isAjaxRequest) { // change existing doctype to HTML5 Doctype
                     $content = preg_replace('/<!DOCTYPE[^>]*>/si',"<!DOCTYPE html >",$content,1);
                 }
                 break;
@@ -1558,7 +1591,6 @@ class RaxanWebPage extends RaxanBase implements ArrayAccess  {
                 ($mem ? ' Memory usage: '.number_format($mem, 2).' MB.' : '').
                 '</div>';
         }
-
 
         return $this;
     }

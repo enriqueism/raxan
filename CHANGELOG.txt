@@ -4,6 +4,8 @@ Raxan Changelog
 
 1.5 (Pearl) - Devsnapshot
 --------------------------------------
+* Update jQuery library to version 1.5.2
+* Update jQuery UI library to version 1.8.11
 * Add new beforeReady() method to the Raxan JavaScript Object and modify the way in which ready() event is called
 * Add new index parameter to the ready(), load() and unload() methods of the Raxan JavaScript Object
 * Remove default widget properties from RaxanUIWidget class.
@@ -11,8 +13,36 @@ Raxan Changelog
 * Separate raxan.path and raxan.url auto-detection code so that it's possible to set raxan.url without setting raxan.path
 * Default raxan.url config option to {site.url}/raxan/. This will make it easier to configure applications by only setting the site.url option
 * Add $elmdId to RaxaWebPage->registerUIWidget() and modify the method to add the widget to the element cache
-* Add support for a default page controller class callled _Page. The autostart script will now initialize _Page class if it's available.
+* Add support for a default page controller class called _Page. The framework will automatically initialize _Page class if it's available.
 * Escape template binder class names
+* Disable the preventDefault variable for radios and checkboxes when a client-side events if triggered - RJO
+* Add support for page view PreRender event handlers. Default index view handler: _indexViewPreRender()
+* Fix alternate row class rendering issue in template binder. Alternate class was not added to last row.
+* Modify Raxan JavaScript object to serialize child input elements if the (parent) element to be serialized is not a form or input element.
+* Add support for external language file Raxan::loadLangFile($file,true)
+* Expose variables $lang,$config and $locale when including language file
+* Fix issue when updating elements with togglecontent event
+* Fix callback error when binding local events from widgets using _bind()
+* Fix undefined index error when reading css() values from an element without a style attribute
+* Fix rendering issue when Template binder selected value is set to zero
+* RaxanUIWidget will not throw an exception for invalid property values
+* Addded page, length and client as reserved property names for RaxanUIWidget  
+* Fix issue when triggering  Togglecontent client-side event after an auto update
+* Add special ROWINDEX field to template binder. Template binder can now render selected row templates based on the ROWCOUNT and ROWINDEX fields
+* Stop IE from propagating button click and submit events
+* Add support for private widget properties
+* Add flashmsg() method to the Raxan JavaScript Object - Raxan.flashmsg(msg,effect,cls,id,expose);
+* Add Raxan::sendHTTPStatusCode() method. This will raise an system_httpstatuscode event when called.
+* Add RaxanWebPage->catchAllView and RaxanWebPage->viewErrCode
+* Add -ms-filter to default theme
+* Prepend registerVars to action list
+* Add support for old browsers (e.g. blackberry 4.6) that does not support scripp onload/onreadystate events to the Raxan JavaScript library
+* Fix bug in jQuery to support BlackBerry 4.6
+* Add $permanent parameter to the redirectTo() and redirectToView() methods
+* Add support for an application configuration file called app.config.php. This file will be automatically loaded from the site path after loading gateway.config.php.
+* Modify server events to activate autotoggle elements after the togglecontent event is triggered 
+* Fix Ajax file upload when using jQuery 1.5.2+ 
+* Add support for anonymous functions to Raxan:bindTemplate
 
 1.0 Final Release
 --------------------------------------

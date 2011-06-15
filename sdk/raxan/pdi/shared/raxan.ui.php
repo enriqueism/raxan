@@ -13,16 +13,8 @@
  * @property string $elmMarkup Default UI html markup
  * @property DOMElement $element
  * @property DOMElement $contentElement Used as a proxy element to display text and html content
- * @property array $properties An array or ui Element properties 
  * @property string $preserveState Default state mode. set to local or session to preserve state within a component
- * @property string $background Sets background color or image
- * @property string $foregound Sets forground color
- * @property string $bordercolor Sets border color
- * @property int $borderwidth Sets border width value
- * @property int $borderradius Sets border radius value
- * @property int $height Sets the height of the widget
- * @property int $width Sets the width of the widget
- * @property boolean $enableDefaultUIProperties Enables default UI properties such as borderradius, bordercolor, borderwidth, etc
+ * @property array $properties An array of widget properties. Private properties must be prefixed with a "_"
  */
 abstract class RaxanUIWidget extends RaxanElement {
 
@@ -89,8 +81,10 @@ abstract class RaxanUIWidget extends RaxanElement {
         // merge properties
         if ($isArray) $this->properties = array_merge($this->properties,$properties);
 
-        $this->_init(); // init
         $page = $this->doc->page;
+        $page->registerUIWidget($this, $this->elmId);
+
+        $this->_init(); // init
 
         // setup default ui state
         if ($this->preserveState && $elm) {
@@ -99,8 +93,6 @@ abstract class RaxanUIWidget extends RaxanElement {
             }
         }
 
-        $page->registerUIWidget($this, $this->elmId);
-
     }
 
     public function __destruct() {
@@ -108,8 +100,8 @@ abstract class RaxanUIWidget extends RaxanElement {
     }
 
     public function __get($name) {
-        $v = parent::__get($name);
-        return isset($v) ? $v : $this->_property($name);
+        if ($name=='page'||$name=='client'||$name=='length') return parent::__get($name);
+        else return $this->_property($name);
     }
 
     public function __set($name,  $value) {
@@ -150,9 +142,14 @@ abstract class RaxanUIWidget extends RaxanElement {
      * @return mixed
      */
     protected function _property($name,$value = null,$writeMode = false) {
-        if ($writeMode) $this->properties[$name] = $value;
-        else return ($name && isset($this->properties[$name])) ?
-            $this->properties[$name] : null;
+        $p = & $this->properties;
+        if ($name && $name[0]=='_') return null; //do not return private properties
+        if ($writeMode) $p[$name] = $value;   // also check for property name inside array
+        else if($name && (isset($p[$name])||array_key_exists($name, $p))) return $p[$name];
+        else {
+            $err = 'Widget property \''.$name.'\' not found';
+            throw new Exception($err);
+        }
     }
 
     /**

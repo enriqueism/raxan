@@ -12,20 +12,23 @@
  *  Raxan Javascript Object
  */
 Raxan = {
-    version: '1.0',         //@todo: update version number
+    uuid: 1,
+    version: '1.5',         //@todo: update version number
     revision: '0',
     path:'',
     scriptpath:'',
     csspath:'',
-    expando:'',
     arraycol: {},
     inc: {},
     UI: {},   // UI namespace
     regvar: {}, // registered variables - for usewith service-side registerVar() method
     loading: 0,
+    callIds:[], callTimer:0,
     isBeforeReady: false, isReady: false, isLoad: false,
     supportReadyState: false,
+    supportScriptOnLoad: false,
     hasFlashEvent: {},
+    currentTargetCache: {},
 
     // initialize system
     init: function() {
@@ -35,8 +38,11 @@ Raxan = {
         // get library path
         tag = tags[tags.length-1];
         src = tag.src + '';
+        // check for script onload/onreadystatechange support
         elm = document.createElement('script');
-        this.supportReadyState = elm.readyState ? true : false;
+        this.supportReadyState = elm.readyState ? true : false;        
+        this.supportScriptOnLoad = elm.hasOwnProperty ? elm.hasOwnProperty('onload') || elm.hasOwnProperty('onreadystatechange') : true;
+        
         this.msie = navigator.userAgent.indexOf('MSIE')>=0;
         if (this.msie) {
             var match = /msie ([\w.]+)/.exec( navigator.userAgent.toLowerCase() );
@@ -49,11 +55,12 @@ Raxan = {
             this.csspath = pth + 'ui/css/';
             this.scriptpath = pth + 'ui/javascripts/';
         }
-
+        
         // invoke pre init functions
         if (self.RaxanPreInit)
             for(i in RaxanPreInit)
                 if (typeof RaxanPreInit[i]=='function') RaxanPreInit[i]();
+                
     },
 
     // initialize event handling after main scrips have been loaded
@@ -61,7 +68,7 @@ Raxan = {
         var me = this;
         if (this.hasInitEvents) return this;
         this.hasInitEvents = true;
-        this.beforeReadyCallback(window.jQuery); // trigger before ready
+        this.beforeReadyCallback(window.jQuery); // trigger before ready        
         this.handlePageEvents(
             function(e) {me.readyCallback(e)},
             function(e) {me.loadCallback(e)},
@@ -177,7 +184,10 @@ Raxan = {
         if (this.isReady && !this.loading) fn(jQuery);
         else if(index >= 0) a.splice(index,0,fn);
         else a[a.length] = fn;
-        if (!this.loading) this.initEvents();
+        if (!this.loading) {                   
+            this.initEvents();
+        }
+
         return this;
     },
 
@@ -284,10 +294,11 @@ Raxan = {
 
     // returns script callback handler - used by include
     callback: function (n, mode, fn) {
+                      
         if (mode==1) return function() {
             Raxan.inc[Raxan.inc[n]] = true; // script loaded
         }
-        else return function() {
+        else return function() {          
             Raxan.loading--;    // decrement load counter
             if (typeof fn == 'function') fn();
             if (Raxan.loading==0) {
@@ -304,7 +315,7 @@ Raxan = {
      * Dynamically includes a Javascript file
      */
     include: function(src,extrn,fn) {
-        var i,l,n,url, cbk, mode;
+        var i,l,n,id,url,cbk, mode;
         if (typeof src == 'string') src = [src];
         l = src.length;
         for (i=0; i<l; i++) {
@@ -317,7 +328,14 @@ Raxan = {
                     this.loading++; // increment load counter
                 }
                 cbk = this.callback(n,mode,fn); // get a callback for the included script
-                this.inc[n] = this.insertScript(url,'text/javascript',false,cbk);
+                this.inc[n] = id = this.insertScript(url,'text/javascript',false,cbk);
+                if (!this.supportScriptOnLoad) { // trigger callback for older browsers
+                    clearTimeout(this.callTimer);
+                    this.callIds[this.callIds.length] = id;
+                    this.callTimer = setTimeout(function(){
+                        Raxan.insertScript(Raxan.path+'callback.js','text/javascript',false);
+                    },10);                
+                }
             } else if (fn) {
                 cbk = this.inc[this.inc[n]];
                 if (cbk===true) fn(); // script already loaded so do callback
@@ -329,7 +347,6 @@ Raxan = {
 
             }
         }
-
         return this;
     },
 
@@ -339,6 +356,7 @@ Raxan = {
      * @return string Id of inserted script
      */
     insertScript:  function(src,type,embedded,callback) {
+        
         var callbk = '', doc = document;
         var elm,id = 'raxsl'+ this.cnt++; // raxan script loder id
         var tag,headTag = doc.getElementsByTagName("head")[0];
@@ -386,7 +404,7 @@ Raxan = {
                 else {
                     tag = '<script id="'+ id +'" type="'+ type +'"'+callbk+'>'+ src + '<\/script>';
                 }
-            }
+            }            
             document.write(tag);
         }
 
@@ -477,6 +495,16 @@ Raxan.getVar = function(name, _default, _remove) {
   return v;
 }
 
+/**
+ * Flash message (client-side)
+ */
+Raxan.flashmsg = function(msg,effect,cls,id,expose){
+    var elm = $('<div class="rax-flash-msg" />').addClass(cls).html(msg);
+    elm.attr('data-flash-fx',effect);
+    $(id? '#'+id : '.flashmsg').html('').append(elm);
+    this.iFlashEffect(effect,id,expose);
+}
+
 // Used internally to control Flash message effect
 Raxan.iFlashEffect = function(effect,id,exposeOpt) {
     var opt, ar, elm;
@@ -502,7 +530,7 @@ Raxan.iFlashEffect = function(effect,id,exposeOpt) {
     this.hasFlashEvent[id] = true;
 
     elm = jQuery(id + ' .rax-flash-msg');
-    if (exposeOpt) elm.expose(exposeOpt).data('rax-flash-expose',true);
+    if (exposeOpt && elm.expose) elm.expose(exposeOpt).data('rax-flash-expose',true);
     elm.stop().hide();
     if (effect=='fade') elm.fadeIn();
     else elm.show(effect,opt);
@@ -525,31 +553,38 @@ Raxan.iUpdateElement = function(srcElm,targetElm) {
     // @todo: this method needs to be optimized and modified to support ui widgets
 
     // get jQuery expando
-    if (jQuery.expando) expando = jQuery.expando;   // jquery 1.4.2
-    else if (this.expando) expando = this.expando;
-    else {
-        var a = $('<div />').data('test',1).get(0); // get the expando the hard way :(
-        for (i in a) if (i.indexOf('jQuery')==0) expando = this.expando = i;
-    }
+    expando = jQuery.expando;   // as of jquery 1.4.2
+
     function cloneEvents(elm,mode,path,index) {
-        var i, e, l, data,events, type, handler, ix = 1;
+        //var i, id, e, l, data, events, type, handler, ix = 1;
+        var i,  e, l, src, tCache,ix = 1;
+        var oldData, curData, type, events;
         if ( elm.nodeType == 3 || elm.nodeType == 8 ) return;
         if (!index) index = '';
         path = path ? path + '/' : '';
         path+= elm['id'] ? elm['id'] : elm.nodeName.toLowerCase() + index;
         if (mode=='copy') {
-          e = elm[expando] ? elm[expando] : jQuery.data(elm);
-          if (jQuery.cache[e]) cb[path] = jQuery.cache[e];
+          //id = elm[expando] ? elm[expando] : null;
+          if (elm[expando]) cb[path] = elm;
         }
         else if (mode=='paste' && cb[path]) {
             // clone events and data
-            data = cb[path];
-            events = data['events'];
-            delete data['handle'];delete data['events'];
-            for (type in data) jQuery.data(elm,type,data[type]);
-            for ( type in events ) {
-                for ( handler in events[ type ] ) {
-                    jQuery.event.add( elm, type, events[ type ][ handler ], events[ type ][ handler ].data );
+            src = cb[path];
+            tCache=Raxan.currentTargetCache;
+            if (tCache[src[expando]]) tCache[src[expando]] = elm; // replace current target from iBindRemote() with newly updated element
+            oldData = jQuery.data( src ),
+            curData = jQuery.data( elm, oldData );
+            if ( (oldData = oldData[ expando ]) ) {
+                events = oldData.events;
+                curData = curData[expando] = jQuery.extend({}, oldData);
+                if ( events ) {
+                    delete curData.handle;
+                    curData.events = {};
+                    for ( type in events ) {
+                        for ( i = 0, l = events[ type ].length; i < l; i++ ) {
+                            jQuery.event.add( elm, type + ( events[ type ][ i ].namespace ? "." : "" ) + events[ type ][ i ].namespace, events[ type ][ i ], events[ type ][ i ].data );
+                        }
+                    }
                 }
             }
         }
@@ -565,7 +600,7 @@ Raxan.iUpdateElement = function(srcElm,targetElm) {
     }
     cloneEvents(src,'copy');
     cloneEvents(tar,'paste');
-    var s  = src.style, t = tar.style;  // retain elmement position
+    var s  = src.style, t = tar.style;  // retain element position
     if(s.position && !t.position) t.position = s.position
     if(s.left && !t.left) t.left = s.left
     if(s.top && !t.top) t.top = s.top
@@ -589,7 +624,6 @@ Raxan.iTriggerEvent = function(elm, type, data, delegate, serverResult) {
 // Used internally to bind client-side elements to server-side events
 Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,options) {
     var $ = jQuery;
-
     evt = $.trim(evt);
     if (!evt) evt = 'click';
     var type = evt.substr(0,1)=='#' ? evt.substr(1) : evt;
@@ -603,19 +637,25 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
         targetWin = o['tw'] ? o['tw'] : '';
     }
     var cb = function(e,eventParam) {
-        var ievent;
-        var preventPostback = false;
-        var preventDefault = (e.type=='click'||e.type=='submit') ? true : false;
-        var me = this, t = ptarget ? ptarget : this.getAttribute('id')+'' ;
+        var ievent, preventDefault = false;
+        var isChkBox, preventPostback = false;
+        var me = this, remoteTarget = ptarget ? ptarget : this.getAttribute('id')+'' ;
         e.currentTarget = this; // needed for jQuery.live() 1.3.2 ?
+
+        // prevent default for click and submit events
+        if (e.type=='click'||e.type=='submit') {
+            isChkBox = (this.type=='radio'||this.type=='checkbox'); // exclude radio and checkbox
+            if (!isChkBox) preventDefault = true;
+        }
 
         // check if element is disabled
         if ($(me).attr('disabled')=='disabled') {
             e.preventDefault();
+            e.stopPropagation();
             return ;
         }
 
-        if (delegate && !ptarget) t = css + (delegate!==true ? ' '+ delegate : ''); // append delegate css to target
+        if (delegate && !ptarget) remoteTarget = css + (delegate!==true ? ' '+ delegate : ''); // append delegate css to target
         if (script) {
             before = script['before'] ? script['before'] : script;
             after = script['after'] ? script['after'] : '';
@@ -623,6 +663,12 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
 
         if (before) eval(before);
         if (!preventPostback) {
+            var expandoId = me[$.expando]; // get expando id
+            if (!expandoId) me[$.expando] = expandoId = ++$.uuid;
+            if (expandoId) {
+                Raxan.currentTargetCache = Raxan.currentTargetCache || {};
+                Raxan.currentTargetCache[expandoId] = me; // cache current target so that we can update it from iUpdateElement()
+            }
             var opt = {
                 event : e, eventParam : eventParam,
                 vu : vu,  // page view name
@@ -630,21 +676,28 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
                 confirm: confirm,   // message to be displayed before event
                 targetWindow : targetWin,
                 callback: function(result, status){
-                    var elm;
+                    var elm, target;
+                    // get current target
+                    target = (target = Raxan.currentTargetCache[expandoId]) ? target : me; // get current target
+                    if (target && !target.parent) {
+                        target = $(css).get(0); // use main element if target was removed from page
+                    }
                     if (disable) {
                         elm = $(disable);
                         if (elm.length > 0) elm.attr('disabled','');
                     }
                     // trigger event: disablecontent (off)
-                    Raxan.iTriggerEvent(me, 'disablecontent', 'off', delegate, result);
+                    Raxan.iTriggerEvent(target, 'disablecontent', 'off', delegate, result);
 
                     if (toggle) {
                         elm = $(toggle);
                         if (elm.length > 0) elm.hide();
                     }
                     // trigger event: togglecontent (off) and assign server-side result to the event object
-                    ievent = Raxan.iTriggerEvent(me, 'togglecontent', 'off', delegate, result);
-                    Raxan.iTriggerPreloader(me, ievent, 'off', result); // toogle preloader event handlers
+                    ievent = Raxan.iTriggerEvent(target, 'togglecontent', 'off', delegate, result);
+                    Raxan.iTriggerPreloader(target, ievent, 'off', result); // toogle preloader event handlers
+
+                    if (expandoId) delete Raxan.currentTargetCache[expandoId]; // remove target from cahce
 
                     if (after) eval(after);
                 }
@@ -657,19 +710,20 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
                     else return;
                 }
 
+                // trigger event: togglecontent (on)
+                ievent = Raxan.iTriggerEvent(me, 'togglecontent', 'on', delegate);
+                if (ievent && ievent.isDefaultPrevented()) return;
+                Raxan.iTriggerPreloader(me, ievent, 'on'); // toogle preloader event handlers
+
                 // auto-toggle element
                 var elm;
                 if (toggle) {
                     elm = $(toggle = (toggle==1) ? me : toggle)
                     if (elm.length > 0) elm.show();
                 }
-                // trigger event: togglecontent (on)
-                ievent = Raxan.iTriggerEvent(me, 'togglecontent', 'on', delegate);
-                if (ievent && ievent.isDefaultPrevented()) return;
-                Raxan.iTriggerPreloader(me, ievent, 'on'); // toogle preloader event handlers
-
+                
                 // call remote server-event
-                var failed = !Raxan.iTriggerRemote(t,evt,val,serialize,opt);
+                var failed = !Raxan.iTriggerRemote(remoteTarget,evt,val,serialize,opt);
                 preventDefault = (failed) ? true : preventDefault;
 
                 if (!failed) {
@@ -690,7 +744,11 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
                 $(this).data('clxTimeout',setTimeout(fn,delay));
             }
         }
-        if (preventDefault) e.preventDefault();
+        if (preventDefault) {
+            e.preventDefault(); // stop default action
+            e.stopPropagation(); // stop bubbling
+        }
+
     }
 
     if (isNaN(type)) {
@@ -717,7 +775,7 @@ Raxan.iBindRemote = $bind =  function(css,evt,val,serialize,ptarget,script,optio
 Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
     var $ = jQuery, sdata, ievent;
     opt = opt || {};
-    var e = opt.event, callback = opt.callback, vu = opt.vu, 
+    var e = opt.event, callback = opt.callback, vu = opt.vu,
         confirmText = opt.confirm, targetWindow = opt.targetWindow;
     var i, a, s, telm, tname, isupload, form, post = {}, tmp, url, isAjax=false;
     if(!type) type = 'click';  // defaults to click
@@ -798,6 +856,15 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
         s = $(serialize);
         if (s.length > 0) {
             var valid = true;
+            var selm = s.get(0);
+            // is serialized object a form?
+            if ((selm.nodeName+'').toLowerCase()=='form'){
+                isupload = (/multipart\/form-data/i).test(selm.encoding); // check form encoding
+                if (isupload) {form = selm;selm = null;}
+            }
+            else if (!selm.name) { // if not form element then find child input element
+                s = s.find(':input');
+            }
             s.each(function(){  // check for html5 form element validity
                 if (valid && this.checkValidity) {
                     if (!this.elements) {
@@ -805,7 +872,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
                         if (!valid) this.focus();
                     }
                     else for(i=0; i<this.elements.length; i++){
-                        valid = this.elements[i].checkValidity();
+                        valid = this.elements[i].checkValidity ? this.elements[i].checkValidity(): true;
                         if (!valid) {this.elements[i].focus();break;}
                     }
                 }
@@ -814,12 +881,11 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
                 if (callback) callback(null,false);
                 return false;
             }
-            sdata = s.serializeArray(); // serialize data from matched elements
-            var selm = s.get(0); // is serialized object a form?
-            if ((selm.nodeName+'').toLowerCase()=='form'){
-                isupload = (/multipart\/form-data/i).test(selm.encoding); // check form encoding
-                if (isupload) {form = selm;selm = null;}
-            }
+
+            // serialize unique matched elements
+            sdata = $(jQuery.unique(s.map(function(){
+                return this.elements ? jQuery.makeArray( this.elements ) : this;
+            }).get())).serializeArray();
         }
     }
 
@@ -911,7 +977,7 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
                     if (callback) rt = callback(result,false,httpCode); // pass results to callback function
                     if (rt!==true) rt = Raxan.iTriggerError(result,httpCode); // trigger raxan error event handlers
                     // check if error was handled
-                    if (rt!==true) { 
+                    if (rt!==true) {
                         var err = "Error Output:\n-------------------\n" + result;
                         var friendlyerr = (httpCode!=401 && httpCode!=403 ? _PDI_AJAX_ERR_MSG + "\n\n" : '');
                         friendlyerr+= $('<div>'+ err.substr(0,210)+'</div>').text()+'...';
@@ -930,8 +996,8 @@ Raxan.iTriggerRemote = $trigger = function(target,type,val,serialize,opt) {
                 var fn = function(){};
                 var id =  this.counter ? ++this.counter : this.counter = 10;
                 return !isupload ? $.ajaxSettings.xhr(): {
-                    status:404, readyState: 0,
-                    getResponseHeader: fn, setRequestHeader: fn,
+                    status:404, readyState: 0, responseXML: '', responseText : '', statusText: '',
+                    getAllResponseHeaders:fn, getResponseHeader: fn, setRequestHeader: fn,
                     open:function(type,url){
                         var frame = '<iframe name="rx01Ajax'+id+'" src="about:blank" width="1" height="1" '+
                                     'style="position:absolute;left:-1000px;visibility:hidden"/>'

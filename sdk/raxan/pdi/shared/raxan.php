@@ -388,10 +388,10 @@ class Raxan {
                 $removeTags = isset($opt['removeUnusedTags']) ? $opt['removeUnusedTags'] : $removeTags;
                 $initRowCount = isset($opt['initRowCount']) ? $opt['initRowCount'] : $initRowCount;
                 $tr1 = intval($trunc); $tr2 = abs(str_replace('0.','',$trunc - $tr1));  // get truncate values
-                if ($selected && !is_array($selected)) $selected = array($selected);
+                if ($selected!=='' && !is_array($selected)) $selected = array($selected);
                 if ($fn) {
                     if (!is_callable($fn)) Raxan::throwCallbackException($fn);
-                    $callByVariable = is_string($fn);
+                    $callByVariable = !is_array($fn);
                 }
             }
         }
@@ -450,27 +450,32 @@ class Raxan {
             // set template
             if ($rc==1) {           // first
                 $t = $tplF ? $tplF : $tpl;
-                $tplType = self::TPL_FIRST;
+                $tplType = $clsType = self::TPL_FIRST;
             }
             else if ($rc==$size) {  // last
                 $t = $tplL ? $tplL : $tpl;
-                $tplType = self::TPL_LAST;
+                $tplType = $clsType = self::TPL_LAST;
+                // check if we should use alternate tpl or class
+                if ($i % 2 && !$tplL && $tplAlt) $t = $tplAlt;
+                if ($i % 2 && !$lastClass && $altClass) $clsType = self::TPL_ALT;
             }
             else if ($i%2) {       // alt
                 $t = $tplAlt ? $tplAlt : $tpl;
-                $tplType = self::TPL_ALT;
+                $tplType = $clsType = self::TPL_ALT;
             }
             else {                  // item
                 $t = $tpl;
-                $tplType = self::TPL_ITEM;
+                $tplType = $clsType = self::TPL_ITEM;
             }
 
             // check if row selected
-            if ($selected && ($key || $isIndex)) {
-                $v = isset($row[$key]) ? $row[$key] : $row;
+            if ($selected!=='' && ($key || $isIndex)) {
+                if ($key==='ROWCOUNT') $v = $rc;
+                else if ($key==='ROWINDEX') $v = $i;
+                else $v = isset($row[$key]) ? $row[$key] : $row;
                 if (in_array($v,$selected)) {
                     $t = $tplS ? $tplS : $t;
-                    $tplType = self::TPL_SELECT;
+                    $tplType = $clsType = self::TPL_SELECT;
                 }
             }
 
@@ -479,7 +484,7 @@ class Raxan {
                 $v = isset($row[$key]) ? $row[$key] : $row;
                 if ($v==$edited) {
                     $t = $tplE ? $tplE : $t;
-                    $tplType = self::TPL_EDIT;
+                    $tplType = $clsType = self::TPL_EDIT;
                 }
             }
 
@@ -498,7 +503,8 @@ class Raxan {
 
             $fmt = $format; // reset format before callback
             
-            $cssClass = $cssClasses[$tplType] ? $cssClasses[$tplType] : $cssClasses[self::TPL_ITEM];
+            $cssClass = $cssClasses[$clsType] ? $cssClasses[$clsType] : $cssClasses[self::TPL_ITEM];
+
 
             // callback handler
             if ($fn) {
@@ -568,9 +574,10 @@ class Raxan {
 
             }
 
-            $keys = !isset($keys) ? explode(',','{'.implode('},{',array_keys($row)).'},{ROWCOUNT},{ROWCLASS}') : $keys;
+            $keys = !isset($keys) ? explode(',','{'.implode('},{',array_keys($row)).'},{ROWCOUNT},{ROWINDEX},{ROWCLASS}') : $keys;
             $values = array_values($row);
             $values[] = $rc; // assign row count
+            $values[] = $i; // assign row index
             $values[] = htmlspecialchars($cssClass); // assign row css class
 
             $rt[] = str_replace($keys,$values,$t); // replace template fields {name:integer}
@@ -597,10 +604,13 @@ class Raxan {
      * Returns or sets configuration values
      * @return mixed
      */
-    public static function config($key = null,$value = null) {
+    public static function &config($key = null,$value = null) {
         if ($key!=='base.path' &&  !self::$isInit) self::init();
         if ($key===null) return self::$config;
-        else if($value===null) return isset(self::$config[$key]) ? self::$config[$key] : '';
+        else if($value===null) {
+            if (isset(self::$config[$key])) return self::$config[$key];
+            else { $rt = ''; return $rt; }
+        }
         else {
             $c = & self::$config;
             $c[$key] = $value;
@@ -612,6 +622,7 @@ class Raxan {
                 self::$isLogging = $c['log.enable'];
                 self::$logFile = $c['log.file'];
             }
+            return $value;
         }
     }
 
@@ -952,22 +963,24 @@ class Raxan {
 
     /**
      * Loads a language file based on locale settings
-     * usage: loadLangFile($fl1,$fl2,$fl3,...)
+     * usage: loadLangFile($fl1,$fl2,$fl3,...) // loads multiple files from the locale folder
+     *        loadLangFile($fl1,true) // loads a language file from a location that's external to the locale folder
      * @return boolean
      */
     public static function loadLangFile($fl) {
         if (!self::$isLocaleLoaded) self::setLocale(self::$config['site.locale']); // init on first use
         $pth = self::$config['lang.path'];
+        $lang = self::$config['site.lang'];
         $args = func_get_args(); $rt = false;
-        foreach ($args as $f) {
-            try {
+        if (isset($args[1]) && $args[1]===true) include_once($args[0]); // load external language file
+        try {
+            foreach ($args as $f) {
                 $locale = & self::$locale;
                 $rt = include_once($pth.$f.'.php');
-            } catch(Exception $e) {
-                if (self::$isDebug)
-                    Raxan::debug('Error while loading Language File \''.$f.'\' - '.$e->getMessage());
             }
-            
+        } catch(Exception $e) {
+            if (self::$isDebug)
+                Raxan::debug('Error while loading Language File \''.$f.'\' - '.$e->getMessage());
         }
         return $rt;
     }
@@ -1098,9 +1111,13 @@ class Raxan {
      * Redirect client to the specified url
      * @param string $url page url
      * @param boolean $useJavaScript Optional. Enable page redirection using client-side JavaScript
+     * @param boolean $permanent Sends a permanent redirect header to the client when $useJavaScript is set to false
      */
-    public static function redirectTo($url,$useJavaScript = false) {
-        if (!$useJavaScript) header('Location: '.$url);
+    public static function redirectTo($url,$useJavaScript = false,$permanent = false) {
+        if (!$useJavaScript) {
+            if ($permanent) header("HTTP/1.1 301 Moved Permanently");
+            header('Location: '.$url);
+        }
         else {
             $redirect = 'window.location = "'.self::escapeText($url).'"';
             RaxanWebPage::$actions = array($redirect);
@@ -1114,13 +1131,14 @@ class Raxan {
      * @param string $view View mode
      * @param string $url Optional page url
      * @param boolean $useJavaScript Optional. Enable page redirection using client-side JavaScript
+     * @param boolean $permanent Sends a permanent redirect header to the client when $useJavaScript is set to false
      */
-    public static function redirectToView($view,$url = null, $useJavaScript = false){
+    public static function redirectToView($view,$url = null, $useJavaScript = false,$permanent = false){
         $url = $url ? $url : self::$config['site.host'].self::currentURL();
         if (strpos($url,'vu=')!==false) $url = trim(preg_replace('#vu=[^&]*#','',$url),"&?\n\r ");
         if ($view && $view!='index') $url.= (strpos($url,'?') ? '&' : '?').'vu='.$view;
         $url = str_replace("\n",'',$url);
-        self::redirectTo($url,$useJavaScript);
+        self::redirectTo($url,$useJavaScript,$permanent);
     }
 
     /**
@@ -1143,29 +1161,55 @@ class Raxan {
     }
 
     /**
-     * Sends an error page to the web browser
+     * Sends an error message or page to the client browser
+     * Usage:
+     *      Raxan::sendError($code)
+     *      Raxan::sendError($msg, $code)
+     * 
+     * @param string $msg Message to be send to client
+     * @param int $code HTTP Status code
      */
-    public static function sendError($msg,$code = null) {
-        $html = ''; $code = !$code ? $msg: $code;
-        switch ($code) {
-            case 400: header("HTTP/1.0 400 Bad syntax"); break;
-            case 401: header("HTTP/1.0 401 Unauthorized"); break;
-            case 403: header("HTTP/1.0 403 Forbidden"); break;
-            case 404: header("HTTP/1.0 404 Not Found"); break;
+    public static function sendError($msg, $code = null) {
+        $html = ''; 
+        if ($code===null && is_numeric($msg)) {
+            $code = $msg; $msg = '';
+        }
+        if (isset($_REQUEST['_ajax_call_'])) $html = $msg;
+        else {
+            if ($code && !empty(self::$config['error.'.$code])) {
+                $html = is_file(self::$config['error.'.$code]) ?
+                    file_get_contents(self::$config['error.'.$code]) : '';
+            }
+            $html = $html ?  str_replace('{message}',$msg,$html) : $msg;
+        }
+        if (!$code) exit($html);
+        else self::sendHTTPStatusCode($code,null,$html);
+    }
+
+    /**
+     * Send HTTP Status code to client
+     * @param string $code HTTP status code
+     * @param string $desc Status description
+     * @param string $content Content to be sent after the status code
+     */
+    public static function sendHTTPStatusCode($code, $desc = null, $content = null) {
+        if ($desc!==null) $desc = str_replace ("\n", " ", trim($desc));
+        else switch ($code) {
+            case 400: $desc = "Bad request syntax"; break;
+            case 401: $desc = "Unauthorized"; break;
+            case 403: $desc = "Forbidden"; break;
+            case 404: $desc = "Not Found"; break;
+            default: $desc = '';
         }
 
-        if ($msg && !is_numeric($msg)) {
-            if (isset($_REQUEST['_ajax_call_'])) echo $msg;
-            else {
-                if ($code && !empty(self::$config['error.'.$code])) {
-                    $html = is_file(self::$config['error.'.$code]) ?
-                        file_get_contents(self::$config['error.'.$code]) : '';
-                }
-                $html = $html ?  str_replace('{message}',$msg,$html) :$msg;
-                echo $html;
-            }
+        // trigger system_httpstatuscode
+        $rt = self::triggerSysEvent('system_httpstatuscode',$code);
+        if ($rt!==false) {
+            header("HTTP/1.0 $code $desc");
+            echo $content;
+            exit();
         }
-        exit();
+
     }
 
     /**

@@ -297,7 +297,7 @@ class RaxanDataSanitizer {
     /**
      * Returns formated date value
      * @param string $key Key name or input value (direct input must be enabled)
-     * @param string $format Date format
+     * @param string $format Date format. Default to ISO date format
      * @return string If input is an array then an array of formated date values is returned
      */
     public function formatDate($key,$format = null) {
