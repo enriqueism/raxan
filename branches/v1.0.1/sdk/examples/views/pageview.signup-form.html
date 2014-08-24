@@ -1,0 +1,29 @@
+<style type="text/css">
+    label { display:block; float:left;width:120px }
+</style>
+<div class="container c35">
+    <h2>Sign up</h2>
+    <form id="form1" class="c20" method="post">
+        <fieldset>
+            <legend>Sign up form</legend>
+                <div class="flashmsg bmm"></div>
+                <div class="ctrl-group">
+                    <label>User name:</label><input type="text" name="name" class="textbox c10" />
+                </div>
+                <div class="ctrl-group">
+                    <label>Password:</label><input type="password" name="password" class="textbox c10" />
+                </div>
+                <div class="ctrl-group">
+                    <label>Retype Password:</label><input type="password" name="cpassword" class="textbox c10" />
+                </div>
+                <div class="ctrl-group">
+                    <label>Email:</label><input type="text" name="email" class="textbox c10" />
+                </div>
+                <div class="ctrl-group">
+                    <label>Website:</label><input type="text" name="website" class="textbox c10" />
+                </div>
+                <hr />
+                <input type="submit" value="Submit" xt-bind="click,signup"/>
+        </fieldset>
+    </form>
+</div>

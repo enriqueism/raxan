@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Raxan Test</title>
+    <style type="text/css">
+        .p { color:green }
+        .f { color:red }
+    </style>
+    <script src="../raxan/startup.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        Raxan.include('file1.js',true);
+        Raxan.include(['file2.js','file3.js'],true);
+
+        Raxan.include('file1.js',true,function(){
+            assert(window.file1=='file1.js','File1.js loaded with first callback');
+        });
+
+        Raxan.include('file1.js',true,function(){
+            assert(window.file1=='file1.js','File1.js loaded with second callback');
+        });
+
+        Raxan.load(function() {
+            isLoaded = true;
+            assert(isReady==true, 'Document Load called after Ready event');
+        });
+
+        var isReady = false, isLoaded = false;
+        Raxan.ready(function() {
+            isReady = true;
+            assert(isLoaded==false, 'Document Ready called before Load event');
+            // test single file include
+            assert(window.file1=='file1.js','Test for single file include');
+
+            // test multi-file include
+            assert(window.file2=='file2.js' && window.file3=='file3.js', 'Test for multiple file include');
+
+            // test existing include file callback function
+            html.include('file4.js',true,function (){
+                assert(window.file4=='file4.js','File4.js - Test for newly included file (after load) with callback function');
+            });
+
+            html.ready(function(){
+                assert(window.file4=='file4.js','Call ready function after file4.js loads')
+            });
+
+            // test existing include file callback function
+            html.include('file1.js',true,function (){
+                assert(window.file1=='file1.js','Test for existing include file with callback function');
+            });
+
+        })
+
+
+        function assert(cond,desc) {
+            var html, c = document.getElementById('container');
+            assert.cnt++;
+            if (!assert.buffer) assert.buffer = '';
+            desc+= (cond==true) ?  ': <span class="p">PASS</span>' : ': <span class="f">FAIL</span>';
+            html =  '<div>' + assert.cnt + '. '+ desc +'</div>';
+            if (!c) assert.buffer+= html;
+            else {
+                c.innerHTML += (assert.buffer ? assert.buffer : '') + html;
+                assert.buffer = '';
+            }
+        }
+        assert.cnt = 0;
+    </script>
+</head>
+
+<body>
+    <h3>Test script #1</h3>
+    <hr />
+    <div id="container"></div>
+
+</body>
+
+</html>

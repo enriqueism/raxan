@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Global Functions - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Global Functions</h2>
+
+<p>Global functions are wrappers or shortcuts to commonly used objects or methods.</p>
+
+<h3>The p() Function</h3>
+
+<p>This function provides a reference the default page controller, which is normally the first instance of the RaxanWebPage class.
+ Calling this function will automatically create an instance of the RaxanWebPage class if a Page Controller was not found.</p>
+
+<pre><code class="php">&lt;?php
+    p()-&gt;append('Hi there!');
+?&gt;
+</code></pre>
+
+<h3>The c() Function</h3>
+
+<p>This provides a reference to the RaxanClientExtension class, which is used to generate and execute client-side action scripts. These action scripts are normally jQuery commands that are executed within the client's browser. Calling this method will automatically create an instance of the RaxanClientExtension class and load the Raxan startup and jQuery libraries.</p>
+
+<pre><code class="php">&lt;?php
+    c('#box')-&gt;fadeOut();
+?&gt;
+</code></pre>
+
+<h3>The _fn() function</h3>
+
+<p>Generates a client-side function and returns a reference to the function, which can then be passed to other action script commands. For Example:</p>
+
+<pre><code class="php">&lt;?php
+    $cb = _fn('alert("Hello")'); 
+    C('body')-&gt;click($cb);
+?&gt;
+</code></pre>
+
+<h3>The _var() Function</h3>
+
+<p>Generates a client-side JavaScript variable and returns a reference to the variable, which can then be passed to other action script commands</p>
+
+<pre><code class="php">&lt;?php
+    $v = _var(array(1,2,3,4)); 
+    Cc)-&gt;alert($v);
+?&gt;
+</code></pre>
+
+<h3>The _event() Function</h3>
+
+<p>Generates a client-side function that's used to trigger a server-side event and returns a reference the function, which can be passed to other action script commands.</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _load() {
+            if (!$this-&gt;isPostback)
+                c()-&gt;confirm("Are you sure you want to continue?",_event('ok'),_event('cancel'));
+
+            // register the 'ok' and 'cancel' page events
+            $this-&gt;registerEvent('ok', '.okShow');
+            $this-&gt;registerEvent('cancel', '.cancelShow');
+
+        }
+
+        protected function okShow($e){
+            $this-&gt;content('Welcome to the Online Demo...');
+        }
+
+        protected function cancelShow($e){
+            $this-&gt;content('Goodbye!');
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<p>For more information about the above global functions see the <a href="RaxanWebPage.html">RaxanWebPage</a> class reference.</p>
+
+<hr class="clear" />
+
+<p align="right">Up Next: <a href="server-side-events.html" title="Server-Side Events">Server-Side Events</a> </p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

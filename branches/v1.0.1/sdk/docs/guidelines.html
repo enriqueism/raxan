@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Guidelines - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Guidelines &amp; Best Practices</h2>
+
+<p>Here are a few things to note when developing web applications:</p>
+
+<h4><strong>Class Method/Property name</strong></h4>
+
+<p>Method and properties names should be camel cased. For example: addCustomer(),  printLabels(), anyFunctionName(), anyPropertyName</p>
+
+<h4><strong>Client POST/GET request</strong></h4>
+
+<p>Never trust inputs coming from the client. Always sanitize your input values. Make sure you properly sanitize text values (by removing or escaping quotes)
+before adding to an HTML or SQL query string.</p>
+
+<h4><strong>Retrieving DOM Elements</strong></h4>
+
+<p>It's always faster to use the element id to query the DOM when possible. Try to avoid using complex CSS selectors when querying the DOM.</p>
+
+<ul>
+<li>Use ids where possible. See findById(). You can directly access elements using $this->myid, where myid is the id of the element.</li>
+<li>Use XPath queries where possible. See findByXPath().</li>
+<li><p>Use CSS selectors if necessary. CSS selectors are a little slower than XPath queries because there’s currently no built-in DOM support for CSS
+selectors in PHP. See the <a href="RaxanElement.html#find">RaxabElement->find()</a> method for more information.</p>
+
+<pre><code class="php">&lt;?php
+    protected function _load() {
+        $elm = $this-&gt;findById('panel1');     // find by element id
+        $elm = $this-&gt;panel1;                 // direct property of page. quick wrapper to findById()
+        $elm = $this-&gt;findByXPath('//div[@id="panel1"]'); // find element using xpath query
+        $elm = $this-&gt;find('.side-panel');    // find element using CSS selectors
+        $elm = $this['.side-panel'];          // wrapper to the above find() method
+    }
+?&gt;
+</code></pre></li>
+</ul>
+
+<h4><strong>DOM Element Ids and Form field names</strong></h4>
+
+<p>Whenever possible you should add a prefix to your UI component/element ids and form field names so that the type of element can be easily identified within
+your code. Here are a few examples that you can follow:</p>
+
+<div class="container e90">
+    <table class="rax-table">
+        <thead>
+            <tr class="tbl-header">
+                <th>Element/Component</th><th>Prefix</th><th>Example</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>DIV</td><td>div</td><td>divBlock1, divSideBar</td></tr>
+            <tr><td>FORM</td><td>frm</td><td>frmComment</td></tr>
+            <tr><td>BUTTON</td><td>btn</td><td>btnSave</td></tr>
+            <tr><td>MENU</td><td>mnu</td><td>mnuOptions</td></tr>
+            <tr><td>SELECT</td><td>lst</td><td>lstOptions</td></tr>
+            <tr><td>TEXT, TEXTAREA</td><td>txt</td><td>txtFirstName, txtLastName</td></tr>
+            <tr><td>RADIO</td><td>opt</td><td>optColor</td></tr>
+            <tr><td>CHECKBOX</td><td>chk</td><td>chkModel</td></tr>
+            <tr><td>LABEL</td><td>lbl</td><td>lblCaption</td></tr>
+            <tr><td>TABSTRIP</td><td>tab</td><td>tabPages</td></tr>
+        </tbody>
+</table>
+</div>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

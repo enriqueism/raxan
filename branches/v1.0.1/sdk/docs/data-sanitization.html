@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Data Sanitization - Raxan User Guide</title>
+    <link href="../raxan/ui/css/master.css" rel="stylesheet" type="text/css" />
+    <!--[if lt IE 8]> <link rel="stylesheet" href="../raxan/ui/css/master.ie.css" type="text/css"><![endif]-->
+    <link href="../raxan/ui/css/default/theme.css" rel="stylesheet" type="text/css" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="highlight/styles/default.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="highlight/highlight.js"></script>
+    <script type="text/javascript">
+        <!--
+        hljs.initHighlightingOnLoad('javascript','html','php','css');
+        //-->
+    </script>
+    <!--[if lt IE 7]>
+        <style type="text/css"> form input.textbox { height: 26px; }</style>
+    <![endif]-->
+</head>
+
+<body>
+    <div class="container">
+        <div id="header" class="rax-header-pal rax-metalic">
+            <h2 class="ltm bottom c14">Raxan User Guide</h2>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Overview</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                <li><a href="../examples">Examples</a></li>
+            </ul>
+            <ul class="search">
+                <li>
+                    <form class="tpm c9" name="form1" action="../tools/search.php" method="get">
+                        <input class="c6 textbox round left" placeholder="Search" type="text" name="q" value="" title="Search User Guide"  />
+                        <input class="c2 button round left ltm" type="submit" value="Go" />
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+        <hr class="space"/>
+        <div class="master-content-wrapper">
+            <div class="container prepend-top c48 master-content"><h2>Data Sanitization</h2>
+
+<p>Web developers will tell you that you should never trust data submitted by a browser without proper validation. Failing to properly validate
+your input data can make your applications and web sites susceptibility to cross-site script attacks.</p>
+
+<p>To help developers safeguard their applications we have created the RaxanDataSantizer class with a number of methods that can be used to
+validate and sanitize input/output values.</p>
+
+<h3>Server-Side HTML5 Validation</h3>
+
+<p>The HTML5 specification includes a number of new form controls and validation constraints for the web browser. This means that an HTML5 browser will be able
+to validate a web form based before it's submitted to the server. But wouldn't it be great if we could just use those same HTML5 form controls
+and validation constraints on the server? Would it not make things much simpler? That's exactly what we did.</p>
+
+<p>Basic HTML5 validation was added to the framework to make it easier to validate client inputs.  With just a single lines of code, you can check
+for valid inputs:</p>
+
+<pre><code class="php">&lt;?php
+    protected function addItem($e){
+        $isFormValid = $this-&gt;webForm-&gt;checkValidity();
+    }
+?&gt;
+</code></pre>
+
+<p>Here's another example showing how you can use the <strong>checkValidity()</strong> method to valid a web form:</p>
+
+<pre><code class="php">&lt;?php
+    protected function addItem($e){
+        $frm = $this-&gt;webForm;
+        if ( !$frm-&gt;checkValidity(true,'required') ) {
+            $this-&gt;flashmsg('Invalid input values');
+        } else {
+            $v = $frm-&gt;validValues();
+            // some code here....
+            $this-&gt;flashmsg('New item added');
+        }
+    }
+?&gt;
+</code></pre>
+
+<p>The following markup can can be used to validate the web form on both server and client:</p>
+
+<pre><code>&lt;form name="webForm" action="" method="post"&gt;
+    &lt;input type="text" name="itemname" id="itemname" value="" maxlength="50" required /&gt;
+    &lt;textarea name="description" id="description" cols="10" rows="5" maxlength="250" required&gt;&lt;/textarea&gt;
+    &lt;input type="submit" name="submit1" id="submit1" value="Submit" /&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p><em>Supported HTML5 Validation constraints:</em></p>
+
+<pre><code>• Maxlength
+• Required
+• Min / Max (only works with type=number)
+• Email
+• URL
+• Number
+• Date
+• Month
+• Pattern
+</code></pre>
+
+<h3>Sanitize POST/GET Values</h3>
+
+<p>To sanitize post back (POST) or query string (GET) values use the "post" and "get" objects as shown below:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function saveInfo($e) {
+            // retrieve values from a form post
+            $name = $this-&gt;post-&gt;textVal('full_name');   // get text value (removes all html)
+            $dob = $this-&gt;post-&gt;dateVal('date_of_birth','mysql');    // get date value (in mysql format)
+            $age = $this-&gt;post-&gt;intVal('age');       // get integer value
+            $amount = $this-&gt;post-&gt;floatVal('amount');   // get float value
+
+            $value = $this-&gt;post-&gt;value('comment');   // get unsanitized post back value
+
+            // retrieve text value by field name.  Same as textVal($fieldName)
+            $note = $this-&gt;post-&gt;personalNote; 
+
+            // retrieve values submitted via the query string (e.g.  path/to/page.php?index=100)
+            $index = $this-&gt;get-&gt;intVal('index');
+
+            // returns an array of post values after applying the text sanitizer
+            $data = $this-&gt;post-&gt;filterValues();
+
+            // only return comma (,) separated list of field names
+            $data = $this-&gt;post-&gt;filterValues('subject,message'); 
+
+            // returns an array after applying alphanumeric and text sanitizer
+            $data = $this-&gt;post-&gt;filterValues(array('postalcode'=&gt;'alphanumeric','gender'=&gt;'text')); 
+
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<p><em>Note: Both the "<strong>post</strong>" and "<strong>get</strong>" objects returns an instance of the RaxanDataSantizer class.</em></p>
+
+<p>To sanitize form element values use the either textVal(), intVal() or floatVal() methods:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _config() {
+            $this-&gt;preserveFormContent = true; // preserve form content
+        }
+
+        protected function saveInfo($e) {
+            $name = $this-&gt;fullname-&gt;textVal()  // get text value from an element with id=fullname
+            $age = $this-&gt;age-&gt;intVal()         // get integer value
+            $amount = $this-&gt;age-&gt;floatVal()    // get float value
+
+            $value = $this-&gt;text1-&gt;val();       // get unsanitized value
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<p>To sanitize event values returned from the client use the textVal(), intVal() or floatVal() methods on the event object:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _config() {
+            $this-&gt;$preserveFormContent = true; // preserve form content
+        }
+
+        protected function deleteUser($e) {
+            $text = $e-&gt;textVal()       // get text value
+            $int= $e-&gt;intVal()          // get integer value
+            $float = $e-&gt;floatVal()     // get float value
+
+            $value = $e-&gt;value();       // get unsanitized value
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<p>It's important to note that the methods intVal(), floatVal() and dateVal() will return NULL if the value being requested is invalid. For example, if a
+user submits the value "100abc" the intVal() and floatVal() will return NULL.</p>
+
+<p>In some cases you might want the intVal() and floatVal() methods return a zero (0) value. To do this you can use the Bitwise "Or" operator
+as shown below:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function saveData($e) {
+
+            $qty = $this-&gt;post-&gt;intVal('qty') | 0; // defaults to 0
+            $price = $this-&gt;post-&gt;floatVal('price') | 0; // defaults to 0
+
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<h3>Sanitize Output Values</h3>
+
+<p>To sanitize output value you can use the text(), textval(), intval() and and floatval() methods on the element object:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _config() {
+            $this-&gt;$preserveFormContent = true; // preserve form content
+        }
+
+        protected function showInfo($e) {
+
+            $data = getUserInfo();
+
+            $this-&gt;fullname-&gt;textVal($data-&gt;name);  // set text value (removes all html)
+            $this-&gt;age-&gt;intVal($data-&gt;age);         // set integer value
+            $this-&gt;amount-&gt;floatVal($data-&gt;amount); // set float value
+
+            $this-&gt;descript-&gt;val($data-&gt;desc);      // set unsanitized value
+
+            $this-&gt;comment-&gt;text($data-&gt;comment);   // set text value
+            $this-&gt;summary-&gt;html($data-&gt;summary);   // sets the inner html value (unsanitized)
+
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<h3>Sanitize Array Value</h3>
+
+<p>To sanitize the values inside an associated array can use the Raxan::dataSanitizer() method:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+
+        protected function _config() {
+            $this-&gt;$preserveFormContent = true; // preserve form content
+        }
+
+        protected function showInfo($e) {
+
+
+            $row = getRecord(1);
+            $row = $this-&gt;Raxan-&gt;dataSanitizer($row);
+
+            $street = $row-&gt;text('street');
+            $country = $row-&gt;text('country');
+
+        }
+
+    }
+
+?&gt;
+</code></pre>
+
+<h3>Validating Form Input</h3>
+
+<p>The following shows how to use the isEmail() method to valid an email address:</p>
+
+<pre><code class="php">&lt;?php
+
+    require_once('raxan/pdi/autostart.php');
+
+    class NewPage extends RaxanWebPage {
+        protected function saveForm($e) {
+            if (!$this-&gt;post-&gt;isEmail('text1')) $msg = 'Please enter a valid email address';
+            else $msg = 'You have entered a valid email address';
+
+            $this-&gt;flashmsg($msg, 'bounce'); // flash message to browser
+
+        }
+    }
+?&gt;
+
+&lt;div class="flashmsg"&gt;&lt;/div&gt;
+&lt;form name="form1" action="" method="post"&gt;
+    &lt;label&gt;Enter a valid email address:&lt;/label&gt;&lt;br /&gt;
+    &lt;input type="text" name="text1" id="text1" value="" /&gt;
+    &lt;input type="submit" name="submit1" id="submit1" value="Submit" xt-bind="click,saveForm"/&gt;
+&lt;/form&gt;
+</code></pre>
+
+<h3>Data Sanitizer methods</h3>
+
+<p>Use the follow methods to sanizer user input values</p>
+
+<ul>
+<li>textVal - Returns text value after removing the html tags</li>
+<li>intVal - Returns an interger if value is numeric or null if there was an error</li>
+<li>floatVal - Returns float if value is numeric or null if there was an error.</li>
+<li>dateVal - Returns a date/time string value based on the $format parameter or null if value is not a valid date.</li>
+<li>emailVal - Returns sanitized email address or an empty string if input value is not a valid email address</li>
+<li>escapeVal - Returns text with special html/xml characters encoded</li>
+<li>htmlVal - Returns sanitized html text value by removing inline style sheets,  script tags and inline events</li>
+<li>matchVal - Returns characters that matches the specified regex pattern</li>
+<li>timestampVal - Returns unix timestamp if input value is a valid datetime string or null if there was an error</li>
+<li>urlVal - Returns sanitized url</li>
+</ul>
+
+<p>Use the following methods to format integer, float, money and date values.</p>
+
+<ul>
+<li>formatDate - Returns formated date value</li>
+<li>formatMoney - Returns formatted money value based on locale settings</li>
+<li>formatNumber - Returns formatted number value based on locale settings</li>
+</ul>
+
+<p>Use to following methods to validate user input values.</p>
+
+<ul>
+<li>isDate - Returns true if the input value is a valid date</li>
+<li>isEmail - Returns true if the input value is a valid email address</li>
+<li>isNumeric - Returns true if the input value is numeric</li>
+<li>isUrl - Returns true if the input value is a valid url</li>
+</ul>
+
+<p>See <a href="RaxanDataSanitizer.html">RaxanDataSanitizer</a> for additional properties and methods .</p>
+
+<hr class="clear" />
+
+<p align="right">Up Next <a href="database.html">Database Connection</a></p>
+</div>
+            
+            <div id="footer" class="container c48 rax-active-pal round rax-glossy">
+                <ul class="clearfix">
+                    <li><a href="index.html">Overview</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="new-features.html">What's new</a></li>
+                    <li><a href="table-of-contents.html" title="Table of Content">Contents</a></li>
+                    <li><a href="../examples">Examples</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+

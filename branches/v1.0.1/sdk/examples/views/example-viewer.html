@@ -1,0 +1,68 @@
+<style type="text/css">
+    #tips { color: #333; padding:10px; margin-bottom: 10px; background-color:#eee; border:solid 1px #ddd; }
+    .html,.php,.css,.txt {
+        overflow: auto;
+    }
+    .master-content { /* override master-content width */
+        width:94%;
+    }
+</style>
+<script type="text/javascript">
+    Raxan.include('jquery');
+    Raxan.ready(function(){
+        // auto resize iframe
+        setInterval("resizeIFrame('frame1')",850)
+    })
+
+    function resizeIFrame(frameId){
+        var h, frame, doc, fStyle;
+        frame = document.getElementById(frameId);
+        doc = (frame.contentDocument) ? frame.contentDocument : frame.contentWindow.document;
+        if (!doc || !doc.body) return;
+        fStyle = (frame.style) ? frame.style : frame;
+        h = $(doc.body).height();
+        if (h<300) h = 300;
+        h = h + 30;
+        fStyle.height = h + (frame.style ? 'px' : '');
+    }
+</script>
+<h2 id="title" class="bottom">Raxan Example</h2>
+<h4 id="tips" class="rax-glass round"></h4>
+<iframe id="frame1" class="e100" frameborder="0" scrolling="no" height="380"></iframe>
+
+<div id="sourceCode">
+    <hr />
+    <div class="rax-backdrop">
+        <div class="white hlf-pad">
+            <strong>PHP/HTML Source:</strong>
+            <pre><code id="phpsource" class="php"></code></pre>
+        </div>
+    </div>
+    <div id="pluginpanel" class="hide">
+        <hr />
+        <div class="rax-backdrop">
+            <div class="white hlf-pad">
+                <strong>Plugin Source<span id="pluginfile"></span>:</strong>
+                <pre><code id="pluginsource" class="php"></code></pre>
+            </div>
+        </div>
+    </div>
+    <div id="htmlpanel" class="hide">
+        <hr />
+        <div class="rax-backdrop">
+            <div class="white hlf-pad">
+                <strong>HTML/JavaScript Source<span id="htmlfile"></span>:</strong>
+                <pre><code id="htmlsource" class="html"></code></pre>
+            </div>
+        </div>
+    </div>
+    <div id="datapanel" class="hide">
+        <hr />
+        <div class="rax-backdrop">
+            <div class="white hlf-pad">
+                <strong>Data Source<span id="datafile"></span>:</strong>
+                <pre><code id="datasource" class="txt"></code></pre>
+            </div>
+        </div>
+    </div>
+</div>
